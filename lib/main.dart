@@ -98,7 +98,7 @@ class _MyAppState extends State<MyApp> {
             systemNavigationBarIconBrightness: Brightness.light,
           ),
           // child: WeeklyGoalSetScreen(),
-          child: CountdownTimerScreen(true),
+          child: CountdownTimerScreen(isGreen: false),
           //child: RegistrationScreen(),
         ),
         routes: <String, WidgetBuilder>{

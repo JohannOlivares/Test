@@ -98,7 +98,8 @@ flutter:
    - assets/images/bg_countdown_timer_blue.webp
    - assets/images/bg_countdown_timer_green.webp
    - assets/animation/
-   - assets/animation/countdown.json
+   - assets/animation/countdown_blue.json
+   - assets/animation/countdown_green.json
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
