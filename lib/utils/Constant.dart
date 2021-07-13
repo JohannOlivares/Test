@@ -25,6 +25,7 @@ class Constant {
   static const STR_DELETE = "DELETE";
   static const STR_SETTING = "Setting";
   static const STR_CLOSE = "CLOSE";
+  static const STR_INFO = "INFO";
 
 
   static const TEXT = "1";

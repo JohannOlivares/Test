@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 
+import '../../common/commonTopBar/CommonTopBar.dart';
+import '../../interfaces/TopBarClickListener.dart';
+import '../../utils/Constant.dart';
+
 class DrinkWaterReminderScreen extends StatefulWidget {
   @override
   _DrinkWaterReminderScreenState createState() => _DrinkWaterReminderScreenState();
 }
 
-class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> {
+class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> implements TopBarClickListener{
   bool isNotification = true;
   List<String> startList =["10:00", "11:00"];
   List<String> endList =["10:00", "11:00"];
@@ -30,41 +34,15 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> {
             child: Column(
               children: [
                 //Top Bar
-                buildTopbar(fullWidth, fullHeight, context),
+                Container(
+                  child: CommonTopBar(Languages.of(context).txtDrinkWaterReminder, this, isShowBack: true),
+                ),
                 buildListView(context, fullWidth, fullHeight),
               ],
             ),
           ),
 
         ),
-      ),
-    );
-  }
-
-  buildTopbar(double fullWidth, double fullHeight, BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: fullWidth*0.03, top: fullHeight*0.00, right: fullWidth*0.03),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          IconButton(
-            icon: Icon(Icons.arrow_back_rounded),
-            onPressed: (){
-             //Navigator.of(context).pop(); TODO: Uncomment
-            },
-            color: Colur.txt_white,
-          ),
-          Container(
-            child: Text(
-              Languages.of(context).txtDrinkWaterReminder,
-              style: TextStyle(
-                  color: Colur.txt_white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w500
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -125,10 +103,12 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> {
 
   ringtone(double fullWidth, double fullHeight, BuildContext context) {
     return InkWell(
+      onTap: (){},
       child: Container(
         margin: EdgeInsets.only(left: fullWidth*0.04, right: fullWidth*0.04, top: fullHeight*0.02),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -151,9 +131,12 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> {
                 ),
               ],
             ),
-            Icon(
-              Icons.arrow_forward_ios_outlined,
-              color: Colur.txt_grey,
+            Padding(
+              padding: const EdgeInsets.only(top: 15),
+              child: Icon(
+                Icons.arrow_forward_ios_outlined,
+                color: Colur.txt_grey,
+              ),
             ),
           ],
         ),
@@ -280,5 +263,12 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> {
         });
       },
     );
+  }
+
+  @override
+  void onTopBarClick(String name, {bool value = true}) {
+    if(name == Constant.STR_BACK){
+      Navigator.of(context).pop();
+    }
   }
 }

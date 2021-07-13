@@ -4,12 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 
-class SettingsScreen extends StatefulWidget {
+import '../../common/commonTopBar/CommonTopBar.dart';
+import '../../interfaces/TopBarClickListener.dart';
+import '../../localization/language/languages.dart';
+import '../../utils/Constant.dart';
+import '../waterReminder/DrinkWaterReminderScreen.dart';
+
+class DrinkWaterSettingsScreen extends StatefulWidget {
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  _DrinkWaterSettingsScreenState createState() => _DrinkWaterSettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> implements TopBarClickListener{
   var capacityUnits = '10';
   var targetValue = '500';
   bool isReminder = true;
@@ -26,7 +32,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
           child: Column(
             children: [
               //Top Bar
-              buildTopbar(fullWidth, fullHeight, context),
+              Container(
+                child: CommonTopBar(Languages.of(context).txtSettings, this, isShowBack: true,),
+              ),
+
               buildListView(context, fullWidth),
             ],
           ),
@@ -133,31 +142,34 @@ class _SettingsScreenState extends State<SettingsScreen> {
               indent: fullWidth*0.04,
               endIndent: fullWidth*0.04,
             ),
-            ListTile(
-              title: Text(
-                Languages.of(context).txtReminder,
-                style: TextStyle(
-                    color: Colur.txt_white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500
+            InkWell(
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => DrinkWaterReminderScreen())),
+              child: ListTile(
+                title: Text(
+                  Languages.of(context).txtReminder,
+                  style: TextStyle(
+                      color: Colur.txt_white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500
+                  ),
                 ),
-              ),
-              trailing: Switch(
-                onChanged: (bool value) {
-                  if(isReminder == false) {
-                    setState(() {
-                      isReminder = true;
-                    });
-                  } else {
-                    setState(() {
-                      isReminder = false;
-                    });
-                  }
-                  },
-                value: isReminder,
-                activeColor: Colur.purple_gradient_color2,
-                inactiveTrackColor: Colur.txt_grey,
+                trailing: Switch(
+                  onChanged: (bool value) {
+                    if(isReminder == false) {
+                      setState(() {
+                        isReminder = true;
+                      });
+                    } else {
+                      setState(() {
+                        isReminder = false;
+                      });
+                    }
+                    },
+                  value: isReminder,
+                  activeColor: Colur.purple_gradient_color2,
+                  inactiveTrackColor: Colur.txt_grey,
 
+                ),
               ),
             ),
           ],
@@ -165,31 +177,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
-  buildTopbar(double fullWidth, double fullHeight, BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(left: fullWidth*0.03, top: fullHeight*0.00, right: fullWidth*0.03),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          IconButton(
-            icon: Icon(Icons.arrow_back_rounded),
-            onPressed: (){
-             // Navigator.of(context).pop(); TODO: Uncomment
-            },
-            color: Colur.txt_white,
-          ),
-          Container(
-            child: Text(
-              Languages.of(context).txtSettings,
-              style: TextStyle(
-                  color: Colur.txt_white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w500
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+  @override
+  void onTopBarClick(String name, {bool value = true}) {
+    if(name == Constant.STR_BACK) {
+      Navigator.of(context).pop();
+    }
   }
 }

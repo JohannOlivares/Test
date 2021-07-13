@@ -87,6 +87,7 @@ flutter:
    - assets/icons/ic_distance.png
    - assets/icons/ic_duration.png
    - assets/icons/ic_male.png
+   - assets/icons/ic_info_white.png
    - assets/icons/ic_female.png
    - assets/icons/ic_select_pointer.png
    - assets/icons/ic_setalite.png
