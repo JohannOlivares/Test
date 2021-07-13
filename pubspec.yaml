@@ -94,6 +94,10 @@ flutter:
    - assets/icons/ic_map_permission.png
    - assets/images/
    - assets/images/dummy_girl.png
+   - assets/images/bg_countdown_timer_blue.webp
+   - assets/images/bg_countdown_timer_green.webp
+   - assets/animation/
+   - assets/animation/countdown.json
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
