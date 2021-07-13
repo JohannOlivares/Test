@@ -87,4 +87,11 @@ abstract class Languages {
   String get txtNotReally;
   String get txtGood;
   String get txtAreYouSatisfiedWithDescription;
+
+  String get txtLongestDistance;
+  String get txtBestPace;
+  String get txtLongestDuration;
+  String get txtRecentActivities;
+  String get txtMore;
+  String get txtBestRecords;
 }

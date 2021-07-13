@@ -15,6 +15,10 @@ class CommonTopBar extends StatefulWidget {
   bool isShowAdd = false;
   bool isDelete = false;
   bool isClose = false;
+  bool isInfo = false;
+  bool isShowSubheader = false;
+
+  String subHeader;
 
   CommonTopBar(this.headerName, this.clickListener,
       {this.isShowBack = false,
@@ -23,7 +27,11 @@ class CommonTopBar extends StatefulWidget {
         this.isShowDone = false,
         this.isDelete = false,
         this.isClose = false,
-        this.isShowAdd = false});
+        this.isInfo = false,
+        this.isShowAdd = false,
+        this.isShowSubheader = false,
+        this.subHeader,
+      });
 
   @override
   _CommonTopBarState createState() => _CommonTopBarState();
@@ -85,15 +93,31 @@ class _CommonTopBarState extends State<CommonTopBar> {
                   flex: 1,
                   child: Container(
                     padding: EdgeInsets.only(right: 15.0),
-                    child: Text(
-                      widget.headerName,
-                      maxLines: 1,
-                      softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 22,
-                          color: Colur.txt_white),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.headerName,
+                          maxLines: 1,
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 22,
+                              color: Colur.txt_white),
+                        ),
+                        Visibility(
+                          visible: widget.isShowSubheader,
+                          child: Text(
+                            widget.isShowSubheader ? widget.subHeader : "",
+                            style: TextStyle(
+                                color: Colur.txt_grey,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w500
+                            ),
+                          ),
+                        )
+                      ],
                     ),
                   )),
               InkWell(
@@ -141,6 +165,31 @@ class _CommonTopBarState extends State<CommonTopBar> {
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Image.asset('assets/icons/ic_delete.png'),
+                    ),
+                  ),
+                ),
+              ),
+
+              InkWell(
+                onTap: () {
+                  widget.clickListener.onTopBarClick(Constant.STR_INFO);
+                },
+                child: Visibility(
+                  visible: widget.isInfo,
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5),
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colur.rounded_rectangle_color,
+                        ),
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(15))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Image.asset('assets/icons/ic_info_white.png'),
                     ),
                   ),
                 ),

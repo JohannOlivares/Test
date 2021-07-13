@@ -216,4 +216,22 @@ class LanguageEn extends Languages {
 
   @override
   String get txtWellDone => "Well done!";
+
+  @override
+  String get txtLongestDistance => "LONGEST DISTANCE";
+
+  @override
+  String get txtBestPace => "BEST PACE";
+
+  @override
+  String get txtLongestDuration => "LONGEST DURATION";
+
+  @override
+  String get txtRecentActivities => "Recent Activities";
+
+  @override
+  String get txtMore => "More";
+
+  @override
+  String get txtBestRecords => "Best Records";
 }
