@@ -258,4 +258,25 @@ class LanguageEn extends Languages {
 
   @override
   String get txtRate => "Rate";
+
+  @override
+  String get txtDailyAvarage => "Daily Avarage";
+
+  @override
+  String get txtDrinkWater => "Drink Water";
+
+  @override
+  String get txtMl => "ml";
+
+  @override
+  String get txtNextTime => "Next Time";
+
+  @override
+  String get txtToday => "Today";
+
+  @override
+  String get txtTodayRecords => "Today records";
+
+  @override
+  String get txtWeek => "Week";
 }

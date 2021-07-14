@@ -16,6 +16,12 @@ class Colur {
   static const light_red_stop_gredient2 = Color(0xffE73F34);
   static const light_green_play_gredient1 = Color(0xff7BE445);
   static const light_green_play_gredient2 = Color(0xff22BE11);
+  static const green_For_NotReally = Color(0xff28853a);
+  static const ligh_green_For_NotReally = Color(0xff1ED247);
+
+  static const water_level_wave1 = Color(0xff42B2FF);
+  static const water_level_wave2 = Color(0xff00AEFF);
+
 
 
   static const txt_grey = Color(0xff9195B6);

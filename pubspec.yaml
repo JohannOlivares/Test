@@ -76,6 +76,7 @@ flutter:
   assets:
    - assets/
    - assets/icons/
+   - assets/icons/water/
    - assets/icons/ic_back.png
    - assets/icons/ic_person_walk.png
    - assets/icons/ic_person_run.png
@@ -94,6 +95,7 @@ flutter:
    - assets/icons/ic_setalite.png
    - assets/icons/ic_person_bottombar.png
    - assets/icons/ic_map_permission.png
+   - assets/icons/ic_setting_circular.png
    - assets/icons/ic_emoji_bad.webp
    - assets/icons/ic_emoji_good.webp
    - assets/icons/ic_emoji_great.webp

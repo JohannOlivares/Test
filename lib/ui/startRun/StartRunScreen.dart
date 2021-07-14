@@ -10,7 +10,10 @@ import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/custom/CusttomTimer.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/countdowntimer/CountdownTimerScreen.dart';
+import 'package:run_tracker/ui/home/HomeScreen.dart';
 import 'package:run_tracker/ui/settings/SettingScreen.dart';
+import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
@@ -61,7 +64,6 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   @override
   void initState() {
-    startTrack = false;
     liveLocationBtn = false;
     super.initState();
     getLoc();
@@ -461,6 +463,11 @@ class _StartRunScreenState extends State<StartRunScreen>
                       InkWell(
                         onTap: () {
                           Utils.showToast(context, "LcoationPressed",duration: 1);
+                          /*Navigator.of(context)
+                              .pushNamedAndRemoveUntil('/wellDoneScreen', (Route<dynamic> route) => false);*/
+
+                          Navigator.push(
+                              context, MaterialPageRoute(builder: (context) => WellDoneScreen()));
                         },
                         child: Container(
                           height: 60,
@@ -487,6 +494,8 @@ class _StartRunScreenState extends State<StartRunScreen>
                                 /*Toast.show("start Track Started", context,
                                               duration: Toast.LENGTH_SHORT,
                                               gravity: Toast.BOTTOM);*/
+                                Navigator.push(
+                                    context, MaterialPageRoute(builder: (context) => CountdownTimerScreen(isGreen: false)));
                               } else {
 
                                 final String result = await Navigator.push(

@@ -10,6 +10,7 @@ class CommonTopBar extends StatefulWidget {
 
   bool isShowBack = true;
   bool isShowSetting = false;
+  bool isShowSettingCircle = false;
   bool isShowEdit = false;
   bool isShowDone = false;
   bool isShowAdd = false;
@@ -30,6 +31,7 @@ class CommonTopBar extends StatefulWidget {
         this.isInfo = false,
         this.isShowAdd = false,
         this.isShowSubheader = false,
+        this.isShowSettingCircle = false,
         this.subHeader,
       });
 
@@ -59,6 +61,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                         top: 15.0, bottom: 15.0, left: 15.0, right: 25.0),
                     child: Image.asset(
                       'assets/icons/ic_back_white.png',
+                      scale: 3.7,
                       width: 20,
                       height: 20,
                     ),
@@ -131,6 +134,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                     margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5),
                     width: 42,
                     height: 42,
+
                     decoration: BoxDecoration(
                         border: Border.all(
                           color: Colur.rounded_rectangle_color,
@@ -140,6 +144,30 @@ class _CommonTopBarState extends State<CommonTopBar> {
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Image.asset('assets/icons/ic_setting.png'),
+                    ),
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  widget.clickListener.onTopBarClick(Constant.STR_SETTING_CIRCLE);
+                },
+                child: Visibility(
+                  visible: widget.isShowSettingCircle,
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5),
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colur.rounded_rectangle_color,
+                        ),
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(15))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Image.asset('assets/icons/ic_setting_circular.png'),
                     ),
                   ),
                 ),

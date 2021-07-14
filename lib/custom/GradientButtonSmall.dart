@@ -9,6 +9,7 @@ class GradientButtonSmall extends StatelessWidget {
   final double height;
   final Function onPressed;
   final double radius;
+  final bool isShadow;
 
   const GradientButtonSmall(
       {Key key,
@@ -17,7 +18,8 @@ class GradientButtonSmall extends StatelessWidget {
       this.width,
       this.height,
       this.onPressed,
-      this.radius = 14.0})
+      this.radius = 14.0,
+      this.isShadow = true})
       : super(key: key);
 
   @override
@@ -29,12 +31,13 @@ class GradientButtonSmall extends StatelessWidget {
         gradient: gradient,
         borderRadius: BorderRadius.circular(radius),
         boxShadow: [
-            BoxShadow(
+          (isShadow)? BoxShadow(
               offset: Offset(0.0, 5),
               spreadRadius: 5,
               blurRadius: 30,
               color: Colur.purple_gradient_shadow,
-            ),
+            ):BoxShadow(
+          ),
           ],
 
       ),

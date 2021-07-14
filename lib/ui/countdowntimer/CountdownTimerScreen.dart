@@ -1,5 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:run_tracker/ui/settings/SettingScreen.dart';
+import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
+import 'package:run_tracker/utils/Utils.dart';
 
 class CountdownTimerScreen extends StatefulWidget {
   bool isGreen = false;
@@ -10,7 +14,43 @@ class CountdownTimerScreen extends StatefulWidget {
   _CountdownTimerScreenState createState() => _CountdownTimerScreenState();
 }
 
-class _CountdownTimerScreenState extends State<CountdownTimerScreen> {
+class _CountdownTimerScreenState extends State<CountdownTimerScreen> with TickerProviderStateMixin{
+  AnimationController _controller;
+  AnimationStatus status;
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 2),
+    );
+
+    _controller.addListener(() => setState(() {}));
+    TickerFuture tickerFuture = _controller.forward();
+    tickerFuture.timeout(Duration(milliseconds: 3800), onTimeout:  () {
+      _controller.forward(from: 0);
+      _controller.stop(canceled: true);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/startrunScreen', (Route<dynamic> route) => false);
+
+    });
+
+
+  }
+
+  @override
+  void dispose() {
+
+    super.dispose();
+    _controller.dispose();
+
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +68,17 @@ class _CountdownTimerScreenState extends State<CountdownTimerScreen> {
                 ? 'assets/animation/countdown_green.json'
                 : 'assets/animation/countdown_blue.json',
             width: 100,
+            controller: _controller,
             height: 150,
             repeat: false,
+            onLoaded: (composition) {
+              // Configure the AnimationController with the duration of the
+              // Lottie file and start the animation.
+              _controller
+                ..duration = composition.duration
+                ..forward();
+
+            },
           )
         ],
       ),

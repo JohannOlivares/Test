@@ -3,7 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:run_tracker/MyHomePage.dart';
 import 'package:run_tracker/ui/countdowntimer/CountdownTimerScreen.dart';
+import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
+import 'package:run_tracker/ui/settings/SettingScreen.dart';
+import 'package:run_tracker/ui/startRun/PausePopupScreen.dart';
+import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/ui/weeklygoalSetScreen/WeeklyGoalSetScreen.dart';
+import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
 import 'package:run_tracker/ui/wizardScreen/GenderScreen.dart';
 import 'package:run_tracker/ui/WelcomeDialogScreen.dart';
 import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
@@ -102,10 +107,13 @@ class _MyAppState extends State<MyApp> {
           // child: WeeklyGoalSetScreen(),
           // child: CountdownTimerScreen(isGreen: false),
           child: WizardScreen(),
+          //child: RegistrationScreen(),
         ),
         routes: <String, WidgetBuilder>{
-          /* '/home': (BuildContext context) => HomeScreen(),
-      '/changeusername': (BuildContext context) =>
+           '/settingScreen': (BuildContext context) => SettingScreen(),
+           '/startrunScreen': (BuildContext context) => StartRunScreen(),
+           '/wellDoneScreen': (BuildContext context) => WellDoneScreen(),
+      /*'/changeusername': (BuildContext context) =>
           ChangeUsernameScreen(),
       '/changepassword': (BuildContext context) =>
           ChangePasswordScreen(),*/
