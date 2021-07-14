@@ -1,6 +1,5 @@
 import 'languages.dart';
 
-
 class LanguageEn extends Languages {
   @override
   String get appName => "Multi-languages";
@@ -18,7 +17,8 @@ class LanguageEn extends Languages {
   String get txtWelcomeMapRunnner => "Hi, Welcome To\n Map Runner";
 
   @override
-  String get txtBottomSheetDescription => "Before we get started, please\n let us know you better to help you set your\n personal fitness goal.";
+  String get txtBottomSheetDescription =>
+      "Before we get started, please\n let us know you better to help you set your\n personal fitness goal.";
 
   @override
   String get txtImKateYourCoach => "I’m kate, your personal fitness coatch.";
@@ -45,7 +45,8 @@ class LanguageEn extends Languages {
   String get txtFemale => "Female";
 
   @override
-  String get txtGenderDescription => "Calories & Stride Length Calculation\n need it";
+  String get txtGenderDescription =>
+      "Calories & Stride Length Calculation\n need it";
 
   @override
   String get txtGeneratingWeeklyGoal => "Generating your weekly goal...";
@@ -90,7 +91,8 @@ class LanguageEn extends Languages {
   String get txtWhatIsYourGender => "What’s your gender?";
 
   @override
-  String get txtYouCanCombineTheseTwoDescription => "You can combine these two kinds of\nexercise together.";
+  String get txtYouCanCombineTheseTwoDescription =>
+      "You can combine these two kinds of\nexercise together.";
 
   @override
   String get txtYourWeeklyGoalIsReady => "Your Weekly Goal is Ready";
@@ -114,10 +116,12 @@ class LanguageEn extends Languages {
   String get txtAllow => "Allow";
 
   @override
-  String get txtLocationDesc1 => "To see maps for automatically tracked activities, allow Run Tracker to use your location all of the time.";
+  String get txtLocationDesc1 =>
+      "To see maps for automatically tracked activities, allow Run Tracker to use your location all of the time.";
 
   @override
-  String get txtLocationDesc2 => "Run Tracker will use your location in the background to show walks, runs and bike rides on a map.";
+  String get txtLocationDesc2 =>
+      "Run Tracker will use your location in the background to show walks, runs and bike rides on a map.";
 
   @override
   String get txtRunTracker => "RUN TRACKER";
@@ -187,11 +191,13 @@ class LanguageEn extends Languages {
 
   @override
   String get txtResume => "RESUME";
+
   @override
   String get txtPause => "PAUSE";
 
   @override
-  String get txtAreYouSatisfiedWithDescription => "Are you satisfied with the\n tracking results?";
+  String get txtAreYouSatisfiedWithDescription =>
+      "Are you satisfied with the\n tracking results?";
 
   @override
   String get txtDetails => "Details";
@@ -200,7 +206,7 @@ class LanguageEn extends Languages {
   String get txtDistanceKM => "Distance(km)";
 
   @override
-  String get txtDuration =>"Duration";
+  String get txtDuration => "Duration";
 
   @override
   String get txtGood => "Good";
@@ -209,7 +215,7 @@ class LanguageEn extends Languages {
   String get txtMovingTime => "Moving time";
 
   @override
-  String get txtNotReally =>"Not really";
+  String get txtNotReally => "Not really";
 
   @override
   String get txtShare => "Share";
@@ -234,4 +240,22 @@ class LanguageEn extends Languages {
 
   @override
   String get txtBestRecords => "Best Records";
+
+  @override
+  String get txtBad => "Bad";
+
+  @override
+  String get txtGreat => "Great";
+
+  @override
+  String get txtOkay => "Okay";
+
+  @override
+  String get txtTerrible => "Terrible";
+
+  @override
+  String get txtBestWeCanGet => "The best we can get";
+
+  @override
+  String get txtRate => "Rate";
 }

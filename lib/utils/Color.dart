@@ -28,4 +28,8 @@ class Colur {
   static const transparent = Colors.transparent;
 
 
+  static const unselected_star = Color(0x909195B6);
+  static const selected_star = Color(0xffFFC804);
+
+
 }

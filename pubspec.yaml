@@ -37,6 +37,7 @@ dependencies:
   flutter_polyline_points: ^0.1.0
   pedometer: ^3.0.0
   lottie: ^0.6.0
+  flutter_rating_bar: ^4.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -93,6 +94,12 @@ flutter:
    - assets/icons/ic_setalite.png
    - assets/icons/ic_person_bottombar.png
    - assets/icons/ic_map_permission.png
+   - assets/icons/ic_emoji_bad.webp
+   - assets/icons/ic_emoji_good.webp
+   - assets/icons/ic_emoji_great.webp
+   - assets/icons/ic_emoji_okay.webp
+   - assets/icons/ic_emoji_terrible.webp
+   - assets/icons/ic_star.webp
    - assets/images/
    - assets/images/dummy_girl.png
    - assets/images/bg_countdown_timer_blue.webp

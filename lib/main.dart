@@ -11,6 +11,8 @@ import 'package:run_tracker/utils/Color.dart';
 
 import 'localization/locale_constant.dart';
 import 'localization/localizations_delegate.dart';
+import 'ui/wizardScreen/GenderScreen.dart';
+import 'ui/wizardScreen/WizardScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -98,8 +100,8 @@ class _MyAppState extends State<MyApp> {
             systemNavigationBarIconBrightness: Brightness.light,
           ),
           // child: WeeklyGoalSetScreen(),
-          child: CountdownTimerScreen(isGreen: false),
-          //child: RegistrationScreen(),
+          // child: CountdownTimerScreen(isGreen: false),
+          child: WizardScreen(),
         ),
         routes: <String, WidgetBuilder>{
           /* '/home': (BuildContext context) => HomeScreen(),
