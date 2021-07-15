@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
               ),
               child: Center(
                 child: Image.asset(
-                  "assets/icons/ic_person_bottombar.png",
+                  "assets/icons/ic_person_bottombar.webp",
                   height: 45,
                   width: 45,
                   //fit: BoxFit.cover,

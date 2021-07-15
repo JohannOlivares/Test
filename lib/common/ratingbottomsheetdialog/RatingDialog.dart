@@ -25,9 +25,26 @@ class _RatingDialogState extends State<RatingDialog> {
     super.initState();
   }
 
+  //Use this code for show dialog
+  /*showModalBottomSheet(
+  context: context,
+  isScrollControlled: true,
+  backgroundColor: Colors.transparent,
+  isDismissible: false,
+  enableDrag: false,
+  builder: (context) {
+  return Wrap(
+  children: [
+  RatingDialog(),
+  ],
+  );
+  });
+  */
+
   @override
   Widget build(BuildContext context) {
-    emojiTitle = Languages.of(context).txtGood;
+    if (emoji == 'assets/icons/ic_emoji_good.webp')
+      emojiTitle = Languages.of(context).txtGood;
     return Container(
       color: Colur.transparent,
       child: Stack(
@@ -84,19 +101,19 @@ class _RatingDialogState extends State<RatingDialog> {
                       onRatingUpdate: (rating) {
                         Debug.printLog("Rating ==>" + rating.toString());
                         setState(() {
-                          if (rating <= 1.0 && rating == 1.0) {
+                          if (rating <= 1.0) {
                             emoji = 'assets/icons/ic_emoji_terrible.webp';
                             emojiTitle = Languages.of(context).txtTerrible;
-                          } else if (rating >= 1.0 && rating == 2.0 ) {
+                          } else if (rating <= 2.0) {
                             emoji = 'assets/icons/ic_emoji_bad.webp';
                             emojiTitle = Languages.of(context).txtBad;
-                          } else if (rating >= 2.0 && rating == 3.0) {
+                          } else if (rating <= 3.0) {
                             emoji = 'assets/icons/ic_emoji_okay.webp';
                             emojiTitle = Languages.of(context).txtOkay;
-                          } else if (rating >= 3.0 && rating == 4.0) {
+                          } else if (rating <= 4.0) {
                             emoji = 'assets/icons/ic_emoji_good.webp';
                             emojiTitle = Languages.of(context).txtGood;
-                          } else if (rating >= 4.0 && rating == 5.0) {
+                          } else if (rating <= 5.0) {
                             emoji = 'assets/icons/ic_emoji_great.webp';
                             emojiTitle = Languages.of(context).txtGreat;
                           }

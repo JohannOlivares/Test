@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:run_tracker/MyHomePage.dart';
+import 'package:run_tracker/common/bottombar/BottomBar.dart';
 import 'package:run_tracker/ui/countdowntimer/CountdownTimerScreen.dart';
+import 'package:run_tracker/ui/home/HomeScreen.dart';
+import 'package:run_tracker/ui/profile/ProfileScreen.dart';
 import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/settings/SettingScreen.dart';
 import 'package:run_tracker/ui/startRun/PausePopupScreen.dart';
@@ -106,13 +109,16 @@ class _MyAppState extends State<MyApp> {
           ),
           // child: WeeklyGoalSetScreen(),
           // child: CountdownTimerScreen(isGreen: false),
-          child: WizardScreen(),
+          child: ProfileScreen(),
+          // child: BottomBar(),
+          // child: HomeScreen(),
           //child: RegistrationScreen(),
         ),
         routes: <String, WidgetBuilder>{
            '/settingScreen': (BuildContext context) => SettingScreen(),
            '/startrunScreen': (BuildContext context) => StartRunScreen(),
            '/wellDoneScreen': (BuildContext context) => WellDoneScreen(),
+           '/profileScreen': (BuildContext context) => ProfileScreen(),
       /*'/changeusername': (BuildContext context) =>
           ChangeUsernameScreen(),
       '/changepassword': (BuildContext context) =>

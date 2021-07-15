@@ -34,7 +34,7 @@ class _WizardScreenState extends State<WizardScreen> {
     _updateValue = 0.33;
 
     Future.delayed(Duration(seconds: 1), () {
-      /*showModalBottomSheet(
+      showModalBottomSheet(
           context: context,
           isScrollControlled: true,
           backgroundColor: Colors.transparent,
@@ -44,20 +44,6 @@ class _WizardScreenState extends State<WizardScreen> {
             return Wrap(
               children: [
                 WelcomeDialogScreen(),
-              ],
-            );
-          });*/
-
-      showModalBottomSheet(
-          context: context,
-          isScrollControlled: true,
-          backgroundColor: Colors.transparent,
-          isDismissible: false,
-          enableDrag: false,
-          builder: (context) {
-            return Wrap(
-              children: [
-                RatingDialog(),
               ],
             );
           });

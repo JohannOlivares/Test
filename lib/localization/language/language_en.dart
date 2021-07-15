@@ -260,7 +260,25 @@ class LanguageEn extends Languages {
   String get txtRate => "Rate";
 
   @override
-  String get txtDailyAvarage => "Daily Avarage";
+  String get txtPro => "Pro";
+
+  @override
+  String get txtRemoveAddForever => "Remove ads forever";
+
+  @override
+  String get txtUnlockAllTrainingPlans => "Unlock all Training Plans";
+
+  @override
+  String get txtDeeperAnalysis => "Deeper Analysis";
+
+  @override
+  String get txtMyProgress => "My progress";
+
+  @override
+  String get txtDailyAverage => "Daily Average";
+
+  @override
+  String get txtTotalKM => "Total KM";
 
   @override
   String get txtDrinkWater => "Drink Water";
@@ -279,4 +297,16 @@ class LanguageEn extends Languages {
 
   @override
   String get txtWeek => "Week";
+
+  @override
+  String get txtAvgPace => "Avg Pace";
+
+  @override
+  String get txtTotalHours => "Total Hours";
+
+  @override
+  String get txtTotalKCAL => "Total KCAL";
+
+  @override
+  String get txtMinMi => "Min/mi";
 }

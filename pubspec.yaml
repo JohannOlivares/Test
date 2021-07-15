@@ -93,7 +93,7 @@ flutter:
    - assets/icons/ic_female.png
    - assets/icons/ic_select_pointer.png
    - assets/icons/ic_setalite.png
-   - assets/icons/ic_person_bottombar.png
+   - assets/icons/ic_person_bottombar.webp
    - assets/icons/ic_map_permission.png
    - assets/icons/ic_setting_circular.png
    - assets/icons/ic_emoji_bad.webp
@@ -102,6 +102,15 @@ flutter:
    - assets/icons/ic_emoji_okay.webp
    - assets/icons/ic_emoji_terrible.webp
    - assets/icons/ic_star.webp
+   - assets/icons/ic_setting_round.png
+   - assets/icons/ic_round_true.webp
+   - assets/icons/ic_best_pace_light.webp
+   - assets/icons/ic_distance_light.webp
+   - assets/icons/ic_duration_light.webp
+   - assets/icons/ic_selected_profile_bottombar.webp
+   - assets/icons/ic_unselected_profile_bottombar.webp
+   - assets/icons/ic_selected_home_bottombar.webp
+   - assets/icons/ic_unselected_home_bottombar.webp
    - assets/images/
    - assets/images/dummy_girl.png
    - assets/images/bg_countdown_timer_blue.webp

@@ -38,4 +38,9 @@ class Colur {
   static const selected_star = Color(0xffFFC804);
 
 
+  static const grad_yellow_light = Color(0xffFFE94F);
+  static const grad_yellow_dark = Color(0xffF3B90E);
+
+  static const gray_border = Color(0xff9195B6);
+
 }
