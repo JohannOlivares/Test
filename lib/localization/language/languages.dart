@@ -153,6 +153,10 @@ abstract class Languages {
 
   String get txtBestPace;
 
+  String get txtBest;
+
+  String get txtFastestTime;
+
   String get txtLongestDuration;
 
   String get txtRecentActivities;

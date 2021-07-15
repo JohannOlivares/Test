@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:run_tracker/common/bottombar/BottomBar.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../localization/language/languages.dart';
 import '../../utils/Color.dart';
@@ -32,7 +33,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-            BottomBar(isHome: false,isProfile: true,),
+            BottomBar(
+              isHome: false,
+              isProfile: true,
+            ),
           ],
         ),
       ),
@@ -454,7 +458,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(left: 15.0),
+                    margin: const EdgeInsets.only(left: 15.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -469,7 +473,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               fontSize: 16),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 2.0),
+                          margin: const EdgeInsets.only(top: 2.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -486,8 +490,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                               Expanded(
                                 child: Container(
-                                  padding:
-                                      EdgeInsets.only(left: 5.0, bottom: 3.0),
+                                  padding: const EdgeInsets.only(
+                                      left: 5.0, bottom: 3.0),
                                   child: Text(
                                     Languages.of(context).txtMILE.toLowerCase(),
                                     textAlign: TextAlign.left,
@@ -502,8 +506,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               Container(
-                                padding:
-                                    EdgeInsets.only(left: 5.0, bottom: 3.0),
+                                padding: const EdgeInsets.only(
+                                    left: 5.0, bottom: 3.0),
                                 child: Text(
                                   "Jul 3 09:24",
                                   maxLines: 1,
@@ -540,7 +544,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(left: 15.0),
+                    margin: const EdgeInsets.only(left: 15.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -555,7 +559,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               fontSize: 16),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 2.0),
+                          margin: const EdgeInsets.only(top: 2.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -571,8 +575,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 //maxLines: 1,
                               ),
                               Container(
-                                padding:
-                                    EdgeInsets.only(left: 5.0, bottom: 3.0),
+                                padding: const EdgeInsets.only(
+                                    left: 5.0, bottom: 3.0),
                                 child: Text(
                                   Languages.of(context).txtMinMi.toLowerCase(),
                                   textAlign: TextAlign.left,
@@ -610,7 +614,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(left: 15.0),
+                    margin: const EdgeInsets.only(left: 15.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -625,7 +629,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               fontSize: 16),
                         ),
                         Container(
-                          margin: EdgeInsets.only(top: 2.0),
+                          margin: const EdgeInsets.only(top: 2.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
@@ -643,8 +647,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               Container(
-                                padding:
-                                    EdgeInsets.only(left: 5.0, bottom: 3.0),
+                                padding: const EdgeInsets.only(
+                                    left: 5.0, bottom: 3.0),
                                 child: Text(
                                   "Jul 3 09:24",
                                   maxLines: 1,
@@ -672,6 +676,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _fastestTimeWidget(BuildContext context) {
-    return Container();
+    return Container(
+      margin:
+          const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 50, top: 20),
+      child: Theme(
+        data: ThemeData(
+          accentColor: Colur.txt_purple,
+          unselectedWidgetColor: Colur.white,
+        ),
+        child: ExpansionTile(
+          title: Text(
+            Languages.of(context).txtFastestTime,
+            textAlign: TextAlign.left,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: Colur.white, fontWeight: FontWeight.w700, fontSize: 18),
+          ),
+          initiallyExpanded: false,
+          tilePadding: const EdgeInsets.only(left: 5.0,right: 5.0),
+          children: [
+            ListView.builder(
+              itemCount: 20,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (BuildContext context, int index) {
+                return Container(
+                  decoration: BoxDecoration(
+                      color: Colur.rounded_rectangle_color,
+                      borderRadius: BorderRadius.circular(10.0)),
+                  margin: EdgeInsets.only(bottom: 20.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 30.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/icons/ic_star_blue.png",
+                        scale: 3.5,
+                      ),
+                      Expanded(
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 25.0),
+                          child: Text(
+                            Languages.of(context).txtBest.toUpperCase() +
+                                " 400M",
+                            textAlign: TextAlign.left,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: Colur.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 18),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        "--",
+                        textAlign: TextAlign.left,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: Colur.white,
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -230,6 +230,12 @@ class LanguageEn extends Languages {
   String get txtBestPace => "BEST PACE";
 
   @override
+  String get txtBest => "Best";
+
+  @override
+  String get txtFastestTime => "Fastest Time";
+
+  @override
   String get txtLongestDuration => "LONGEST DURATION";
 
   @override
