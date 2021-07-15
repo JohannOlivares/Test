@@ -23,7 +23,8 @@ import 'package:toast/toast.dart';
 import 'PausePopupScreen.dart';
 
 class StartRunScreen extends StatefulWidget {
-  StartRunScreen({Key key}) : super(key: key);
+  bool fromCountDown = true;
+  StartRunScreen({this.fromCountDown});
 
   @override
   _StartRunScreenState createState() => _StartRunScreenState();
@@ -70,7 +71,6 @@ class _StartRunScreenState extends State<StartRunScreen>
     countStep();
   }
 
-
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
     _location.onLocationChanged.listen((l) {
@@ -84,14 +84,8 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   @override
   Widget build(BuildContext context) {
-    var fulheight = MediaQuery
-        .of(context)
-        .size
-        .height;
-    var fullwidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    var fulheight = MediaQuery.of(context).size.height;
+    var fullwidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colur.common_bg_dark,
       body: SafeArea(
@@ -102,10 +96,7 @@ class _StartRunScreenState extends State<StartRunScreen>
           children: <Widget>[
             Container(
               child: CommonTopBar(
-                Languages
-                    .of(context)
-                    .txtRunTracker
-                    .toUpperCase(),
+                Languages.of(context).txtRunTracker.toUpperCase(),
                 this,
                 isShowBack: true,
                 isShowSetting: true,
@@ -279,9 +270,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                           fontWeight: FontWeight.w400),
                     ),
                   ),
-                  _textContainer(Languages
-                      .of(context)
-                      .txtMin),
+                  _textContainer(Languages.of(context).txtMin),
                 ],
               ),
             ],
@@ -303,9 +292,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                               fontWeight: FontWeight.w400),
                         ),
                       ),
-                      _textContainer(Languages
-                          .of(context)
-                          .txtKM),
+                      _textContainer(Languages.of(context).txtKM),
                     ],
                   ),
                 ),
@@ -322,9 +309,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                                 fontWeight: FontWeight.w400),
                           ),
                         ),
-                        _textContainer(Languages
-                            .of(context)
-                            .txtPaceMinPerKM),
+                        _textContainer(Languages.of(context).txtPaceMinPerKM),
                       ],
                     ),
                   ),
@@ -342,9 +327,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                               fontWeight: FontWeight.w400),
                         ),
                       ),
-                      _textContainer(Languages
-                          .of(context)
-                          .txtKCAL),
+                      _textContainer(Languages.of(context).txtKCAL),
                     ],
                   ),
                 ),
@@ -356,21 +339,19 @@ class _StartRunScreenState extends State<StartRunScreen>
     );
   }
 
-
   _mapView([double fullheight]) {
     return Container(
       child: Stack(
         children: [
           GoogleMap(
             initialCameraPosition:
-            CameraPosition(target: _initialcameraposition, zoom: 20),
+                CameraPosition(target: _initialcameraposition, zoom: 20),
             mapType:
-            setaliteEnable == true ? MapType.satellite : MapType.normal,
+                setaliteEnable == true ? MapType.satellite : MapType.normal,
             onMapCreated: _onMapCreated,
             buildingsEnabled: false,
             myLocationEnabled: true,
             scrollGesturesEnabled: true,
-
             myLocationButtonEnabled: true,
             zoomGesturesEnabled: false,
             onCameraMove: (position) {
@@ -380,12 +361,10 @@ class _StartRunScreenState extends State<StartRunScreen>
             },
             polylines: Set<Polyline>.of(polylines.values),
             padding: EdgeInsets.only(right: 10),
-
-
           ),
           Container(
-            margin: EdgeInsets.only(
-                left: 20, right: 20, bottom: fullheight * 0.03),
+            margin:
+                EdgeInsets.only(left: 20, right: 20, bottom: fullheight * 0.03),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -438,14 +417,15 @@ class _StartRunScreenState extends State<StartRunScreen>
                     width: 60,
                     margin: EdgeInsets.only(bottom: 10),
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white),
+                        shape: BoxShape.circle, color: Colors.white),
                     child: Center(
                         child: Image.asset(
-                          'assets/icons/ic_setalite.png', scale: 4.0,
-                          color: setaliteEnable
-                              ? Colur.purple_gradient_color2
-                              : Colur.txt_grey,)),
+                      'assets/icons/ic_setalite.png',
+                      scale: 4.0,
+                      color: setaliteEnable
+                          ? Colur.purple_gradient_color2
+                          : Colur.txt_grey,
+                    )),
                   ),
                   onTap: () {
                     setState(() {
@@ -455,19 +435,21 @@ class _StartRunScreenState extends State<StartRunScreen>
                         (setaliteEnable == true) ? "Started" : "Disabled");
                   },
                 ),
-
                 Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
                         onTap: () {
-                          Utils.showToast(context, "LcoationPressed",duration: 1);
+                          Utils.showToast(context, "LcoationPressed",
+                              duration: 1);
                           /*Navigator.of(context)
                               .pushNamedAndRemoveUntil('/wellDoneScreen', (Route<dynamic> route) => false);*/
 
                           Navigator.push(
-                              context, MaterialPageRoute(builder: (context) => WellDoneScreen()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => WellDoneScreen()));
                         },
                         child: Container(
                           height: 60,
@@ -475,67 +457,37 @@ class _StartRunScreenState extends State<StartRunScreen>
                           decoration: BoxDecoration(
                               shape: BoxShape.circle, color: Colors.white),
                           child: Center(
-                              child:Image.asset(
-                                'assets/icons/ic_location.png', scale: 4.0,
-                                color: Colur.purple_gradient_color2
-                                    )),
+                              child: Image.asset('assets/icons/ic_location.png',
+                                  scale: 4.0,
+                                  color: Colur.purple_gradient_color2)),
                         ),
-
                       ),
                       //Start Button CODe
                       Expanded(
                         child: UnconstrainedBox(
                           child: InkWell(
                             onTap: () async {
-                              setState(() {
-                                startTrack = !startTrack;
-                              });
-                              if (startTrack == true) {
-                                /*Toast.show("start Track Started", context,
-                                              duration: Toast.LENGTH_SHORT,
-                                              gravity: Toast.BOTTOM);*/
-                                Navigator.push(
-                                    context, MaterialPageRoute(builder: (context) => CountdownTimerScreen(isGreen: false)));
-                              } else {
 
+
+
+
+                              if (startTrack == false) {
+
+                                Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => CountdownTimerScreen(isGreen: false)));
+                                Future.delayed(Duration(milliseconds: 3900),(){
+                                  setState(() {
+                                    startTrack = true;
+                                  });
+                                });
+                              } else {
                                 final String result = await Navigator.push(
                                     context, PausePopupScreen());
                                 /*Toast.show("start Track Stopped", context,
                                               duration: Toast.LENGTH_SHORT,
                                               gravity: Toast.BOTTOM);*/
-                                /*  return showDialog(
-                                            context: context,
-                                            builder: (ctx) => AlertDialog(
-                                              title: Text("Congratulations!!!"),
-                                              content: Container(
-                                                child: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    Container(
-                                                      child: Text(
-                                                          "Completed Track Details:"),
-                                                    ),
-                                                    Container(
-                                                      child: Text("Steps: " +
-                                                          _steps.toString()),
-                                                    ),
-                                                    Container(
-                                                      child: Text("Distance: " +
-                                                          totalDistance.toString()),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                FlatButton(
-                                                  onPressed: () {
-                                                    Navigator.of(ctx).pop();
-                                                  },
-                                                  child: Text("okay"),
-                                                ),
-                                              ],
-                                            ),
-                                          );*/
+
                               }
                             },
                             child: Container(
@@ -551,27 +503,24 @@ class _StartRunScreenState extends State<StartRunScreen>
                                       color: Colur.purple_gradient_shadow,
                                     ),
                                   ],
-                                  /*color: startTrack == true
-                                      ? Colors.lightGreen
-                                      : Colors.redAccent.shade200,*/
-                                  gradient: LinearGradient(colors: [
-                                    Colur.purple_gradient_color1,
-                                    Colur.purple_gradient_color2
-                                  ],
+
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Colur.purple_gradient_color1,
+                                      Colur.purple_gradient_color2
+                                    ],
                                   ),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
+                                      BorderRadius.all(Radius.circular(30))),
                               child: Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
                                       //TODO TExtADded to Language file addd
-                                      startTrack == false ? Languages
-                                          .of(context)
-                                          .txtStart : Languages
-                                          .of(context)
-                                          .txtPause,
+                                      startTrack == false
+                                          ? Languages.of(context).txtStart
+                                          : Languages.of(context).txtPause,
                                       style: TextStyle(
                                           fontSize: 20,
                                           color: Colur.white,
@@ -580,7 +529,9 @@ class _StartRunScreenState extends State<StartRunScreen>
                                     Container(
                                         margin: EdgeInsets.only(left: 25),
                                         child: Icon(
-                                          startTrack?Icons.pause:Icons.play_arrow_rounded,
+                                          startTrack
+                                              ? Icons.pause
+                                              : Icons.play_arrow_rounded,
                                           color: Colur.white,
                                           size: 30,
                                         ))
@@ -594,7 +545,6 @@ class _StartRunScreenState extends State<StartRunScreen>
                       SizedBox(
                         width: 60,
                       ),
-
                     ],
                   ),
                 ),

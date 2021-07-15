@@ -193,7 +193,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset(
-                      'assets/icons/ic_info.png',
+                      'assets/icons/ic_info.webp',
                       scale: 3.4,
                       color: Colur.txt_grey,
                     ),

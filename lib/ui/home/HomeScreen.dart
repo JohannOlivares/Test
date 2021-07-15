@@ -270,31 +270,31 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
   }
 
   bestRecordList() {
-    return Container(
-      child: Column(
-        children: [
-          bestRecordListTile(
-              img: "ic_distance.png",
-              text: Languages.of(context).txtLongestDistance,
-              value: "0",
-              unit: "mile",
-              isNotDuration: true
-          ),
-          bestRecordListTile(
-              img: "ic_best_pace.png",
-              text: Languages.of(context).txtBestPace,
-              value: "0",
-              unit: "min/mi",
-              isNotDuration: true
-          ),
-          bestRecordListTile(
-              img: "ic_duration.png",
-              text: Languages.of(context).txtLongestDuration,
-              value: "00:00",
-              isNotDuration: false
-          ),
-        ],
-      ),
+    return ListView(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      children: [
+        bestRecordListTile(
+            img: "ic_distance.webp",
+            text: Languages.of(context).txtLongestDistance,
+            value: "0",
+            unit: "mile",
+            isNotDuration: true
+        ),
+        bestRecordListTile(
+            img: "ic_best_pace.png",
+            text: Languages.of(context).txtBestPace,
+            value: "0",
+            unit: "min/mi",
+            isNotDuration: true
+        ),
+        bestRecordListTile(
+            img: "ic_duration.webp",
+            text: Languages.of(context).txtLongestDuration,
+            value: "00:00",
+            isNotDuration: false
+        ),
+      ],
     );
   }
 

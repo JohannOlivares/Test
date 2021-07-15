@@ -39,6 +39,7 @@ dependencies:
   lottie: ^0.6.0
   flutter_rating_bar: ^4.0.0
   syncfusion_flutter_charts: ^19.2.47
+  charts_flutter: ^0.11.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -81,12 +82,13 @@ flutter:
    - assets/icons/ic_back.png
    - assets/icons/ic_person_walk.png
    - assets/icons/ic_person_run.png
+   - assets/icons/ic_footstep.webp
    - assets/icons/ic_steps.png
    - assets/icons/ic_water.png
    - assets/icons/ic_route_map.png
    - assets/icons/ic_best_pace.png
-   - assets/icons/ic_distance.png
-   - assets/icons/ic_duration.png
+   - assets/icons/ic_distance.webp
+   - assets/icons/ic_duration.webp
    - assets/icons/ic_male.png
    - assets/icons/ic_info_white.png
    - assets/icons/ic_female.png

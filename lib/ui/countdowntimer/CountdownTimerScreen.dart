@@ -7,8 +7,9 @@ import 'package:run_tracker/utils/Utils.dart';
 
 class CountdownTimerScreen extends StatefulWidget {
   bool isGreen = false;
+  bool startTrack = true;
 
-  CountdownTimerScreen({@required this.isGreen});
+  CountdownTimerScreen({this.startTrack,@required this.isGreen});
 
   @override
   _CountdownTimerScreenState createState() => _CountdownTimerScreenState();
@@ -27,26 +28,15 @@ class _CountdownTimerScreenState extends State<CountdownTimerScreen> with Ticker
       vsync: this,
       duration: Duration(seconds: 2),
     );
-
-    _controller.addListener(() => setState(() {}));
-    TickerFuture tickerFuture = _controller.forward();
-    tickerFuture.timeout(Duration(milliseconds: 3800), onTimeout:  () {
-      _controller.forward(from: 0);
-      _controller.stop(canceled: true);
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil('/startrunScreen', (Route<dynamic> route) => false);
-
-    });
+    _timer();
 
 
   }
 
   @override
   void dispose() {
-
     super.dispose();
     _controller.dispose();
-
   }
 
 
@@ -83,5 +73,21 @@ class _CountdownTimerScreenState extends State<CountdownTimerScreen> with Ticker
         ],
       ),
     );
+  }
+
+  void _timer() {
+    widget.startTrack = true;
+    _controller.addListener(() => setState(() {}));
+    TickerFuture tickerFuture = _controller.forward();
+    tickerFuture.timeout(Duration(milliseconds: 3800), onTimeout:  () {
+      _controller.forward(from: 0);
+      _controller.stop(canceled: true);
+
+      Navigator.pop(context);
+      /*Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => StartRunScreen(fromCountDown:widget.startTrack)));*/
+
+    });
   }
 }
