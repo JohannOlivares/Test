@@ -109,9 +109,9 @@ class _MyAppState extends State<MyApp> {
           ),
           // child: WeeklyGoalSetScreen(),
           // child: CountdownTimerScreen(isGreen: false),
-          child: ProfileScreen(),
+          // child: ProfileScreen(),
           // child: BottomBar(),
-          // child: HomeScreen(),
+          child: HomeScreen(),
           //child: RegistrationScreen(),
         ),
         routes: <String, WidgetBuilder>{
@@ -119,6 +119,7 @@ class _MyAppState extends State<MyApp> {
            '/startrunScreen': (BuildContext context) => StartRunScreen(),
            '/wellDoneScreen': (BuildContext context) => WellDoneScreen(),
            '/profileScreen': (BuildContext context) => ProfileScreen(),
+           '/homeScreen': (BuildContext context) => HomeScreen(),
       /*'/changeusername': (BuildContext context) =>
           ChangeUsernameScreen(),
       '/changepassword': (BuildContext context) =>

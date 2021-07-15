@@ -27,6 +27,7 @@ class _BottomBarState extends State<BottomBar> {
               Expanded(
                 child: InkWell(
                   onTap: (){
+                    Navigator.pushNamed(context, "/homeScreen");
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(right: 30.0),
