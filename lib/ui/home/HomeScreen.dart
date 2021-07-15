@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:run_tracker/common/bottombar/BottomBar.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/stepsTracker/StepsTrackerScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
@@ -25,79 +27,59 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
 
     return Scaffold(
         backgroundColor: Colur.common_bg_dark,
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Container(
-              child: Column(
-                children: [
-                  //Top bar
-                  // buildTopBar(fullWidth, fullHeight),
-                  Container(
-                    margin: EdgeInsets.only(left: fullWidth*0.05),
-                    child: CommonTopBar(
-                      Languages.of(context).txtRunTracker,
-                      this,
-                      isShowSubheader: true,
-                      subHeader: Languages.of(context).txtGoFasterSmarter,
-                      isInfo: true,
-                    ),
-                  ),
-                  //Circular percent Indicator
-                  Container(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: fullHeight*0.04),
-                          child: percentIndicator(),
-                        ),
-                        walkOrRunCount()
-                      ],
-                    ),
-                  ),
-                  // Steps and Water Buttons
-                  stepNdWaterBtns(fullHeight, fullWidth),
-                  //Recent Activities
-                  recentActivities(fullHeight, fullWidth),
-                  //Best Records
-                  bestRecords(fullHeight, fullWidth)
+        body: Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  child: SafeArea(
+                    child: Container(
+                      child: Column(
+                        children: [
 
-                ],
-              ),
-            ),
-          ),
-        ),
-        floatingActionButton: Container(
-          height: 75,
-          width: 75,
-          child: FloatingActionButton(
-            onPressed: () {  },
-            child: Container(
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [Colur.purple_gradient_color1, Colur.purple_gradient_color2,]),
-                  shape: BoxShape.circle
-              ),
-              child: Center(
-                child: Image.asset(
-                  "assets/icons/ic_person_bottombar.webp",
-                  height: 45,
-                  width: 45,
-                  //fit: BoxFit.cover,
+                          //Topbar
+                          Container(
+                            margin: EdgeInsets.only(left: fullWidth*0.05),
+                            child: CommonTopBar(
+                              Languages.of(context).txtRunTracker,
+                              this,
+                              isShowSubheader: true,
+                              subHeader: Languages.of(context).txtGoFasterSmarter,
+                              isInfo: true,
+                            ),
+                          ),
+
+                          //Circular percent Indicator
+                          Container(
+                            child: Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(top: fullHeight*0.04),
+                                  child: percentIndicator(),
+                                ),
+                                walkOrRunCount()
+                              ],
+                            ),
+                          ),
+                          // Steps and Water Buttons
+                          stepNdWaterBtns(fullHeight, fullWidth),
+                          //Recent Activities
+                          recentActivities(fullHeight, fullWidth),
+                          //Best Records
+                          bestRecords(fullHeight, fullWidth)
+
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-            //params
+              BottomBar(isHome: true, isProfile: false)
+            ],
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: BottomAppBar(
-          color: Colur.progress_background_color,
-          shape: CircularNotchedRectangle(),
-          notchMargin: 10,
-          child: Container(
-            height: fullHeight*0.1,
-            child: bottomBarIcons(fullWidth, fullHeight),
-          ),
-        )
     );
   }
 
@@ -171,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
             textStyle: const TextStyle(
                 fontSize: 22.0,
                 fontWeight: FontWeight.w500,
-                color: Colors.white
+                color: Colur.white
             )
         ),
         axes: <RadialAxis>[
@@ -183,13 +165,13 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
               axisLineStyle: AxisLineStyle(
                 thickness: 0.13,
                 cornerStyle: CornerStyle.bothCurve,
-                color: Color(0XFF1B2153),
+                color: Colur.progress_background_color,
                 thicknessUnit: GaugeSizeUnit.factor,
               ),
               pointers: <GaugePointer>[
                 RangePointer(
                   value: 75,
-                  gradient: SweepGradient(colors: [Color(0xff8A3CFF), Color(0xffC040FF)]),
+                  gradient: SweepGradient(colors: [Colur.purple_gradient_color1, Colur.purple_gradient_color2]),
                   cornerStyle: CornerStyle.bothCurve,
                   width: 0.13,
                   sizeUnit: GaugeSizeUnit.factor,
@@ -205,11 +187,11 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                         children: [
                           Text(
                             "75" + '%',
-                            style: TextStyle(fontSize: 48, fontWeight: FontWeight.w700, color: Colors.white),
+                            style: TextStyle(fontSize: 48, fontWeight: FontWeight.w700, color: Colur.txt_white),
                           ),
                           Text(
                             "This Week",
-                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xff9195B6)),
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colur.txt_grey),
                           ),
                         ],
                       ),
@@ -236,6 +218,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                   homeSelected = true;
                   profileSelected = false;
                 });
+                //Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen())); //TODO: Uncomment
               }
           ),
         ),
@@ -287,31 +270,31 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
   }
 
   bestRecordList() {
-    return ListView(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      children: [
-        bestRecordListTile(
-            img: "ic_distance.png",
-            text: Languages.of(context).txtLongestDistance,
-            value: "0",
-            unit: "mile",
-            isNotDuration: true
-        ),
-        bestRecordListTile(
-            img: "ic_best_pace.png",
-            text: Languages.of(context).txtBestPace,
-            value: "0",
-            unit: "min/mi",
-            isNotDuration: true
-        ),
-        bestRecordListTile(
-            img: "ic_duration.png",
-            text: Languages.of(context).txtLongestDuration,
-            value: "00:00",
-            isNotDuration: false
-        ),
-      ],
+    return Container(
+      child: Column(
+        children: [
+          bestRecordListTile(
+              img: "ic_distance.png",
+              text: Languages.of(context).txtLongestDistance,
+              value: "0",
+              unit: "mile",
+              isNotDuration: true
+          ),
+          bestRecordListTile(
+              img: "ic_best_pace.png",
+              text: Languages.of(context).txtBestPace,
+              value: "0",
+              unit: "min/mi",
+              isNotDuration: true
+          ),
+          bestRecordListTile(
+              img: "ic_duration.png",
+              text: Languages.of(context).txtLongestDuration,
+              value: "00:00",
+              isNotDuration: false
+          ),
+        ],
+      ),
     );
   }
 
@@ -324,8 +307,6 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: Container(
-        height:97,
-        width: 340,
         decoration: BoxDecoration(
           color: Colur.progress_background_color,
           borderRadius: BorderRadius.circular(10),
@@ -428,38 +409,40 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
   }
 
   recentActivitiesList(double fullHeight) {
-    return ListView(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      children: [
-        recentActivitiesListTile(
-            fullHeight: fullHeight,
-            img: "ic_route_map.png",
-            date: "Jun 3",
-            distance: "0.00 mile",
-            time: "00:00:00",
-            pace: "00.00 min/mi",
-            calories: "1 Kcal"
-        ),
-        recentActivitiesListTile(
-            fullHeight: fullHeight,
-            img: "ic_route_map.png",
-            date: "Jun 3",
-            distance: "0.00 mile",
-            time: "00:00:00",
-            pace: "00.00 min/mi",
-            calories: "1 Kcal"
-        ),
-        recentActivitiesListTile(
-            fullHeight: fullHeight,
-            img: "ic_route_map.png",
-            date: "Jun 3",
-            distance: "0.00 mile",
-            time: "00:00:00",
-            pace: "00.00 min/mi",
-            calories: "1 Kcal"
-        ),
-      ],
+    return Container(
+      child: Column(
+        //physics: NeverScrollableScrollPhysics(),
+        //shrinkWrap: true,
+        children: [
+          recentActivitiesListTile(
+              fullHeight: fullHeight,
+              img: "ic_route_map.png",
+              date: "Jun 3",
+              distance: "0.00 mile",
+              time: "00:00:00",
+              pace: "00.00 min/mi",
+              calories: "1 Kcal"
+          ),
+          recentActivitiesListTile(
+              fullHeight: fullHeight,
+              img: "ic_route_map.png",
+              date: "Jun 3",
+              distance: "0.00 mile",
+              time: "00:00:00",
+              pace: "00.00 min/mi",
+              calories: "1 Kcal"
+          ),
+          recentActivitiesListTile(
+              fullHeight: fullHeight,
+              img: "ic_route_map.png",
+              date: "Jun 3",
+              distance: "0.00 mile",
+              time: "00:00:00",
+              pace: "00.00 min/mi",
+              calories: "1 Kcal"
+          ),
+        ],
+      ),
     );
   }
 
@@ -475,8 +458,6 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
     return Padding(
       padding:  EdgeInsets.only(bottom: fullHeight*0.015),
       child: Container(
-        height:120,
-        width: 340,
         decoration: BoxDecoration(
           color: Colur.progress_background_color,
           borderRadius: BorderRadius.circular(10),
@@ -526,25 +507,25 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                             Text(
                               time,
                               style: TextStyle(
-                                //fontWeight: FontWeight.w500,
-                                  fontSize: 11,
-                                  color: Colur.txt_grey
+                                fontWeight: FontWeight.w400,
+                                fontSize: 11,
+                                color: Colur.txt_grey
                               ),
                             ),
                             Text(
                               pace,
                               style: TextStyle(
-                                //fontWeight: FontWeight.w500,
-                                  fontSize: 11,
-                                  color: Colur.txt_grey
+                                fontWeight: FontWeight.w400,
+                                fontSize: 11,
+                                color: Colur.txt_grey
                               ),
                             ),
                             Text(
                               calories,
                               style: TextStyle(
-                                //fontWeight: FontWeight.w500,
-                                  fontSize: 11,
-                                  color: Colur.txt_grey
+                                fontWeight: FontWeight.w400,
+                                fontSize: 11,
+                                color: Colur.txt_grey
                               ),
                             ),
                           ],
@@ -571,7 +552,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
         children: [
           InkWell(
               onTap: () {
-                //TODO
+                Navigator.push(context, MaterialPageRoute(builder: (context) => StepsTrackerScreen()));
               },
               child: Image.asset(
                   "assets/icons/ic_steps.png",
@@ -590,53 +571,6 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                   width: fullWidth*0.385
               )
           ),
-        ],
-      ),
-    );
-  }
-
-  buildTopBar(double fullWidth, double fullHeight) {
-    return Container(
-      margin: EdgeInsets.only(left: fullWidth*0.05, top: fullHeight*0.03, right: fullWidth*0.05),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  Languages.of(context).txtRunTracker,
-                  style: TextStyle(
-                      color: Colur.txt_white,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w900
-                  ),
-                ),
-                Text(
-                  Languages.of(context).txtGoFasterSmarter,
-                  style: TextStyle(
-                      color: Colur.txt_grey,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-              height: 44,
-              width: 44,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(color: Colur.progress_background_color)
-              ),
-              child: IconButton(
-                icon: Icon(Icons.info_outline_rounded),
-                onPressed: (){},
-                color: Colur.txt_white,
-              )
-          )
         ],
       ),
     );

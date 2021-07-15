@@ -80,8 +80,6 @@ flutter:
    - assets/icons/ic_back.png
    - assets/icons/ic_person_walk.png
    - assets/icons/ic_person_run.png
-   - assets/icons/ic_footstep.png
-   - assets/icons/ic_waterdrops.png
    - assets/icons/ic_steps.png
    - assets/icons/ic_water.png
    - assets/icons/ic_route_map.png
@@ -111,6 +109,13 @@ flutter:
    - assets/icons/ic_unselected_profile_bottombar.webp
    - assets/icons/ic_selected_home_bottombar.webp
    - assets/icons/ic_unselected_home_bottombar.webp
+   - assets/icons/ic_options.png
+   - assets/icons/ic_arrow_green_gradient.png
+   - assets/icons/ic_options_steps_indicator.png
+   - assets/icons/ic_edit.png
+   - assets/icons/ic_reset.png
+   - assets/icons/ic_turn_off.png
+   - assets/icons/ic_statistics.png
    - assets/images/
    - assets/images/dummy_girl.png
    - assets/images/bg_countdown_timer_blue.webp

@@ -206,4 +206,19 @@ abstract class Languages {
   String get txtAvgPace;
 
   String get txtMinMi;
+
+  String get txtKcal;
+  String get txtMile;
+  String get txtSteps;
+  String get txtSTEPSTRACKER;
+  String get txtLast7DaysSteps;
+
+  String get txtReset;
+  String get txtEditTarget;
+  String get txtTurnoff;
+  String get txtEditTargetSteps;
+  String get txtEditStepsTargetDesc;
+  String get txtCancel;
+  String get txtSave;
+  String get txtWeeklyStatistics;
 }

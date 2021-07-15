@@ -17,6 +17,7 @@ class CommonTopBar extends StatefulWidget {
   bool isDelete = false;
   bool isClose = false;
   bool isInfo = false;
+  bool isOptions = false;
   bool isShowSubheader = false;
 
   String subHeader;
@@ -29,6 +30,7 @@ class CommonTopBar extends StatefulWidget {
         this.isDelete = false,
         this.isClose = false,
         this.isInfo = false,
+        this.isOptions = false,
         this.isShowAdd = false,
         this.isShowSubheader = false,
         this.isShowSettingCircle = false,
@@ -218,6 +220,31 @@ class _CommonTopBarState extends State<CommonTopBar> {
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Image.asset('assets/icons/ic_info_white.png'),
+                    ),
+                  ),
+                ),
+              ),
+
+              InkWell(
+                onTap: () {
+                  widget.clickListener.onTopBarClick(Constant.STR_OPTIONS);
+                },
+                child: Visibility(
+                  visible: widget.isOptions,
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5),
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colur.rounded_rectangle_color,
+                        ),
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(15))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Image.asset('assets/icons/ic_options.png'),
                     ),
                   ),
                 ),

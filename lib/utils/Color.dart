@@ -23,11 +23,16 @@ class Colur {
   static const water_level_wave2 = Color(0xff00AEFF);
 
 
+  static const green_gradient_color1 = Color(0xff21BE10);
+  static const green_gradient_color2 = Color(0xff7BDE56);
+
+  static const green_gradient_shadow = Color(0x902fc31c);
 
   static const txt_grey = Color(0xff9195B6);
   static const txt_white = Color(0xffFFFFFF);
   static const txt_black = Color(0xff000000);
   static const txt_purple = Color(0xffC040FF);
+  static const txt_green = Color(0xff24BF12);
   static const white = Color(0xffFFFFFF);
   static const common_bg_dark = Color(0xff070E3D);
   static const rounded_rectangle_color = Color(0xff1B2153);

@@ -309,4 +309,43 @@ class LanguageEn extends Languages {
 
   @override
   String get txtMinMi => "Min/mi";
+
+  @override
+  String get txtKcal => "Kcal";
+
+  @override
+  String get txtMile => "Mile";
+
+  @override
+  String get txtSteps => "Steps";
+
+  @override
+  String get txtSTEPSTRACKER => "STEPS TRACKER";
+
+  @override
+  String get txtLast7DaysSteps => "Last 7 Days Steps:";
+
+  @override
+  String get txtReset => "Reset";
+
+  @override
+  String get txtEditTarget => "Edit target";
+
+  @override
+  String get txtTurnoff => "Turn off";
+
+  @override
+  String get txtEditTargetSteps => "Edit Target Steps";
+
+  @override
+  String get txtEditStepsTargetDesc => "Burned calories, walking distance & duration will be calculated accordingly.";
+
+  @override
+  String get txtCancel => "CANCEL";
+
+  @override
+  String get txtSave => "SAVE";
+
+  @override
+  String get txtWeeklyStatistics => "Weekly Statistics";
 }

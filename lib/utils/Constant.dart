@@ -27,6 +27,11 @@ class Constant {
   static const STR_SETTING_CIRCLE = "Setting_circle";
   static const STR_CLOSE = "CLOSE";
   static const STR_INFO = "INFO";
+  static const STR_OPTIONS = "OPTIONS";
+
+  static const STR_RESET = "Reset";
+  static const STR_EDITTARGET = "Edit target";
+  static const STR_TURNOFF = "Turn off";
 
 
   static const TEXT = "1";

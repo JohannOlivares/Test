@@ -8,6 +8,8 @@ import 'package:run_tracker/ui/home/HomeScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
 
+import '../home/HomeScreen.dart';
+
 class WeeklyGoalSetScreen extends StatefulWidget {
   const WeeklyGoalSetScreen({Key key}) : super(key: key);
 
@@ -329,7 +331,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
           Navigator.push(
               context,
               MaterialPageRoute(
-              builder: (context) => StartRunScreen()));
+              builder: (context) => HomeScreen()));
 
         },
       ),
