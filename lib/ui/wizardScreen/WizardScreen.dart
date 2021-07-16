@@ -29,6 +29,7 @@ class _WizardScreenState extends State<WizardScreen> {
   @override
   void initState() {
     super.initState();
+
     pageNum = 1;
 
     _updateValue = 0.33;

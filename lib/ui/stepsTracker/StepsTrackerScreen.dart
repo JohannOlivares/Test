@@ -330,11 +330,11 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     );
   }
 
-  editTargetStepsBottomDialog(BuildContext context, double fullHeight, double fullWidth) {
+  editTargetStepsBottomDialog(double fullHeight, double fullWidth) {
     return showModalBottomSheet(
       context: context,
-      isDismissible: false,
-      isScrollControlled: false,
+      isDismissible: true,
+      isScrollControlled: true,
       backgroundColor: Colur.white,
       builder: (context){
         return Container(
@@ -399,8 +399,11 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                           child: TextFormField(
                             maxLines: 1,
                             controller: stepController,
-                            textInputAction: TextInputAction.done,
-                            keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.go,
+                            keyboardType: TextInputType.text,
+                            onFieldSubmitted: (term){
+                              FocusScope.of(context).unfocus();
+                            },
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colur.txt_white,
@@ -412,9 +415,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                             decoration: InputDecoration(
                               border: InputBorder.none,
                             ),
-                            onEditingComplete: () {
-                              FocusScope.of(context).unfocus();
-                            },
+
                           ),
                         ),
                       ],
@@ -432,7 +433,10 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                           padding: EdgeInsets.only(left: fullWidth*0.1),
                           // ignore: deprecated_member_use
                           child: FlatButton(
-                            onPressed: () { Navigator.pop(context); },
+                            onPressed: () {
+
+                              Navigator.pop(context);
+                            },
                             child: Text(
                               Languages.of(context).txtCancel,
                               style: TextStyle(
@@ -451,19 +455,21 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                           decoration: BoxDecoration(
                             gradient: LinearGradient(colors: [Colur.green_gradient_color1, Colur.green_gradient_color2]),
                             borderRadius: BorderRadius.circular(30),
-                            boxShadow: [
+                           /* boxShadow: [
                                BoxShadow(
                                 offset: Offset(0.0, 25),
                                 spreadRadius: 5,
                                 blurRadius: 50,
                                 color: Colur.green_gradient_shadow,
                               ),
-                            ],
+                            ],*/
                           ),
                           child: Material(
                             color: Colur.transparent,
                             child: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  Focus.of(context).unfocus();
+                                },
                                 child: Center(
                                   child: Text(
                                     Languages.of(context).txtSave,
@@ -545,7 +551,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
     if(result == Constant.STR_EDITTARGET) {
       setState(() {
-        editTargetStepsBottomDialog(context, fullHeight, fullWidth);
+        editTargetStepsBottomDialog(fullHeight, fullWidth);
       });
     }
 

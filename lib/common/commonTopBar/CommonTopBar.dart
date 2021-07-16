@@ -145,7 +145,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                         BorderRadius.all(Radius.circular(15))),
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
-                      child: Image.asset('assets/icons/ic_setting.webp'),
+                      child: Image.asset('assets/icons/ic_setting.png'),
                     ),
                   ),
                 ),

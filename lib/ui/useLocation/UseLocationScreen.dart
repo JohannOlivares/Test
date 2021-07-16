@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
+import 'package:run_tracker/utils/Utils.dart';
 
 class UseLocationScreen extends StatefulWidget {
   @override
@@ -10,6 +13,9 @@ class UseLocationScreen extends StatefulWidget {
 }
 
 class _UseLocationScreenState extends State<UseLocationScreen> {
+
+  Location _location = Location();
+
   @override
   Widget build(BuildContext context) {
     double fullheight = MediaQuery.of(context).size.height;
@@ -29,7 +35,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        //Navigator.of(context).pop();
+                        Navigator.of(context).pop();
                       },
                       child: Text(
                         Languages.of(context).txtNotnow,
@@ -114,7 +120,16 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                     ),
                   ),
                   gradient: LinearGradient(colors: [Colur.purple_gradient_color1, Colur.purple_gradient_color2,],),
-                  onPressed: () {},
+                  onPressed: () {
+
+                    _permissionCheck();
+
+                    /*Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/startrunScreen', (Route<dynamic> route) => false);*/
+
+
+
+                  },
                 ),
               )
             ],
@@ -122,5 +137,36 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
         )
       ),
     );
+  }
+
+  Future<void> _permissionCheck() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await _location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await _location.requestService();
+      if (!_serviceEnabled) {
+        Utils.showToast(context, "not enabled Service");
+        return ;
+      }
+    }
+
+    _permissionGranted = await _location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await _location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return ;
+      }
+    }
+
+    Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+            builder: (context) => StartRunScreen()
+        ),
+        ModalRoute.withName("/homeWizardScreen")
+    );
+
   }
 }

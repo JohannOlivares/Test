@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:run_tracker/common/bottombar/BottomBar.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../localization/language/languages.dart';
 import '../../utils/Color.dart';
@@ -32,10 +31,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
-            ),
-            BottomBar(
-              isHome: false,
-              isProfile: true,
             ),
           ],
         ),
@@ -84,7 +79,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     end: Alignment.bottomCenter,
                                     colors: [
                                       Colur.grad_yellow_light,
-                                      Colur.grad_yellow_dark
+                                      Colur.grad_yellow_dark,
                                     ]),
                                 borderRadius: BorderRadius.circular(3.0)),
                             padding: const EdgeInsets.symmetric(

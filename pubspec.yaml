@@ -100,6 +100,7 @@ flutter:
    - assets/icons/ic_emoji_bad.webp
    - assets/icons/ic_emoji_good.webp
    - assets/icons/ic_emoji_great.webp
+   - assets/icons/ic_setting.png
    - assets/icons/ic_emoji_okay.webp
    - assets/icons/ic_emoji_terrible.webp
    - assets/icons/ic_star.webp

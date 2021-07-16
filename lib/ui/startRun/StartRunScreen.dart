@@ -157,7 +157,7 @@ class _StartRunScreenState extends State<StartRunScreen>
   }
 
   getLoc() async {
-    bool _serviceEnabled;
+  /*  bool _serviceEnabled;
     PermissionStatus _permissionGranted;
 
     _serviceEnabled = await _location.serviceEnabled();
@@ -174,7 +174,7 @@ class _StartRunScreenState extends State<StartRunScreen>
       if (_permissionGranted != PermissionStatus.granted) {
         return;
       }
-    }
+    }*/
 
     _location.changeSettings(
         accuracy: LocationAccuracy.high, interval: 1000, distanceFilter: 0.1);
@@ -225,9 +225,10 @@ class _StartRunScreenState extends State<StartRunScreen>
   @override
   void onTopBarClick(String name, {bool value = true}) {
     if (name == Constant.STR_BACK) {
-      Navigator.pop(context);
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
     }
-    if (name == Constant.STR_CLOSE) {
+    if (name == Constant.STR_SETTING) {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => SettingScreen()));
       //.then((value) => refresh());

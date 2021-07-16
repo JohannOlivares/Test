@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/custom/custom_tabbarview.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/home/HomeWizardScreen.dart';
 import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/ui/home/HomeScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
@@ -328,11 +329,8 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
           ],
         ),
         onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-              builder: (context) => HomeScreen()));
-
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
         },
       ),
     );

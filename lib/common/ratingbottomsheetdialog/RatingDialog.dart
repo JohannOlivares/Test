@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:run_tracker/utils/Utils.dart';
 
 import '../../custom/GradientButtonSmall.dart';
 import '../../localization/language/languages.dart';
@@ -161,6 +162,7 @@ class _RatingDialogState extends State<RatingDialog> {
                         ],
                       ),
                       onPressed: () {
+                        Utils.showToast(context, "Rating Completed");
                         Navigator.pop(context);
                       },
                     ),

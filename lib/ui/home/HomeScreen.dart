@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:run_tracker/common/bottombar/BottomBar.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/stepsTracker/StepsTrackerScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
@@ -76,7 +77,6 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                   ),
                 ),
               ),
-              BottomBar(isHome: true, isProfile: false)
             ],
           ),
         ),
@@ -563,7 +563,10 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
           SizedBox(width: 20,),
           InkWell(
               onTap: () {
-                //TODO
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => DrinkWaterLevelScreen()));
               },
               child: Image.asset(
                   "assets/icons/ic_water.png",

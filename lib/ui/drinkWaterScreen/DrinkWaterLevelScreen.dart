@@ -3,7 +3,9 @@ import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/custom/waterLevel/Liquid_progress_indicator.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/drinkWaterSettings/DrinkWaterSettingsScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
+import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:intl/intl.dart';
@@ -111,7 +113,15 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
 
   @override
   void onTopBarClick(String name, {bool value = true}) {
-    // TODO: implement onTopBarClick
+    if (name == Constant.STR_BACK) {
+      Navigator.pop(context);
+    }
+    if (name == Constant.STR_SETTING_CIRCLE) {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => DrinkWaterSettingsScreen()));
+    }
   }
 
   _waterProgressIndicator(double fullheight, double fullwidth) {

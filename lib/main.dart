@@ -5,11 +5,13 @@ import 'package:run_tracker/MyHomePage.dart';
 import 'package:run_tracker/common/bottombar/BottomBar.dart';
 import 'package:run_tracker/ui/countdowntimer/CountdownTimerScreen.dart';
 import 'package:run_tracker/ui/home/HomeScreen.dart';
+import 'package:run_tracker/ui/home/HomeWizardScreen.dart';
 import 'package:run_tracker/ui/profile/ProfileScreen.dart';
 import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/settings/SettingScreen.dart';
 import 'package:run_tracker/ui/startRun/PausePopupScreen.dart';
 import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
+import 'package:run_tracker/ui/useLocation/UseLocationScreen.dart';
 import 'package:run_tracker/ui/weeklygoalSetScreen/WeeklyGoalSetScreen.dart';
 import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
 import 'package:run_tracker/ui/wizardScreen/GenderScreen.dart';
@@ -118,7 +120,8 @@ class _MyAppState extends State<MyApp> {
            '/startrunScreen': (BuildContext context) => StartRunScreen(),
            '/wellDoneScreen': (BuildContext context) => WellDoneScreen(),
            '/profileScreen': (BuildContext context) => ProfileScreen(),
-           '/homeScreen': (BuildContext context) => HomeScreen(),
+           '/homeWizardScreen': (BuildContext context) => HomeWizardScreen(),
+           '/uselocationScreen': (BuildContext context) => UseLocationScreen(),
       /*'/changeusername': (BuildContext context) =>
           ChangeUsernameScreen(),
       '/changepassword': (BuildContext context) =>

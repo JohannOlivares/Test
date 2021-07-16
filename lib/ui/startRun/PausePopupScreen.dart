@@ -58,9 +58,14 @@ class PausePopupScreen extends ModalRoute<String> {
                 onTap: (){
                   //Utils.showToast(context, "Skip");
                   /*Navigator.pop(context, Constant.STR_STOP);*/
-                  Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => WellDoneScreen()));
 
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => WellDoneScreen()
+                      ),
+                      ModalRoute.withName("/homeWizardScreen")
+                  );
                 },
                 child: Container(
                   width: 80,
