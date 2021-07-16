@@ -326,7 +326,7 @@ class LanguageEn extends Languages {
   String get txtSteps => "Steps";
 
   @override
-  String get txtSTEPSTRACKER => "STEPS TRACKER";
+  String get txtStepStracker => "STEPS TRACKER";
 
   @override
   String get txtLast7DaysSteps => "Last 7 Days Steps:";
@@ -354,4 +354,10 @@ class LanguageEn extends Languages {
 
   @override
   String get txtWeeklyStatistics => "Weekly Statistics";
+
+  @override
+  String get txtTroubleShooting => "Troubleshooting";
+
+  @override
+  String get txtMetricAndImperialUnits => "Metric & Imperial Units";
 }

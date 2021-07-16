@@ -44,7 +44,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                 //TopBar
                 Container(
                   child: CommonTopBar(
-                    Languages.of(context).txtSTEPSTRACKER,
+                    Languages.of(context).txtStepStracker,
                     this,
                     isShowBack: true,
                     isOptions: true,
