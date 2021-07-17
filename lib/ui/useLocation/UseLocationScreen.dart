@@ -40,7 +40,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                             .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
                       },
                       child: Text(
-                        Languages.of(context).txtNotnow,
+                        Languages.of(context)!.txtNotnow,
                         style: TextStyle(
                           color: Colur.txt_white,
                           fontSize: 22,
@@ -66,7 +66,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                   child: Column(
                     children: [
                       Text(
-                        Languages.of(context).txtUseYourLocation,
+                        Languages.of(context)!.txtUseYourLocation,
                         style: TextStyle(
                           color: Colur.txt_white,
                           fontWeight: FontWeight.w700,
@@ -76,7 +76,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                       Container(
                         margin: EdgeInsets.only(top: fullheight*0.03),
                         child: Text(
-                          Languages.of(context).txtLocationDesc1,
+                          Languages.of(context)!.txtLocationDesc1,
                           maxLines: 3,
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -89,7 +89,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                       Container(
                         margin: EdgeInsets.only(top: fullheight*0.03),
                         child: Text(
-                          Languages.of(context).txtLocationDesc2,
+                          Languages.of(context)!.txtLocationDesc2,
                           maxLines: 3,
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -111,7 +111,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                   height: 60,
                   radius: 30.0,
                   child: Text(
-                    Languages.of(context).txtAllow,
+                    Languages.of(context)!.txtAllow,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,

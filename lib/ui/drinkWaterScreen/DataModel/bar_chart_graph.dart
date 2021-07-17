@@ -6,16 +6,16 @@ import 'BarChartModel.dart';
 
 
 class BarChartGraph extends StatefulWidget {
-  final List<BarChartModel> data;
+  final List<BarChartModel>? data;
 
-  const BarChartGraph({Key key, this.data}) : super(key: key);
+  const BarChartGraph({Key? key, this.data}) : super(key: key);
 
   @override
   _BarChartGraphState createState() => _BarChartGraphState();
 }
 
 class _BarChartGraphState extends State<BarChartGraph> {
-  List<BarChartModel> _barChartList;
+  List<BarChartModel>? _barChartList;
 
   @override
   void initState() {
@@ -28,13 +28,13 @@ class _BarChartGraphState extends State<BarChartGraph> {
 
   @override
   Widget build(BuildContext context) {
-    List<charts.Series<BarChartModel, String>> series = [
+    List<charts.Series<BarChartModel, String?>> series = [
       charts.Series(
           id: "Water Level",
-          data: widget.data,
+          data: widget.data!,
           domainFn: (BarChartModel series, _) => series.year,
           measureFn: (BarChartModel series, _) => series.financial,
-          colorFn: (BarChartModel series, _) => series.color),
+          colorFn: (BarChartModel series, _) => series.color!),
     ];
 
     return _buildFinancialList(series);
@@ -51,7 +51,7 @@ class _BarChartGraphState extends State<BarChartGraph> {
       ),
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
-      itemCount: _barChartList.length,
+      itemCount: _barChartList!.length,
       itemBuilder: (BuildContext context, int index) {
         return Container(
           height: MediaQuery.of(context).size.height/ 2.3,
@@ -61,7 +61,7 @@ class _BarChartGraphState extends State<BarChartGraph> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(_barChartList[index].month,
+                  Text(_barChartList![index].month!,
                       style: TextStyle(
                           color: Colur.txt_white, fontSize: 22,
                           fontWeight: FontWeight.bold)

@@ -8,7 +8,7 @@ import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Utils.dart';
 
 class HeightScreen extends StatefulWidget {
-  bool isBack;
+  bool? isBack;
 
   HeightScreen({this.isBack}){
     isBack = true;
@@ -43,7 +43,7 @@ class _HeightScreenState extends State<HeightScreen> {
           Container(
             margin: EdgeInsets.only(top:fullHeight*0.05),
             child: Text(
-              Languages.of(context).txtHowTallAreYou,
+              Languages.of(context)!.txtHowTallAreYou,
               style: TextStyle(
                   fontWeight: FontWeight.w700,
                   color: Colur.txt_white,
@@ -54,7 +54,7 @@ class _HeightScreenState extends State<HeightScreen> {
           Container(
             margin: EdgeInsets.only(top: 20),
             child: Text(
-              Languages.of(context).txtHeightDescription,
+              Languages.of(context)!.txtHeightDescription,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.w400,
@@ -81,7 +81,7 @@ class _HeightScreenState extends State<HeightScreen> {
               height: 60,
               radius: 50.0,
               child: Text(
-                Languages.of(context).txtNextStep,
+                Languages.of(context)!.txtNextStep,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
@@ -99,7 +99,7 @@ class _HeightScreenState extends State<HeightScreen> {
                 ],
               ),
               onPressed: () {
-                unit == Languages.of(context).txtCM ?
+                unit == Languages.of(context)!.txtCM ?
                   Utils.showToast(context, "$cmHeight $unit") :
                 Utils.showToast(context, "$ftHeight' $inchHeight\" $unit") ;
 
@@ -120,7 +120,7 @@ class _HeightScreenState extends State<HeightScreen> {
     );
   }
 
-  _heightUnitPicker([double fullHeight]) {
+  _heightUnitPicker(double fullHeight) {
     return Container(
       margin: EdgeInsets.only(top: fullHeight*0.03),
       height: 60,
@@ -138,7 +138,7 @@ class _HeightScreenState extends State<HeightScreen> {
               setState(() {
                 cmSelected = true;
                 ftSelected = false;
-                unit = Languages.of(context).txtCM;
+                unit = Languages.of(context)!.txtCM;
                 Debug.printLog("$unit selected");
               });
             },
@@ -146,7 +146,7 @@ class _HeightScreenState extends State<HeightScreen> {
               width: 100,
               child: Center(
                 child: Text(
-                  Languages.of(context).txtCM,
+                  Languages.of(context)!.txtCM,
                   style: TextStyle(
                       color: cmSelected ? Colur.txt_white : Colur.txt_grey,
                       fontWeight: FontWeight.w500,
@@ -168,7 +168,7 @@ class _HeightScreenState extends State<HeightScreen> {
               setState(() {
                 cmSelected = false;
                 ftSelected = true;
-                unit = Languages.of(context).txtFT;
+                unit = Languages.of(context)!.txtFT;
                 Debug.printLog("$unit selected");
               });
             },
@@ -176,7 +176,7 @@ class _HeightScreenState extends State<HeightScreen> {
               width: 100,
               child: Center(
                 child: Text(
-                  Languages.of(context).txtFT,
+                  Languages.of(context)!.txtFT,
                   style: TextStyle(
                       color: ftSelected ? Colur.txt_white : Colur.txt_grey,
                       fontWeight: FontWeight.w500,
@@ -191,7 +191,7 @@ class _HeightScreenState extends State<HeightScreen> {
   }
   
   _heightSelector(double fullHeight) {
-    if(unit == Languages.of(context).txtFT) {
+    if(unit == Languages.of(context)!.txtFT) {
       return Expanded(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

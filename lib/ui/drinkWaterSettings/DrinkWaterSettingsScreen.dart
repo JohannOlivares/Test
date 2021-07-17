@@ -16,8 +16,8 @@ class DrinkWaterSettingsScreen extends StatefulWidget {
 }
 
 class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> implements TopBarClickListener{
-  var capacityUnits = '10';
-  var targetValue = '500';
+  String? capacityUnits = '10';
+  String? targetValue = '500';
   bool isReminder = true;
   List<String> capacityList = ['50','60','70','80','90','100','110','120','130','140','150'];
   List<String> targetList = ['500','1000','1500','2000','2500','3000','3500','4000','4500','5000'];
@@ -33,7 +33,7 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
             children: [
               //Top Bar
               Container(
-                child: CommonTopBar(Languages.of(context).txtSettings, this, isShowBack: true,),
+                child: CommonTopBar(Languages.of(context)!.txtSettings, this, isShowBack: true,),
               ),
 
               buildListView(context, fullWidth),
@@ -54,7 +54,7 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
           children: [
             ListTile(
               title: Text(
-                Languages.of(context).txtCupCapacityUnits,
+                Languages.of(context)!.txtCupCapacityUnits,
                 style: TextStyle(
                     color: Colur.txt_white,
                     fontSize: 18,
@@ -81,7 +81,7 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
                     ),
                   );
                 }).toList(),
-                onChanged: (value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     capacityUnits = value;
                   });
@@ -95,7 +95,7 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
             ),
             ListTile(
               title: Text(
-                Languages.of(context).txtTarget,
+                Languages.of(context)!.txtTarget,
                 style: TextStyle(
                     color: Colur.txt_white,
                     fontSize: 18,
@@ -103,7 +103,7 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
                 ),
               ),
               subtitle: Text(
-                Languages.of(context).txtTargetDesc,
+                Languages.of(context)!.txtTargetDesc,
                 style: TextStyle(
                     color: Colur.txt_grey,
                     fontSize: 14,
@@ -130,7 +130,7 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
                     ),
                   );
                 }).toList(),
-                onChanged: (value) {
+                onChanged: (dynamic value) {
                   setState(() {
                     targetValue = value;
                   });
@@ -146,7 +146,7 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
               onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => DrinkWaterReminderScreen())),
               child: ListTile(
                 title: Text(
-                  Languages.of(context).txtReminder,
+                  Languages.of(context)!.txtReminder,
                   style: TextStyle(
                       color: Colur.txt_white,
                       fontSize: 18,

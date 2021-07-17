@@ -9,7 +9,7 @@ import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Utils.dart';
 
 class HomeWizardScreen extends StatefulWidget {
-  const HomeWizardScreen({Key key}) : super(key: key);
+  const HomeWizardScreen({Key? key}) : super(key: key);
 
   @override
   _HomeWizardScreenState createState() => _HomeWizardScreenState();
@@ -17,7 +17,7 @@ class HomeWizardScreen extends StatefulWidget {
 
 class _HomeWizardScreenState extends State<HomeWizardScreen> {
   PageController _myPage = PageController(initialPage: 0);
-  int num;
+  int? num;
 
   @override
   void initState() {

@@ -99,7 +99,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Text(
-                            Languages.of(context).txtRunTracker,
+                            Languages.of(context)!.txtRunTracker,
                             textAlign: TextAlign.left,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -123,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding: const EdgeInsets.symmetric(
                                 vertical: 2.5, horizontal: 5.0),
                             child: Text(
-                              Languages.of(context).txtPro.toUpperCase(),
+                              Languages.of(context)!.txtPro.toUpperCase(),
                               textAlign: TextAlign.center,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -139,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Container(
                         margin: const EdgeInsets.only(top: 5.0),
                         child: Text(
-                          Languages.of(context).txtGoFasterSmarter,
+                          Languages.of(context)!.txtGoFasterSmarter,
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -182,7 +182,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Container(
                     margin: const EdgeInsets.only(left: 25.0),
                     child: Text(
-                      Languages.of(context).txtRemoveAddForever,
+                      Languages.of(context)!.txtRemoveAddForever,
                       textAlign: TextAlign.left,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -209,7 +209,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Container(
                     margin: const EdgeInsets.only(left: 25.0),
                     child: Text(
-                      Languages.of(context).txtUnlockAllTrainingPlans,
+                      Languages.of(context)!.txtUnlockAllTrainingPlans,
                       textAlign: TextAlign.left,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -236,7 +236,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Container(
                     margin: const EdgeInsets.only(left: 25.0),
                     child: Text(
-                      Languages.of(context).txtDeeperAnalysis,
+                      Languages.of(context)!.txtDeeperAnalysis,
                       textAlign: TextAlign.left,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -257,7 +257,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 50.0,
                 radius: 50.0,
                 child: Text(
-                  Languages.of(context).txtStart.toUpperCase(),
+                  Languages.of(context)!.txtStart.toUpperCase(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
@@ -297,7 +297,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               Expanded(
                 child: Text(
-                  Languages.of(context).txtMyProgress,
+                  Languages.of(context)!.txtMyProgress,
                   textAlign: TextAlign.left,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -309,7 +309,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               Text(
-                Languages.of(context).txtMore.toUpperCase(),
+                Languages.of(context)!.txtMore.toUpperCase(),
                 textAlign: TextAlign.left,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -336,7 +336,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Text(
-            Languages.of(context).txtTotalKM.toUpperCase(),
+            Languages.of(context)!.txtTotalKM.toUpperCase(),
             textAlign: TextAlign.left,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -367,7 +367,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: EdgeInsets.only(top: 10.0),
                       child: Text(
-                        Languages.of(context).txtTotalHours.toUpperCase(),
+                        Languages.of(context)!.txtTotalHours.toUpperCase(),
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -402,7 +402,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: EdgeInsets.only(top: 10.0),
                       child: Text(
-                        Languages.of(context).txtTotalKCAL.toUpperCase(),
+                        Languages.of(context)!.txtTotalKCAL.toUpperCase(),
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -437,7 +437,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: EdgeInsets.only(top: 10.0),
                       child: Text(
-                        Languages.of(context).txtAvgPace.toUpperCase(),
+                        Languages.of(context)!.txtAvgPace.toUpperCase(),
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -468,7 +468,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            Languages.of(context).txtDrinkWater,
+            Languages.of(context)!.txtDrinkWater,
             textAlign: TextAlign.left,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -554,7 +554,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           barTouchResponse.touchInput is! PointerUpEvent &&
                           barTouchResponse.touchInput is! PointerExitEvent) {
                         touchedIndex =
-                            barTouchResponse.spot.touchedBarGroupIndex;
+                            barTouchResponse.spot!.touchedBarGroupIndex;
                       } else {
                         touchedIndex = -1;
                       }
@@ -607,7 +607,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             width: double.infinity,
             margin: EdgeInsets.only(top: 20.0),
             child: Text(
-              Languages.of(context).txtDailyAverage + " : " + "2,000",
+              Languages.of(context)!.txtDailyAverage + " : " + "2,000",
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -622,7 +622,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             width: double.infinity,
             margin: EdgeInsets.only(top: 20.0),
             child: Text(
-              Languages.of(context).txtWeek,
+              Languages.of(context)!.txtWeek,
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -694,7 +694,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            Languages.of(context).txtBestRecords,
+            Languages.of(context)!.txtBestRecords,
             textAlign: TextAlign.left,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -722,7 +722,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          Languages.of(context).txtLongestDistance,
+                          Languages.of(context)!.txtLongestDistance,
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -752,7 +752,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   padding: const EdgeInsets.only(
                                       left: 5.0, bottom: 3.0),
                                   child: Text(
-                                    Languages.of(context).txtMILE.toLowerCase(),
+                                    Languages.of(context)!.txtMILE.toLowerCase(),
                                     textAlign: TextAlign.left,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -808,7 +808,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          Languages.of(context).txtBestPace,
+                          Languages.of(context)!.txtBestPace,
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -837,7 +837,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: const EdgeInsets.only(
                                     left: 5.0, bottom: 3.0),
                                 child: Text(
-                                  Languages.of(context).txtMinMi.toLowerCase(),
+                                  Languages.of(context)!.txtMinMi.toLowerCase(),
                                   textAlign: TextAlign.left,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -878,7 +878,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          Languages.of(context).txtLongestDuration,
+                          Languages.of(context)!.txtLongestDuration,
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -945,7 +945,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         child: ExpansionTile(
           title: Text(
-            Languages.of(context).txtFastestTime,
+            Languages.of(context)!.txtFastestTime,
             textAlign: TextAlign.left,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -978,7 +978,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Container(
                           margin: const EdgeInsets.symmetric(horizontal: 25.0),
                           child: Text(
-                            Languages.of(context).txtBest.toUpperCase() +
+                            Languages.of(context)!.txtBest.toUpperCase() +
                                 " 400M",
                             textAlign: TextAlign.left,
                             maxLines: 1,

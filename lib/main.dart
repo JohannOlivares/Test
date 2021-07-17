@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:run_tracker/MyHomePage.dart';
-import 'package:run_tracker/common/bottombar/BottomBar.dart';
-import 'package:run_tracker/ui/countdowntimer/CountdownTimerScreen.dart';
-import 'package:run_tracker/ui/home/HomeScreen.dart';
+import 'package:run_tracker/dbhelper/database.dart';
 import 'package:run_tracker/ui/home/HomeWizardScreen.dart';
 import 'package:run_tracker/ui/profile/ProfileScreen.dart';
-import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/settings/SettingScreen.dart';
-import 'package:run_tracker/ui/startRun/PausePopupScreen.dart';
 import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/ui/useLocation/UseLocationScreen.dart';
-import 'package:run_tracker/ui/weeklygoalSetScreen/WeeklyGoalSetScreen.dart';
 import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
-import 'package:run_tracker/ui/wizardScreen/GenderScreen.dart';
-import 'package:run_tracker/ui/WelcomeDialogScreen.dart';
 import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 
 import 'localization/locale_constant.dart';
 import 'localization/localizations_delegate.dart';
-import 'ui/wizardScreen/GenderScreen.dart';
 import 'ui/wizardScreen/WizardScreen.dart';
 
-void main() {
-  runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final database = await $FloorFlutterDatabase.databaseBuilder('flutter_database.db').build();
+
+  // final dao = database.runningDao;
+
+  runApp(MyApp(database));
 }
 
 class MyApp extends StatefulWidget {
+  FlutterDatabase? database;
+
+  MyApp(this.database);
+
   static void setLocale(BuildContext context, Locale newLocale) {
-    var state = context.findAncestorStateOfType<_MyAppState>();
+    var state = context.findAncestorStateOfType<_MyAppState>()!;
     state.setLocale(newLocale);
   }
 
@@ -39,7 +39,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale _locale;
+  Locale? _locale;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         builder: (context, child) {
           return MediaQuery(
-            child: child,
+            child: child!,
             data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
           );
         },
@@ -87,12 +87,12 @@ class _MyAppState extends State<MyApp> {
         ],
         localeResolutionCallback: (locale, supportedLocales) {
           for (var supportedLocale in supportedLocales) {
-            if (supportedLocale?.languageCode == locale?.languageCode &&
-                supportedLocale?.countryCode == locale?.countryCode) {
+            if (supportedLocale.languageCode == locale?.languageCode &&
+                supportedLocale.countryCode == locale?.countryCode) {
               return supportedLocale;
             }
           }
-          return supportedLocales?.first;
+          return supportedLocales.first;
         },
         darkTheme: ThemeData(
           brightness: Brightness.dark,

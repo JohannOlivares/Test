@@ -15,9 +15,9 @@ class RatingDialog extends StatefulWidget {
 }
 
 class _RatingDialogState extends State<RatingDialog> {
-  double rating;
-  String emoji;
-  String emojiTitle;
+  late double rating;
+  String? emoji;
+  late String emojiTitle;
 
   @override
   void initState() {
@@ -45,7 +45,7 @@ class _RatingDialogState extends State<RatingDialog> {
   @override
   Widget build(BuildContext context) {
     if (emoji == 'assets/icons/ic_emoji_good.webp')
-      emojiTitle = Languages.of(context).txtGood;
+      emojiTitle = Languages.of(context)!.txtGood;
     return Container(
       color: Colur.transparent,
       child: Stack(
@@ -104,19 +104,19 @@ class _RatingDialogState extends State<RatingDialog> {
                         setState(() {
                           if (rating <= 1.0) {
                             emoji = 'assets/icons/ic_emoji_terrible.webp';
-                            emojiTitle = Languages.of(context).txtTerrible;
+                            emojiTitle = Languages.of(context)!.txtTerrible;
                           } else if (rating <= 2.0) {
                             emoji = 'assets/icons/ic_emoji_bad.webp';
-                            emojiTitle = Languages.of(context).txtBad;
+                            emojiTitle = Languages.of(context)!.txtBad;
                           } else if (rating <= 3.0) {
                             emoji = 'assets/icons/ic_emoji_okay.webp';
-                            emojiTitle = Languages.of(context).txtOkay;
+                            emojiTitle = Languages.of(context)!.txtOkay;
                           } else if (rating <= 4.0) {
                             emoji = 'assets/icons/ic_emoji_good.webp';
-                            emojiTitle = Languages.of(context).txtGood;
+                            emojiTitle = Languages.of(context)!.txtGood;
                           } else if (rating <= 5.0) {
                             emoji = 'assets/icons/ic_emoji_great.webp';
-                            emojiTitle = Languages.of(context).txtGreat;
+                            emojiTitle = Languages.of(context)!.txtGreat;
                           }
                         });
                       },
@@ -125,7 +125,7 @@ class _RatingDialogState extends State<RatingDialog> {
                   Container(
                     margin: EdgeInsets.only(top: 40.0, left: 20.0, right: 20.0),
                     child: Text(
-                      Languages.of(context).txtBestWeCanGet + " :)",
+                      Languages.of(context)!.txtBestWeCanGet + " :)",
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -144,7 +144,7 @@ class _RatingDialogState extends State<RatingDialog> {
                       height: 55,
                       radius: 50.0,
                       child: Text(
-                        Languages.of(context).txtRate.toUpperCase(),
+                        Languages.of(context)!.txtRate.toUpperCase(),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
@@ -176,7 +176,7 @@ class _RatingDialogState extends State<RatingDialog> {
             height: 120.0,
             width: 120.0,
             child: Image.asset(
-              emoji,
+              emoji!,
               fit: BoxFit.fill,
             ),
           ),

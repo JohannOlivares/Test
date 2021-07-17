@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class CustomTimer extends StatefulWidget {
-  const CustomTimer({Key key}) : super(key: key);
+  const CustomTimer({Key? key}) : super(key: key);
 
   @override
   _CustomTimerState createState() => _CustomTimerState();
@@ -11,21 +11,21 @@ class CustomTimer extends StatefulWidget {
 
 class _CustomTimerState extends State<CustomTimer> {
   bool flag = true;
-  Stream<int> timerStream;
-  StreamSubscription<int> timerSubscription;
+  Stream<int>? timerStream;
+  late StreamSubscription<int> timerSubscription;
   String hoursStr = '00';
   String minutesStr = '00';
   String secondsStr = '00';
 
   Stream<int> stopWatchStream() {
-    StreamController<int> streamController;
-    Timer timer;
+    late StreamController<int> streamController;
+    Timer? timer;
     Duration timerInterval = Duration(seconds: 1);
     int counter = 0;
 
     void stopTimer() {
       if (timer != null) {
-        timer.cancel();
+        timer!.cancel();
         timer = null;
         counter = 0;
         streamController.close();
@@ -84,7 +84,7 @@ class _CustomTimerState extends State<CustomTimer> {
                   EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
                   onPressed: () {
                     timerStream = stopWatchStream();
-                    timerSubscription = timerStream.listen((int newTick) {
+                    timerSubscription = timerStream!.listen((int newTick) {
                       setState(() {
                         hoursStr = ((newTick / (60 * 60)) % 60)
                             .floor()

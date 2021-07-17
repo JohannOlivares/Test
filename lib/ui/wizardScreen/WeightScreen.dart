@@ -8,10 +8,10 @@ import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Utils.dart';
 
 class WeightScreen extends StatefulWidget {
-  PageController pageController;
-  Function updatevalue;
-  bool isBack;
-  Function pageNum;
+  PageController? pageController;
+  Function? updatevalue;
+  bool? isBack;
+  Function? pageNum;
 
   WeightScreen({this.pageController, this.updatevalue,this.isBack, this.pageNum}){
     isBack = true;
@@ -48,7 +48,7 @@ class _WeightScreenState extends State<WeightScreen> {
             margin: EdgeInsets.only(top: fullHeight*0.05),
             child: Text(
               Languages
-                  .of(context)
+                  .of(context)!
                   .txtHowMuchDoYouWeight,
               style: TextStyle(
                   fontWeight: FontWeight.w700,
@@ -61,7 +61,7 @@ class _WeightScreenState extends State<WeightScreen> {
             margin: EdgeInsets.only(top: 20),
             child: Text(
               Languages
-                  .of(context)
+                  .of(context)!
                   .txtHeightDescription,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -89,7 +89,7 @@ class _WeightScreenState extends State<WeightScreen> {
               radius: 50.0,
               child: Text(
                 Languages
-                    .of(context)
+                    .of(context)!
                     .txtNextStep,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -109,16 +109,16 @@ class _WeightScreenState extends State<WeightScreen> {
               ),
               onPressed: () {
                 setState(() {
-                  widget.updatevalue(1.0);
-                  widget.pageNum(3);
+                  widget.updatevalue!(1.0);
+                  widget.pageNum!(3);
                 });
-                if(unit == Languages.of(context).txtLBS) {
+                if(unit == Languages.of(context)!.txtLBS) {
                   Utils.showToast(context, "$weightLBS $unit");
                 } else{
                   Utils.showToast(context, "$weightKG $unit");
                 }
 
-                widget.pageController.nextPage(
+                widget.pageController!.nextPage(
                   duration: const Duration(milliseconds: 400),
                   curve: Curves.easeInOut,
                 );
@@ -131,7 +131,7 @@ class _WeightScreenState extends State<WeightScreen> {
     );
   }
 
-  weightUnitPicker([double fullHeight]) {
+  weightUnitPicker(double fullHeight) {
     return Container(
       margin: EdgeInsets.only(top: fullHeight*0.03),
       height: 60,
@@ -149,7 +149,7 @@ class _WeightScreenState extends State<WeightScreen> {
               setState(() {
                 kgSelected = true;
                 lbsSelected = false;
-                unit = Languages.of(context).txtKG;
+                unit = Languages.of(context)!.txtKG;
               });
               Debug.printLog("$unit selected");
             },
@@ -157,7 +157,7 @@ class _WeightScreenState extends State<WeightScreen> {
               width: 100,
               child: Center(
                 child: Text(
-                  Languages.of(context).txtKG,
+                  Languages.of(context)!.txtKG,
                   style: TextStyle(
                       color: kgSelected ? Colur.txt_white: Colur.txt_grey,
                       fontWeight: FontWeight.w500,
@@ -179,7 +179,7 @@ class _WeightScreenState extends State<WeightScreen> {
               setState(() {
                 kgSelected = false;
                 lbsSelected = true;
-                unit = Languages.of(context).txtLBS;
+                unit = Languages.of(context)!.txtLBS;
                 Debug.printLog("$unit selected");
               });
             },
@@ -187,7 +187,7 @@ class _WeightScreenState extends State<WeightScreen> {
               width: 100,
               child: Center(
                 child: Text(
-                  Languages.of(context).txtLBS,
+                  Languages.of(context)!.txtLBS,
                   style: TextStyle(
                       color: lbsSelected ? Colur.txt_white : Colur.txt_grey,
                       fontWeight: FontWeight.w500,
@@ -223,7 +223,7 @@ class _WeightScreenState extends State<WeightScreen> {
                 selectionOverlay: CupertinoPickerDefaultSelectionOverlay(background: Colur.transparent,),
                 onSelectedItemChanged: (value) {
                   setState(() {
-                    if (unit ==Languages.of(context).txtLBS) {
+                    if (unit ==Languages.of(context)!.txtLBS) {
                       value+=44;
                       weightLBS = value;
                       Debug.printLog("$weightLBS $unit selected");
@@ -236,7 +236,7 @@ class _WeightScreenState extends State<WeightScreen> {
 
                 },
                 itemExtent: 75.0,
-                children: unit == Languages.of(context).txtLBS ? List.generate(2155, (index) {
+                children: unit == Languages.of(context)!.txtLBS ? List.generate(2155, (index) {
                   index+=44;
                   return Text(
                     "$index",

@@ -7,11 +7,11 @@ class CustomTabBar extends StatefulWidget {
   final Widget forDistance;
 
   const CustomTabBar({
-    Key key,
-    @required this.tab1,
-    @required this.tab2,
-    @required this.forHeart,
-    @required this.forDistance,
+    Key? key,
+    required this.tab1,
+    required this.tab2,
+    required this.forHeart,
+    required this.forDistance,
   }):super(key: key);
   @override
   _CustomTabBarState createState() => _CustomTabBarState();

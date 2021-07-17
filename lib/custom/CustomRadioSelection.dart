@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 class CustomRadioSelection extends StatefulWidget {
   final String unit1;
   final String unit2;
-  final String unit3;
-  final String unit4;
+  final String? unit3;
+  final String? unit4;
   final bool visible;
-  final Function onPressed1;
+  final Function? onPressed1;
   const CustomRadioSelection({
-    Key key,
-    @required this.unit1,
-    @required this.unit2,
+    Key? key,
+    required this.unit1,
+    required this.unit2,
     this.unit3,
     this.unit4,
-    @required this.visible, this.onPressed1
+    required this.visible, this.onPressed1
   }):super(key: key);
 
   @override
@@ -26,7 +26,7 @@ class _CustomRadioSelectionState extends State<CustomRadioSelection> {
   bool unit3 = false;
   bool unit4 = false;
 
-  String unit;
+  String? unit;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -110,7 +110,7 @@ class _CustomRadioSelectionState extends State<CustomRadioSelection> {
                 width: widget.visible ? 81: 100,
                 child: Center(
                   child: Text(
-                    widget.visible ? widget.unit3 : "",
+                    widget.visible ? widget.unit3! : "",
                     style: TextStyle(
                         color: unit3 ? Colors.white : Color(0xFF9195B6),
                         fontWeight: FontWeight.w500,
@@ -138,7 +138,7 @@ class _CustomRadioSelectionState extends State<CustomRadioSelection> {
                 width: widget.visible ? 81: 100,
                 child: Center(
                   child: Text(
-                    widget.visible ? widget.unit4 : "",
+                    widget.visible ? widget.unit4! : "",
                     style: TextStyle(
                         color: unit4 ? Colors.white : Color(0xFF9195B6),
                         fontWeight: FontWeight.w500,

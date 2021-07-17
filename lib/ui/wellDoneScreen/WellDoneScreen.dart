@@ -15,7 +15,7 @@ import '../../localization/language/languages.dart';
 import '../../localization/language/languages.dart';
 
 class WellDoneScreen extends StatefulWidget {
-  const WellDoneScreen({Key key}) : super(key: key);
+  const WellDoneScreen({Key? key}) : super(key: key);
 
   @override
   _WellDoneScreenState createState() => _WellDoneScreenState();
@@ -53,7 +53,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                       Container(
                         margin: EdgeInsets.only(top: fullheight * 0.19,bottom: 25),
                         child: Text(
-                          Languages.of(context).txtWellDone.toUpperCase(),
+                          Languages.of(context)!.txtWellDone.toUpperCase(),
                           style: TextStyle(
                               fontWeight: FontWeight.w700,
                               color: Colur.txt_white,
@@ -132,7 +132,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                   Container(
                     padding: EdgeInsets.only(left: 2, bottom: 7),
                     child: Text(
-                      Languages.of(context).txtDuration,
+                      Languages.of(context)!.txtDuration,
                       style: TextStyle(
                           color: Colur.txt_grey,
                           fontWeight: FontWeight.w500,
@@ -156,7 +156,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                   Container(
                     padding: EdgeInsets.only(right: 2, bottom: 7),
                     child: Text(
-                      Languages.of(context).txtDistanceKM,
+                      Languages.of(context)!.txtDistanceKM,
                       style: TextStyle(
                           color: Colur.txt_grey,
                           fontWeight: FontWeight.w500,
@@ -188,7 +188,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                     Container(
                       padding: EdgeInsets.only(left: 2, bottom: 7),
                       child: Text(
-                        Languages.of(context).txtPaceMinPerKM,
+                        Languages.of(context)!.txtPaceMinPerKM,
                         style: TextStyle(
                             color: Colur.txt_grey,
                             fontWeight: FontWeight.w500,
@@ -212,7 +212,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                     Container(
                       padding: EdgeInsets.only(left: 2, bottom: 7),
                       child: Text(
-                        Languages.of(context).txtKCAL,
+                        Languages.of(context)!.txtKCAL,
                         style: TextStyle(
                             color: Colur.txt_grey,
                             fontWeight: FontWeight.w500,
@@ -236,7 +236,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                     Container(
                       padding: EdgeInsets.only(right: 2, bottom: 7),
                       child: Text(
-                        Languages.of(context).txtMovingTime,
+                        Languages.of(context)!.txtMovingTime,
                         style: TextStyle(
                             color: Colur.txt_grey,
                             fontWeight: FontWeight.w500,
@@ -273,7 +273,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
             height: 60,
             radius: 13.0,
             child: Text(
-              Languages.of(context).txtDetails,
+              Languages.of(context)!.txtDetails,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
@@ -298,7 +298,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
             height: 60,
             radius: 13.0,
             child: Text(
-              Languages.of(context).txtShare,
+              Languages.of(context)!.txtShare,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
@@ -340,7 +340,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
               child: Column(
                 children: [
                   Text(
-                    Languages.of(context).txtAreYouSatisfiedWithDescription,
+                    Languages.of(context)!.txtAreYouSatisfiedWithDescription,
                     maxLines: 2,
                     softWrap: true,
                     textAlign: TextAlign.center,
@@ -359,7 +359,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                           height: 60,
                           radius: 10.0,
                           child: Text(
-                            Languages.of(context).txtNotReally,
+                            Languages.of(context)!.txtNotReally,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
@@ -384,7 +384,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                           height: 60,
                           radius: 10.0,
                           child: Text(
-                            Languages.of(context).txtGood,
+                            Languages.of(context)!.txtGood,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,

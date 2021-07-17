@@ -5,7 +5,7 @@ import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 
 class SettingScreen extends StatefulWidget {
-  const SettingScreen({Key key}) : super(key: key);
+  const SettingScreen({Key? key}) : super(key: key);
 
   @override
   _SettingScreenState createState() => _SettingScreenState();
@@ -14,13 +14,13 @@ class SettingScreen extends StatefulWidget {
 class _SettingScreenState extends State<SettingScreen>
     implements TopBarClickListener {
 
-  List<String> units;
-  String _chosenValue;
+  late List<String> units;
+  String? _chosenValue;
 
   @override
   Widget build(BuildContext context) {
 
-    units = [Languages.of(context).txtKM, Languages.of(context).txtMILE];
+    units = [Languages.of(context)!.txtKM, Languages.of(context)!.txtMILE];
     if (_chosenValue == null) _chosenValue = units[0];
 
     return Scaffold(
@@ -32,7 +32,7 @@ class _SettingScreenState extends State<SettingScreen>
               //Top Bar
               Container(
                 child: CommonTopBar(
-                  Languages.of(context).txtSettings,
+                  Languages.of(context)!.txtSettings,
                   this,
                   isShowBack: true,
                 ),
@@ -44,7 +44,7 @@ class _SettingScreenState extends State<SettingScreen>
                   children: [
                     Expanded(
                       child: Text(
-                        Languages.of(context).txtTroubleShooting,
+                        Languages.of(context)!.txtTroubleShooting,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colur.txt_white,
@@ -71,7 +71,7 @@ class _SettingScreenState extends State<SettingScreen>
                   children: [
                     Expanded(
                       child: Text(
-                        Languages.of(context).txtMetricAndImperialUnits,
+                        Languages.of(context)!.txtMetricAndImperialUnits,
                         textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colur.txt_white,
@@ -98,7 +98,7 @@ class _SettingScreenState extends State<SettingScreen>
                           child: Text(value),
                         );
                       }).toList(),
-                      onChanged: (String value) {
+                      onChanged: (String? value) {
                         setState(() {
                           _chosenValue = value;
                         });

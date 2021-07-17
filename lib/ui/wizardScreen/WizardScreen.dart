@@ -13,17 +13,17 @@ import 'package:run_tracker/utils/Debug.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 class WizardScreen extends StatefulWidget {
-  const WizardScreen({Key key}) : super(key: key);
+  const WizardScreen({Key? key}) : super(key: key);
 
   @override
   _WizardScreenState createState() => _WizardScreenState();
 }
 
 class _WizardScreenState extends State<WizardScreen> {
-  double _updateValue;
+  double? _updateValue;
   PageController pageController = new PageController();
   bool isBack = false;
-  int pageNum;
+  late int pageNum;
 
 
   @override
@@ -100,7 +100,7 @@ class _WizardScreenState extends State<WizardScreen> {
   updateValue(double progress) {
     setState(() {
       _updateValue = progress;
-      if (_updateValue.toStringAsFixed(1) == '1.2') {
+      if (_updateValue!.toStringAsFixed(1) == '1.2') {
         _updateValue = 0.0;
         return;
       }
@@ -125,17 +125,17 @@ class _WizardScreenState extends State<WizardScreen> {
               onTap: () {
                 if (pageController.hasClients) {
 
-                  if (pageController.page.round() == 0) {
+                  if (pageController.page!.round() == 0) {
                     setState(() {
                       isBack = false;
                     });
                   }
-                  if(pageController.page.round() != 0) {
+                  if(pageController.page!.round() != 0) {
                     pageController.previousPage(
                       duration: const Duration(milliseconds: 400),
                       curve: Curves.easeInOut,
                     );
-                    updateValue(_updateValue - 0.30);
+                    updateValue(_updateValue! - 0.30);
                     updagePageNumber(pageNum -1);
                   }
                 }

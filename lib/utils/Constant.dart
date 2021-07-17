@@ -61,21 +61,21 @@ class Constant {
       return MAIN_URL;
   }
 
-  static String getPrivacyPolicyURL() {
+  static String? getPrivacyPolicyURL() {
     return getMainURL() + "/privacy_policy.html";
   }
 
-  static String getTermsConditionURL() {
+  static String? getTermsConditionURL() {
     // return getMainURL() + "/terms_of_service";
     return getMainURL() + "/terms_of_use.html";
   }
 
-  static String getFAQURL() {
+  static String? getFAQURL() {
     // return getMainURL() + "/faq";
     return getMainURL() + "/faq.html";
   }
 
-  static String getContactUsURL() {
+  static String? getContactUsURL() {
     // return getMainURL() + "/contact_us";
     return getMainURL() + "/faq.html";
   }

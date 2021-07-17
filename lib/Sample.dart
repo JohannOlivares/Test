@@ -7,7 +7,7 @@ import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
 
 class WeeklyGoalSetScreen extends StatefulWidget {
-  const WeeklyGoalSetScreen({Key key}) : super(key: key);
+  const WeeklyGoalSetScreen({Key? key}) : super(key: key);
 
   @override
   _WeeklyGoalSetScreenState createState() => _WeeklyGoalSetScreenState();
@@ -42,7 +42,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
             Container(
               margin: EdgeInsets.only(top: fullHeight * 0.15),
               child: Text(
-                Languages.of(context).txtYourWeeklyGoalIsReady,
+                Languages.of(context)!.txtYourWeeklyGoalIsReady,
                 style: TextStyle(
                     fontWeight: FontWeight.w700,
                     color: Colur.txt_white,
@@ -55,8 +55,8 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               child: Container(
                 margin: EdgeInsets.only(top: fullHeight * 0.07),
                 child: CustomTabBar(
-                    tab1: Languages.of(context).txtHeartHealth,
-                    tab2: Languages.of(context).txtDistance,
+                    tab1: Languages.of(context)!.txtHeartHealth,
+                    tab2: Languages.of(context)!.txtDistance,
                     forHeart: _forHeart(fullHeight,fullWidth),
                     forDistance: _forDistance(fullHeight)),
               ),
@@ -71,7 +71,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
     );
   }
 
-  Widget _forHeart([double fullHeight,double fullWidth]) {
+  Widget _forHeart(double fullHeight,double fullWidth) {
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(top: fullHeight * 0.06),
@@ -101,7 +101,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                   children: [
                     Container(
                       child: Text(
-                        Languages.of(context).txt150MinBriskWalking.toUpperCase(),
+                        Languages.of(context)!.txt150MinBriskWalking.toUpperCase(),
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: Colur.txt_white,
@@ -112,7 +112,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 8.0, top: 5.0),
                         child: Text(
-                          Languages.of(context).txtPaceBetween9001500MinKm,
+                          Languages.of(context)!.txtPaceBetween9001500MinKm,
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colur.txt_grey,
@@ -129,7 +129,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(vertical: 15),
               child: Text(
-                Languages.of(context).txtOR,
+                Languages.of(context)!.txtOR,
                 style: TextStyle(
                     color: Colur.txt_grey,
                     fontSize: 20,
@@ -160,7 +160,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                   children: [
                     Container(
                       child: Text(
-                        Languages.of(context).txt75MinRunning.toUpperCase(),
+                        Languages.of(context)!.txt75MinRunning.toUpperCase(),
                         style: TextStyle(
                             fontWeight: FontWeight.w700,
                             color: Colur.txt_white,
@@ -171,7 +171,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 8.0, top: 5.0),
                         child: Text(
-                          Languages.of(context).txtPaceover900MinKm,
+                          Languages.of(context)!.txtPaceover900MinKm,
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colur.txt_grey,
@@ -199,7 +199,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                     Padding(
                       padding: const EdgeInsets.only(left:10.0),
                       child: Text(
-                        Languages.of(context).txtYouCanCombineTheseTwoDescription,maxLines: 2,
+                        Languages.of(context)!.txtYouCanCombineTheseTwoDescription,maxLines: 2,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
@@ -216,7 +216,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
     );
   }
 
-  Widget _forDistance([double fullHeight]) {
+  Widget _forDistance(double fullHeight) {
     return Container(
       child: Column(
         children: [
@@ -232,7 +232,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
 
 
 
-  _distanceUnitTab([double fullHeight]) {
+  _distanceUnitTab(double fullHeight) {
     return Container(
       margin: EdgeInsets.only(top: fullHeight*0.03),
       height: 60,
@@ -252,7 +252,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
 
                 KmSelected = true;
                 MileSelected = false;
-                unit = Languages.of(context).txtKM;
+                unit = Languages.of(context)!.txtKM;
               });
               Debug.printLog("$unit selected");
             },
@@ -260,7 +260,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               width: 100,
               child: Center(
                 child: Text(
-                  Languages.of(context).txtKM,
+                  Languages.of(context)!.txtKM,
                   style: TextStyle(
                       color: KmSelected ? Colors.white : Color(0xFF9195B6),
                       fontWeight: FontWeight.w500,
@@ -282,7 +282,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               setState(() {
                 KmSelected = false;
                 MileSelected = true;
-                unit = Languages.of(context).txtMILE;
+                unit = Languages.of(context)!.txtMILE;
                 Debug.printLog("$unit selected");
               });
             },
@@ -290,7 +290,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               width: 100,
               child: Center(
                 child: Text(
-                  Languages.of(context).txtMILE,
+                  Languages.of(context)!.txtMILE,
                   style: TextStyle(
                       color: KmSelected ? Color(0xFF9195B6) : Colur.white,
                       fontWeight: FontWeight.w500,
@@ -314,7 +314,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
         radius: 50.0,
         child: Text(
           Languages
-              .of(context)
+              .of(context)!
               .txtSetAsMyGoal.toUpperCase(),
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -340,7 +340,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
     );
   }
 
-  _curpentinoPickerDesign([double fullHeight]) {
+  _curpentinoPickerDesign(double fullHeight) {
     return Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -400,10 +400,10 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
           ),
           (unit == "KM")?Container(
             margin: EdgeInsets.only(left: 5),
-            child: Text(Languages.of(context).txtKM,style: TextStyle(color: Colur.txt_white,fontSize: 20,fontWeight: FontWeight.w500),),
+            child: Text(Languages.of(context)!.txtKM,style: TextStyle(color: Colur.txt_white,fontSize: 20,fontWeight: FontWeight.w500),),
           ):Container(
             margin: EdgeInsets.only(left: 5),
-            child: Text(Languages.of(context).txtMILE,style: TextStyle(color: Colur.txt_white,fontSize: 20,fontWeight: FontWeight.w500),),
+            child: Text(Languages.of(context)!.txtMILE,style: TextStyle(color: Colur.txt_white,fontSize: 20,fontWeight: FontWeight.w500),),
           ),
         ],
       ),

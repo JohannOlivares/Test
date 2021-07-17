@@ -43,10 +43,10 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                           Container(
                             margin: EdgeInsets.only(left: fullWidth*0.05),
                             child: CommonTopBar(
-                              Languages.of(context).txtRunTracker,
+                              Languages.of(context)!.txtRunTracker,
                               this,
                               isShowSubheader: true,
-                              subHeader: Languages.of(context).txtGoFasterSmarter,
+                              subHeader: Languages.of(context)!.txtGoFasterSmarter,
                               isInfo: true,
                             ),
                           ),
@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
   percentIndicator() {
     return SfRadialGauge(
         title: GaugeTitle(
-            text: Languages.of(context).txtHeartHealth,
+            text: Languages.of(context)!.txtHeartHealth,
             textStyle: const TextStyle(
                 fontSize: 22.0,
                 fontWeight: FontWeight.w500,
@@ -252,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  Languages.of(context).txtBestRecords,
+                  Languages.of(context)!.txtBestRecords,
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w500,
@@ -276,21 +276,21 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
       children: [
         bestRecordListTile(
             img: "ic_distance.webp",
-            text: Languages.of(context).txtLongestDistance,
+            text: Languages.of(context)!.txtLongestDistance,
             value: "0",
             unit: "mile",
             isNotDuration: true
         ),
         bestRecordListTile(
             img: "ic_best_pace.png",
-            text: Languages.of(context).txtBestPace,
+            text: Languages.of(context)!.txtBestPace,
             value: "0",
             unit: "min/mi",
             isNotDuration: true
         ),
         bestRecordListTile(
             img: "ic_duration.webp",
-            text: Languages.of(context).txtLongestDuration,
+            text: Languages.of(context)!.txtLongestDuration,
             value: "00:00",
             isNotDuration: false
         ),
@@ -299,11 +299,11 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
   }
 
   bestRecordListTile(
-      {String img,
-        String text,
-        String value,
-        String unit,
-        bool isNotDuration}) {
+      {String? img,
+        required String text,
+        required String value,
+        String? unit,
+        required bool isNotDuration}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: Container(
@@ -348,7 +348,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                         Visibility(
                           visible: isNotDuration,
                           child: Text(
-                            isNotDuration ? unit : "",
+                            isNotDuration ? unit! : "",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15,
@@ -379,7 +379,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                Languages.of(context).txtRecentActivities,
+                Languages.of(context)!.txtRecentActivities,
                 style: TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.w500,
@@ -391,7 +391,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                   //TODO
                 },
                 child: Text(
-                  Languages.of(context).txtMore,
+                  Languages.of(context)!.txtMore,
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w500,
@@ -447,13 +447,13 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
   }
 
   recentActivitiesListTile({
-    double fullHeight,
-    String img,
-    String date,
-    String distance,
-    String time,
-    String pace,
-    String calories
+    required double fullHeight,
+    String? img,
+    required String date,
+    required String distance,
+    required String time,
+    required String pace,
+    required String calories
   }) {
     return Padding(
       padding:  EdgeInsets.only(bottom: fullHeight*0.015),

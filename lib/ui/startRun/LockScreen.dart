@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/diagnostics.dart';
-import 'package:flutter/src/scheduler/ticker.dart';
-import 'package:run_tracker/localization/language/languages.dart';
-import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
-import 'package:run_tracker/utils/Color.dart';
-import 'package:run_tracker/utils/Constant.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'StartRunScreen.dart';
 
 class LockScreen extends StatefulWidget {
-  const LockScreen({Key key}) : super(key: key);
 
   @override
   _LockScreenState createState() => _LockScreenState();
@@ -51,7 +42,7 @@ class _LockScreenState extends State<LockScreen> with SingleTickerProviderStateM
   }
 }
 class PopUp extends StatefulWidget {
-  final AnimationController controller;
+  final AnimationController? controller;
 
   PopUp({this.controller});
 
@@ -60,19 +51,19 @@ class PopUp extends StatefulWidget {
 }
 
 class PopUpState extends State<PopUp> {
-  Animation<double> opacityAnimation;
+  Animation<double>? opacityAnimation;
   Tween<double> opacityTween = Tween<double>(begin: 0.0, end: 1.0);
   Tween<double> marginTopTween = Tween<double>(begin: 600, end: 200);
-  Animation<double> marginTopAnimation;
-  AnimationStatus animationStatus;
+  Animation<double>? marginTopAnimation;
+  AnimationStatus? animationStatus;
 
   @override
   void initState() {
     super.initState();
 
-    marginTopAnimation = marginTopTween.animate(widget.controller)
+    marginTopAnimation = marginTopTween.animate(widget.controller!)
       ..addListener(() {
-        animationStatus = widget.controller.status;
+        animationStatus = widget.controller?.status;
 
         if (animationStatus == AnimationStatus.dismissed) {
           Navigator.of(context).pop();
@@ -84,22 +75,22 @@ class PopUpState extends State<PopUp> {
           });
         }
       });
-    widget.controller.forward();
+    widget.controller?.forward();
   }
 
   @override
   Widget build(BuildContext context) {
     return FadeTransition(
-      opacity: opacityTween.animate(widget.controller),
+      opacity: opacityTween.animate(widget.controller!),
       child: GestureDetector(
         onTap: () {
-          widget.controller.reverse();
+          widget.controller?.reverse();
         },
         child: Material(
           color: Colors.transparent,
           child: Container(
             margin: EdgeInsets.only(
-              top: marginTopAnimation.value,
+              top: marginTopAnimation!.value,
             ),
             color: Colors.red,
             child: Text("Container"),
@@ -111,7 +102,7 @@ class PopUpState extends State<PopUp> {
 
   @override
   void dispose() {
-    widget.controller.dispose();
+    widget.controller!.dispose();
     super.dispose();
   }
 }

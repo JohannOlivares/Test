@@ -3,19 +3,24 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Preference.dart';
-import 'package:toast/toast.dart';
 
 class Utils {
   static showToast(BuildContext context, String msg,
-      {double duration = 2, int gravity}) {
-    if (gravity == null) gravity = Toast.BOTTOM;
-    Toast.show(msg, context,
-        duration: 2,
+      {double duration = 2, ToastGravity? gravity}) {
+    if (gravity == null) gravity = ToastGravity.BOTTOM;
+
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
         gravity: gravity,
+        timeInSecForIosWeb: 1,
         backgroundColor: Colur.txt_grey,
-        textColor: Colur.white);
+        textColor: Colur.white,
+        fontSize: 14.0
+    );
   }
 
   static bool isLogin() {

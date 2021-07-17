@@ -7,17 +7,17 @@ import 'package:run_tracker/utils/Utils.dart';
 
 class CountdownTimerScreen extends StatefulWidget {
   bool isGreen = false;
-  bool startTrack = true;
+  bool? startTrack = true;
 
-  CountdownTimerScreen({this.startTrack,@required this.isGreen});
+  CountdownTimerScreen({this.startTrack,required this.isGreen});
 
   @override
   _CountdownTimerScreenState createState() => _CountdownTimerScreenState();
 }
 
 class _CountdownTimerScreenState extends State<CountdownTimerScreen> with TickerProviderStateMixin{
-  AnimationController _controller;
-  AnimationStatus status;
+  AnimationController? _controller;
+  AnimationStatus? status;
 
 
   @override
@@ -36,7 +36,7 @@ class _CountdownTimerScreenState extends State<CountdownTimerScreen> with Ticker
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _controller!.dispose();
   }
 
 
@@ -64,7 +64,7 @@ class _CountdownTimerScreenState extends State<CountdownTimerScreen> with Ticker
             onLoaded: (composition) {
               // Configure the AnimationController with the duration of the
               // Lottie file and start the animation.
-              _controller
+              _controller!
                 ..duration = composition.duration
                 ..forward();
 
@@ -77,11 +77,11 @@ class _CountdownTimerScreenState extends State<CountdownTimerScreen> with Ticker
 
   void _timer() {
     widget.startTrack = true;
-    _controller.addListener(() => setState(() {}));
-    TickerFuture tickerFuture = _controller.forward();
+    _controller!.addListener(() => setState(() {}));
+    TickerFuture tickerFuture = _controller!.forward();
     tickerFuture.timeout(Duration(milliseconds: 3800), onTimeout:  () {
-      _controller.forward(from: 0);
-      _controller.stop(canceled: true);
+      _controller!.forward(from: 0);
+      _controller!.stop(canceled: true);
 
       Navigator.pop(context);
       /*Navigator.push(

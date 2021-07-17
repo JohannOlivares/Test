@@ -11,7 +11,7 @@ class LoadingButton extends StatefulWidget {
 
 class LoadingButtonState extends State<LoadingButton>
     with SingleTickerProviderStateMixin {
-  AnimationController controller;
+  AnimationController? controller;
 
   @override
   void initState() {
@@ -19,7 +19,7 @@ class LoadingButtonState extends State<LoadingButton>
 
     controller =
         AnimationController(vsync: this, duration: Duration(seconds: 1));
-    controller.addListener(() {
+    controller!.addListener(() {
       setState(() {});
     });
   }
@@ -29,10 +29,10 @@ class LoadingButtonState extends State<LoadingButton>
     return Scaffold(
       body: Center(
         child: GestureDetector(
-          onTapDown: (_) => controller.forward(),
+          onTapDown: (_) => controller!.forward(),
           onTapUp: (_) {
-            if (controller.status == AnimationStatus.forward) {
-              controller.reverse();
+            if (controller?.status == AnimationStatus.forward) {
+              controller?.reverse();
             }
           },
           child: Stack(
@@ -43,7 +43,7 @@ class LoadingButtonState extends State<LoadingButton>
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
               ),
               CircularProgressIndicator(
-                value: controller.value,
+                value: controller?.value,
                 valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
               ),
               Icon(Icons.add)

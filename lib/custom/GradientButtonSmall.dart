@@ -4,16 +4,16 @@ import 'package:run_tracker/utils/Color.dart';
 
 class GradientButtonSmall extends StatelessWidget {
   final Widget child;
-  final Gradient gradient;
-  final double width;
-  final double height;
-  final Function onPressed;
+  final Gradient? gradient;
+  final double? width;
+  final double? height;
+  final Function? onPressed;
   final double radius;
   final bool isShadow;
 
   const GradientButtonSmall(
-      {Key key,
-      @required this.child,
+      {Key? key,
+      required this.child,
       this.gradient,
       this.width,
       this.height,
@@ -44,7 +44,7 @@ class GradientButtonSmall extends StatelessWidget {
       child: Material(
         color: Colur.transparent,
         child: InkWell(
-            onTap: onPressed,
+            onTap: onPressed as void Function()?,
             child: Center(
               child: child,
             )),

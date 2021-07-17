@@ -15,7 +15,7 @@ import 'DataModel/BarChartModel.dart';
 import 'DataModel/bar_chart_graph.dart';
 
 class DrinkWaterLevelScreen extends StatefulWidget {
-  const DrinkWaterLevelScreen({Key key}) : super(key: key);
+  const DrinkWaterLevelScreen({Key? key}) : super(key: key);
 
   @override
   _DrinkWaterLevelScreenState createState() => _DrinkWaterLevelScreenState();
@@ -72,7 +72,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
         (Colur.water_level_wave2),
     ),
   ];
-  List<charts.Series<BarChartModel, String>> series;
+  List<charts.Series<BarChartModel, String?>>? series;
   @override
   void initState() {
     super.initState();
@@ -89,9 +89,9 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           children: [
             Container(
               child: CommonTopBar(
-                Languages.of(context).txtToday,
+                Languages.of(context)!.txtToday,
                 this,
-                subHeader: Languages.of(context).txtDrinkWater,
+                subHeader: Languages.of(context)!.txtDrinkWater,
                 isShowSubheader: true,
                 isShowBack: true,
                 isShowSettingCircle: true,
@@ -253,7 +253,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           ),
           Container(
             child: Text(
-              valueForIncreament.toString() + Languages.of(context).txtMl,
+              valueForIncreament.toString() + Languages.of(context)!.txtMl,
               style: TextStyle(
                   color: Colur.txt_grey,
                   fontSize: 12,
@@ -345,7 +345,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
       child: Column(
         children: [
           Text(
-            Languages.of(context).txtWeek,
+            Languages.of(context)!.txtWeek,
             style: TextStyle(
               color: Colur.txt_white,
               fontSize: 22,
@@ -365,14 +365,14 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
       ),
     );
   }
-  Widget profileScreenWidget(BuildContext context) {
+  Widget? profileScreenWidget(BuildContext context) {
     series = [
       charts.Series(
       id: "Water Level",
       data: data,
       domainFn: (BarChartModel series, _) => series.year,
       measureFn: (BarChartModel series, _) => series.financial,
-      colorFn: (BarChartModel series, _) => series.color,
+      colorFn: (BarChartModel series, _) => series.color!,
         /*radiusPxFn: (ChartData series, _) => 0.0,
         strokeWidthPxFn: (ChartData series, _) => 50,
         colorFn: (ChartData series, _) =>
@@ -456,7 +456,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
         children: [
           Container(
             child: Text(
-              Languages.of(context).txtTodayRecords,
+              Languages.of(context)!.txtTodayRecords,
               style: TextStyle(
                 color: Colur.txt_white,
                 fontSize: 17,
@@ -523,7 +523,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                       Container(
                         margin: EdgeInsets.only(),
                         child: Text(
-                          Languages.of(context).txtNextTime,
+                          Languages.of(context)!.txtNextTime,
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -537,7 +537,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                 Container(
                   margin: EdgeInsets.only(),
                   child: Text(
-                    "100"+" "+Languages.of(context).txtMl,
+                    "100"+" "+Languages.of(context)!.txtMl,
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -604,7 +604,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                 Container(
                   margin: EdgeInsets.only(),
                   child: Text(
-                    "100"+" "+Languages.of(context).txtMl,
+                    "100"+" "+Languages.of(context)!.txtMl,
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,

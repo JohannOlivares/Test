@@ -35,7 +35,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> imp
               children: [
                 //Top Bar
                 Container(
-                  child: CommonTopBar(Languages.of(context).txtDrinkWaterReminder, this, isShowBack: true),
+                  child: CommonTopBar(Languages.of(context)!.txtDrinkWaterReminder, this, isShowBack: true),
                 ),
                 buildListView(context, fullWidth, fullHeight),
               ],
@@ -55,33 +55,33 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> imp
           physics: NeverScrollableScrollPhysics(),
           children: [
             //Notification
-            buildListTile(title: Languages.of(context).txtNotifications, isDropdown: false),
+            buildListTile(title: Languages.of(context)!.txtNotifications, isDropdown: false),
             buildDivider(fullWidth),
             //Schedule
-            buildTitleText(fullWidth, fullHeight, context, Languages.of(context).txtSchedule),
+            buildTitleText(fullWidth, fullHeight, context, Languages.of(context)!.txtSchedule),
             //Start
             buildListTile(
-              title: Languages.of(context).txtStart,
+              title: Languages.of(context)!.txtStart,
               list: startList,
               dropDownValue: startValue,
               isTime: true,
-              unit: Languages.of(context).txtAM,
+              unit: Languages.of(context)!.txtAM,
               isDropdown: true
             ),
             buildDivider(fullWidth),
             //End
             buildListTile(
-              title: Languages.of(context).txtEnd,
+              title: Languages.of(context)!.txtEnd,
               list: endList,
               dropDownValue: endValue,
               isTime: true,
-              unit: Languages.of(context).txtPM,
+              unit: Languages.of(context)!.txtPM,
               isDropdown: true
             ),
             buildDivider(fullWidth),
             //Interval
             buildListTile(
-              title: Languages.of(context).txtInterval,
+              title: Languages.of(context)!.txtInterval,
               list: intervalList,
               dropDownValue: intervalValue, 
               isTime: false,
@@ -89,11 +89,11 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> imp
             ),
             buildDivider(fullWidth),
             //Sound
-            buildTitleText(fullWidth, fullHeight, context, Languages.of(context).txtMessage),
+            buildTitleText(fullWidth, fullHeight, context, Languages.of(context)!.txtMessage),
             //Message
             msgTextField(fullWidth, fullHeight),
             //Sound
-            buildTitleText(fullWidth, fullHeight, context, Languages.of(context).txtSound),
+            buildTitleText(fullWidth, fullHeight, context, Languages.of(context)!.txtSound),
             //Ringtone
             ringtone(fullWidth, fullHeight, context)
           ],
@@ -114,7 +114,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> imp
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  Languages.of(context).txtRingtone,
+                  Languages.of(context)!.txtRingtone,
                   style: TextStyle(
                       color: Colur.txt_white,
                       fontSize: 18,
@@ -192,12 +192,12 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> imp
   }
 
   buildListTile({
-    String title, 
-    List<String> list, 
-    String dropDownValue, 
-    String unit, 
-    bool isTime,
-    isDropdown,
+    required String title, 
+    List<String>? list, 
+    String? dropDownValue, 
+    String? unit, 
+    bool? isTime,
+    required isDropdown,
   }) {
     return ListTile(
       title: Text(
@@ -209,7 +209,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> imp
         ),
       ),
       trailing: isDropdown ? buildDropdownButton(
-        list: list, 
+        list: list!, 
         isTime: isTime, 
         unit: unit, 
         dropDownValue: dropDownValue
@@ -236,7 +236,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> imp
     );
   }
 
-  buildDropdownButton({List<String> list, bool isTime, String unit, String dropDownValue}) {
+  buildDropdownButton({required List<String> list, bool? isTime, String? unit, String? dropDownValue}) {
     return DropdownButton(
       dropdownColor: Colur.progress_background_color,
       underline: Container(
@@ -248,7 +248,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> imp
         return DropdownMenuItem<String>(
           value: value,
           child: Text(
-            isTime ? "$value $unit" : "$value",
+            isTime! ? "$value $unit" : "$value",
             style: TextStyle(
               fontWeight: FontWeight.w500,
               color: Colur.txt_white,
@@ -257,7 +257,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen> imp
           ),
         );
       }).toList(),
-      onChanged: (value) {
+      onChanged: (dynamic value) {
         setState(() {
           dropDownValue = value;
         });

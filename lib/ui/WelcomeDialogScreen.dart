@@ -39,7 +39,7 @@ class _WelcomeDialogScreenState extends State<WelcomeDialogScreen> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      Languages.of(context).txtWelcomeMapRunnner,
+                      Languages.of(context)!.txtWelcomeMapRunnner,
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
@@ -52,7 +52,7 @@ class _WelcomeDialogScreenState extends State<WelcomeDialogScreen> {
                     Padding(
                       padding: const EdgeInsets.only(top:30.0,bottom: 30),
                       child: Text(
-                        Languages.of(context).txtImKateYourCoach,
+                        Languages.of(context)!.txtImKateYourCoach,
                         textAlign: TextAlign.center,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -66,7 +66,7 @@ class _WelcomeDialogScreenState extends State<WelcomeDialogScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal:8.0),
                       child: Text(
-                        Languages.of(context).txtBottomSheetDescription,
+                        Languages.of(context)!.txtBottomSheetDescription,
                         textAlign: TextAlign.center,
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -85,7 +85,7 @@ class _WelcomeDialogScreenState extends State<WelcomeDialogScreen> {
                         height: 60,
                         radius: 50.0,
                         child: Text(
-                          Languages.of(context).txtOk,
+                          Languages.of(context)!.txtOk,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.center,

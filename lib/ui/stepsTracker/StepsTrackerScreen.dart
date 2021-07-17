@@ -44,7 +44,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                 //TopBar
                 Container(
                   child: CommonTopBar(
-                    Languages.of(context).txtStepStracker,
+                    Languages.of(context)!.txtStepStracker,
                     this,
                     isShowBack: true,
                     isOptions: true,
@@ -97,7 +97,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            Languages.of(context).txtLast7DaysSteps,
+            Languages.of(context)!.txtLast7DaysSteps,
             style: TextStyle(
                 fontSize: 17,
                 fontWeight: FontWeight.w700,
@@ -166,7 +166,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                 ),
               ),
               Text(
-                Languages.of(context).txtDuration,
+                Languages.of(context)!.txtDuration,
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -186,7 +186,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                 ),
               ),
               Text(
-                Languages.of(context).txtKcal,
+                Languages.of(context)!.txtKcal,
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -206,7 +206,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                 ),
               ),
               Text(
-                Languages.of(context).txtMile,
+                Languages.of(context)!.txtMile,
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -289,7 +289,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                 child: stepsIndicator(),
               ),
               Text(
-                Languages.of(context).txtSteps,
+                Languages.of(context)!.txtSteps,
                 style: TextStyle(
                     color: Colur.txt_green,
                     fontSize: 14,
@@ -355,7 +355,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                 children: [
                   //Edit target steps
                   Text(
-                    Languages.of(context).txtEditTargetSteps,
+                    Languages.of(context)!.txtEditTargetSteps,
                     style: TextStyle(
                         color: Colur.txt_black,
                         fontSize: 24,
@@ -367,7 +367,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
                   //Edit steps desc
                   Text(
-                    Languages.of(context).txtEditStepsTargetDesc,
+                    Languages.of(context)!.txtEditStepsTargetDesc,
                     style: TextStyle(
                         color: Colur.txt_grey,
                         fontSize: 15,
@@ -382,7 +382,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          Languages.of(context).txtSteps,
+                          Languages.of(context)!.txtSteps,
                           style: TextStyle(
                               color: Colur.txt_black,
                               fontSize: 18,
@@ -438,7 +438,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                               Navigator.pop(context);
                             },
                             child: Text(
-                              Languages.of(context).txtCancel,
+                              Languages.of(context)!.txtCancel,
                               style: TextStyle(
                                   color: Colur.txt_black,
                                   fontSize: 18,
@@ -472,7 +472,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                                 },
                                 child: Center(
                                   child: Text(
-                                    Languages.of(context).txtSave,
+                                    Languages.of(context)!.txtSave,
                                     style: TextStyle(
                                         color: Colur.txt_white,
                                         fontSize: 18,
@@ -547,7 +547,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   }
 
   openPopUpMenu(fullHeight,  fullWidth) async {
-    final String result = await Navigator.push(context,  StepsPopUpMenu());
+    final String? result = await Navigator.push(context,  StepsPopUpMenu());
 
     if(result == Constant.STR_EDITTARGET) {
       setState(() {

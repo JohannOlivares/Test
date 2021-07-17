@@ -55,10 +55,10 @@ class Preference {
 
   static Preference get shared => _preference;
 
-  static SharedPreferences _pref;
+  static SharedPreferences? _pref;
 
   /* make connection with preference only once in application */
-  Future<SharedPreferences> instance() async {
+  Future<SharedPreferences?> instance() async {
     if (_pref != null) return _pref;
     await SharedPreferences.getInstance().then((onValue) {
       _pref = onValue;
@@ -70,50 +70,50 @@ class Preference {
   }
 
   // String get & set
-  String getString(String key) {
-    return _pref.getString(key);
+  String? getString(String key) {
+    return _pref!.getString(key);
   }
 
   Future<bool> setString(String key, String value) {
-    return _pref.setString(key, value);
+    return _pref!.setString(key, value);
   }
 
   // Int get & set
-  int getInt(String key) {
-    return _pref.getInt(key);
+  int? getInt(String key) {
+    return _pref!.getInt(key);
   }
 
   Future<bool> setInt(String key, int value) {
-    return _pref.setInt(key, value);
+    return _pref!.setInt(key, value);
   }
 
   // Bool get & set
-  bool getBool(String key) {
-    return _pref.getBool(key);
+  bool? getBool(String key) {
+    return _pref!.getBool(key);
   }
 
   Future<bool> setBool(String key, bool value) {
-    return _pref.setBool(key, value);
+    return _pref!.setBool(key, value);
   }
 
   // Array get & set
-  List<String> getStringList(String key) {
-    return _pref.getStringList(key);
+  List<String>? getStringList(String key) {
+    return _pref!.getStringList(key);
   }
 
   Future<bool> setStringList(String key, List<String> value) {
-    return _pref.setStringList(key, value);
+    return _pref!.setStringList(key, value);
   }
 
   /* remove  element from preferences */
   Future<bool> remove(key, [multi = false]) async {
-    SharedPreferences pref = await instance();
+    SharedPreferences? pref = await instance();
     if (multi) {
       key.forEach((f) async {
-        return await pref.remove(f);
+        return await pref!.remove(f);
       });
     } else {
-      return await pref.remove(key);
+      return await pref!.remove(key);
     }
 
     return new Future.value(true);
@@ -123,9 +123,9 @@ class Preference {
   static Future<bool> clear() async {
     // return await _pref.clear();
     // Except FCM token & device info
-    _pref.getKeys().forEach((key) async {
+    _pref!.getKeys().forEach((key) async {
       if (key != FCM_TOKEN && key != IS_NOTIFICATION_ALLOWED) {
-        await _pref.remove(key);
+        await _pref!.remove(key);
       }
     });
 
@@ -133,7 +133,7 @@ class Preference {
   }
 
   static Future<bool> clearAPIRes() {
-    _pref.getKeys().forEach((key) async {
+    _pref!.getKeys().forEach((key) async {
       if (key == LECTURE_SCREEN_RES ||
           key == LECTURE_SCREEN_RES_LAST_PAGE ||
           key == SINGLE_CASES_SCREEN_RES ||
@@ -149,7 +149,7 @@ class Preference {
           key == GAME_LEVEL_SCREEN_RES_TOTAL_COUNT ||
           key == QUIZ_SCREEN_RES ||
           key == QUESTIONS_SCREEN_RES) {
-        await _pref.remove(key);
+        await _pref!.remove(key);
       }
     });
 
@@ -157,11 +157,11 @@ class Preference {
   }
 
   static Future<bool> clearPlayListAPIRes() {
-    _pref.getKeys().forEach((key) async {
+    _pref!.getKeys().forEach((key) async {
       if (key == PLAYLIST_SCREEN_RES ||
           key == PLAYLIST_SCREEN_RES_LAST_PAGE ||
           key == QUESTIONS_SCREEN_RES) {
-        await _pref.remove(key);
+        await _pref!.remove(key);
       }
     });
 
@@ -169,9 +169,9 @@ class Preference {
   }
 
   static Future<bool> clearQuestionsAPIRes() {
-    _pref.getKeys().forEach((key) async {
+    _pref!.getKeys().forEach((key) async {
       if (key == QUESTIONS_SCREEN_RES) {
-        await _pref.remove(key);
+        await _pref!.remove(key);
       }
     });
 
@@ -179,9 +179,9 @@ class Preference {
   }
 
   static Future<bool> clearLectureAPIRes() {
-    _pref.getKeys().forEach((key) async {
+    _pref!.getKeys().forEach((key) async {
       if (key == LECTURE_SCREEN_RES || key == LECTURE_SCREEN_RES_LAST_PAGE) {
-        await _pref.remove(key);
+        await _pref!.remove(key);
       }
     });
 
@@ -189,10 +189,10 @@ class Preference {
   }
 
   static Future<bool> clearSingleCasesAPIRes() {
-    _pref.getKeys().forEach((key) async {
+    _pref!.getKeys().forEach((key) async {
       if (key == SINGLE_CASES_SCREEN_RES ||
           key == SINGLE_CASES_SCREEN_RES_LAST_PAGE) {
-        await _pref.remove(key);
+        await _pref!.remove(key);
       }
     });
 
@@ -200,11 +200,11 @@ class Preference {
   }
 
   static Future<bool> clearGameLevelAPIRes() {
-    _pref.getKeys().forEach((key) async {
+    _pref!.getKeys().forEach((key) async {
       if (key == GAME_LEVEL_SCREEN_RES ||
           key == GAME_LEVEL_SCREEN_RES_COMPLETE_COUNT ||
           key == GAME_LEVEL_SCREEN_RES_TOTAL_COUNT) {
-        await _pref.remove(key);
+        await _pref!.remove(key);
       }
     });
 
@@ -212,9 +212,9 @@ class Preference {
   }
 
   static Future<bool> clearGroupAPIRes() {
-    _pref.getKeys().forEach((key) async {
+    _pref!.getKeys().forEach((key) async {
       if (key == GROUP_SCREEN_RES || key == GROUP_SCREEN_RES_LAST_PAGE) {
-        await _pref.remove(key);
+        await _pref!.remove(key);
       }
     });
 
@@ -222,10 +222,10 @@ class Preference {
   }
 
   static Future<bool> clearSinglePlayerAPIRes() {
-    _pref.getKeys().forEach((key) async {
+    _pref!.getKeys().forEach((key) async {
       if (key == SINGLE_PLAYER_SCREEN_RES ||
           key == SINGLE_PLAYER_SCREEN_RES_LAST_PAGE) {
-        await _pref.remove(key);
+        await _pref!.remove(key);
       }
     });
 
@@ -233,9 +233,9 @@ class Preference {
   }
 
   static Future<bool> clearStrikesAPIRes() {
-    _pref.getKeys().forEach((key) async {
+    _pref!.getKeys().forEach((key) async {
       if (key == STRIKES_SCREEN_RES || key == STRIKES_SCREEN_RES_LAST_PAGE) {
-        await _pref.remove(key);
+        await _pref!.remove(key);
       }
     });
 

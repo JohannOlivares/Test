@@ -20,12 +20,11 @@ import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:toast/toast.dart';
 
 import 'PausePopupScreen.dart';
 
 class StartRunScreen extends StatefulWidget {
-  bool fromCountDown = true;
+  bool? fromCountDown = true;
 
   StartRunScreen({this.fromCountDown});
 
@@ -35,11 +34,11 @@ class StartRunScreen extends StatefulWidget {
 
 class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStateMixin
     implements TopBarClickListener  {
-  GoogleMapController _controller;
+  GoogleMapController? _controller;
   Location _location = Location();
 
-  LocationData _currentPosition;
-  LocationData _currentLocation;
+  LocationData? _currentPosition;
+  LocationData? _currentLocation;
   LatLng _initialcameraposition = LatLng(0.5937, 0.9629);
 
   Map<PolylineId, Polyline> polylines = {};
@@ -47,16 +46,16 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
   PolylinePoints polylinePoints = PolylinePoints();
   double totalDistance = 0;
   double lastDistance = 0;
-  int _steps;
-  String _status;
+  int _steps = 0;
+  String _status = "";
   bool reset = false;
   bool setaliteEnable = false;
   bool startTrack = false;
   bool isBack = true;
-  bool liveLocationBtn;
+  bool liveLocationBtn = false;
 
-  StreamSubscription<StepCount> _stepCountStream;
-  StreamSubscription<PedestrianStatus> _pedestrianStatusStream;
+  StreamSubscription<StepCount>? _stepCountStream;
+  StreamSubscription<PedestrianStatus>? _pedestrianStatusStream;
   final StopWatchTimer stopWatchTimer = StopWatchTimer(
     mode: StopWatchMode.countUp,
     onChange: (value){ //print('onChange $value');
@@ -85,16 +84,17 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
   @override
   Future<void> dispose() async {
     super.dispose();
-    _stepCountStream.cancel();
+    _stepCountStream?.cancel();
     await stopWatchTimer.dispose();
   }
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
     _location.onLocationChanged.listen((l) {
-      _controller.moveCamera(
+      _controller?.moveCamera(
         CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(l.latitude, l.longitude), zoom: 20),
+          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 20),
+
         ),
       );
     });
@@ -115,7 +115,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
             Container(
               padding: EdgeInsets.only(left: 15),
               child: CommonTopBar(
-                Languages.of(context).txtRunTracker.toUpperCase(),
+                Languages.of(context)!.txtRunTracker.toUpperCase(),
                 this,
                 isShowBack: isBack,
                 isShowSetting: true,
@@ -157,8 +157,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
 
   void _onError(error) {
     _steps = 0;
-    Toast.show("Error giving in Count Steps", context,
-        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    Utils.showToast(context , "Error giving in Count Steps");
     print("Error: $error");
   }
 
@@ -194,26 +193,26 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
 
     _currentPosition = await _location.getLocation();
     _initialcameraposition =
-        LatLng(_currentPosition.latitude, _currentPosition.longitude);
+        LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
     _location.onLocationChanged.listen((LocationData currentLocation) {
       print("${currentLocation.latitude} : ${currentLocation.longitude}");
       if (currentLocation.latitude != null &&
-          _currentPosition.longitude != null) {
+          _currentPosition!.longitude != null) {
         if (polylineCoordinates.length > 0) {
           lastDistance = calculateDistance(
               polylineCoordinates.last.latitude,
               polylineCoordinates.last.longitude,
-              _currentPosition.latitude,
-              _currentPosition.longitude);
+              _currentPosition!.latitude,
+              _currentPosition!.longitude);
           if (lastDistance >= 0.1) {
             polylineCoordinates.add(
-                LatLng(currentLocation.latitude, currentLocation.longitude));
+                LatLng(currentLocation.latitude!, currentLocation.longitude!));
             print("added to polylines");
           }
         } else {
           print("added without");
           polylineCoordinates
-              .add(LatLng(currentLocation.latitude, currentLocation.longitude));
+              .add(LatLng(currentLocation.latitude!, currentLocation.longitude!));
         }
       }
 
@@ -229,7 +228,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
       setState(() {
         _currentPosition = currentLocation;
         _initialcameraposition =
-            LatLng(_currentPosition.latitude, _currentPosition.longitude);
+            LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
         print(totalDistance);
       });
     });
@@ -262,7 +261,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     );
   }
 
-  _timerAndDistance([double fullwidth]) {
+  _timerAndDistance(double fullwidth) {
     return Container(
       padding: EdgeInsets.only(bottom: 20),
       width: fullwidth,
@@ -290,11 +289,11 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                       initialData: stopWatchTimer.rawTime.value,
                       builder: (context, snap) {
                         final value = snap.data;
-                        final displayTime = StopWatchTimer.getDisplayTime(value,
+                        final displayTime = value != null? StopWatchTimer.getDisplayTime(value,
                             hours: true,
                             minute: true,
                             second: true,
-                            milliSecond: false);
+                            milliSecond: false):null;
                         return Text(
                           displayTime ?? "00:00:00", //TODO
                           style: TextStyle(
@@ -305,7 +304,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                       },
                     ),
                   ),
-                  _textContainer(Languages.of(context).txtMin),
+                  _textContainer(Languages.of(context)!.txtMin),
                 ],
               ),
             ],
@@ -320,14 +319,14 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                     children: [
                       Container(
                         child: Text(
-                          "0:00" ?? totalDistance.toString(), //TODO
+                          totalDistance.toString(),
                           style: TextStyle(
                               fontSize: 32,
                               color: Colur.txt_white,
                               fontWeight: FontWeight.w400),
                         ),
                       ),
-                      _textContainer(Languages.of(context).txtKM),
+                      _textContainer(Languages.of(context)!.txtKM),
                     ],
                   ),
                 ),
@@ -344,7 +343,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                                 fontWeight: FontWeight.w400),
                           ),
                         ),
-                        _textContainer(Languages.of(context).txtPaceMinPerKM),
+                        _textContainer(Languages.of(context)!.txtPaceMinPerKM),
                       ],
                     ),
                   ),
@@ -362,7 +361,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                               fontWeight: FontWeight.w400),
                         ),
                       ),
-                      _textContainer(Languages.of(context).txtKCAL),
+                      _textContainer(Languages.of(context)!.txtKCAL),
                     ],
                   ),
                 ),
@@ -374,7 +373,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     );
   }
 
-  _mapView([double fullheight]) {
+  _mapView(double fullheight) {
     return Container(
       child: Stack(
         children: [
@@ -514,7 +513,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                               } else {
                                 stopWatchTimer.onExecute.add(StopWatchExecute
                                     .stop); //It will pause the timer
-                                final String result = await Navigator.push(context, PausePopupScreen(stopWatchTimer, startTrack));
+                                final String result = (await Navigator.push(context, PausePopupScreen(stopWatchTimer, startTrack)))!;
                                 setState(() {
                                   if (result == "false") {
                                     stopWatchTimer.onExecute
@@ -558,8 +557,8 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                                     Text(
                                       //TODO TExtADded to Language file addd
                                       !startTrack
-                                          ? Languages.of(context).txtStart
-                                          : Languages.of(context).txtPause,
+                                          ? Languages.of(context)!.txtStart
+                                          : Languages.of(context)!.txtPause,
                                       style: TextStyle(
                                           fontSize: 20,
                                           color: Colur.white,
@@ -631,7 +630,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
 }
 
 class PopUp extends StatefulWidget {
-  final AnimationController controller;
+  final AnimationController? controller;
 
   PopUp({this.controller});
 
@@ -641,14 +640,14 @@ class PopUp extends StatefulWidget {
 
 class PopUpState extends State<PopUp> {
   double size = 80;
-  double value;
+  double value = 0;
 
   @override
   void initState() {
     super.initState();
-    widget.controller.duration = Duration(seconds: 3);
-    widget.controller.reverseDuration = Duration(milliseconds: 500);
-    widget.controller.addListener(() {
+    widget.controller?.duration = Duration(seconds: 3);
+    widget.controller?.reverseDuration = Duration(milliseconds: 500);
+    widget.controller?.addListener(() {
       setState(() {});
     });
 
@@ -656,70 +655,73 @@ class PopUpState extends State<PopUp> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: GestureDetector(
-        onTapDown: (_) {
-          widget.controller.forward();
-          setState(() {
-            size = 84;
-          });
-        },
-        onTapUp: (_) {
-          if (widget.controller.status == AnimationStatus.forward) {
-            widget.controller.reverse();
+    return WillPopScope(
+      onWillPop: ()async => false,
+      child: Container(
+        child: GestureDetector(
+          onTapDown: (_) {
+            widget.controller?.forward();
             setState(() {
-              size = 78;
+              size = 84;
             });
-          }
-          if(widget.controller.status == AnimationStatus.completed){
-            Navigator.pop(context);
-          }
-        },
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Container(
-              width: size,
-              height: size,
-              child: CircularProgressIndicator(
-                value: 2.0,
-                strokeWidth: 7,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
-              ),
-            ),
-            Container(
-              width: size,
-              height: size,
-              child: CircularProgressIndicator(
-                value: widget.controller.value,
-                strokeWidth: 7,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-              ),
-            ),
-            Container(
-              width: 78,
-              height: 78,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                    Colur.light_red_stop_gredient1,
-                    Colur.light_red_stop_gredient2,
-                  ],
+          },
+          onTapUp: (_) {
+            if (widget.controller?.status == AnimationStatus.forward) {
+              widget.controller?.reverse();
+              setState(() {
+                size = 78;
+              });
+            }
+            if(widget.controller?.status == AnimationStatus.completed){
+              Navigator.pop(context);
+            }
+          },
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Container(
+                width: size,
+                height: size,
+                child: CircularProgressIndicator(
+                  value: 2.0,
+                  strokeWidth: 7,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
                 ),
               ),
-              child: Center(
-                child: Container(
-                  child: Image.asset(
-                    "assets/icons/ic_square.png",
-                    scale: 3.7,
+              Container(
+                width: size,
+                height: size,
+                child: CircularProgressIndicator(
+                  value: widget.controller?.value,
+                  strokeWidth: 7,
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                ),
+              ),
+              Container(
+                width: 78,
+                height: 78,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: <Color>[
+                      Colur.light_red_stop_gredient1,
+                      Colur.light_red_stop_gredient2,
+                    ],
+                  ),
+                ),
+                child: Center(
+                  child: Container(
+                    child: Image.asset(
+                      "assets/icons/ic_square.png",
+                      scale: 3.7,
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -728,7 +730,7 @@ class PopUpState extends State<PopUp> {
 
   @override
   void dispose() {
-    widget.controller.dispose();
+    widget.controller?.dispose();
     super.dispose();
   }
 }

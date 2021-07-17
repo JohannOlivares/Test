@@ -26,7 +26,7 @@ class PausePopupScreen extends ModalRoute<String> {
   Color get barrierColor => Colors.black.withOpacity(0.7);
 
   @override
-  String get barrierLabel => null;
+  String? get barrierLabel => null;
 
   @override
   bool get maintainState => true;
@@ -72,7 +72,7 @@ class PausePopupScreen extends ModalRoute<String> {
                   Icon(Icons.refresh_sharp, color: Colur.txt_white, size: 15,),
                   Container(
                     child: Text(Languages
-                        .of(context)
+                        .of(context)!
                         .txtRestart
                         .toUpperCase(), style: TextStyle(fontSize: 20,
                         color: Colur.white,
@@ -124,9 +124,7 @@ class PausePopupScreen extends ModalRoute<String> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(Languages
-                          .of(context)
-                          .txtStop, style: TextStyle(fontSize: 16,
+                      child: Text(Languages.of(context)!.txtStop, style: TextStyle(fontSize: 16,
                           color: Colur.txt_white,
                           fontWeight: FontWeight.w600),),
                     ),
@@ -174,7 +172,7 @@ class PausePopupScreen extends ModalRoute<String> {
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(Languages
-                          .of(context)
+                          .of(context)!
                           .txtResume, style: TextStyle(fontSize: 16,
                           color: Colur.txt_white,
                           fontWeight: FontWeight.w600),),
@@ -191,7 +189,7 @@ class PausePopupScreen extends ModalRoute<String> {
     );
   }
 
-  Widget CustomDialog([BuildContext context]) {
+  Widget CustomDialog(BuildContext context) {
     return Dialog(
       elevation: 30,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -221,7 +219,7 @@ class PausePopupScreen extends ModalRoute<String> {
               margin: EdgeInsets.only(top: 5.0, bottom: 40),
               child: Center(
                 child: Text(Languages
-                    .of(context)
+                    .of(context)!
                     .txtFinishTraining
                     .toUpperCase(),
                   style: TextStyle(
@@ -256,7 +254,7 @@ class PausePopupScreen extends ModalRoute<String> {
                 ),
                 child: Center(
                   child: Text(Languages
-                      .of(context)
+                      .of(context)!
                       .txtFinish
                       .toUpperCase(),
                     style: TextStyle(

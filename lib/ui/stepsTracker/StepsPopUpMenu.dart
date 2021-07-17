@@ -13,7 +13,7 @@ class StepsPopUpMenu extends ModalRoute<String>{
   bool get barrierDismissible => false;
 
   @override
-  String get barrierLabel => null;
+  String? get barrierLabel => null;
 
   @override
   bool get maintainState => true;
@@ -48,17 +48,17 @@ class StepsPopUpMenu extends ModalRoute<String>{
                    children: [
                      buildPopUpItem(
                        icon: "ic_reset.png",
-                       text: Languages.of(context).txtReset,
+                       text: Languages.of(context)!.txtReset,
                        onTap: () => Navigator.pop(context, Constant.STR_RESET)
                      ),
                      buildPopUpItem(
                        icon: "ic_edit.png",
-                       text: Languages.of(context).txtEditTarget,
+                       text: Languages.of(context)!.txtEditTarget,
                        onTap: () => Navigator.pop(context, Constant.STR_EDITTARGET)
                      ),
                      buildPopUpItem(
                        icon: "ic_turn_off.png",
-                       text: Languages.of(context).txtTurnoff,
+                       text: Languages.of(context)!.txtTurnoff,
                        onTap: () => Navigator.pop(context, Constant.STR_TURNOFF)
                      ),
                    ],
@@ -87,9 +87,9 @@ class StepsPopUpMenu extends ModalRoute<String>{
     );
   }
 
-  buildPopUpItem({String icon, String text, Function onTap}) {
+  buildPopUpItem({String? icon, required String text, Function? onTap}) {
     return InkWell(
-      onTap: onTap,
+      onTap: onTap as void Function()?,
       child: Container(
         margin: EdgeInsets.only(top: 22,  left: 12),
         child: Row(

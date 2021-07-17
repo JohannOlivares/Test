@@ -20,7 +20,7 @@ class CommonTopBar extends StatefulWidget {
   bool isOptions = false;
   bool isShowSubheader = false;
 
-  String subHeader;
+  String? subHeader;
 
   CommonTopBar(this.headerName, this.clickListener,
       {this.isShowBack = false,
@@ -114,7 +114,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                         Visibility(
                           visible: widget.isShowSubheader,
                           child: Text(
-                            widget.isShowSubheader ? widget.subHeader : "",
+                            widget.isShowSubheader ? widget.subHeader! : "",
                             style: TextStyle(
                                 color: Colur.txt_grey,
                                 fontSize: 13,

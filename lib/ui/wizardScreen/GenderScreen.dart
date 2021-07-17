@@ -9,10 +9,10 @@ import 'package:run_tracker/utils/Utils.dart';
 enum Gender { Male, Female }
 
 class GenderScreen extends StatefulWidget {
-  PageController pageController;
-  Function updatevalue;
-  bool isBack;
-  Function pageNum;
+  PageController? pageController;
+  Function? updatevalue;
+  bool? isBack;
+  Function? pageNum;
 
   GenderScreen({this.pageController,this.updatevalue,this.isBack,this.pageNum}){
     isBack = false;
@@ -24,7 +24,7 @@ class GenderScreen extends StatefulWidget {
 }
 
 class _GenderScreenState extends State<GenderScreen> {
-  Gender _gender = Gender.Male;
+  Gender? _gender = Gender.Male;
 
 
   @override
@@ -43,7 +43,7 @@ class _GenderScreenState extends State<GenderScreen> {
             margin: EdgeInsets.only(top: fullHeight*0.05),
             child: Text(
               Languages
-                  .of(context)
+                  .of(context)!
                   .txtWhatIsYourGender,
               style: TextStyle(
                   fontWeight: FontWeight.w700,
@@ -56,7 +56,7 @@ class _GenderScreenState extends State<GenderScreen> {
             margin: EdgeInsets.only(top: 20),
             child: Text(
               Languages
-                  .of(context)
+                  .of(context)!
                   .txtGenderDescription,
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -83,7 +83,7 @@ class _GenderScreenState extends State<GenderScreen> {
                 radius: 50.0,
                 child: Text(
                   Languages
-                      .of(context)
+                      .of(context)!
                       .txtNextStep,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -103,10 +103,10 @@ class _GenderScreenState extends State<GenderScreen> {
                 ),
                 onPressed: () {
                   setState(() {
-                    widget.updatevalue(0.66);
-                    widget.pageNum(2);
+                    widget.updatevalue!(0.66);
+                    widget.pageNum!(2);
                   });
-                  widget.pageController.nextPage(
+                  widget.pageController!.nextPage(
                     duration: const Duration(milliseconds: 400),
                     curve: Curves.easeInOut,
                   );
@@ -120,7 +120,7 @@ class _GenderScreenState extends State<GenderScreen> {
     );
   }
 
-  _maleContanier([double fullHeight]) {
+  _maleContanier(double fullHeight) {
     return InkWell(
       onTap: () {
         setState(() {
@@ -151,9 +151,7 @@ class _GenderScreenState extends State<GenderScreen> {
             Expanded(
               child: Center(
                 child: Text(
-                  Languages
-                      .of(context)
-                      .txtMale,
+                  Languages.of(context)!.txtMale,
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 21,
@@ -168,7 +166,7 @@ class _GenderScreenState extends State<GenderScreen> {
                 Colur.white),
                 value: Gender.Male,
                 groupValue: _gender,
-                onChanged: (Gender value) {
+                onChanged: (Gender? value) {
                   setState(() {
                     _gender = value;
                     Debug.printLog(
@@ -183,7 +181,7 @@ class _GenderScreenState extends State<GenderScreen> {
     );
   }
 
-  _femaleContainer([double fullHeight]) {
+  _femaleContainer([double? fullHeight]) {
     return InkWell(
       onTap: () {
         setState(() {
@@ -214,9 +212,7 @@ class _GenderScreenState extends State<GenderScreen> {
             Expanded(
               child: Center(
                 child: Text(
-                  Languages
-                      .of(context)
-                      .txtFemale,
+                  Languages.of(context)!.txtFemale,
                   style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 21,
@@ -231,7 +227,7 @@ class _GenderScreenState extends State<GenderScreen> {
                 Colur.white),
                 value: Gender.Female,
                 groupValue: _gender,
-                onChanged: (Gender value) {
+                onChanged: (Gender? value) {
                   setState(() {
                     _gender = value;
                     Debug.printLog("Female Selected From Radio" +

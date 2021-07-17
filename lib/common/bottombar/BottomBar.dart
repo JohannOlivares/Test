@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:run_tracker/utils/Color.dart';
 
 class BottomBar extends StatefulWidget {
-  bool isProfile = false;
-  bool isHome = false;
+  bool? isProfile = false;
+  bool? isHome = false;
 
   BottomBar({this.isHome, this.isProfile});
   @override
@@ -32,7 +32,7 @@ class _BottomBarState extends State<BottomBar> {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 30.0),
                     child: Image.asset(
-                      (widget.isHome)
+                      widget.isHome!
                           ? "assets/icons/ic_selected_home_bottombar.webp"
                           : "assets/icons/ic_unselected_home_bottombar.webp",
                       scale: 3.5,
@@ -48,7 +48,7 @@ class _BottomBarState extends State<BottomBar> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 30.0),
                     child: Image.asset(
-                      (widget.isProfile)
+                      widget.isProfile!
                           ? "assets/icons/ic_selected_profile_bottombar.webp"
                           : "assets/icons/ic_unselected_profile_bottombar.webp",
                       scale: 3.5,
