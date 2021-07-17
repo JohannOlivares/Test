@@ -35,7 +35,9 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.of(context).pop();
+
+                        Navigator.of(context)
+                            .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
                       },
                       child: Text(
                         Languages.of(context).txtNotnow,

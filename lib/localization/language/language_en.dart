@@ -360,4 +360,18 @@ class LanguageEn extends Languages {
 
   @override
   String get txtMetricAndImperialUnits => "Metric & Imperial Units";
+
+  @override
+  String get txtContinue => "Continue";
+
+  @override
+
+  String get txtFinish => "Finish";
+
+  @override
+
+  String get txtFinishTraining =>"Finish Training?";
+
+  @override
+  String get txtRestart => "Restart";
 }

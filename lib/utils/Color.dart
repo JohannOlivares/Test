@@ -18,6 +18,7 @@ class Colur {
   static const light_green_play_gredient2 = Color(0xff22BE11);
   static const green_For_NotReally = Color(0xff28853a);
   static const ligh_green_For_NotReally = Color(0xff1ED247);
+  static const light_pink = Color(0x40C040FF);
 
   static const water_level_wave1 = Color(0xff42B2FF);
   static const water_level_wave2 = Color(0xff00AEFF);

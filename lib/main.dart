@@ -112,7 +112,7 @@ class _MyAppState extends State<MyApp> {
           ),
           // child: WeeklyGoalSetScreen(),
           // child: CountdownTimerScreen(isGreen: false),
-          child: ProfileScreen(),
+          child: HomeWizardScreen(),
           //child: RegistrationScreen(),
         ),
         routes: <String, WidgetBuilder>{

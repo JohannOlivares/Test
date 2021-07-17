@@ -240,4 +240,8 @@ abstract class Languages {
   String get txtTroubleShooting;
 
   String get txtMetricAndImperialUnits;
+  String get txtFinishTraining;
+  String get txtFinish;
+  String get txtContinue;
+  String get txtRestart;
 }

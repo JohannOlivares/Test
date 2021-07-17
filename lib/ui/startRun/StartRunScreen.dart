@@ -13,25 +13,28 @@ import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/countdowntimer/CountdownTimerScreen.dart';
 import 'package:run_tracker/ui/home/HomeScreen.dart';
 import 'package:run_tracker/ui/settings/SettingScreen.dart';
+import 'package:run_tracker/ui/startRun/LockScreen.dart';
 import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Utils.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:toast/toast.dart';
 
 import 'PausePopupScreen.dart';
 
 class StartRunScreen extends StatefulWidget {
   bool fromCountDown = true;
+
   StartRunScreen({this.fromCountDown});
 
   @override
   _StartRunScreenState createState() => _StartRunScreenState();
 }
 
-class _StartRunScreenState extends State<StartRunScreen>
-    implements TopBarClickListener {
+class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStateMixin
+    implements TopBarClickListener  {
   GoogleMapController _controller;
   Location _location = Location();
 
@@ -49,10 +52,16 @@ class _StartRunScreenState extends State<StartRunScreen>
   bool reset = false;
   bool setaliteEnable = false;
   bool startTrack = false;
+  bool isBack = true;
   bool liveLocationBtn;
 
   StreamSubscription<StepCount> _stepCountStream;
   StreamSubscription<PedestrianStatus> _pedestrianStatusStream;
+  final StopWatchTimer stopWatchTimer = StopWatchTimer(
+    mode: StopWatchMode.countUp,
+    onChange: (value){ //print('onChange $value');
+      }
+  );
 
   double calculateDistance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
@@ -68,7 +77,16 @@ class _StartRunScreenState extends State<StartRunScreen>
     liveLocationBtn = false;
     super.initState();
     getLoc();
+/*    stopWatchTimer.rawTime.listen((value) =>
+        print('rawTime $value ${StopWatchTimer.getDisplayTime(value)}'));*/
     countStep();
+  }
+
+  @override
+  Future<void> dispose() async {
+    super.dispose();
+    _stepCountStream.cancel();
+    await stopWatchTimer.dispose();
   }
 
   void _onMapCreated(GoogleMapController _cntlr) {
@@ -95,10 +113,11 @@ class _StartRunScreenState extends State<StartRunScreen>
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
+              padding: EdgeInsets.only(left: 15),
               child: CommonTopBar(
                 Languages.of(context).txtRunTracker.toUpperCase(),
                 this,
-                isShowBack: true,
+                isShowBack: isBack,
                 isShowSetting: true,
               ),
             ),
@@ -110,12 +129,6 @@ class _StartRunScreenState extends State<StartRunScreen>
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _stepCountStream.cancel();
-    super.dispose();
   }
 
   _addPolyLine() {
@@ -157,7 +170,7 @@ class _StartRunScreenState extends State<StartRunScreen>
   }
 
   getLoc() async {
-  /*  bool _serviceEnabled;
+    /*  bool _serviceEnabled;
     PermissionStatus _permissionGranted;
 
     _serviceEnabled = await _location.serviceEnabled();
@@ -262,13 +275,34 @@ class _StartRunScreenState extends State<StartRunScreen>
             children: [
               Column(
                 children: [
-                  Container(
+                  /* Container(
                     child: Text(
                       "00:00:00", //TODO
                       style: TextStyle(
                           fontSize: 60,
                           color: Colur.txt_white,
                           fontWeight: FontWeight.w400),
+                    ),
+                  ),*/
+                  Container(
+                    child: StreamBuilder<int>(
+                      stream: stopWatchTimer.rawTime,
+                      initialData: stopWatchTimer.rawTime.value,
+                      builder: (context, snap) {
+                        final value = snap.data;
+                        final displayTime = StopWatchTimer.getDisplayTime(value,
+                            hours: true,
+                            minute: true,
+                            second: true,
+                            milliSecond: false);
+                        return Text(
+                          displayTime ?? "00:00:00", //TODO
+                          style: TextStyle(
+                              fontSize: 60,
+                              color: Colur.txt_white,
+                              fontWeight: FontWeight.w400),
+                        );
+                      },
                     ),
                   ),
                   _textContainer(Languages.of(context).txtMin),
@@ -353,7 +387,7 @@ class _StartRunScreenState extends State<StartRunScreen>
             buildingsEnabled: false,
             myLocationEnabled: true,
             scrollGesturesEnabled: true,
-            myLocationButtonEnabled: true,
+            myLocationButtonEnabled: false,
             zoomGesturesEnabled: false,
             onCameraMove: (position) {
               setState(() {
@@ -442,15 +476,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                     children: [
                       InkWell(
                         onTap: () {
-                          Utils.showToast(context, "LcoationPressed",
-                              duration: 1);
-                          /*Navigator.of(context)
-                              .pushNamedAndRemoveUntil('/wellDoneScreen', (Route<dynamic> route) => false);*/
-
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => WellDoneScreen()));
+                          _location.onLocationChanged.listen((event) { _currentPosition = event; });
                         },
                         child: Container(
                           height: 60,
@@ -468,27 +494,40 @@ class _StartRunScreenState extends State<StartRunScreen>
                         child: UnconstrainedBox(
                           child: InkWell(
                             onTap: () async {
-
-
-
-
                               if (startTrack == false) {
-
                                 Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => CountdownTimerScreen(isGreen: false)));
-                                Future.delayed(Duration(milliseconds: 3900),(){
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            CountdownTimerScreen(
+                                                isGreen: false)));
+                                Future.delayed(Duration(milliseconds: 3900),
+                                    () {
                                   setState(() {
+                                    isBack = false;
                                     startTrack = true;
+
+                                    stopWatchTimer.onExecute
+                                        .add(StopWatchExecute.start);
                                   });
                                 });
                               } else {
-                                final String result = await Navigator.push(
-                                    context, PausePopupScreen());
-                                /*Toast.show("start Track Stopped", context,
-                                              duration: Toast.LENGTH_SHORT,
-                                              gravity: Toast.BOTTOM);*/
-
+                                stopWatchTimer.onExecute.add(StopWatchExecute
+                                    .stop); //It will pause the timer
+                                final String result = await Navigator.push(context, PausePopupScreen(stopWatchTimer, startTrack));
+                                setState(() {
+                                  if (result == "false") {
+                                    stopWatchTimer.onExecute
+                                        .add(StopWatchExecute.reset);
+                                    startTrack = false;
+                                    isBack = true;
+                                  }
+                                  if(result == "true")
+                                    {
+                                      startTrack = true;
+                                      isBack = false;
+                                    }
+                                });
                               }
                             },
                             child: Container(
@@ -504,7 +543,6 @@ class _StartRunScreenState extends State<StartRunScreen>
                                       color: Colur.purple_gradient_shadow,
                                     ),
                                   ],
-
                                   gradient: LinearGradient(
                                     colors: [
                                       Colur.purple_gradient_color1,
@@ -519,7 +557,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                                   children: [
                                     Text(
                                       //TODO TExtADded to Language file addd
-                                      startTrack == false
+                                      !startTrack
                                           ? Languages.of(context).txtStart
                                           : Languages.of(context).txtPause,
                                       style: TextStyle(
@@ -543,9 +581,41 @@ class _StartRunScreenState extends State<StartRunScreen>
                           ),
                         ),
                       ),
-                      SizedBox(
-                        width: 60,
+                      InkWell(
+                        child: Container(
+                          height: 60,
+                          width: 60,
+                          margin: EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle, color: Colur.txt_black),
+                          child: Center(
+                              child: Image.asset(
+                                'assets/icons/ic_lock.png',
+                                scale: 4.0,
+                                color:Colur.white,
+                              )),
+                        ),
+                        onTap: () async {
+                         /* final String result = await Navigator.push(context, LockScreen());*/
+                          /*Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LockScreen()));*/
+
+                          AnimationController controller = AnimationController(
+                              duration: const Duration(milliseconds: 400), vsync: this);
+                          showDialog(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (_) => PopUp(
+                              controller: controller,
+                            ),
+                          );
+                          /*Debug.printLog(
+                              (setaliteEnable == true) ? "Started" : "Disabled");*/
+                        },
                       ),
+
                     ],
                   ),
                 ),
@@ -559,3 +629,111 @@ class _StartRunScreenState extends State<StartRunScreen>
 
 //End Class
 }
+
+class PopUp extends StatefulWidget {
+  final AnimationController controller;
+
+  PopUp({this.controller});
+
+  @override
+  State<StatefulWidget> createState() => PopUpState();
+}
+
+class PopUpState extends State<PopUp> {
+  double size = 80;
+  double value;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.duration = Duration(seconds: 3);
+    widget.controller.reverseDuration = Duration(milliseconds: 500);
+    widget.controller.addListener(() {
+      setState(() {});
+    });
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: GestureDetector(
+        onTapDown: (_) {
+          widget.controller.forward();
+          setState(() {
+            size = 84;
+          });
+        },
+        onTapUp: (_) {
+          if (widget.controller.status == AnimationStatus.forward) {
+            widget.controller.reverse();
+            setState(() {
+              size = 78;
+            });
+          }
+          if(widget.controller.status == AnimationStatus.completed){
+            Navigator.pop(context);
+          }
+        },
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Container(
+              width: size,
+              height: size,
+              child: CircularProgressIndicator(
+                value: 2.0,
+                strokeWidth: 7,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.grey),
+              ),
+            ),
+            Container(
+              width: size,
+              height: size,
+              child: CircularProgressIndicator(
+                value: widget.controller.value,
+                strokeWidth: 7,
+                valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+              ),
+            ),
+            Container(
+              width: 78,
+              height: 78,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: <Color>[
+                    Colur.light_red_stop_gredient1,
+                    Colur.light_red_stop_gredient2,
+                  ],
+                ),
+              ),
+              child: Center(
+                child: Container(
+                  child: Image.asset(
+                    "assets/icons/ic_square.png",
+                    scale: 3.7,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
+  @override
+  void dispose() {
+    widget.controller.dispose();
+    super.dispose();
+  }
+}
+
+
+
+
+
