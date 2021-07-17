@@ -47,5 +47,6 @@ class Colur {
   static const grad_yellow_dark = Color(0xffF3B90E);
 
   static const gray_border = Color(0xff9195B6);
+  static const graph_water = Color(0xff00A3FF);
 
 }

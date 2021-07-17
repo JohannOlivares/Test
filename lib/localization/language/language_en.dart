@@ -281,7 +281,7 @@ class LanguageEn extends Languages {
   String get txtMyProgress => "My progress";
 
   @override
-  String get txtDailyAverage => "Daily Average";
+  String get txtDailyAverage => "Daily average";
 
   @override
   String get txtTotalKM => "Total KM";

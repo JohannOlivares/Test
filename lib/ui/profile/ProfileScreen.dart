@@ -1,6 +1,11 @@
+import 'dart:math';
+
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:run_tracker/common/bottombar/BottomBar.dart';
+import 'package:intl/intl.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
+import 'package:run_tracker/utils/Debug.dart';
 
 import '../../localization/language/languages.dart';
 import '../../utils/Color.dart';
@@ -11,6 +16,38 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final Color barBackgroundColor = Colur.common_bg_dark;
+  final Duration animDuration = const Duration(milliseconds: 250);
+
+  int touchedIndex = -1;
+
+  var currentDate = DateTime.now();
+  var currentDay = DateFormat('EEEE').format(DateTime.now());
+  var startDateOfWeek;
+  var endDateOfWeek;
+  var formatStartDateOfWeek;
+  var formatEndDateOfWeek;
+
+  @override
+  void initState() {
+    startDateOfWeek =
+        getDate(currentDate.subtract(Duration(days: currentDate.weekday - 1)));
+    endDateOfWeek = getDate(currentDate
+        .add(Duration(days: DateTime.daysPerWeek - currentDate.weekday)));
+    formatStartDateOfWeek = DateFormat.MMMd('en_US').format(startDateOfWeek);
+    formatEndDateOfWeek = DateFormat.MMMd('en_US').format(endDateOfWeek);
+    Debug.printLog("currentDate ==>" + currentDate.toString());
+    Debug.printLog("currentDay ==>" + currentDay.toString());
+    Debug.printLog("startDateOfWeek ==>" + startDateOfWeek.toString());
+    Debug.printLog("endDateOfWeek ==>" + endDateOfWeek.toString());
+    Debug.printLog(
+        "formatStartDateOfWeek ==>" + formatStartDateOfWeek.toString());
+    Debug.printLog("formatEndDateOfWeek ==>" + formatEndDateOfWeek.toString());
+    super.initState();
+  }
+
+  DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +63,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     _runTrackerWidget(context),
                     _progressWidget(context),
+                    _drinkWaterWidget(context),
                     _bestRecordWidget(context),
                     _fastestTimeWidget(context),
                   ],
@@ -420,6 +458,232 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  _drinkWaterWidget(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
+      margin: const EdgeInsets.only(top: 8.0),
+      width: double.infinity,
+      color: Colur.rounded_rectangle_color,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            Languages.of(context).txtDrinkWater,
+            textAlign: TextAlign.left,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: Colur.white, fontWeight: FontWeight.w700, fontSize: 18),
+            //maxLines: 1,
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 20.0),
+            child: Text(
+              formatStartDateOfWeek.toString() +
+                  " - " +
+                  formatEndDateOfWeek.toString(),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colur.white,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15.5),
+              //maxLines: 1,
+            ),
+          ),
+          Container(
+            height: 220,
+            margin: EdgeInsets.only(top: 30.0),
+            width: double.infinity,
+            child: BarChart(
+              BarChartData(
+                barTouchData: BarTouchData(
+                  touchTooltipData: BarTouchTooltipData(
+                      tooltipBgColor: Colur.txt_grey,
+                      getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                        String weekDay;
+                        switch (group.x.toInt()) {
+                          case 0:
+                            weekDay = 'Monday';
+                            break;
+                          case 1:
+                            weekDay = 'Tuesday';
+                            break;
+                          case 2:
+                            weekDay = 'Wednesday';
+                            break;
+                          case 3:
+                            weekDay = 'Thursday';
+                            break;
+                          case 4:
+                            weekDay = 'Friday';
+                            break;
+                          case 5:
+                            weekDay = 'Saturday';
+                            break;
+                          case 6:
+                            weekDay = 'Sunday';
+                            break;
+                          default:
+                            throw Error();
+                        }
+                        return BarTooltipItem(
+                          weekDay + '\n',
+                          TextStyle(
+                            color: Colur.txt_white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: (rod.y.toInt() - 1).toString(),
+                              style: TextStyle(
+                                color: Colur.txt_white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                  touchCallback: (barTouchResponse) {
+                    setState(() {
+                      if (barTouchResponse.spot != null &&
+                          barTouchResponse.touchInput is! PointerUpEvent &&
+                          barTouchResponse.touchInput is! PointerExitEvent) {
+                        touchedIndex =
+                            barTouchResponse.spot.touchedBarGroupIndex;
+                      } else {
+                        touchedIndex = -1;
+                      }
+                    });
+                  },
+                ),
+                titlesData: FlTitlesData(
+                  show: true,
+                  bottomTitles: SideTitles(
+                    showTitles: true,
+                    getTextStyles: (value) => const TextStyle(
+                        color: Colur.txt_grey,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14),
+                    margin: 10,
+                    getTitles: (double value) {
+                      switch (value.toInt()) {
+                        case 0:
+                          return currentDay == 'Monday' ? 'Today' : 'Mon';
+                        case 1:
+                          return currentDay == 'Tuesday' ? 'Today' : 'Tue';
+                        case 2:
+                          return currentDay == 'Wednesday' ? 'Today' : 'Wed';
+                        case 3:
+                          return currentDay == 'Thursday' ? 'Today' : 'Thu';
+                        case 4:
+                          return currentDay == 'Friday' ? 'Today' : 'Fri';
+                        case 5:
+                          return currentDay == 'Saturday' ? 'Today' : 'Sat';
+                        case 6:
+                          return currentDay == 'Sunday' ? 'Today' : 'Sun';
+                        default:
+                          return '';
+                      }
+                    },
+                  ),
+                  leftTitles: SideTitles(
+                    showTitles: false,
+                  ),
+                ),
+                borderData: FlBorderData(
+                  show: false,
+                ),
+                barGroups: showingGroups(),
+              ),
+              swapAnimationDuration: animDuration,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 20.0),
+            child: Text(
+              Languages.of(context).txtDailyAverage + " : " + "2,000",
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colur.txt_purple,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15.5),
+              //maxLines: 1,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 20.0),
+            child: Text(
+              Languages.of(context).txtWeek,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colur.txt_white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 22),
+              //maxLines: 1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  BarChartGroupData makeGroupData(
+    int x,
+    double y, {
+    bool isTouched = false,
+    Color barColor = Colur.graph_water,
+    double width = 40,
+  }) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          y: isTouched ? y + 1 : y,
+          colors: isTouched ? [Colur.white] : [barColor],
+          width: width,
+          borderRadius: BorderRadius.all(Radius.zero),
+          backDrawRodData: BackgroundBarChartRodData(
+            show: true,
+            y: 200.0,
+            colors: [barBackgroundColor],
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+        switch (i) {
+          case 0:
+            return makeGroupData(0, 100.0, isTouched: i == touchedIndex);
+          case 1:
+            return makeGroupData(1, 50.5, isTouched: i == touchedIndex);
+          case 2:
+            return makeGroupData(2, 80.0, isTouched: i == touchedIndex);
+          case 3:
+            return makeGroupData(3, 70.5, isTouched: i == touchedIndex);
+          case 4:
+            return makeGroupData(4, 90.0, isTouched: i == touchedIndex);
+          case 5:
+            return makeGroupData(5, 20.5, isTouched: i == touchedIndex);
+          case 6:
+            return makeGroupData(6, 60.5, isTouched: i == touchedIndex);
+          default:
+            return throw Error();
+        }
+      });
+
   _bestRecordWidget(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
@@ -689,7 +953,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Colur.white, fontWeight: FontWeight.w700, fontSize: 18),
           ),
           initiallyExpanded: false,
-          tilePadding: const EdgeInsets.only(left: 5.0,right: 5.0),
+          tilePadding: const EdgeInsets.only(left: 5.0, right: 5.0),
           children: [
             ListView.builder(
               itemCount: 20,
