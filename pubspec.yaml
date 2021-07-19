@@ -129,6 +129,10 @@ flutter:
    - assets/icons/ic_statistics.png
    - assets/icons/ic_star_blue.png
    - assets/icons/ic_trouble_shooting.png
+   - assets/icons/ic_yellow_gradient_circle.png
+   - assets/icons/ic_red_gradient_circle.png
+   - assets/icons/ic_add.png
+   - assets/icons/ic_minus.png
    - assets/images/
    - assets/images/dummy_girl.png
    - assets/images/finish_image.png

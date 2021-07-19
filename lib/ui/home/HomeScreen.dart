@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:run_tracker/common/bottombar/BottomBar.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
+import 'package:run_tracker/ui/goalSetScreen/GoalSettingScreen.dart';
+import 'package:run_tracker/ui/recentActivities/RecentActivitiesScreen.dart';
 import 'package:run_tracker/ui/stepsTracker/StepsTrackerScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
+import 'package:run_tracker/utils/Constant.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../../common/commonTopBar/CommonTopBar.dart';
@@ -270,31 +273,31 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
   }
 
   bestRecordList() {
-    return ListView(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      children: [
-        bestRecordListTile(
-            img: "ic_distance.webp",
-            text: Languages.of(context)!.txtLongestDistance,
-            value: "0",
-            unit: "mile",
-            isNotDuration: true
-        ),
-        bestRecordListTile(
-            img: "ic_best_pace.png",
-            text: Languages.of(context)!.txtBestPace,
-            value: "0",
-            unit: "min/mi",
-            isNotDuration: true
-        ),
-        bestRecordListTile(
-            img: "ic_duration.webp",
-            text: Languages.of(context)!.txtLongestDuration,
-            value: "00:00",
-            isNotDuration: false
-        ),
-      ],
+    return Container(
+      child: Column(
+        children: [
+          bestRecordListTile(
+              img: "ic_distance.webp",
+              text: Languages.of(context)!.txtLongestDistance,
+              value: "0",
+              unit: "mile",
+              isNotDuration: true
+          ),
+          bestRecordListTile(
+              img: "ic_best_pace.png",
+              text: Languages.of(context)!.txtBestPace,
+              value: "0",
+              unit: "min/mi",
+              isNotDuration: true
+          ),
+          bestRecordListTile(
+              img: "ic_duration.webp",
+              text: Languages.of(context)!.txtLongestDuration,
+              value: "00:00",
+              isNotDuration: false
+          ),
+        ],
+      ),
     );
   }
 
@@ -388,7 +391,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
               ),
               InkWell(
                 onTap: () {
-                  //TODO
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => RecentActivitiesScreen()));
                 },
                 child: Text(
                   Languages.of(context)!.txtMore,
@@ -411,8 +414,6 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
   recentActivitiesList(double fullHeight) {
     return Container(
       child: Column(
-        //physics: NeverScrollableScrollPhysics(),
-        //shrinkWrap: true,
         children: [
           recentActivitiesListTile(
               fullHeight: fullHeight,
@@ -581,6 +582,8 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
 
   @override
   void onTopBarClick(String name, {bool value = true}) {
-    // TODO: implement onTopBarClick
+    if (name == Constant.STR_INFO) {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => GoalSettingScreen()));
+    }
   }
 }

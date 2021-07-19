@@ -2,13 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/drinkWaterReminder/DrinkWaterReminderScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 
 import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
 import '../../localization/language/languages.dart';
 import '../../utils/Constant.dart';
-import '../waterReminder/DrinkWaterReminderScreen.dart';
 
 class DrinkWaterSettingsScreen extends StatefulWidget {
   @override
@@ -48,131 +48,131 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
   buildListView(BuildContext context, double fullWidth) {
     return Container(
       margin: EdgeInsets.only(top: 20),
-        child: ListView(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            ListTile(
-              title: Text(
-                Languages.of(context)!.txtCupCapacityUnits,
-                style: TextStyle(
-                    color: Colur.txt_white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500
-                ),
-              ),
-              trailing: DropdownButton(
-                dropdownColor: Colur.progress_background_color,
-                underline: Container(
-                  color: Colur.transparent,
-                ),
-                value: capacityList[0],//capacityUnits,
-                iconEnabledColor: Colur.white,
-                items: capacityList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      "$value ml",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colur.txt_white,
-                        fontSize: 14,
-                      ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (dynamic value) {
-                  setState(() {
-                    capacityUnits = value;
-                  });
-                },
-              ),
-            ),
-            Divider(
-              color: Colur.txt_grey,
-              indent: fullWidth*0.04,
-              endIndent: fullWidth*0.04,
-            ),
-            ListTile(
-              title: Text(
-                Languages.of(context)!.txtTarget,
-                style: TextStyle(
-                    color: Colur.txt_white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500
-                ),
-              ),
-              subtitle: Text(
-                Languages.of(context)!.txtTargetDesc,
-                style: TextStyle(
-                    color: Colur.txt_grey,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400
-                ),
-              ),
-              trailing: DropdownButton(
-                dropdownColor: Colur.progress_background_color,
-                underline: Container(
-                  color: Colur.transparent,
-                ),
-                value: targetList[0],//targetValue,
-                iconEnabledColor: Colur.white,
-                items: targetList.map<DropdownMenuItem<String>>((String value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(
-                      "$value ml",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        color: Colur.txt_white,
-                        fontSize: 14,
-                      ),
-                    ),
-                  );
-                }).toList(),
-                onChanged: (dynamic value) {
-                  setState(() {
-                    targetValue = value;
-                  });
-                },
-              ),
-            ),
-            Divider(
-              color: Colur.txt_grey,
-              indent: fullWidth*0.04,
-              endIndent: fullWidth*0.04,
-            ),
-            InkWell(
-              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => DrinkWaterReminderScreen())),
-              child: ListTile(
+        child: Container(
+          child: Column(
+            children: [
+              ListTile(
                 title: Text(
-                  Languages.of(context)!.txtReminder,
+                  Languages.of(context)!.txtCupCapacityUnits,
                   style: TextStyle(
                       color: Colur.txt_white,
                       fontSize: 18,
                       fontWeight: FontWeight.w500
                   ),
                 ),
-                trailing: Switch(
-                  onChanged: (bool value) {
-                    if(isReminder == false) {
-                      setState(() {
-                        isReminder = true;
-                      });
-                    } else {
-                      setState(() {
-                        isReminder = false;
-                      });
-                    }
-                    },
-                  value: isReminder,
-                  activeColor: Colur.purple_gradient_color2,
-                  inactiveTrackColor: Colur.txt_grey,
-
+                trailing: DropdownButton(
+                  dropdownColor: Colur.progress_background_color,
+                  underline: Container(
+                    color: Colur.transparent,
+                  ),
+                  value: capacityList[0],//capacityUnits,
+                  iconEnabledColor: Colur.white,
+                  items: capacityList.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        "$value ml",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colur.txt_white,
+                          fontSize: 14,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (dynamic value) {
+                    setState(() {
+                      capacityUnits = value;
+                    });
+                  },
                 ),
               ),
-            ),
-          ],
+              Divider(
+                color: Colur.txt_grey,
+                indent: fullWidth*0.04,
+                endIndent: fullWidth*0.04,
+              ),
+              ListTile(
+                title: Text(
+                  Languages.of(context)!.txtTarget,
+                  style: TextStyle(
+                      color: Colur.txt_white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500
+                  ),
+                ),
+                subtitle: Text(
+                  Languages.of(context)!.txtTargetDesc,
+                  style: TextStyle(
+                      color: Colur.txt_grey,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400
+                  ),
+                ),
+                trailing: DropdownButton(
+                  dropdownColor: Colur.progress_background_color,
+                  underline: Container(
+                    color: Colur.transparent,
+                  ),
+                  value: targetList[0],//targetValue,
+                  iconEnabledColor: Colur.white,
+                  items: targetList.map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        "$value ml",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          color: Colur.txt_white,
+                          fontSize: 14,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                  onChanged: (dynamic value) {
+                    setState(() {
+                      targetValue = value;
+                    });
+                  },
+                ),
+              ),
+              Divider(
+                color: Colur.txt_grey,
+                indent: fullWidth*0.04,
+                endIndent: fullWidth*0.04,
+              ),
+              InkWell(
+                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => DrinkWaterReminderScreen())),
+                child: ListTile(
+                  title: Text(
+                    Languages.of(context)!.txtReminder,
+                    style: TextStyle(
+                        color: Colur.txt_white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500
+                    ),
+                  ),
+                  trailing: Switch(
+                    onChanged: (bool value) {
+                      if(isReminder == false) {
+                        setState(() {
+                          isReminder = true;
+                        });
+                      } else {
+                        setState(() {
+                          isReminder = false;
+                        });
+                      }
+                      },
+                    value: isReminder,
+                    activeColor: Colur.purple_gradient_color2,
+                    inactiveTrackColor: Colur.txt_grey,
+
+                  ),
+                ),
+              ),
+            ],
+          ),
         )
     );
   }

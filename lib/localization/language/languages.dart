@@ -237,6 +237,12 @@ abstract class Languages {
 
   String get txtWeeklyStatistics;
 
+  String get txtWeekGoalSetting;
+
+  String get txtModerateIntensity;
+
+  String get txtHighIntensity;
+
   String get txtTroubleShooting;
 
   String get txtMetricAndImperialUnits;

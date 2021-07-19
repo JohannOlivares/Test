@@ -374,4 +374,14 @@ class LanguageEn extends Languages {
 
   @override
   String get txtRestart => "Restart";
+
+  @override
+  String get txtWeekGoalSetting => "Weekly Goal Setting";
+
+  @override
+  String get txtHighIntensity => "High intensity";
+
+  @override
+  String get txtModerateIntensity => "Moderate \nintensity";
+
 }

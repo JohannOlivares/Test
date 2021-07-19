@@ -35,6 +35,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     var fullHeight = MediaQuery.of(context).size.height;
     var fullWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Colur.common_bg_dark,
       body: SingleChildScrollView(
         child: SafeArea(
@@ -363,7 +364,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                     ),
                   ),
 
-                  SizedBox(height: 7),
+                  SizedBox(height: fullHeight*0.01),
 
                   //Edit steps desc
                   Text(
@@ -399,11 +400,8 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                           child: TextFormField(
                             maxLines: 1,
                             controller: stepController,
-                            textInputAction: TextInputAction.go,
-                            keyboardType: TextInputType.text,
-                            onFieldSubmitted: (term){
-                              FocusScope.of(context).unfocus();
-                            },
+                            textInputAction: TextInputAction.done,
+                            keyboardType: TextInputType.number,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Colur.txt_white,
@@ -411,10 +409,14 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                                 fontWeight: FontWeight.w700
                             ),
                             cursorColor: Colur.txt_white,
-                            //controller: msgController,
                             decoration: InputDecoration(
                               border: InputBorder.none,
                             ),
+                            //onTap: () => FocusScope.of(context).unfocus(),
+                            onEditingComplete: () {
+                              FocusScope.of(context).unfocus();
+                            },
+
 
                           ),
                         ),
@@ -434,7 +436,8 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                           // ignore: deprecated_member_use
                           child: FlatButton(
                             onPressed: () {
-
+                              FocusScope.of(context).unfocus();
+                              stepController.clear();
                               Navigator.pop(context);
                             },
                             child: Text(
@@ -455,20 +458,23 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                           decoration: BoxDecoration(
                             gradient: LinearGradient(colors: [Colur.green_gradient_color1, Colur.green_gradient_color2]),
                             borderRadius: BorderRadius.circular(30),
-                           /* boxShadow: [
+                            boxShadow: [
                                BoxShadow(
                                 offset: Offset(0.0, 25),
                                 spreadRadius: 5,
                                 blurRadius: 50,
                                 color: Colur.green_gradient_shadow,
                               ),
-                            ],*/
+                            ],
                           ),
                           child: Material(
                             color: Colur.transparent,
                             child: InkWell(
                                 onTap: () {
-                                  Focus.of(context).unfocus();
+                                  //TODO
+                                  FocusScope.of(context).unfocus();
+                                  stepController.clear();
+                                  Navigator.pop(context);
                                 },
                                 child: Center(
                                   child: Text(
@@ -492,7 +498,10 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         );
       },
 
-    );
+    ).whenComplete(() {
+      FocusScope.of(context).unfocus();
+      stepController.clear();
+    });
   }
 
   //SfRadialGauge Indicator
