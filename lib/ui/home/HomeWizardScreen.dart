@@ -116,6 +116,7 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
             Expanded(
               flex: 9,
               child: new PageView(
+                physics: NeverScrollableScrollPhysics(),
                 controller: _myPage,
                 onPageChanged: (pos) {
                   if(pos == 0){

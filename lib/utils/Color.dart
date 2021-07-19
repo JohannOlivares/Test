@@ -49,5 +49,6 @@ class Colur {
 
   static const gray_border = Color(0xff9195B6);
   static const graph_water = Color(0xff00A3FF);
+  static const graph_health = Color(0xff8C3CFF);
 
 }

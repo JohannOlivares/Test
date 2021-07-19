@@ -19,30 +19,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final Color barBackgroundColor = Colur.common_bg_dark;
   final Duration animDuration = const Duration(milliseconds: 250);
 
-  int touchedIndex = -1;
+  int touchedIndexForWaterChart = -1;
+  int touchedIndexForHartHealthChart = -1;
 
   var currentDate = DateTime.now();
   var currentDay = DateFormat('EEEE').format(DateTime.now());
-  var startDateOfWeek;
-  var endDateOfWeek;
-  var formatStartDateOfWeek;
-  var formatEndDateOfWeek;
+  var startDateOfCurrentWeek;
+  var endDateOfCurrentWeek;
+  var formatStartDateOfCurrentWeek;
+  var formatEndDateOfCurrentWeek;
+  var startDateOfPreviousWeek;
+  var endDateOfPreviousWeek;
+  var formatStartDateOfPreviousWeek;
+  var formatEndDateOfPreviousWeek;
+
+  bool isNextWeek = false;
+  bool isPreviousWeek = false;
 
   @override
   void initState() {
-    startDateOfWeek =
+    startDateOfCurrentWeek =
         getDate(currentDate.subtract(Duration(days: currentDate.weekday - 1)));
-    endDateOfWeek = getDate(currentDate
+    endDateOfCurrentWeek = getDate(currentDate
         .add(Duration(days: DateTime.daysPerWeek - currentDate.weekday)));
-    formatStartDateOfWeek = DateFormat.MMMd('en_US').format(startDateOfWeek);
-    formatEndDateOfWeek = DateFormat.MMMd('en_US').format(endDateOfWeek);
+    formatStartDateOfCurrentWeek =
+        DateFormat.MMMd('en_US').format(startDateOfCurrentWeek);
+    formatEndDateOfCurrentWeek =
+        DateFormat.MMMd('en_US').format(endDateOfCurrentWeek);
+
+    startDateOfPreviousWeek = getDate(
+        currentDate.subtract(Duration(days: (currentDate.weekday - 1) + 7)));
+    endDateOfPreviousWeek = getDate(currentDate
+        .add(Duration(days: (DateTime.daysPerWeek - currentDate.weekday) - 7)));
+    formatStartDateOfPreviousWeek =
+        DateFormat.MMMd('en_US').format(startDateOfPreviousWeek);
+    formatEndDateOfPreviousWeek =
+        DateFormat.MMMd('en_US').format(endDateOfPreviousWeek);
+
+    isPreviousWeek = true;
+    isNextWeek = false;
+
     Debug.printLog("currentDate ==>" + currentDate.toString());
     Debug.printLog("currentDay ==>" + currentDay.toString());
-    Debug.printLog("startDateOfWeek ==>" + startDateOfWeek.toString());
-    Debug.printLog("endDateOfWeek ==>" + endDateOfWeek.toString());
+
     Debug.printLog(
-        "formatStartDateOfWeek ==>" + formatStartDateOfWeek.toString());
-    Debug.printLog("formatEndDateOfWeek ==>" + formatEndDateOfWeek.toString());
+        "startDateOfCurrentWeek ==>" + startDateOfCurrentWeek.toString());
+    Debug.printLog(
+        "endDateOfCurrentWeek ==>" + endDateOfCurrentWeek.toString());
+    Debug.printLog("formatStartDateOfCurrentWeek ==>" +
+        formatStartDateOfCurrentWeek.toString());
+    Debug.printLog("formatEndDateOfCurrentWeek ==>" +
+        formatEndDateOfCurrentWeek.toString());
+
+    Debug.printLog(
+        "startDateOfPreviousWeek ==>" + startDateOfPreviousWeek.toString());
+    Debug.printLog(
+        "endDateOfPreviousWeek ==>" + endDateOfPreviousWeek.toString());
+    Debug.printLog("formatStartDateOfPreviousWeek ==>" +
+        formatStartDateOfPreviousWeek.toString());
+    Debug.printLog("formatEndDateOfPreviousWeek ==>" +
+        formatEndDateOfPreviousWeek.toString());
+
     super.initState();
   }
 
@@ -63,6 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     _runTrackerWidget(context),
                     _progressWidget(context),
+                    _heartHealthWidget(context),
                     _drinkWaterWidget(context),
                     _bestRecordWidget(context),
                     _fastestTimeWidget(context),
@@ -458,7 +496,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  _drinkWaterWidget(BuildContext context) {
+  _heartHealthWidget(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
       margin: const EdgeInsets.only(top: 8.0),
@@ -468,7 +506,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            Languages.of(context)!.txtDrinkWater,
+            Languages.of(context)!.txtHeartHealth,
             textAlign: TextAlign.left,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -479,18 +517,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Container(
             width: double.infinity,
             margin: EdgeInsets.only(top: 20.0),
-            child: Text(
-              formatStartDateOfWeek.toString() +
-                  " - " +
-                  formatEndDateOfWeek.toString(),
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Colur.white,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 15.5),
-              //maxLines: 1,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (isPreviousWeek)
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isPreviousWeek = false;
+                        isNextWeek = true;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(right: 25.0),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        size: 16.0,
+                        color: Colur.txt_purple,
+                      ),
+                    ),
+                  ),
+                Text(
+                  (!isPreviousWeek && isNextWeek)
+                      ? formatStartDateOfPreviousWeek.toString() +
+                          " - " +
+                          formatEndDateOfPreviousWeek.toString()
+                      : formatStartDateOfCurrentWeek.toString() +
+                          " - " +
+                          formatEndDateOfCurrentWeek.toString(),
+                  textAlign: TextAlign.center,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colur.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 15.5),
+                  //maxLines: 1,
+                ),
+                if (isNextWeek)
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        isPreviousWeek = true;
+                        isNextWeek = false;
+                      });
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 25.0),
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 16.0,
+                        color: Colur.txt_purple,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
           Container(
@@ -506,25 +588,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         String weekDay;
                         switch (group.x.toInt()) {
                           case 0:
-                            weekDay = 'Monday';
+                            weekDay = Languages.of(context)!.txtMonday;
                             break;
                           case 1:
-                            weekDay = 'Tuesday';
+                            weekDay = Languages.of(context)!.txtTuesday;
                             break;
                           case 2:
-                            weekDay = 'Wednesday';
+                            weekDay = Languages.of(context)!.txtWednesday;
                             break;
                           case 3:
-                            weekDay = 'Thursday';
+                            weekDay = Languages.of(context)!.txtThursday;
                             break;
                           case 4:
-                            weekDay = 'Friday';
+                            weekDay = Languages.of(context)!.txtFriday;
                             break;
                           case 5:
-                            weekDay = 'Saturday';
+                            weekDay = Languages.of(context)!.txtSaturday;
                             break;
                           case 6:
-                            weekDay = 'Sunday';
+                            weekDay = Languages.of(context)!.txtSunday;
                             break;
                           default:
                             throw Error();
@@ -553,10 +635,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       if (barTouchResponse.spot != null &&
                           barTouchResponse.touchInput is! PointerUpEvent &&
                           barTouchResponse.touchInput is! PointerExitEvent) {
-                        touchedIndex =
+                        touchedIndexForHartHealthChart =
                             barTouchResponse.spot!.touchedBarGroupIndex;
                       } else {
-                        touchedIndex = -1;
+                        touchedIndexForHartHealthChart = -1;
                       }
                     });
                   },
@@ -565,27 +647,365 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   show: true,
                   bottomTitles: SideTitles(
                     showTitles: true,
-                    getTextStyles: (value) => const TextStyle(
-                        color: Colur.txt_grey,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                    getTextStyles: (value) {
+                      switch (value.toInt()) {
+                        case 0:
+                          return currentDay == Languages.of(context)!.txtMonday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 1:
+                          return currentDay == Languages.of(context)!.txtTuesday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 2:
+                          return currentDay ==
+                                  Languages.of(context)!.txtWednesday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 3:
+                          return currentDay ==
+                                  Languages.of(context)!.txtThursday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 4:
+                          return currentDay == Languages.of(context)!.txtFriday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 5:
+                          return currentDay ==
+                                  Languages.of(context)!.txtSaturday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 6:
+                          return currentDay == Languages.of(context)!.txtSunday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        default:
+                          return _unSelectedTextStyle();
+                      }
+                    },
                     margin: 10,
                     getTitles: (double value) {
                       switch (value.toInt()) {
                         case 0:
-                          return currentDay == 'Monday' ? 'Today' : 'Mon';
+                          return currentDay == Languages.of(context)!.txtMonday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtMon;
                         case 1:
-                          return currentDay == 'Tuesday' ? 'Today' : 'Tue';
+                          return currentDay == Languages.of(context)!.txtTuesday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtTue;
                         case 2:
-                          return currentDay == 'Wednesday' ? 'Today' : 'Wed';
+                          return currentDay ==
+                                  Languages.of(context)!.txtWednesday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtWed;
                         case 3:
-                          return currentDay == 'Thursday' ? 'Today' : 'Thu';
+                          return currentDay ==
+                                  Languages.of(context)!.txtThursday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtThu;
                         case 4:
-                          return currentDay == 'Friday' ? 'Today' : 'Fri';
+                          return currentDay == Languages.of(context)!.txtFriday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtFri;
                         case 5:
-                          return currentDay == 'Saturday' ? 'Today' : 'Sat';
+                          return currentDay ==
+                                  Languages.of(context)!.txtSaturday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtSat;
                         case 6:
-                          return currentDay == 'Sunday' ? 'Today' : 'Sun';
+                          return currentDay == Languages.of(context)!.txtSunday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtSun;
+                        default:
+                          return '';
+                      }
+                    },
+                  ),
+                  leftTitles: SideTitles(
+                    showTitles: true,
+                    margin: 5,
+                    interval: 100,
+                    getTextStyles: (value) => const TextStyle(
+                        color: Colur.txt_grey,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14),
+                  ),
+                ),
+                borderData: FlBorderData(
+                    show: true,
+                    border: Border(
+                        top: BorderSide.none,
+                        right: BorderSide.none,
+                        bottom:
+                            BorderSide(width: 1, color: Colur.gray_border))),
+                barGroups: showingHeartHealthGroups(),
+              ),
+              swapAnimationDuration: animDuration,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 20.0),
+            child: Text(
+              Languages.of(context)!.txtWeek,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colur.txt_white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 22),
+              //maxLines: 1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  BarChartGroupData makeHeartHealthGroupData(
+    int x,
+    double y, {
+    bool isTouched = false,
+    Color barColor = Colur.graph_health,
+    double width = 32,
+  }) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          y: isTouched ? y + 1 : y,
+          colors: isTouched ? [Colur.white] : [barColor],
+          width: width,
+          borderRadius: BorderRadius.all(Radius.zero),
+          backDrawRodData: BackgroundBarChartRodData(
+            show: true,
+            y: 200.0,
+            colors: [barBackgroundColor],
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<BarChartGroupData> showingHeartHealthGroups() => List.generate(7, (i) {
+        switch (i) {
+          case 0:
+            return makeHeartHealthGroupData(0, 100.0,
+                isTouched: i == touchedIndexForHartHealthChart);
+          case 1:
+            return makeHeartHealthGroupData(1, 50.5,
+                isTouched: i == touchedIndexForHartHealthChart);
+          case 2:
+            return makeHeartHealthGroupData(2, 80.0,
+                isTouched: i == touchedIndexForHartHealthChart);
+          case 3:
+            return makeHeartHealthGroupData(3, 70.5,
+                isTouched: i == touchedIndexForHartHealthChart);
+          case 4:
+            return makeHeartHealthGroupData(4, 90.0,
+                isTouched: i == touchedIndexForHartHealthChart);
+          case 5:
+            return makeHeartHealthGroupData(5, 20.5,
+                isTouched: i == touchedIndexForHartHealthChart);
+          case 6:
+            return makeHeartHealthGroupData(6, 60.5,
+                isTouched: i == touchedIndexForHartHealthChart);
+          default:
+            return throw Error();
+        }
+      });
+
+  _selectedTextStyle() {
+    return const TextStyle(
+        color: Colur.txt_white, fontWeight: FontWeight.w400, fontSize: 14);
+  }
+
+  _unSelectedTextStyle() {
+    return const TextStyle(
+        color: Colur.txt_grey, fontWeight: FontWeight.w400, fontSize: 14);
+  }
+
+  _drinkWaterWidget(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
+      margin: const EdgeInsets.only(top: 8.0),
+      width: double.infinity,
+      color: Colur.rounded_rectangle_color,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            Languages.of(context)!.txtDrinkWater,
+            textAlign: TextAlign.left,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                color: Colur.white, fontWeight: FontWeight.w700, fontSize: 18),
+            //maxLines: 1,
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 20.0),
+            child: Text(
+              formatStartDateOfCurrentWeek.toString() +
+                  " - " +
+                  formatEndDateOfCurrentWeek.toString(),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colur.white,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15.5),
+              //maxLines: 1,
+            ),
+          ),
+          Container(
+            height: 220,
+            margin: EdgeInsets.only(top: 30.0),
+            width: double.infinity,
+            child: BarChart(
+              BarChartData(
+                barTouchData: BarTouchData(
+                  touchTooltipData: BarTouchTooltipData(
+                      tooltipBgColor: Colur.txt_grey,
+                      getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                        String weekDay;
+                        switch (group.x.toInt()) {
+                          case 0:
+                            weekDay = Languages.of(context)!.txtMonday;
+                            break;
+                          case 1:
+                            weekDay = Languages.of(context)!.txtTuesday;
+                            break;
+                          case 2:
+                            weekDay = Languages.of(context)!.txtWednesday;
+                            break;
+                          case 3:
+                            weekDay = Languages.of(context)!.txtThursday;
+                            break;
+                          case 4:
+                            weekDay = Languages.of(context)!.txtFriday;
+                            break;
+                          case 5:
+                            weekDay = Languages.of(context)!.txtSaturday;
+                            break;
+                          case 6:
+                            weekDay = Languages.of(context)!.txtSunday;
+                            break;
+                          default:
+                            throw Error();
+                        }
+                        return BarTooltipItem(
+                          weekDay + '\n',
+                          TextStyle(
+                            color: Colur.txt_white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: (rod.y.toInt() - 1).toString(),
+                              style: TextStyle(
+                                color: Colur.txt_white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                  touchCallback: (barTouchResponse) {
+                    setState(() {
+                      if (barTouchResponse.spot != null &&
+                          barTouchResponse.touchInput is! PointerUpEvent &&
+                          barTouchResponse.touchInput is! PointerExitEvent) {
+                        touchedIndexForWaterChart =
+                            barTouchResponse.spot!.touchedBarGroupIndex;
+                      } else {
+                        touchedIndexForWaterChart = -1;
+                      }
+                    });
+                  },
+                ),
+                titlesData: FlTitlesData(
+                  show: true,
+                  bottomTitles: SideTitles(
+                    showTitles: true,
+                    getTextStyles: (value) {
+                      switch (value.toInt()) {
+                        case 0:
+                          return currentDay == Languages.of(context)!.txtMonday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 1:
+                          return currentDay == Languages.of(context)!.txtTuesday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 2:
+                          return currentDay ==
+                                  Languages.of(context)!.txtWednesday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 3:
+                          return currentDay ==
+                                  Languages.of(context)!.txtThursday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 4:
+                          return currentDay == Languages.of(context)!.txtFriday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 5:
+                          return currentDay ==
+                                  Languages.of(context)!.txtSaturday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 6:
+                          return currentDay == Languages.of(context)!.txtSunday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        default:
+                          return _unSelectedTextStyle();
+                      }
+                    },
+                    margin: 10,
+                    getTitles: (double value) {
+                      switch (value.toInt()) {
+                        case 0:
+                          return currentDay == Languages.of(context)!.txtMonday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtMon;
+                        case 1:
+                          return currentDay == Languages.of(context)!.txtTuesday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtTue;
+                        case 2:
+                          return currentDay ==
+                                  Languages.of(context)!.txtWednesday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtWed;
+                        case 3:
+                          return currentDay ==
+                                  Languages.of(context)!.txtThursday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtThu;
+                        case 4:
+                          return currentDay == Languages.of(context)!.txtFriday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtFri;
+                        case 5:
+                          return currentDay ==
+                                  Languages.of(context)!.txtSaturday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtSat;
+                        case 6:
+                          return currentDay == Languages.of(context)!.txtSunday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtSun;
                         default:
                           return '';
                       }
@@ -598,7 +1018,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 borderData: FlBorderData(
                   show: false,
                 ),
-                barGroups: showingGroups(),
+                barGroups: showingDrinkWaterGroups(),
               ),
               swapAnimationDuration: animDuration,
             ),
@@ -638,7 +1058,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  BarChartGroupData makeGroupData(
+  BarChartGroupData makeDrinkWaterGroupData(
     int x,
     double y, {
     bool isTouched = false,
@@ -663,22 +1083,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+  List<BarChartGroupData> showingDrinkWaterGroups() => List.generate(7, (i) {
         switch (i) {
           case 0:
-            return makeGroupData(0, 100.0, isTouched: i == touchedIndex);
+            return makeDrinkWaterGroupData(0, 100.0,
+                isTouched: i == touchedIndexForWaterChart);
           case 1:
-            return makeGroupData(1, 50.5, isTouched: i == touchedIndex);
+            return makeDrinkWaterGroupData(1, 50.5,
+                isTouched: i == touchedIndexForWaterChart);
           case 2:
-            return makeGroupData(2, 80.0, isTouched: i == touchedIndex);
+            return makeDrinkWaterGroupData(2, 80.0,
+                isTouched: i == touchedIndexForWaterChart);
           case 3:
-            return makeGroupData(3, 70.5, isTouched: i == touchedIndex);
+            return makeDrinkWaterGroupData(3, 70.5,
+                isTouched: i == touchedIndexForWaterChart);
           case 4:
-            return makeGroupData(4, 90.0, isTouched: i == touchedIndex);
+            return makeDrinkWaterGroupData(4, 90.0,
+                isTouched: i == touchedIndexForWaterChart);
           case 5:
-            return makeGroupData(5, 20.5, isTouched: i == touchedIndex);
+            return makeDrinkWaterGroupData(5, 20.5,
+                isTouched: i == touchedIndexForWaterChart);
           case 6:
-            return makeGroupData(6, 60.5, isTouched: i == touchedIndex);
+            return makeDrinkWaterGroupData(6, 60.5,
+                isTouched: i == touchedIndexForWaterChart);
           default:
             return throw Error();
         }
@@ -752,7 +1179,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   padding: const EdgeInsets.only(
                                       left: 5.0, bottom: 3.0),
                                   child: Text(
-                                    Languages.of(context)!.txtMILE.toLowerCase(),
+                                    Languages.of(context)!
+                                        .txtMILE
+                                        .toLowerCase(),
                                     textAlign: TextAlign.left,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,

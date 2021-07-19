@@ -1,3 +1,5 @@
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/custom/waterLevel/Liquid_progress_indicator.dart';
@@ -9,10 +11,6 @@ import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:intl/intl.dart';
-import 'package:charts_flutter/flutter.dart'as charts;
-
-import 'DataModel/BarChartModel.dart';
-import 'DataModel/bar_chart_graph.dart';
 
 class DrinkWaterLevelScreen extends StatefulWidget {
   const DrinkWaterLevelScreen({Key? key}) : super(key: key);
@@ -28,55 +26,44 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   int num = 1;
   int valueForIncreament = 100;
 
-  List<BarChartModel> get data => [
-    BarChartModel(
-      year: "2014",
-      financial: 250,
-      color: charts.ColorUtil.fromDartColor
-        (Colur.water_level_wave2),
-    ),
-    BarChartModel(
-      year: "2015",
-      financial: 300,
-      color: charts.ColorUtil.fromDartColor
-        (Colur.water_level_wave2),
-    ),
-    BarChartModel(
-      year: "2016",
-      financial: 100,
-      color: charts.ColorUtil.fromDartColor
-        (Colur.water_level_wave2),
-    ),
-    BarChartModel(
-      year: "2017",
-      financial: 450,
-      color: charts.ColorUtil.fromDartColor
-        (Colur.water_level_wave2),
-    ),
-    BarChartModel(
-      year: "2018",
-      financial: 630,
-      color: charts.ColorUtil.fromDartColor
-        (Colur.water_level_wave2),
-    ),
-    BarChartModel(
-      year: "2019",
-      financial: 1000,
-      color: charts.ColorUtil.fromDartColor
-        (Colur.water_level_wave2),
-    ),
-    BarChartModel(
-      year: "2020",
-      financial: 400,
-      color: charts.ColorUtil.fromDartColor
-        (Colur.water_level_wave2),
-    ),
-  ];
-  List<charts.Series<BarChartModel, String?>>? series;
+  final Color barBackgroundColor = Colur.rounded_rectangle_color;
+  final Duration animDuration = const Duration(milliseconds: 250);
+
+  int touchedIndexForWaterChart = -1;
+
+  var currentDate = DateTime.now();
+  var currentDay = DateFormat('EEEE').format(DateTime.now());
+  var startDateOfCurrentWeek;
+  var endDateOfCurrentWeek;
+  var formatStartDateOfCurrentWeek;
+  var formatEndDateOfCurrentWeek;
+
   @override
   void initState() {
+    startDateOfCurrentWeek =
+        getDate(currentDate.subtract(Duration(days: currentDate.weekday - 1)));
+    endDateOfCurrentWeek = getDate(currentDate
+        .add(Duration(days: DateTime.daysPerWeek - currentDate.weekday)));
+    formatStartDateOfCurrentWeek =
+        DateFormat.MMMd('en_US').format(startDateOfCurrentWeek);
+    formatEndDateOfCurrentWeek =
+        DateFormat.MMMd('en_US').format(endDateOfCurrentWeek);
+
+    Debug.printLog("currentDate ==>" + currentDate.toString());
+    Debug.printLog("currentDay ==>" + currentDay.toString());
+
+    Debug.printLog(
+        "startDateOfCurrentWeek ==>" + startDateOfCurrentWeek.toString());
+    Debug.printLog(
+        "endDateOfCurrentWeek ==>" + endDateOfCurrentWeek.toString());
+    Debug.printLog("formatStartDateOfCurrentWeek ==>" +
+        formatStartDateOfCurrentWeek.toString());
+    Debug.printLog("formatEndDateOfCurrentWeek ==>" +
+        formatEndDateOfCurrentWeek.toString());
     super.initState();
   }
+
+  DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
 
   @override
   Widget build(BuildContext context) {
@@ -101,10 +88,10 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             _designForWaterIncrementButton(fullheight, fullwidth),
             _designForWaterMeasureIcon(fullheight, fullwidth),
             _designWeek(fullheight, fullwidth),
-            _graph(fullheight, fullwidth),
+            _drinkWaterWidget(context),
             _todayHistory(fullheight, fullwidth),
             _reminderHistory(fullheight, fullwidth),
-            _history(fullheight, fullwidth,context),
+            _history(fullheight, fullwidth, context),
           ],
         ),
       ),
@@ -117,10 +104,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
       Navigator.pop(context);
     }
     if (name == Constant.STR_SETTING_CIRCLE) {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => DrinkWaterSettingsScreen()));
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => DrinkWaterSettingsScreen()));
     }
   }
 
@@ -353,7 +338,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 5),
+            margin: EdgeInsets.only(top: 15),
             height: 3,
             width: 40,
             decoration: BoxDecoration(
@@ -365,89 +350,274 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
       ),
     );
   }
-  Widget? profileScreenWidget(BuildContext context) {
-    series = [
-      charts.Series(
-      id: "Water Level",
-      data: data,
-      domainFn: (BarChartModel series, _) => series.year,
-      measureFn: (BarChartModel series, _) => series.financial,
-      colorFn: (BarChartModel series, _) => series.color!,
-        /*radiusPxFn: (ChartData series, _) => 0.0,
-        strokeWidthPxFn: (ChartData series, _) => 50,
-        colorFn: (ChartData series, _) =>
-            charts.ColorUtil.fromDartColor(Colur.primary),
-        labelAccessorFn: (ChartData series, _) => '${series.points}',
-        insideLabelStyleAccessorFn: (ChartData series, _) {
-          final color = charts.ColorUtil.fromDartColor(Colur.txt_black);
-          return new charts.TextStyleSpec(
-              color: color, fontSize: 15, lineHeight: 20);
-        },
-        outsideLabelStyleAccessorFn: (ChartData series, _) {
-          final color = charts.ColorUtil.fromDartColor(Colur.txt_black);
-          return new charts.TextStyleSpec(
-              color: color, fontSize: 15, lineHeight: 20);
-        },*/
 
-      ),
-    ];
-  }
-
-  _graph(double fullheight, double fullwidth) {
+  _drinkWaterWidget(BuildContext context) {
     return Container(
-      height: 300,
-      margin: EdgeInsets.only(left: 10, right: 10, top: 40),
-      width: fullwidth,
-      child: /*charts.BarChart(
-        series,
-        animate: false,
-        barRendererDecorator: new charts.BarLabelDecorator<String>(),
-        primaryMeasureAxis: charts.NumericAxisSpec(
-            renderSpec: charts.GridlineRendererSpec(
-              lineStyle: new charts.LineStyleSpec(
-                  color: charts.ColorUtil.fromDartColor(Colur.transparent)),
-              labelStyle: charts.TextStyleSpec(
-                fontSize: 15,
-                color: charts.ColorUtil.fromDartColor(Colur.txt_black),
-                fontWeight: const <int, String>{
-                  4: 'FontWeight.w400',
-                  5: 'FontWeight.w500',
-                  6: 'FontWeight.w600',
-                  7: 'FontWeight.w700',
-                }[5],
-                fontFamily: 'SFProDisplay',
-              ),
-            )),
-        domainAxis: new charts.OrdinalAxisSpec(
-            renderSpec: new charts.SmallTickRendererSpec(
-              lineStyle: new charts.LineStyleSpec(
-                  color: charts.ColorUtil.fromDartColor(Colur.transparent)),
-              labelStyle: new charts.TextStyleSpec(
-                  fontSize: 12,
-                  lineHeight: 1.5,
-                  fontWeight: const <int, String>{
-                    4: 'FontWeight.w400',
-                    5: 'FontWeight.w500',
-                    6: 'FontWeight.w600',
-                    7: 'FontWeight.w700',
-                  }[5],
-                  fontFamily: 'SFProDisplay',
-                  color: charts.ColorUtil.fromDartColor(Colur.txt_black)),
-            )),
-      ),*/
-      ListView(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: false,
+      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+      margin: const EdgeInsets.only(top: 25.0),
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          BarChartGraph(
-            data: data,
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 20.0),
+            child: Text(
+              formatStartDateOfCurrentWeek.toString() +
+                  " - " +
+                  formatEndDateOfCurrentWeek.toString(),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colur.white,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 15.5),
+              //maxLines: 1,
+            ),
           ),
-
+          Container(
+            height: 200,
+            margin: EdgeInsets.only(top: 30.0),
+            width: double.infinity,
+            child: BarChart(
+              BarChartData(
+                barTouchData: BarTouchData(
+                  touchTooltipData: BarTouchTooltipData(
+                      tooltipBgColor: Colur.txt_grey,
+                      getTooltipItem: (group, groupIndex, rod, rodIndex) {
+                        String weekDay;
+                        switch (group.x.toInt()) {
+                          case 0:
+                            weekDay = Languages.of(context)!.txtMonday;
+                            break;
+                          case 1:
+                            weekDay = Languages.of(context)!.txtTuesday;
+                            break;
+                          case 2:
+                            weekDay = Languages.of(context)!.txtWednesday;
+                            break;
+                          case 3:
+                            weekDay = Languages.of(context)!.txtThursday;
+                            break;
+                          case 4:
+                            weekDay = Languages.of(context)!.txtFriday;
+                            break;
+                          case 5:
+                            weekDay = Languages.of(context)!.txtSaturday;
+                            break;
+                          case 6:
+                            weekDay = Languages.of(context)!.txtSunday;
+                            break;
+                          default:
+                            throw Error();
+                        }
+                        return BarTooltipItem(
+                          weekDay + '\n',
+                          TextStyle(
+                            color: Colur.txt_white,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                          children: <TextSpan>[
+                            TextSpan(
+                              text: (rod.y.toInt() - 1).toString(),
+                              style: TextStyle(
+                                color: Colur.txt_white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        );
+                      }),
+                  touchCallback: (barTouchResponse) {
+                    setState(() {
+                      if (barTouchResponse.spot != null &&
+                          barTouchResponse.touchInput is! PointerUpEvent &&
+                          barTouchResponse.touchInput is! PointerExitEvent) {
+                        touchedIndexForWaterChart =
+                            barTouchResponse.spot!.touchedBarGroupIndex;
+                      } else {
+                        touchedIndexForWaterChart = -1;
+                      }
+                    });
+                  },
+                ),
+                titlesData: FlTitlesData(
+                  show: true,
+                  bottomTitles: SideTitles(
+                    showTitles: true,
+                    getTextStyles: (value) {
+                      switch (value.toInt()) {
+                        case 0:
+                          return currentDay == Languages.of(context)!.txtMonday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 1:
+                          return currentDay == Languages.of(context)!.txtTuesday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 2:
+                          return currentDay ==
+                                  Languages.of(context)!.txtWednesday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 3:
+                          return currentDay ==
+                                  Languages.of(context)!.txtThursday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 4:
+                          return currentDay == Languages.of(context)!.txtFriday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 5:
+                          return currentDay ==
+                                  Languages.of(context)!.txtSaturday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        case 6:
+                          return currentDay == Languages.of(context)!.txtSunday
+                              ? _selectedTextStyle()
+                              : _unSelectedTextStyle();
+                        default:
+                          return _unSelectedTextStyle();
+                      }
+                    },
+                    margin: 10,
+                    getTitles: (double value) {
+                      switch (value.toInt()) {
+                        case 0:
+                          return currentDay == Languages.of(context)!.txtMonday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtMon;
+                        case 1:
+                          return currentDay == Languages.of(context)!.txtTuesday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtTue;
+                        case 2:
+                          return currentDay ==
+                                  Languages.of(context)!.txtWednesday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtWed;
+                        case 3:
+                          return currentDay ==
+                                  Languages.of(context)!.txtThursday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtThu;
+                        case 4:
+                          return currentDay == Languages.of(context)!.txtFriday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtFri;
+                        case 5:
+                          return currentDay ==
+                                  Languages.of(context)!.txtSaturday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtSat;
+                        case 6:
+                          return currentDay == Languages.of(context)!.txtSunday
+                              ? Languages.of(context)!.txtToday
+                              : Languages.of(context)!.txtSun;
+                        default:
+                          return '';
+                      }
+                    },
+                  ),
+                  leftTitles: SideTitles(
+                    showTitles: false,
+                  ),
+                ),
+                borderData: FlBorderData(
+                  show: false,
+                ),
+                barGroups: showingDrinkWaterGroups(),
+              ),
+              swapAnimationDuration: animDuration,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 20.0),
+            child: Text(
+              Languages.of(context)!.txtDailyAverage + " : " + "2,000",
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colur.graph_water,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 15.5),
+              //maxLines: 1,
+            ),
+          ),
         ],
       ),
-
     );
   }
+
+  _selectedTextStyle() {
+    return const TextStyle(
+        color: Colur.txt_white, fontWeight: FontWeight.w400, fontSize: 14);
+  }
+
+  _unSelectedTextStyle() {
+    return const TextStyle(
+        color: Colur.txt_grey, fontWeight: FontWeight.w400, fontSize: 14);
+  }
+
+  BarChartGroupData makeDrinkWaterGroupData(
+    int x,
+    double y, {
+    bool isTouched = false,
+    Color barColor = Colur.graph_water,
+    double width = 40,
+  }) {
+    return BarChartGroupData(
+      x: x,
+      barRods: [
+        BarChartRodData(
+          y: isTouched ? y + 1 : y,
+          colors: isTouched ? [Colur.white] : [barColor],
+          width: width,
+          borderRadius: BorderRadius.all(Radius.zero),
+          backDrawRodData: BackgroundBarChartRodData(
+            show: true,
+            y: 200.0,
+            colors: [barBackgroundColor],
+          ),
+        ),
+      ],
+    );
+  }
+
+  List<BarChartGroupData> showingDrinkWaterGroups() => List.generate(7, (i) {
+        switch (i) {
+          case 0:
+            return makeDrinkWaterGroupData(0, 100.0,
+                isTouched: i == touchedIndexForWaterChart);
+          case 1:
+            return makeDrinkWaterGroupData(1, 50.5,
+                isTouched: i == touchedIndexForWaterChart);
+          case 2:
+            return makeDrinkWaterGroupData(2, 80.0,
+                isTouched: i == touchedIndexForWaterChart);
+          case 3:
+            return makeDrinkWaterGroupData(3, 70.5,
+                isTouched: i == touchedIndexForWaterChart);
+          case 4:
+            return makeDrinkWaterGroupData(4, 90.0,
+                isTouched: i == touchedIndexForWaterChart);
+          case 5:
+            return makeDrinkWaterGroupData(5, 20.5,
+                isTouched: i == touchedIndexForWaterChart);
+          case 6:
+            return makeDrinkWaterGroupData(6, 60.5,
+                isTouched: i == touchedIndexForWaterChart);
+          default:
+            return throw Error();
+        }
+      });
 
   _todayHistory(double fullheight, double fullwidth) {
     return Container(
@@ -530,14 +700,13 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                               color: Colur.txt_grey),
                         ),
                       ),
-
                     ],
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(),
                   child: Text(
-                    "100"+" "+Languages.of(context)!.txtMl,
+                    "100" + " " + Languages.of(context)!.txtMl,
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -545,11 +714,11 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 20),
-                  child:Image.asset("assets/icons/ic_more.webp",scale: 3.5,)
-                ),
-
-
+                    margin: EdgeInsets.only(left: 20),
+                    child: Image.asset(
+                      "assets/icons/ic_more.webp",
+                      scale: 3.5,
+                    )),
               ],
             ),
           )
@@ -558,21 +727,19 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
     );
   }
 
-  _history(double fullheight, double fullwidth,BuildContext context) {
+  _history(double fullheight, double fullwidth, BuildContext context) {
     return ListView.builder(
-        itemCount:
-        9,
-        padding: EdgeInsets.only(
-            bottom: 5),
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          return _listTileofHistory(context, index);
-        },
+      itemCount: 9,
+      padding: EdgeInsets.only(bottom: 5),
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (BuildContext context, int index) {
+        return _listTileofHistory(context, index);
+      },
     );
   }
 
-  _listTileofHistory(BuildContext context,int index){
+  _listTileofHistory(BuildContext context, int index) {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20, top: 50),
       child: Column(
@@ -604,7 +771,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                 Container(
                   margin: EdgeInsets.only(),
                   child: Text(
-                    "100"+" "+Languages.of(context)!.txtMl,
+                    "100" + " " + Languages.of(context)!.txtMl,
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
@@ -613,10 +780,10 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                 ),
                 Container(
                     margin: EdgeInsets.only(left: 20),
-                    child:Image.asset("assets/icons/ic_more.webp",scale: 3.5,)
-                ),
-
-
+                    child: Image.asset(
+                      "assets/icons/ic_more.webp",
+                      scale: 3.5,
+                    )),
               ],
             ),
           )
@@ -624,6 +791,4 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
       ),
     );
   }
-
-
 }

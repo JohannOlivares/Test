@@ -376,6 +376,48 @@ class LanguageEn extends Languages {
   String get txtRestart => "Restart";
 
   @override
+  String get txtFriday => "Friday";
+
+  @override
+  String get txtMonday => "Monday";
+
+  @override
+  String get txtSaturday => "Saturday";
+
+  @override
+  String get txtSunday => "Sunday";
+
+  @override
+  String get txtThursday => "Thursday";
+
+  @override
+  String get txtTuesday => "Tuesday";
+
+  @override
+  String get txtWednesday => "Wednesday";
+
+  @override
+  String get txtFri => "Mon";
+
+  @override
+  String get txtMon => "Tue";
+
+  @override
+  String get txtSat => "Wed";
+
+  @override
+  String get txtSun => "Thu";
+
+  @override
+  String get txtThu => "Fri";
+
+  @override
+  String get txtTue => "Sat";
+
+  @override
+  String get txtWed => "Sun";
+
+  @override
   String get txtWeekGoalSetting => "Weekly Goal Setting";
 
   @override

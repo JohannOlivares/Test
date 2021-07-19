@@ -338,6 +338,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                       ),
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
                           value,
@@ -347,15 +348,21 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                               color: Colur.txt_purple
                           ),
                         ),
-                        SizedBox(width: 7,),
                         Visibility(
                           visible: isNotDuration,
-                          child: Text(
-                            isNotDuration ? unit! : "",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                color: Colur.txt_purple
+                          child: Container(
+                            padding: const EdgeInsets.only(
+                                left: 5.0, bottom: 3.0),
+                            child: Text(
+                              isNotDuration ? unit! : "",
+                              textAlign: TextAlign.left,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  color: Colur.txt_purple,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 14),
+                              //maxLines: 1,
                             ),
                           ),
                         ),

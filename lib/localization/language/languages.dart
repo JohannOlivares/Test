@@ -246,8 +246,40 @@ abstract class Languages {
   String get txtTroubleShooting;
 
   String get txtMetricAndImperialUnits;
+
   String get txtFinishTraining;
+
   String get txtFinish;
+
   String get txtContinue;
+
   String get txtRestart;
+
+  String get txtMonday;
+
+  String get txtTuesday;
+
+  String get txtWednesday;
+
+  String get txtThursday;
+
+  String get txtFriday;
+
+  String get txtSaturday;
+
+  String get txtSunday;
+
+  String get txtFri;
+
+  String get txtMon;
+
+  String get txtSat;
+
+  String get txtSun;
+
+  String get txtThu;
+
+  String get txtTue;
+
+  String get txtWed;
 }
