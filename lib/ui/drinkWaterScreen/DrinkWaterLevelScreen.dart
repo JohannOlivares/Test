@@ -3,28 +3,30 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/custom/waterLevel/Liquid_progress_indicator.dart';
+import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
+import 'package:run_tracker/dbhelper/database.dart';
+import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/drinkWaterSettings/DrinkWaterSettingsScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:intl/intl.dart';
 
 class DrinkWaterLevelScreen extends StatefulWidget {
-  const DrinkWaterLevelScreen({Key? key}) : super(key: key);
-
   @override
   _DrinkWaterLevelScreenState createState() => _DrinkWaterLevelScreenState();
 }
 
 class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
     implements TopBarClickListener {
-  int waterlevelvalue = 300;
-  int maximumLimitOfLevel = 5000;
-  int num = 1;
-  int valueForIncreament = 100;
+  int? drinkWater;
+  int? maxLimitOfDrinkWater;
+  int? num;
+  int? valueForIncrement;
 
   final Color barBackgroundColor = Colur.rounded_rectangle_color;
   final Duration animDuration = const Duration(milliseconds: 250);
@@ -38,8 +40,17 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   var formatStartDateOfCurrentWeek;
   var formatEndDateOfCurrentWeek;
 
+  var prefTargetValue;
+  var prefDrinkWater;
+
   @override
   void initState() {
+    _getPreference();
+    DataBaseHelper().selectDrinkWater();
+
+    drinkWater = 0;
+    num = 1;
+
     startDateOfCurrentWeek =
         getDate(currentDate.subtract(Duration(days: currentDate.weekday - 1)));
     endDateOfCurrentWeek = getDate(currentDate
@@ -64,6 +75,18 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   }
 
   DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
+
+  _getPreference() {
+    prefTargetValue =
+        Preference.shared.getString(Preference.TARGET_DRINK_WATER);
+    setState(() {
+      if (prefTargetValue == null) {
+        maxLimitOfDrinkWater = 5000;
+      } else {
+        maxLimitOfDrinkWater = int.parse(prefTargetValue);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,24 +121,13 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
     );
   }
 
-  @override
-  void onTopBarClick(String name, {bool value = true}) {
-    if (name == Constant.STR_BACK) {
-      Navigator.pop(context);
-    }
-    if (name == Constant.STR_SETTING_CIRCLE) {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => DrinkWaterSettingsScreen()));
-    }
-  }
-
   _waterProgressIndicator(double fullheight, double fullwidth) {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+      margin: const EdgeInsets.only(top: 20),
       height: 250,
       width: 250,
       child: LiquidCircularProgressIndicator(
-          value: waterlevelvalue / maximumLimitOfLevel,
+          value: drinkWater! / maxLimitOfDrinkWater!,
           // Defaults to 0.5.
           valueColor: AlwaysStoppedAnimation(Colur.water_level_wave2),
           //Color(0x9000AEFF)
@@ -130,7 +142,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                margin: EdgeInsets.only(top: 20),
+                margin: const EdgeInsets.only(top: 20),
                 height: 60,
                 child: Image.asset(
                   'assets/icons/ic_bottle.png',
@@ -141,7 +153,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                 child: Column(
                   children: [
                     Text(
-                      waterlevelvalue.toString(),
+                      drinkWater.toString(),
                       style: TextStyle(
                         color: Colur.txt_white,
                         fontSize: 48,
@@ -149,7 +161,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                       ),
                     ),
                     Text(
-                      "/" + maximumLimitOfLevel.toString(),
+                      "/" + maxLimitOfDrinkWater.toString(),
                       style: TextStyle(
                         color: Colur.txt_white,
                         fontSize: 16,
@@ -161,7 +173,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
               ),
               Container(
                 height: 70,
-                margin: EdgeInsets.only(bottom: 10),
+                margin: const EdgeInsets.only(bottom: 10),
               )
             ],
           )),
@@ -174,7 +186,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
-            margin: EdgeInsets.only(top: 10, bottom: 10),
+            margin: const EdgeInsets.only(top: 10, bottom: 10),
             child: Image.asset(
               'assets/icons/water/ic_up_arrow.png',
               scale: 2.6,
@@ -187,28 +199,31 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
               InkWell(
                 onTap: () {
                   setState(() {
-                    waterlevelvalue = waterlevelvalue + valueForIncreament;
-                    Utils.showToast(context, waterlevelvalue.toString());
+                    int newValue = drinkWater! - valueForIncrement!;
+                    if (newValue < 0)
+                      drinkWater = 0;
+                    else
+                      drinkWater = newValue;
+                    Debug.printLog(
+                        "Minus Drink Water ==> " + drinkWater.toString());
                   });
-                  //Utils.showToast(context, "Increment");
                 },
                 child: Container(
-                  margin: EdgeInsets.only(right: 8),
-                  padding: EdgeInsets.all(24),
+                  margin: const EdgeInsets.only(right: 8),
+                  padding: const EdgeInsets.all(24),
                   child: Image.asset(
-                    'assets/icons/water/ic_plus.png',
+                    'assets/icons/water/ic_minus.png',
                     scale: 2.5,
                   ),
                 ),
               ),
               //For Water Level IconCode
-
               Container(
                 height: 50,
                 width: 50,
-                padding: EdgeInsets.only(left: 6),
+                padding: const EdgeInsets.only(left: 6),
                 child: Image.asset(
-                  _selectedCommonIcon(fullheight, fullwidth, num),
+                  _selectedCommonIcon(fullheight, fullwidth, num!),
                   scale: 3.5,
                 ),
               ),
@@ -217,19 +232,16 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
               InkWell(
                 onTap: () {
                   setState(() {
-                    int newvalue = waterlevelvalue - valueForIncreament;
-                    if (newvalue < 0)
-                      waterlevelvalue = 0;
-                    else
-                      waterlevelvalue = newvalue;
-                    Utils.showToast(context, waterlevelvalue.toString());
+                    drinkWater = drinkWater! + valueForIncrement!;
+                    Debug.printLog("Plus Water drinkWater ==> " + drinkWater.toString());
+                    DataBaseHelper().insertDrinkWater(WaterData(ml: drinkWater,dateTime: Utils.getCurrentDateTime()));
                   });
                 },
                 child: Container(
-                  padding: EdgeInsets.all(24),
-                  margin: EdgeInsets.only(left: 10),
+                  padding: const EdgeInsets.all(24),
+                  margin: const EdgeInsets.only(left: 10),
                   child: Image.asset(
-                    'assets/icons/water/ic_minus.png',
+                    'assets/icons/water/ic_plus.png',
                     scale: 2.5,
                   ),
                 ),
@@ -238,7 +250,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           ),
           Container(
             child: Text(
-              valueForIncreament.toString() + Languages.of(context)!.txtMl,
+              valueForIncrement.toString() + Languages.of(context)!.txtMl,
               style: TextStyle(
                   color: Colur.txt_grey,
                   fontSize: 12,
@@ -252,7 +264,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
 
   _designForWaterMeasureIcon(double fullheight, double fullwidth) {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 70),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 30, bottom: 70),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -338,7 +350,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 15),
+            margin: const EdgeInsets.only(top: 15),
             height: 3,
             width: 40,
             decoration: BoxDecoration(
@@ -361,7 +373,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
         children: [
           Container(
             width: double.infinity,
-            margin: EdgeInsets.only(top: 20.0),
+            margin: const EdgeInsets.only(top: 20.0),
             child: Text(
               formatStartDateOfCurrentWeek.toString() +
                   " - " +
@@ -378,7 +390,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           ),
           Container(
             height: 200,
-            margin: EdgeInsets.only(top: 30.0),
+            margin: const EdgeInsets.only(top: 30.0),
             width: double.infinity,
             child: BarChart(
               BarChartData(
@@ -538,7 +550,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           ),
           Container(
             width: double.infinity,
-            margin: EdgeInsets.only(top: 20.0),
+            margin: const EdgeInsets.only(top: 20.0),
             child: Text(
               Languages.of(context)!.txtDailyAverage + " : " + "2,000",
               textAlign: TextAlign.center,
@@ -621,7 +633,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
 
   _todayHistory(double fullheight, double fullwidth) {
     return Container(
-      margin: EdgeInsets.only(left: 20, top: 50),
+      margin: const EdgeInsets.only(left: 20, top: 50),
       child: Row(
         children: [
           Container(
@@ -642,16 +654,16 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   _selectedCommonIcon(double fullheight, double fullwidth, int num) {
     switch (num) {
       case 1:
-        valueForIncreament = 100;
+        valueForIncrement = 100;
         return 'assets/icons/water/ic_fill_100.png';
       case 2:
-        valueForIncreament = 150;
+        valueForIncrement = 150;
         return 'assets/icons/water/ic_fill_150.png';
       case 3:
-        valueForIncreament = 250;
+        valueForIncrement = 250;
         return 'assets/icons/water/ic_fill_250.png';
       case 4:
-        valueForIncreament = 500;
+        valueForIncrement = 500;
         return 'assets/icons/water/ic_fill_500.png';
       default:
         return Utils.showToast(context, "Something Went Wrong in Switch");
@@ -661,14 +673,14 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
 
   _reminderHistory(double fullheight, double fullwidth) {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 50),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 50),
       child: Column(
         children: [
           Container(
             child: Row(
               children: [
                 Container(
-                  margin: EdgeInsets.only(right: 20),
+                  margin: const EdgeInsets.only(right: 20),
                   height: 20,
                   width: 20,
                   child: Image.asset(
@@ -681,7 +693,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(),
+                        margin: const EdgeInsets.only(),
                         child: Text(
                           "${DateFormat().add_jm().format(DateTime.now()).toString()}",
                           style: TextStyle(
@@ -691,7 +703,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(),
+                        margin: const EdgeInsets.only(),
                         child: Text(
                           Languages.of(context)!.txtNextTime,
                           style: TextStyle(
@@ -704,7 +716,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(),
+                  margin: const EdgeInsets.only(),
                   child: Text(
                     "100" + " " + Languages.of(context)!.txtMl,
                     style: TextStyle(
@@ -714,7 +726,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.only(left: 20),
+                    margin: const EdgeInsets.only(left: 20),
                     child: Image.asset(
                       "assets/icons/ic_more.webp",
                       scale: 3.5,
@@ -730,7 +742,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   _history(double fullheight, double fullwidth, BuildContext context) {
     return ListView.builder(
       itemCount: 9,
-      padding: EdgeInsets.only(bottom: 5),
+      padding: const EdgeInsets.only(bottom: 5),
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemBuilder: (BuildContext context, int index) {
@@ -741,14 +753,14 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
 
   _listTileofHistory(BuildContext context, int index) {
     return Container(
-      margin: EdgeInsets.only(left: 20, right: 20, top: 50),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 50),
       child: Column(
         children: [
           Container(
             child: Row(
               children: [
                 Container(
-                  margin: EdgeInsets.only(right: 20),
+                  margin: const EdgeInsets.only(right: 20),
                   height: 20,
                   width: 20,
                   child: Image.asset(
@@ -758,7 +770,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                 ),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(),
+                    margin: const EdgeInsets.only(),
                     child: Text(
                       "${DateFormat().add_jm().format(DateTime.now()).toString()}",
                       style: TextStyle(
@@ -769,7 +781,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(),
+                  margin: const EdgeInsets.only(),
                   child: Text(
                     "100" + " " + Languages.of(context)!.txtMl,
                     style: TextStyle(
@@ -779,7 +791,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                   ),
                 ),
                 Container(
-                    margin: EdgeInsets.only(left: 20),
+                    margin: const EdgeInsets.only(left: 20),
                     child: Image.asset(
                       "assets/icons/ic_more.webp",
                       scale: 3.5,
@@ -790,5 +802,19 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
         ],
       ),
     );
+  }
+
+  @override
+  void onTopBarClick(String name, {bool value = true}) {
+    if (name == Constant.STR_BACK) {
+      Navigator.pop(context);
+    }
+    if (name == Constant.STR_SETTING_CIRCLE) {
+      Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DrinkWaterSettingsScreen()))
+          .then((value) => _getPreference());
+    }
   }
 }

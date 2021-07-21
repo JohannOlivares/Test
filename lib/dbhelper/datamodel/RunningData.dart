@@ -1,22 +1,28 @@
 import 'package:floor/floor.dart';
-import 'package:flutter/material.dart';
 
 @entity
 class RunningData {
   @PrimaryKey(autoGenerate: true)
-  final int? id;
+  int? id;
 
-  int? duration;
-  int? distance;
-  String? sLat;
-  String? sLong;
-  String? eLat;
-  String? eLong;
-  String? path;
+  final int? duration;
+  final int? distance;
+  final String? sLat;
+  final String? sLong;
+  final String? eLat;
+  final String? eLong;
+  final String? path;
 
-  RunningData({required this.id});
+  RunningData(
+      {this.duration,
+      this.distance,
+      this.sLat,
+      this.eLong,
+      this.eLat,
+      this.sLong,
+      this.path});
 
-  /*@override
+/*@override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is RunningData &&

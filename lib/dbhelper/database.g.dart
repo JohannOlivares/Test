@@ -62,6 +62,10 @@ class _$FlutterDatabase extends FlutterDatabase {
 
   RunningDao? _runningDaoInstance;
 
+  WaterDao? _waterDaoInstance;
+
+  WeightDao? _weightDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -82,6 +86,10 @@ class _$FlutterDatabase extends FlutterDatabase {
       onCreate: (database, version) async {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `RunningData` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `duration` INTEGER, `distance` INTEGER, `sLat` TEXT, `sLong` TEXT, `eLat` TEXT, `eLong` TEXT, `path` TEXT)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `WaterData` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `ml` INTEGER, `dateTime` TEXT)');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `WeightData` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weightKg` TEXT, `weightLb` TEXT, `weightDate` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -92,6 +100,16 @@ class _$FlutterDatabase extends FlutterDatabase {
   @override
   RunningDao get runningDao {
     return _runningDaoInstance ??= _$RunningDao(database, changeListener);
+  }
+
+  @override
+  WaterDao get waterDao {
+    return _waterDaoInstance ??= _$WaterDao(database, changeListener);
+  }
+
+  @override
+  WeightDao get weightDao {
+    return _weightDaoInstance ??= _$WeightDao(database, changeListener);
   }
 }
 
@@ -157,24 +175,42 @@ class _$RunningDao extends RunningDao {
 
   @override
   Future<RunningData?> findTaskById(int id) async {
-    return _queryAdapter.query('SELECT * FROM running WHERE id = ?1',
-        mapper: (Map<String, Object?> row) =>
-            RunningData(id: row['id'] as int?),
+    return _queryAdapter.query('SELECT * FROM RunningData WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => RunningData(
+            duration: row['duration'] as int?,
+            distance: row['distance'] as int?,
+            sLat: row['sLat'] as String?,
+            eLong: row['eLong'] as String?,
+            eLat: row['eLat'] as String?,
+            sLong: row['sLong'] as String?,
+            path: row['path'] as String?),
         arguments: [id]);
   }
 
   @override
   Future<List<RunningData>> findAllTasks() async {
-    return _queryAdapter.queryList('SELECT * FROM running',
-        mapper: (Map<String, Object?> row) =>
-            RunningData(id: row['id'] as int?));
+    return _queryAdapter.queryList('SELECT * FROM RunningData',
+        mapper: (Map<String, Object?> row) => RunningData(
+            duration: row['duration'] as int?,
+            distance: row['distance'] as int?,
+            sLat: row['sLat'] as String?,
+            eLong: row['eLong'] as String?,
+            eLat: row['eLat'] as String?,
+            sLong: row['sLong'] as String?,
+            path: row['path'] as String?));
   }
 
   @override
   Stream<List<RunningData>> findAllTasksAsStream() {
-    return _queryAdapter.queryListStream('SELECT * FROM running',
-        mapper: (Map<String, Object?> row) =>
-            RunningData(id: row['id'] as int?),
+    return _queryAdapter.queryListStream('SELECT * FROM RunningData',
+        mapper: (Map<String, Object?> row) => RunningData(
+            duration: row['duration'] as int?,
+            distance: row['distance'] as int?,
+            sLat: row['sLat'] as String?,
+            eLong: row['eLong'] as String?,
+            eLat: row['eLat'] as String?,
+            sLong: row['sLong'] as String?,
+            path: row['path'] as String?),
         queryableName: 'RunningData',
         isView: false);
   }
@@ -208,5 +244,217 @@ class _$RunningDao extends RunningDao {
   @override
   Future<void> deleteTasks(List<RunningData> tasks) async {
     await _runningDataDeletionAdapter.deleteList(tasks);
+  }
+}
+
+class _$WaterDao extends WaterDao {
+  _$WaterDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database, changeListener),
+        _waterDataInsertionAdapter = InsertionAdapter(
+            database,
+            'WaterData',
+            (WaterData item) => <String, Object?>{
+                  'id': item.id,
+                  'ml': item.ml,
+                  'dateTime': item.dateTime
+                },
+            changeListener),
+        _waterDataUpdateAdapter = UpdateAdapter(
+            database,
+            'WaterData',
+            ['id'],
+            (WaterData item) => <String, Object?>{
+                  'id': item.id,
+                  'ml': item.ml,
+                  'dateTime': item.dateTime
+                },
+            changeListener),
+        _waterDataDeletionAdapter = DeletionAdapter(
+            database,
+            'WaterData',
+            ['id'],
+            (WaterData item) => <String, Object?>{
+                  'id': item.id,
+                  'ml': item.ml,
+                  'dateTime': item.dateTime
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<WaterData> _waterDataInsertionAdapter;
+
+  final UpdateAdapter<WaterData> _waterDataUpdateAdapter;
+
+  final DeletionAdapter<WaterData> _waterDataDeletionAdapter;
+
+  @override
+  Future<WaterData?> findTaskById(int id) async {
+    return _queryAdapter.query('SELECT * FROM WaterData WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => WaterData(
+            ml: row['ml'] as int?, dateTime: row['dateTime'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<WaterData>> getAllDrinkWater() async {
+    return _queryAdapter.queryList('SELECT * FROM WaterData',
+        mapper: (Map<String, Object?> row) => WaterData(
+            ml: row['ml'] as int?, dateTime: row['dateTime'] as String?));
+  }
+
+  @override
+  Stream<List<WaterData>> findAllTasksAsStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM WaterData',
+        mapper: (Map<String, Object?> row) => WaterData(
+            ml: row['ml'] as int?, dateTime: row['dateTime'] as String?),
+        queryableName: 'WaterData',
+        isView: false);
+  }
+
+  @override
+  Future<void> insertTasks(List<WaterData> tasks) async {
+    await _waterDataInsertionAdapter.insertList(
+        tasks, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertDrinkWater(WaterData waterData) async {
+    await _waterDataInsertionAdapter.insert(
+        waterData, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTask(WaterData task) async {
+    await _waterDataUpdateAdapter.update(task, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTasks(List<WaterData> task) async {
+    await _waterDataUpdateAdapter.updateList(task, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteTask(WaterData task) async {
+    await _waterDataDeletionAdapter.delete(task);
+  }
+
+  @override
+  Future<void> deleteTasks(List<WaterData> tasks) async {
+    await _waterDataDeletionAdapter.deleteList(tasks);
+  }
+}
+
+class _$WeightDao extends WeightDao {
+  _$WeightDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database, changeListener),
+        _weightDataInsertionAdapter = InsertionAdapter(
+            database,
+            'WeightData',
+            (WeightData item) => <String, Object?>{
+                  'id': item.id,
+                  'weightKg': item.weightKg,
+                  'weightLb': item.weightLb,
+                  'weightDate': item.weightDate
+                },
+            changeListener),
+        _weightDataUpdateAdapter = UpdateAdapter(
+            database,
+            'WeightData',
+            ['id'],
+            (WeightData item) => <String, Object?>{
+                  'id': item.id,
+                  'weightKg': item.weightKg,
+                  'weightLb': item.weightLb,
+                  'weightDate': item.weightDate
+                },
+            changeListener),
+        _weightDataDeletionAdapter = DeletionAdapter(
+            database,
+            'WeightData',
+            ['id'],
+            (WeightData item) => <String, Object?>{
+                  'id': item.id,
+                  'weightKg': item.weightKg,
+                  'weightLb': item.weightLb,
+                  'weightDate': item.weightDate
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<WeightData> _weightDataInsertionAdapter;
+
+  final UpdateAdapter<WeightData> _weightDataUpdateAdapter;
+
+  final DeletionAdapter<WeightData> _weightDataDeletionAdapter;
+
+  @override
+  Future<WeightData?> findTaskById(int id) async {
+    return _queryAdapter.query('SELECT * FROM WeightData WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => WeightData(
+            weightKg: row['weightKg'] as String?,
+            weightLb: row['weightLb'] as String?,
+            weightDate: row['weightDate'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<List<WeightData>> findAllTasks() async {
+    return _queryAdapter.queryList('SELECT * FROM WeightData',
+        mapper: (Map<String, Object?> row) => WeightData(
+            weightKg: row['weightKg'] as String?,
+            weightLb: row['weightLb'] as String?,
+            weightDate: row['weightDate'] as String?));
+  }
+
+  @override
+  Stream<List<WeightData>> findAllTasksAsStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM WeightData',
+        mapper: (Map<String, Object?> row) => WeightData(
+            weightKg: row['weightKg'] as String?,
+            weightLb: row['weightLb'] as String?,
+            weightDate: row['weightDate'] as String?),
+        queryableName: 'WeightData',
+        isView: false);
+  }
+
+  @override
+  Future<void> insertTask(WeightData task) async {
+    await _weightDataInsertionAdapter.insert(task, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertTasks(List<WeightData> tasks) async {
+    await _weightDataInsertionAdapter.insertList(
+        tasks, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTask(WeightData task) async {
+    await _weightDataUpdateAdapter.update(task, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTasks(List<WeightData> task) async {
+    await _weightDataUpdateAdapter.updateList(task, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteTask(WeightData task) async {
+    await _weightDataDeletionAdapter.delete(task);
+  }
+
+  @override
+  Future<void> deleteTasks(List<WeightData> tasks) async {
+    await _weightDataDeletionAdapter.deleteList(tasks);
   }
 }

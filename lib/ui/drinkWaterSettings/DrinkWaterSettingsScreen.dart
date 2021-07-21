@@ -3,7 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/drinkWaterReminder/DrinkWaterReminderScreen.dart';
+import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
+import 'package:run_tracker/utils/Preference.dart';
 
 import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
@@ -11,20 +13,43 @@ import '../../localization/language/languages.dart';
 import '../../utils/Constant.dart';
 
 class DrinkWaterSettingsScreen extends StatefulWidget {
+
   @override
   _DrinkWaterSettingsScreenState createState() => _DrinkWaterSettingsScreenState();
 }
 
 class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> implements TopBarClickListener{
-  String? capacityUnits = '10';
-  String? targetValue = '500';
-  bool isReminder = true;
-  List<String> capacityList = ['50','60','70','80','90','100','110','120','130','140','150'];
-  List<String> targetList = ['500','1000','1500','2000','2500','3000','3500','4000','4500','5000'];
+  String? targetValue;
+  bool isReminder = false;
+  late List<String> targetList;
+  var fullHeight;
+  var fullWidth;
+  var prefTargetValue;
+
+
+  @override
+  void initState() {
+    _getPreferences();
+    isReminder = true;
+    targetList = ['500','1000','1500','2000','2500','3000','3500','4000','4500','5000'];
+
+    if (targetValue == null && prefTargetValue == null){
+      targetValue = targetList[3];
+    }else{
+      targetValue = prefTargetValue;
+    }
+    super.initState();
+  }
+
+  _getPreferences(){
+    prefTargetValue = Preference.shared.getString(Preference.TARGET_DRINK_WATER);
+  }
+
   @override
   Widget build(BuildContext context) {
-    var fullHeight = MediaQuery.of(context).size.height;
-    var fullWidth = MediaQuery.of(context).size.width;
+    fullHeight = MediaQuery.of(context).size.height;
+    fullWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: Colur.common_bg_dark,
       body: SafeArea(
@@ -36,7 +61,7 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
                 child: CommonTopBar(Languages.of(context)!.txtSettings, this, isShowBack: true,),
               ),
 
-              buildListView(context, fullWidth),
+              buildListView(context),
             ],
           ),
         ),
@@ -45,53 +70,12 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
     );
   }
 
-  buildListView(BuildContext context, double fullWidth) {
+  buildListView(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(top: 20),
         child: Container(
           child: Column(
             children: [
-              ListTile(
-                title: Text(
-                  Languages.of(context)!.txtCupCapacityUnits,
-                  style: TextStyle(
-                      color: Colur.txt_white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500
-                  ),
-                ),
-                trailing: DropdownButton(
-                  dropdownColor: Colur.progress_background_color,
-                  underline: Container(
-                    color: Colur.transparent,
-                  ),
-                  value: capacityList[0],//capacityUnits,
-                  iconEnabledColor: Colur.white,
-                  items: capacityList.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        "$value ml",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colur.txt_white,
-                          fontSize: 14,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    setState(() {
-                      capacityUnits = value;
-                    });
-                  },
-                ),
-              ),
-              Divider(
-                color: Colur.txt_grey,
-                indent: fullWidth*0.04,
-                endIndent: fullWidth*0.04,
-              ),
               ListTile(
                 title: Text(
                   Languages.of(context)!.txtTarget,
@@ -114,7 +98,7 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
                   underline: Container(
                     color: Colur.transparent,
                   ),
-                  value: targetList[0],//targetValue,
+                  value: targetValue,//targetValue,
                   iconEnabledColor: Colur.white,
                   items: targetList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
@@ -131,7 +115,9 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
                   }).toList(),
                   onChanged: (dynamic value) {
                     setState(() {
+                      Preference.clearTargetDrinkWater();
                       targetValue = value;
+                      Preference.shared.setString(Preference.TARGET_DRINK_WATER, targetValue.toString());
                     });
                   },
                 ),

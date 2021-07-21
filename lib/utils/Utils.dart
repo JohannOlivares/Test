@@ -19,8 +19,7 @@ class Utils {
         timeInSecForIosWeb: 1,
         backgroundColor: Colur.txt_grey,
         textColor: Colur.white,
-        fontSize: 14.0
-    );
+        fontSize: 14.0);
   }
 
   static bool isLogin() {
@@ -28,7 +27,8 @@ class Utils {
     return (uid != null && uid.isNotEmpty);
   }
 
-
-
-
+  static getCurrentDateTime() {
+    DateTime dateTime = DateTime.now();
+    return "${dateTime.year.toString()}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString()}-${dateTime.minute.toString()}-${dateTime.second.toString()}";
+  }
 }

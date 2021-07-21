@@ -3,13 +3,13 @@ import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 
 @dao
 abstract class RunningDao {
-  @Query('SELECT * FROM running WHERE id = :id')
+  @Query('SELECT * FROM RunningData WHERE id = :id')
   Future<RunningData?> findTaskById(int id);
 
-  @Query('SELECT * FROM running')
+  @Query('SELECT * FROM RunningData')
   Future<List<RunningData>> findAllTasks();
 
-  @Query('SELECT * FROM running')
+  @Query('SELECT * FROM RunningData')
   Stream<List<RunningData>> findAllTasksAsStream();
 
   @insert

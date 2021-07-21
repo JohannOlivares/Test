@@ -18,31 +18,7 @@ class Preference {
   static const String PERCENTAGE = "PERCENTAGE";
   static const String NEED_TO_SYNC = "NEED_TO_SYNC";
 
-  static const String LECTURE_SCREEN_RES = "LECTURE_SCREEN_RES";
-  static const String LECTURE_SCREEN_RES_LAST_PAGE =
-      "LECTURE_SCREEN_RES_LAST_PAGE";
-  static const String SINGLE_CASES_SCREEN_RES = "SINGLE_CASES_SCREEN_RES";
-  static const String SINGLE_CASES_SCREEN_RES_LAST_PAGE =
-      "SINGLE_CASES_SCREEN_RES_LAST_PAGE";
-  static const String PLAYLIST_SCREEN_RES = "PLAYLIST_SCREEN_RES";
-  static const String PLAYLIST_SCREEN_RES_LAST_PAGE =
-      "PLAYLIST_SCREEN_RES_LAST_PAGE";
-  static const String SINGLE_PLAYER_SCREEN_RES = "SINGLE_PLAYER_SCREEN_RES";
-  static const String SINGLE_PLAYER_SCREEN_RES_LAST_PAGE =
-      "SINGLE_PLAYER_SCREEN_RES_LAST_PAGE";
-  static const String GROUP_SCREEN_RES = "GROUP_SCREEN_RES";
-  static const String GROUP_SCREEN_RES_LAST_PAGE = "GROUP_SCREEN_RES_LAST_PAGE";
-  static const String GAME_LEVEL_SCREEN_RES = "GAME_LEVEL_SCREEN_RES";
-  static const String GAME_LEVEL_SCREEN_RES_COMPLETE_COUNT =
-      "GAME_LEVEL_SCREEN_RES_COMPLETE_COUNT";
-  static const String GAME_LEVEL_SCREEN_RES_TOTAL_COUNT =
-      "GAME_LEVEL_SCREEN_RES_TOTAL_COUNT";
-  static const String QUESTIONS_SCREEN_RES = "QUESTIONS_SCREEN_RES";
-  static const String QUIZ_SCREEN_RES = "QUIZ_SCREEN_RES";
-  static const String IS_PLAYLIST_SHUFFLE = "IS_PLAYLIST_SHUFFLE";
-  static const String STRIKES_SCREEN_RES = "STRIKES_SCREEN_RES";
-  static const String STRIKES_SCREEN_RES_LAST_PAGE =
-      "STRIKES_SCREEN_RES_LAST_PAGE";
+  static const String TARGET_DRINK_WATER = "TARGET_DRINK_WATER";
 
   // ------------------ SINGLETON -----------------------
   static final Preference _preference = Preference._internal();
@@ -132,113 +108,12 @@ class Preference {
     return Future.value(true);
   }
 
-  static Future<bool> clearAPIRes() {
+  static Future<bool> clearTargetDrinkWater() async {
     _pref!.getKeys().forEach((key) async {
-      if (key == LECTURE_SCREEN_RES ||
-          key == LECTURE_SCREEN_RES_LAST_PAGE ||
-          key == SINGLE_CASES_SCREEN_RES ||
-          key == SINGLE_CASES_SCREEN_RES_LAST_PAGE ||
-          key == PLAYLIST_SCREEN_RES ||
-          key == PLAYLIST_SCREEN_RES_LAST_PAGE ||
-          key == SINGLE_PLAYER_SCREEN_RES ||
-          key == SINGLE_PLAYER_SCREEN_RES_LAST_PAGE ||
-          key == GROUP_SCREEN_RES ||
-          key == GROUP_SCREEN_RES_LAST_PAGE ||
-          key == GAME_LEVEL_SCREEN_RES ||
-          key == GAME_LEVEL_SCREEN_RES_COMPLETE_COUNT ||
-          key == GAME_LEVEL_SCREEN_RES_TOTAL_COUNT ||
-          key == QUIZ_SCREEN_RES ||
-          key == QUESTIONS_SCREEN_RES) {
+      if (key == TARGET_DRINK_WATER) {
         await _pref!.remove(key);
       }
     });
-
-    return Future.value(true);
-  }
-
-  static Future<bool> clearPlayListAPIRes() {
-    _pref!.getKeys().forEach((key) async {
-      if (key == PLAYLIST_SCREEN_RES ||
-          key == PLAYLIST_SCREEN_RES_LAST_PAGE ||
-          key == QUESTIONS_SCREEN_RES) {
-        await _pref!.remove(key);
-      }
-    });
-
-    return Future.value(true);
-  }
-
-  static Future<bool> clearQuestionsAPIRes() {
-    _pref!.getKeys().forEach((key) async {
-      if (key == QUESTIONS_SCREEN_RES) {
-        await _pref!.remove(key);
-      }
-    });
-
-    return Future.value(true);
-  }
-
-  static Future<bool> clearLectureAPIRes() {
-    _pref!.getKeys().forEach((key) async {
-      if (key == LECTURE_SCREEN_RES || key == LECTURE_SCREEN_RES_LAST_PAGE) {
-        await _pref!.remove(key);
-      }
-    });
-
-    return Future.value(true);
-  }
-
-  static Future<bool> clearSingleCasesAPIRes() {
-    _pref!.getKeys().forEach((key) async {
-      if (key == SINGLE_CASES_SCREEN_RES ||
-          key == SINGLE_CASES_SCREEN_RES_LAST_PAGE) {
-        await _pref!.remove(key);
-      }
-    });
-
-    return Future.value(true);
-  }
-
-  static Future<bool> clearGameLevelAPIRes() {
-    _pref!.getKeys().forEach((key) async {
-      if (key == GAME_LEVEL_SCREEN_RES ||
-          key == GAME_LEVEL_SCREEN_RES_COMPLETE_COUNT ||
-          key == GAME_LEVEL_SCREEN_RES_TOTAL_COUNT) {
-        await _pref!.remove(key);
-      }
-    });
-
-    return Future.value(true);
-  }
-
-  static Future<bool> clearGroupAPIRes() {
-    _pref!.getKeys().forEach((key) async {
-      if (key == GROUP_SCREEN_RES || key == GROUP_SCREEN_RES_LAST_PAGE) {
-        await _pref!.remove(key);
-      }
-    });
-
-    return Future.value(true);
-  }
-
-  static Future<bool> clearSinglePlayerAPIRes() {
-    _pref!.getKeys().forEach((key) async {
-      if (key == SINGLE_PLAYER_SCREEN_RES ||
-          key == SINGLE_PLAYER_SCREEN_RES_LAST_PAGE) {
-        await _pref!.remove(key);
-      }
-    });
-
-    return Future.value(true);
-  }
-
-  static Future<bool> clearStrikesAPIRes() {
-    _pref!.getKeys().forEach((key) async {
-      if (key == STRIKES_SCREEN_RES || key == STRIKES_SCREEN_RES_LAST_PAGE) {
-        await _pref!.remove(key);
-      }
-    });
-
     return Future.value(true);
   }
 }

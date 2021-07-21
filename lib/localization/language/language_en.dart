@@ -184,7 +184,7 @@ class LanguageEn extends Languages {
   String get txtMin => "MIN";
 
   @override
-  String get txtStart => "START";
+  String get txtStart => "Start";
 
   @override
   String get txtStop => "STOP";
@@ -397,25 +397,25 @@ class LanguageEn extends Languages {
   String get txtWednesday => "Wednesday";
 
   @override
-  String get txtFri => "Mon";
+  String get txtFri => "Fri";
 
   @override
-  String get txtMon => "Tue";
+  String get txtMon => "Mon";
 
   @override
-  String get txtSat => "Wed";
+  String get txtSat => "Sat";
 
   @override
-  String get txtSun => "Thu";
+  String get txtSun => "Sun";
 
   @override
-  String get txtThu => "Fri";
+  String get txtThu => "Thu";
 
   @override
-  String get txtTue => "Sat";
+  String get txtTue => "Tue";
 
   @override
-  String get txtWed => "Sun";
+  String get txtWed => "Wed";
 
   @override
   String get txtWeekGoalSetting => "Weekly Goal Setting";

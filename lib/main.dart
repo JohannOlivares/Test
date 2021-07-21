@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/database.dart';
 import 'package:run_tracker/ui/home/HomeWizardScreen.dart';
 import 'package:run_tracker/ui/profile/ProfileScreen.dart';
@@ -8,26 +9,29 @@ import 'package:run_tracker/ui/settings/SettingScreen.dart';
 import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/ui/useLocation/UseLocationScreen.dart';
 import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
-import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
+import 'package:run_tracker/utils/Preference.dart';
 
 import 'localization/locale_constant.dart';
 import 'localization/localizations_delegate.dart';
-import 'ui/wizardScreen/WizardScreen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final database = await $FloorFlutterDatabase.databaseBuilder('flutter_database.db').build();
+  await Preference().instance();
+  await DataBaseHelper().initialize();
+
+  // final database = await $FloorFlutterDatabase.databaseBuilder('flutter_database.db').build();
 
   // final dao = database.runningDao;
 
-  runApp(MyApp(database));
+  // runApp(MyApp(database));
+  runApp(MyApp());
 }
 
 class MyApp extends StatefulWidget {
-  FlutterDatabase? database;
+  /*final FlutterDatabase? database;
 
-  MyApp(this.database);
+  MyApp(this.database);*/
 
   static void setLocale(BuildContext context, Locale newLocale) {
     var state = context.findAncestorStateOfType<_MyAppState>()!;
