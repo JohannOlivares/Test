@@ -29,7 +29,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
 
   @override
   Widget build(BuildContext context) {
-    unit = Languages.of(context)!.txtKM;
+
     var fullHeight = MediaQuery.of(context).size.height;
     var fullWidth = MediaQuery.of(context).size.width;
     return Scaffold(

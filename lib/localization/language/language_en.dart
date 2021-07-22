@@ -426,4 +426,16 @@ class LanguageEn extends Languages {
   @override
   String get txtModerateIntensity => "Moderate \nintensity";
 
+
+  @override
+  String get txtGotoSettings => "Go to Settings";
+
+  @override
+  String get txtPleaseGivePermissionFromSettings => "Please give us access to your GPS Location";
+
+  @override
+  String get txtWeNeedYourLocation => "We Need Your Location";
+
+  @override
+  String get txtLongPressToUnlock => "Long press to unlock";
 }

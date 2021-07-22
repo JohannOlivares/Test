@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
+import 'package:run_tracker/utils/Utils.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'StartRunScreen.dart';
 
@@ -10,8 +13,11 @@ class PausePopupScreen extends ModalRoute<String> {
 
   StopWatchTimer stopWatchTimer;
   bool startTrack;
+  RunningData? runningData;
+  GoogleMapController? controller2;
+  Set<Marker> markers;
 
-  PausePopupScreen(this.stopWatchTimer, this.startTrack);
+   PausePopupScreen(this.stopWatchTimer, this.startTrack,this.runningData,this.controller2,this.markers);
 
   @override
   Duration get transitionDuration => Duration(milliseconds: 300);
@@ -44,12 +50,12 @@ class PausePopupScreen extends ModalRoute<String> {
     return Material(
       type: MaterialType.transparency,
       // make sure that the overlay content is not cut off
-      child: _buildOverlayContent(context, fullheight),
+      child: _buildOverlayContent(context, fullheight,runningData,controller2,markers),
     );
   }
 
 
-  Widget _buildOverlayContent(BuildContext context, var fullheight) {
+  Widget _buildOverlayContent(BuildContext context, var fullheight,RunningData? runningData,GoogleMapController? controller2, Set<Marker> markers) {
     return Container(
 
       alignment: Alignment.bottomCenter,
@@ -58,11 +64,9 @@ class PausePopupScreen extends ModalRoute<String> {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           InkWell(
-            onTap: (){
+            onTap: () {
               print(startTrack.toString());
-              Navigator.pop(context,'false');
-
-
+              Navigator.pop(context, 'false');
             },
             child: Container(
               margin: EdgeInsets.only(bottom: 20),
@@ -91,10 +95,11 @@ class PausePopupScreen extends ModalRoute<String> {
                   //Utils.showToast(context, "Skip");
                   /*Navigator.pop(context, Constant.STR_STOP);*/
                   /*       stopWatchTimer.onExecute.add(StopWatchExecute.reset); //It will reset the timer*/
+
                   showDialog(
                       context: context,
                       builder: (BuildContext context) =>
-                          CustomDialog(context));
+                          CustomDialog(context,runningData,controller2,markers));
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -189,7 +194,7 @@ class PausePopupScreen extends ModalRoute<String> {
     );
   }
 
-  Widget CustomDialog(BuildContext context) {
+  Widget CustomDialog(BuildContext context,RunningData? runningData,GoogleMapController? controller2, Set<Marker> markers) {
     return Dialog(
       elevation: 30,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -228,15 +233,11 @@ class PausePopupScreen extends ModalRoute<String> {
               ),
             ),
             InkWell(
-              onTap: () {
+              onTap: () async {
 
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => WellDoneScreen()
-                    ),
-                    ModalRoute.withName("/homeWizardScreen")
-                );
+                //Utils.showToast(context, "Timevalue: ${runningData!.duration}||distance: ${runningData.distance}\n||speed: ${runningData.speed}||Calories: ${runningData.cal}");
+                  StartRunScreen.runningStopListener!.onFinish(value: true);
+
               },
               child: Container(
                 margin: EdgeInsets.only(top: 15.0,),

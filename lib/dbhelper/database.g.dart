@@ -85,7 +85,7 @@ class _$FlutterDatabase extends FlutterDatabase {
       },
       onCreate: (database, version) async {
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `RunningData` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `duration` INTEGER, `distance` INTEGER, `sLat` TEXT, `sLong` TEXT, `eLat` TEXT, `eLong` TEXT, `path` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `RunningData` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `duration` TEXT, `distance` TEXT, `speed` TEXT, `cal` TEXT, `sLat` TEXT, `sLong` TEXT, `eLat` TEXT, `eLong` TEXT, `path` TEXT)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `WaterData` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `ml` INTEGER, `dateTime` TEXT)');
         await database.execute(
@@ -123,6 +123,8 @@ class _$RunningDao extends RunningDao {
                   'id': item.id,
                   'duration': item.duration,
                   'distance': item.distance,
+                  'speed': item.speed,
+                  'cal': item.cal,
                   'sLat': item.sLat,
                   'sLong': item.sLong,
                   'eLat': item.eLat,
@@ -138,6 +140,8 @@ class _$RunningDao extends RunningDao {
                   'id': item.id,
                   'duration': item.duration,
                   'distance': item.distance,
+                  'speed': item.speed,
+                  'cal': item.cal,
                   'sLat': item.sLat,
                   'sLong': item.sLong,
                   'eLat': item.eLat,
@@ -153,6 +157,8 @@ class _$RunningDao extends RunningDao {
                   'id': item.id,
                   'duration': item.duration,
                   'distance': item.distance,
+                  'speed': item.speed,
+                  'cal': item.cal,
                   'sLat': item.sLat,
                   'sLong': item.sLong,
                   'eLat': item.eLat,
@@ -177,8 +183,10 @@ class _$RunningDao extends RunningDao {
   Future<RunningData?> findTaskById(int id) async {
     return _queryAdapter.query('SELECT * FROM RunningData WHERE id = ?1',
         mapper: (Map<String, Object?> row) => RunningData(
-            duration: row['duration'] as int?,
-            distance: row['distance'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as String?,
+            speed: row['speed'] as String?,
+            cal: row['cal'] as String?,
             sLat: row['sLat'] as String?,
             eLong: row['eLong'] as String?,
             eLat: row['eLat'] as String?,
@@ -191,8 +199,10 @@ class _$RunningDao extends RunningDao {
   Future<List<RunningData>> findAllTasks() async {
     return _queryAdapter.queryList('SELECT * FROM RunningData',
         mapper: (Map<String, Object?> row) => RunningData(
-            duration: row['duration'] as int?,
-            distance: row['distance'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as String?,
+            speed: row['speed'] as String?,
+            cal: row['cal'] as String?,
             sLat: row['sLat'] as String?,
             eLong: row['eLong'] as String?,
             eLat: row['eLat'] as String?,
@@ -204,8 +214,10 @@ class _$RunningDao extends RunningDao {
   Stream<List<RunningData>> findAllTasksAsStream() {
     return _queryAdapter.queryListStream('SELECT * FROM RunningData',
         mapper: (Map<String, Object?> row) => RunningData(
-            duration: row['duration'] as int?,
-            distance: row['distance'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as String?,
+            speed: row['speed'] as String?,
+            cal: row['cal'] as String?,
             sLat: row['sLat'] as String?,
             eLong: row['eLong'] as String?,
             eLat: row['eLat'] as String?,

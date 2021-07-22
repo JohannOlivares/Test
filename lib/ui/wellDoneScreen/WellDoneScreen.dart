@@ -1,13 +1,19 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' ;
+import 'package:lottie/lottie.dart'as lottie;
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/common/ratingbottomsheetdialog/RatingDialog.dart';
+import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/home/HomeScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Utils.dart';
+import 'dart:ui' as ui;
 
 import '../../custom/GradientButtonSmall.dart';
 import '../../localization/language/languages.dart';
@@ -15,7 +21,8 @@ import '../../localization/language/languages.dart';
 import '../../localization/language/languages.dart';
 
 class WellDoneScreen extends StatefulWidget {
-  const WellDoneScreen({Key? key}) : super(key: key);
+  RunningData? runningData;
+  WellDoneScreen({this.runningData});
 
   @override
   _WellDoneScreenState createState() => _WellDoneScreenState();
@@ -70,14 +77,14 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                   Container(
                     width: fullwidth,
                     height: fullheight,
-                    child: Lottie.asset(
+                    child: lottie.Lottie.asset(
                       'assets/animation/congratulation.json',
                       repeat: false,
                       alignment: Alignment.topCenter
                     ),
                   ),
                   Container(
-                    child: Lottie.asset(
+                    child: lottie.Lottie.asset(
                       'assets/animation/thumbs_up.json',
                       width: 200,
                       height: 200,
@@ -110,7 +117,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
       margin: EdgeInsets.only(top: 20, bottom: 20),
       child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(12.0)),
-        child: Image.asset(
+        child: (widget.runningData!.path != null)?Image.memory(Uint8List.fromList(widget.runningData!.path!.codeUnits),fit: BoxFit.cover,): Image.asset(
           'assets/images/dummy_map.png',
           fit: BoxFit.cover,
         ),
@@ -141,7 +148,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                   ),
                   Container(
                     child: Text(
-                      "00:40",
+                      widget.runningData!.duration.toString(),
                       style: TextStyle(
                           color: Colur.txt_white,
                           fontWeight: FontWeight.w600,
@@ -165,7 +172,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                   ),
                   Container(
                     child: Text(
-                      "00:04",
+                      widget.runningData!.distance.toString(),
                       style: TextStyle(
                           color: Colur.txt_white,
                           fontWeight: FontWeight.w600,
@@ -197,7 +204,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                     ),
                     Container(
                       child: Text(
-                        "00:00",
+                        widget.runningData!.speed.toString(),
                         style: TextStyle(
                             color: Colur.txt_white,
                             fontWeight: FontWeight.w600,
@@ -221,7 +228,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                     ),
                     Container(
                       child: Text(
-                        "04",
+                        widget.runningData!.cal.toString(),
                         style: TextStyle(
                             color: Colur.txt_white,
                             fontWeight: FontWeight.w600,
@@ -230,30 +237,6 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                     )
                   ],
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.only(right: 2, bottom: 7),
-                      child: Text(
-                        Languages.of(context)!.txtMovingTime,
-                        style: TextStyle(
-                            color: Colur.txt_grey,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14),
-                      ),
-                    ),
-                    Container(
-                      child: Text(
-                        "00:40",
-                        style: TextStyle(
-                            color: Colur.txt_white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 24),
-                      ),
-                    )
-                  ],
-                )
               ],
             ),
           ),
@@ -439,4 +422,8 @@ class _WellDoneScreenState extends State<WellDoneScreen>
       ]),
     );
   }
+
+
+
+
 }

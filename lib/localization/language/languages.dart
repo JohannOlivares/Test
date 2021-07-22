@@ -282,4 +282,12 @@ abstract class Languages {
   String get txtTue;
 
   String get txtWed;
+
+  String get txtGotoSettings;
+
+  String get txtPleaseGivePermissionFromSettings;
+
+  String get txtWeNeedYourLocation;
+
+  String get txtLongPressToUnlock;
 }

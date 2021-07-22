@@ -5,17 +5,21 @@ class RunningData {
   @PrimaryKey(autoGenerate: true)
   int? id;
 
-  final int? duration;
-  final int? distance;
-  final String? sLat;
-  final String? sLong;
-  final String? eLat;
-  final String? eLong;
-  final String? path;
+  String? duration;
+  String? distance;
+  String? speed;
+  String? cal;
+  String? sLat;
+  String? sLong;
+  String? eLat;
+  String? eLong;
+  String? path;
 
   RunningData(
       {this.duration,
       this.distance,
+        this.speed,
+        this.cal,
       this.sLat,
       this.eLong,
       this.eLat,
@@ -37,4 +41,6 @@ class RunningData {
   String toString() {
     return 'Task{id: $id, message: $message}';
   }*/
+
+
 }

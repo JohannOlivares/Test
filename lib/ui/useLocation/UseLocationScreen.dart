@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/localization/language/languages.dart';
@@ -28,7 +29,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
           child: Column(
             children: [
               //Not now
-              Container(
+              /*Container(
                 height: fullheight*0.1,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -50,7 +51,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                     ),
                   ],
                 ),
-              ),
+              ),*/
               //Map image
               Container(
                 margin:  EdgeInsets.only(top: fullheight*0.015, bottom: fullheight*0.04),
@@ -158,9 +159,14 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await _location.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        return ;
+        return showDialog(
+            context: context,
+            builder: (BuildContext context) =>
+                CustomOpenLocationSettingDialog(context));
       }
     }
+
+
 
     Navigator.pushAndRemoveUntil(
         context,
@@ -170,5 +176,100 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
         ModalRoute.withName("/homeWizardScreen")
     );
 
+  }
+
+  Widget CustomOpenLocationSettingDialog(BuildContext context) {
+    return Dialog(
+      elevation: 30,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Container(
+        padding: EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+            color: Colur.white,
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: []),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                  alignment: Alignment.topLeft,
+                  child: Image.asset('assets/icons/ic_close.png',color: Colur.txt_black,scale: 3.5,)
+              ),
+            ),
+            Container(
+                height: 200,
+                child: Image.asset('assets/icons/ic_map_pin.png',
+                )),
+            Container(
+              margin: EdgeInsets.only(top: 5.0, bottom: 10),
+              child: Center(
+                child: Text(Languages.of(context)!.txtWeNeedYourLocation,textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colur.txt_grey,
+                      fontWeight: FontWeight.w600, fontSize: 18),),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 5.0, bottom: 40),
+              child: Center(
+                child: Text(Languages
+                    .of(context)!
+                    .txtPleaseGivePermissionFromSettings
+                  ,textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colur.txt_black,
+                      fontWeight: FontWeight.w900, fontSize: 20),),
+              ),
+            ),
+            InkWell(
+              onTap: () async {
+
+            /*    Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WellDoneScreen()
+                    ),
+                    ModalRoute.withName("/homeWizardScreen")
+                );*/
+                await Geolocator.openAppSettings();
+
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 15.0,),
+                padding: EdgeInsets.symmetric(vertical: 15.0,),
+                width: 250,
+
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(30),
+                  gradient: LinearGradient(
+                    colors: <Color>[
+                      Colur.purple_gradient_color1,
+                      Colur.purple_gradient_color2,
+                    ],
+                  ),
+                ),
+                child: Center(
+                  child: Text(Languages
+                      .of(context)!
+                      .txtGotoSettings
+                      .toUpperCase(),
+                    style: TextStyle(
+                        color: Colur.txt_white,
+                        fontWeight: FontWeight.w700, fontSize: 20),),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 30.0,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
