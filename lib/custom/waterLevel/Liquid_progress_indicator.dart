@@ -100,7 +100,7 @@ class _LiquidCircularProgressIndicatorState
             ),
             Wave(
               value: widget.value,
-              color: Colur.water_level_wave1,//Color(0x9000AEFF)TODO
+              color: Colur.water_level_wave1,//Color(0x9000AEFF)
               direction: widget.direction,
               time: 3,
             ),

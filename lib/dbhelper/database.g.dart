@@ -87,7 +87,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `RunningData` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `duration` TEXT, `distance` TEXT, `speed` TEXT, `cal` TEXT, `sLat` TEXT, `sLong` TEXT, `eLat` TEXT, `eLong` TEXT, `path` TEXT)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `WaterData` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `ml` INTEGER, `dateTime` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `water_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `ml` INTEGER, `date` TEXT, `time` TEXT, `date_time` TEXT, `total` INTEGER)');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `WeightData` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weightKg` TEXT, `weightLb` TEXT, `weightDate` TEXT)');
 
@@ -261,36 +261,30 @@ class _$RunningDao extends RunningDao {
 
 class _$WaterDao extends WaterDao {
   _$WaterDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database, changeListener),
+      : _queryAdapter = QueryAdapter(database),
         _waterDataInsertionAdapter = InsertionAdapter(
             database,
-            'WaterData',
+            'water_table',
             (WaterData item) => <String, Object?>{
                   'id': item.id,
                   'ml': item.ml,
-                  'dateTime': item.dateTime
-                },
-            changeListener),
-        _waterDataUpdateAdapter = UpdateAdapter(
-            database,
-            'WaterData',
-            ['id'],
-            (WaterData item) => <String, Object?>{
-                  'id': item.id,
-                  'ml': item.ml,
-                  'dateTime': item.dateTime
-                },
-            changeListener),
+                  'date': item.date,
+                  'time': item.time,
+                  'date_time': item.dateTime,
+                  'total': item.total
+                }),
         _waterDataDeletionAdapter = DeletionAdapter(
             database,
-            'WaterData',
+            'water_table',
             ['id'],
             (WaterData item) => <String, Object?>{
                   'id': item.id,
                   'ml': item.ml,
-                  'dateTime': item.dateTime
-                },
-            changeListener);
+                  'date': item.date,
+                  'time': item.time,
+                  'date_time': item.dateTime,
+                  'total': item.total
+                });
 
   final sqflite.DatabaseExecutor database;
 
@@ -300,38 +294,80 @@ class _$WaterDao extends WaterDao {
 
   final InsertionAdapter<WaterData> _waterDataInsertionAdapter;
 
-  final UpdateAdapter<WaterData> _waterDataUpdateAdapter;
-
   final DeletionAdapter<WaterData> _waterDataDeletionAdapter;
 
   @override
-  Future<WaterData?> findTaskById(int id) async {
-    return _queryAdapter.query('SELECT * FROM WaterData WHERE id = ?1',
-        mapper: (Map<String, Object?> row) => WaterData(
-            ml: row['ml'] as int?, dateTime: row['dateTime'] as String?),
-        arguments: [id]);
-  }
-
-  @override
   Future<List<WaterData>> getAllDrinkWater() async {
-    return _queryAdapter.queryList('SELECT * FROM WaterData',
+    return _queryAdapter.queryList('SELECT * FROM water_table',
         mapper: (Map<String, Object?> row) => WaterData(
-            ml: row['ml'] as int?, dateTime: row['dateTime'] as String?));
+            id: row['id'] as int?,
+            ml: row['ml'] as int?,
+            date: row['date'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            total: row['total'] as int?));
   }
 
   @override
-  Stream<List<WaterData>> findAllTasksAsStream() {
-    return _queryAdapter.queryListStream('SELECT * FROM WaterData',
+  Future<List<WaterData>> getTodayDrinkWater(String date) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM water_table WHERE date = ?1 ORDER BY id DESC',
         mapper: (Map<String, Object?> row) => WaterData(
-            ml: row['ml'] as int?, dateTime: row['dateTime'] as String?),
-        queryableName: 'WaterData',
-        isView: false);
+            id: row['id'] as int?,
+            ml: row['ml'] as int?,
+            date: row['date'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            total: row['total'] as int?),
+        arguments: [date]);
   }
 
   @override
-  Future<void> insertTasks(List<WaterData> tasks) async {
-    await _waterDataInsertionAdapter.insertList(
-        tasks, OnConflictStrategy.abort);
+  Future<WaterData?> getTotalOfDrinkWater(String date) async {
+    return _queryAdapter.query(
+        'SELECT IFNULL(SUM(ml),0) as total FROM water_table WHERE date = ?1',
+        mapper: (Map<String, Object?> row) => WaterData(
+            id: row['id'] as int?,
+            ml: row['ml'] as int?,
+            date: row['date'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            total: row['total'] as int?),
+        arguments: [date]);
+  }
+
+  @override
+  Future<List<WaterData>> getTotalDrinkWaterAllDays(List<String> date) async {
+    const offset = 1;
+    final _sqliteVariablesForDate =
+        Iterable<String>.generate(date.length, (i) => '?${i + offset}')
+            .join(',');
+    return _queryAdapter.queryList(
+        'SELECT *, (SELECT IFNULL(SUM(ml),0) FROM water_table WHERE date = wt2.date) as total FROM water_table as wt2 WHERE date IN(' +
+            _sqliteVariablesForDate +
+            ') GROUP BY date',
+        mapper: (Map<String, Object?> row) => WaterData(id: row['id'] as int?, ml: row['ml'] as int?, date: row['date'] as String?, time: row['time'] as String?, dateTime: row['date_time'] as String?, total: row['total'] as int?),
+        arguments: [...date]);
+  }
+
+  @override
+  Future<WaterData?> getTotalDrinkWaterAverage(List<String> date) async {
+    const offset = 1;
+    final _sqliteVariablesForDate =
+        Iterable<String>.generate(date.length, (i) => '?${i + offset}')
+            .join(',');
+    return _queryAdapter.query(
+        'SELECT *, IFNULL(SUM(ml),0) as total FROM water_table WHERE date IN(' +
+            _sqliteVariablesForDate +
+            ')',
+        mapper: (Map<String, Object?> row) => WaterData(
+            id: row['id'] as int?,
+            ml: row['ml'] as int?,
+            date: row['date'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            total: row['total'] as int?),
+        arguments: [...date]);
   }
 
   @override
@@ -341,23 +377,8 @@ class _$WaterDao extends WaterDao {
   }
 
   @override
-  Future<void> updateTask(WaterData task) async {
-    await _waterDataUpdateAdapter.update(task, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> updateTasks(List<WaterData> task) async {
-    await _waterDataUpdateAdapter.updateList(task, OnConflictStrategy.abort);
-  }
-
-  @override
-  Future<void> deleteTask(WaterData task) async {
-    await _waterDataDeletionAdapter.delete(task);
-  }
-
-  @override
-  Future<void> deleteTasks(List<WaterData> tasks) async {
-    await _waterDataDeletionAdapter.deleteList(tasks);
+  Future<void> deleteTodayDrinkWater(WaterData waterData) async {
+    await _waterDataDeletionAdapter.delete(waterData);
   }
 }
 

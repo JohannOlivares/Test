@@ -33,26 +33,10 @@ class Constant {
   static const STR_EDITTARGET = "Edit target";
   static const STR_TURNOFF = "Turn off";
 
-
-  static const TEXT = "1";
-
-  static const TRUE = "True";
-  static const FALSE = "False";
-
-  static const CHAT_TYPE_GROUP = "Group";
-  static const CHAT_TYPE_PERSONAL = "Personal";
-
-  static const NOTIFICATION_TYPE_ADMIN = "admin";
-  static const NOTIFICATION_TYPE_CHAT = "chat";
-
-  static final String redirectUrl = 'http://pandalanhukuk.com';
-  static final String clientId = '77obwasea55zmg';
-  static final String clientSecret = 'orX0ULsWPiF8iqcH';
-
-  static const INVITATION_PENDING = 0;
-  static const INVITATION_ACCEPT = 1;
-  static const INVITATION_DECLINE = 2;
-  static const LEAVE_GROUP = 4;
+  static const ML_100 = 100;
+  static const ML_150 = 150;
+  static const ML_250 = 250;
+  static const ML_500 = 500;
 
   static getMainURL() {
     if (Debug.SANDBOX_API_URL)

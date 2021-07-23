@@ -5,7 +5,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
+import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
+import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
 
 import '../../localization/language/languages.dart';
 import '../../utils/Color.dart';
@@ -16,9 +19,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final Color barBackgroundColor = Colur.common_bg_dark;
-  final Duration animDuration = const Duration(milliseconds: 250);
-
   int touchedIndexForWaterChart = -1;
   int touchedIndexForHartHealthChart = -1;
 
@@ -38,6 +38,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
+    _getPreference();
+    _getChartDataForDrinkWater();
+    _getDailyDrinkWaterAverage();
     startDateOfCurrentWeek =
         getDate(currentDate.subtract(Duration(days: currentDate.weekday - 1)));
     endDateOfCurrentWeek = getDate(currentDate
@@ -84,6 +87,68 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
+
+  var prefTargetValue;
+  int? maxLimitOfDrinkWater;
+
+  _getPreference() {
+    prefTargetValue = Preference.shared.getString(Preference.TARGET_DRINK_WATER);
+    setState(() {
+      if (prefTargetValue == null) {
+        maxLimitOfDrinkWater = 2000;
+      } else {
+        maxLimitOfDrinkWater = int.parse(prefTargetValue);
+      }
+    });
+  }
+
+  List<WaterData>? total;
+  Map<String, int> map = {};
+
+  _getChartDataForDrinkWater() async {
+    List<String> dates = [];
+    for (int i = 0; i <= 6; i++) {
+      var currentWeekDates = getDate(DateTime.now()
+          .subtract(Duration(days: currentDate.weekday - 1))
+          .add(Duration(days: i)));
+      String formatCurrentWeekDates = DateFormat.yMd().format(currentWeekDates);
+      dates.add(formatCurrentWeekDates);
+    }
+    total = await DataBaseHelper().getTotalDrinkWaterAllDays(dates);
+
+    for (int i = 0; i < dates.length; i++) {
+      bool isMatch = false;
+      total!.forEach((element) {
+        if (element.date == dates[i]) {
+          map.putIfAbsent(element.date!, () => element.total!);
+          isMatch = true;
+        }
+      });
+      if(!isMatch)
+        map.putIfAbsent(dates[i], () => 0);
+    }
+    setState(() {
+
+    });
+
+    Debug.printLog("total =====>" + double.parse(total![0].total.toString()).toString());
+  }
+
+  String? drinkWaterAverage;
+  _getDailyDrinkWaterAverage() async {
+    List<String> dates = [];
+    for (int i = 0; i <= 6; i++) {
+      var currentWeekDates = getDate(DateTime.now()
+          .subtract(Duration(days: currentDate.weekday - 1))
+          .add(Duration(days: i)));
+      String formatCurrentWeekDates = DateFormat.yMd().format(currentWeekDates);
+      dates.add(formatCurrentWeekDates);
+    }
+    int? average = await DataBaseHelper().getTotalDrinkWaterAverage(dates);
+    drinkWaterAverage = (average!~/7).toString();
+    setState(() {});
+    Debug.printLog("drinkWaterAverage =====>" + drinkWaterAverage!);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -742,7 +807,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             BorderSide(width: 1, color: Colur.gray_border))),
                 barGroups: showingHeartHealthGroups(),
               ),
-              swapAnimationDuration: animDuration,
             ),
           ),
           Container(
@@ -783,7 +847,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
             y: 200.0,
-            colors: [barBackgroundColor],
+            colors: [Colur.common_bg_dark],
           ),
         ),
       ],
@@ -1020,14 +1084,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 barGroups: showingDrinkWaterGroups(),
               ),
-              swapAnimationDuration: animDuration,
             ),
           ),
           Container(
             width: double.infinity,
             margin: EdgeInsets.only(top: 20.0),
             child: Text(
-              Languages.of(context)!.txtDailyAverage + " : " + "2,000",
+              drinkWaterAverage != null
+                  ? Languages.of(context)!.txtDailyAverage +
+                  " : " +
+                  drinkWaterAverage!
+                  : Languages.of(context)!.txtDailyAverage + " :0",
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -1059,12 +1126,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   BarChartGroupData makeDrinkWaterGroupData(
-    int x,
-    double y, {
-    bool isTouched = false,
-    Color barColor = Colur.graph_water,
-    double width = 40,
-  }) {
+      int x,
+      double y, {
+        bool isTouched = false,
+        Color barColor = Colur.graph_water,
+        double width = 40,
+      }) {
     return BarChartGroupData(
       x: x,
       barRods: [
@@ -1072,44 +1139,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
           y: isTouched ? y + 1 : y,
           colors: isTouched ? [Colur.white] : [barColor],
           width: width,
-          borderRadius: BorderRadius.all(Radius.zero),
+          borderRadius: BorderRadius.only(
+              bottomLeft: Radius.zero,
+              bottomRight: Radius.zero,
+              topLeft: Radius.circular(3.0),
+              topRight: Radius.circular(3.0)),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: 200.0,
-            colors: [barBackgroundColor],
+            y: maxLimitOfDrinkWater!.toDouble(),
+            colors: [Colur.common_bg_dark],
           ),
         ),
       ],
     );
   }
 
-  List<BarChartGroupData> showingDrinkWaterGroups() => List.generate(7, (i) {
-        switch (i) {
-          case 0:
-            return makeDrinkWaterGroupData(0, 100.0,
-                isTouched: i == touchedIndexForWaterChart);
-          case 1:
-            return makeDrinkWaterGroupData(1, 50.5,
-                isTouched: i == touchedIndexForWaterChart);
-          case 2:
-            return makeDrinkWaterGroupData(2, 80.0,
-                isTouched: i == touchedIndexForWaterChart);
-          case 3:
-            return makeDrinkWaterGroupData(3, 70.5,
-                isTouched: i == touchedIndexForWaterChart);
-          case 4:
-            return makeDrinkWaterGroupData(4, 90.0,
-                isTouched: i == touchedIndexForWaterChart);
-          case 5:
-            return makeDrinkWaterGroupData(5, 20.5,
-                isTouched: i == touchedIndexForWaterChart);
-          case 6:
-            return makeDrinkWaterGroupData(6, 60.5,
-                isTouched: i == touchedIndexForWaterChart);
-          default:
-            return throw Error();
-        }
-      });
+  List<BarChartGroupData> showingDrinkWaterGroups(){
+    List<BarChartGroupData> list = [];
+
+    for(int i = 0; i< map.length;i++)
+    {
+        list.add(makeDrinkWaterGroupData(i, map.entries.toList()[i].value.toDouble(),
+            isTouched: i == touchedIndexForWaterChart));
+    }
+
+    return list;
+  }
+
 
   _bestRecordWidget(BuildContext context) {
     return Container(

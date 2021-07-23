@@ -1,11 +1,8 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Preference.dart';
+import 'package:intl/intl.dart';
 
 class Utils {
   static showToast(BuildContext context, String msg,
@@ -30,5 +27,13 @@ class Utils {
   static getCurrentDateTime() {
     DateTime dateTime = DateTime.now();
     return "${dateTime.year.toString()}-${dateTime.month.toString().padLeft(2, '0')}-${dateTime.day.toString().padLeft(2, '0')} ${dateTime.hour.toString()}-${dateTime.minute.toString()}-${dateTime.second.toString()}";
+  }
+
+  static getCurrentDate() {
+    return "${DateFormat.yMd().format(DateTime.now())}";
+  }
+
+  static getCurrentDayTime() {
+    return "${DateFormat.jm().format(DateTime.now())}";
   }
 }

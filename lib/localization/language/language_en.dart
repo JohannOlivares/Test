@@ -438,4 +438,7 @@ class LanguageEn extends Languages {
 
   @override
   String get txtLongPressToUnlock => "Long press to unlock";
+  @override
+  String get txtDelete => "Delete";
+
 }

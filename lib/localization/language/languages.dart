@@ -290,4 +290,6 @@ abstract class Languages {
   String get txtWeNeedYourLocation;
 
   String get txtLongPressToUnlock;
+
+  String get txtDelete;
 }
