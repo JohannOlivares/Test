@@ -3,17 +3,17 @@ import 'package:run_tracker/dbhelper/datamodel/WeightData.dart';
 
 @dao
 abstract class WeightDao {
-  @Query('SELECT * FROM WeightData WHERE id = :id')
-  Future<WeightData?> findTaskById(int id);
+  @Query('SELECT * FROM weight_table WHERE id = :id')
+  Future<WeightData?> selectWeightById(int id);
 
-  @Query('SELECT * FROM WeightData')
-  Future<List<WeightData>> findAllTasks();
+  @Query('SELECT * FROM weight_table')
+  Future<List<WeightData>> selectAllWeight();
 
-  @Query('SELECT * FROM WeightData')
-  Stream<List<WeightData>> findAllTasksAsStream();
+  @Query('SELECT * FROM weight_table')
+  Stream<List<WeightData>> selectAllWeightAsStream();
 
   @insert
-  Future<void> insertTask(WeightData task);
+  Future<void> insertWeight(WeightData task);
 
   @insert
   Future<void> insertTasks(List<WeightData> tasks);

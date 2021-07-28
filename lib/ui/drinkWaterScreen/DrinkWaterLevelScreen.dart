@@ -47,7 +47,6 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   void initState() {
     _getPreference();
     _getDataFromDataBase();
-    DataBaseHelper().selectDrinkWater();
     num = 1;
 
     startDateOfCurrentWeek =
@@ -128,7 +127,6 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
     setState(() {
 
     });
-    Debug.printLog("total =====>" + double.parse(total![0].total.toString()).toString());
   }
 
   String? drinkWaterAverage;
@@ -582,6 +580,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                 ),
                 barGroups: showingDrinkWaterGroups(),
               ),
+              swapAnimationCurve: Curves.ease,
+              swapAnimationDuration: Duration(seconds: 0),
             ),
           ),
           Container(

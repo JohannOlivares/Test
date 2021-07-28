@@ -1,13 +1,31 @@
 import 'package:floor/floor.dart';
 
-@entity
+@Entity(tableName: "weight_table")
 class WeightData {
   @PrimaryKey(autoGenerate: true)
-  int? id;
+  @ColumnInfo(name: 'id')
+  final int? id;
 
-  final String? weightKg;
-  final String? weightLb;
-  final String? weightDate;
+  @ColumnInfo(name: 'weight_kg')
+  final double? weightKg;
 
-  WeightData({required this.weightKg,this.weightLb,this.weightDate});
+  @ColumnInfo(name: 'weight_lbs')
+  final double? weightLbs;
+
+  @ColumnInfo(name: 'date')
+  final String? date;
+
+  @ColumnInfo(name: 'time')
+  final String? time;
+
+  @ColumnInfo(name: "date_time")
+  final String? dateTime;
+
+  WeightData(
+      {this.id,
+      required this.weightKg,
+      required this.weightLbs,
+      required this.date,
+      required this.time,
+      required this.dateTime});
 }

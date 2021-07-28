@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
+import 'package:run_tracker/custom/dialogs/AddWeightDialog.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/utils/Debug.dart';
@@ -38,6 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
+    DataBaseHelper().selectWeight();
     _getPreference();
     _getChartDataForDrinkWater();
     _getDailyDrinkWaterAverage();
@@ -92,7 +94,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int? maxLimitOfDrinkWater;
 
   _getPreference() {
-    prefTargetValue = Preference.shared.getString(Preference.TARGET_DRINK_WATER);
+    prefTargetValue =
+        Preference.shared.getString(Preference.TARGET_DRINK_WATER);
     setState(() {
       if (prefTargetValue == null) {
         maxLimitOfDrinkWater = 2000;
@@ -124,17 +127,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
           isMatch = true;
         }
       });
-      if(!isMatch)
-        map.putIfAbsent(dates[i], () => 0);
+      if (!isMatch) map.putIfAbsent(dates[i], () => 0);
     }
-    setState(() {
-
-    });
-
-    Debug.printLog("total =====>" + double.parse(total![0].total.toString()).toString());
+    setState(() {});
   }
 
   String? drinkWaterAverage;
+
   _getDailyDrinkWaterAverage() async {
     List<String> dates = [];
     for (int i = 0; i <= 6; i++) {
@@ -145,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       dates.add(formatCurrentWeekDates);
     }
     int? average = await DataBaseHelper().getTotalDrinkWaterAverage(dates);
-    drinkWaterAverage = (average!~/7).toString();
+    drinkWaterAverage = (average! ~/ 7).toString();
     setState(() {});
     Debug.printLog("drinkWaterAverage =====>" + drinkWaterAverage!);
   }
@@ -166,6 +165,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _runTrackerWidget(context),
                     _progressWidget(context),
                     _heartHealthWidget(context),
+                    _weightWidget(context),
                     _drinkWaterWidget(context),
                     _bestRecordWidget(context),
                     _fastestTimeWidget(context),
@@ -807,6 +807,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             BorderSide(width: 1, color: Colur.gray_border))),
                 barGroups: showingHeartHealthGroups(),
               ),
+              swapAnimationCurve: Curves.ease,
+              swapAnimationDuration: Duration(seconds: 0),
             ),
           ),
           Container(
@@ -890,6 +892,272 @@ class _ProfileScreenState extends State<ProfileScreen> {
   _unSelectedTextStyle() {
     return const TextStyle(
         color: Colur.txt_grey, fontWeight: FontWeight.w400, fontSize: 14);
+  }
+
+  _weightWidget(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
+      margin: const EdgeInsets.only(top: 8.0),
+      width: double.infinity,
+      color: Colur.rounded_rectangle_color,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  Languages.of(context)!.txtWeight,
+                  textAlign: TextAlign.left,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colur.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 18),
+                  //maxLines: 1,
+                ),
+              ),
+              InkWell(
+                onTap: (){
+                  showDialog(context: context, builder: (context) => AddWeightDialog());
+                },
+                child: Text(
+                  Languages.of(context)!.txtAdd.toUpperCase(),
+                  textAlign: TextAlign.left,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colur.txt_purple,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 18),
+                  //maxLines: 1,
+                ),
+              ),
+            ],
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 20.0),
+            child: Text(
+              0.0.toString() + Languages.of(context)!.txtKG.toLowerCase(),
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colur.white,
+                  fontWeight: FontWeight.w700,
+                  fontSize: 18),
+              //maxLines: 1,
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            margin: EdgeInsets.only(top: 5.0),
+            child: Text(
+              Languages.of(context)!.txtLast30Days,
+              textAlign: TextAlign.center,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  color: Colur.txt_grey,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14),
+              //maxLines: 1,
+            ),
+          ),
+          Container(
+            height: 200,
+            margin: EdgeInsets.only(top: 20.0),
+            width: double.infinity,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                height: 200,
+                padding: const EdgeInsets.only(
+                    bottom: 0.0, right: 10.0, left: 10.0, top: 0.0),
+                width: MediaQuery.of(context).size.width * 3,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(18),
+                  ),
+                ),
+                child: LineChart(
+                  mainData(),
+                  swapAnimationDuration: Duration(seconds: 0),
+                  swapAnimationCurve: Curves.ease,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  LineChartData mainData() {
+    return LineChartData(
+      gridData: FlGridData(
+        show: true,
+        drawHorizontalLine: true,
+        getDrawingHorizontalLine: (value) {
+          return FlLine(
+            color: Colur.txt_grey,
+            strokeWidth: 1,
+          );
+        },
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        bottomTitles: SideTitles(
+          showTitles: true,
+          reservedSize: 20,
+          getTextStyles: (value) => const TextStyle(
+              color: Colur.txt_grey, fontWeight: FontWeight.w500, fontSize: 14),
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 0:
+                return '1';
+              case 1:
+                return '2';
+              case 2:
+                return '3';
+              case 3:
+                return '4';
+              case 4:
+                return '5';
+              case 5:
+                return '6';
+              case 6:
+                return '7';
+              case 7:
+                return '8';
+              case 8:
+                return '9';
+              case 9:
+                return '10';
+              case 10:
+                return '11';
+              case 11:
+                return '12';
+              case 12:
+                return '13';
+              case 13:
+                return '14';
+              case 14:
+                return '15';
+              case 15:
+                return '16';
+              case 16:
+                return '17';
+              case 17:
+                return '18';
+              case 18:
+                return '19';
+              case 19:
+                return '20';
+              case 20:
+                return '21';
+              case 21:
+                return '22';
+              case 22:
+                return '23';
+              case 23:
+                return '24';
+              case 24:
+                return '25';
+              case 25:
+                return '26';
+              case 26:
+                return '27';
+              case 27:
+                return '28';
+              case 28:
+                return '29';
+              case 29:
+                return '30';
+              case 30:
+                return '31';
+            }
+            return '';
+          },
+          margin: 0,
+        ),
+        leftTitles: SideTitles(
+          showTitles: true,
+          getTextStyles: (value) => const TextStyle(
+            color: Colur.txt_grey,
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+          ),
+          margin: 15.0,
+          getTitles: (value) {
+            switch (value.toInt()) {
+              case 1:
+                return '2';
+              case 2:
+                return '4';
+              case 3:
+                return '6';
+            }
+            return '';
+          },
+          reservedSize: 5,
+        ),
+      ),
+      borderData: FlBorderData(show: false),
+      minX: 0,
+      maxX: 31,
+      minY: 0,
+      maxY: 4,
+      lineBarsData: [
+        LineChartBarData(
+          spots: [
+            FlSpot(0, 1),
+            FlSpot(1, 2),
+            FlSpot(2, 3),
+            FlSpot(3, 3),
+            FlSpot(4, 1),
+            FlSpot(5, 2),
+            FlSpot(6, 3),
+            FlSpot(7, 1),
+            FlSpot(8, 2),
+            FlSpot(9, 3),
+            FlSpot(10, 3),
+            FlSpot(11, 1),
+            FlSpot(12, 2),
+            FlSpot(13, 3),
+            FlSpot(14, 1),
+            FlSpot(15, 2),
+            FlSpot(16, 3),
+            FlSpot(17, 3),
+            FlSpot(18, 1),
+            FlSpot(19, 2),
+            FlSpot(20, 3),
+            FlSpot(21, 1),
+            FlSpot(22, 2),
+            FlSpot(23, 3),
+            FlSpot(24, 1),
+            FlSpot(25, 2),
+            FlSpot(26, 3),
+            FlSpot(27, 3),
+            FlSpot(28, 1),
+            FlSpot(29, 2),
+            FlSpot(30, 3),
+          ],
+          isCurved: false,
+          colors: Colur.gradient_for_weight_colors,
+          barWidth: 3,
+          isStrokeCapRound: true,
+          dotData: FlDotData(
+            show: false,
+          ),
+          belowBarData: BarAreaData(
+            show: false,
+          ),
+        ),
+      ],
+    );
   }
 
   _drinkWaterWidget(BuildContext context) {
@@ -1084,6 +1352,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 barGroups: showingDrinkWaterGroups(),
               ),
+              swapAnimationCurve: Curves.ease,
+              swapAnimationDuration: Duration(seconds: 0),
             ),
           ),
           Container(
@@ -1092,8 +1362,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text(
               drinkWaterAverage != null
                   ? Languages.of(context)!.txtDailyAverage +
-                  " : " +
-                  drinkWaterAverage!
+                      " : " +
+                      drinkWaterAverage!
                   : Languages.of(context)!.txtDailyAverage + " :0",
               textAlign: TextAlign.center,
               maxLines: 1,
@@ -1126,12 +1396,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   BarChartGroupData makeDrinkWaterGroupData(
-      int x,
-      double y, {
-        bool isTouched = false,
-        Color barColor = Colur.graph_water,
-        double width = 40,
-      }) {
+    int x,
+    double y, {
+    bool isTouched = false,
+    Color barColor = Colur.graph_water,
+    double width = 40,
+  }) {
     return BarChartGroupData(
       x: x,
       barRods: [
@@ -1154,18 +1424,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  List<BarChartGroupData> showingDrinkWaterGroups(){
+  List<BarChartGroupData> showingDrinkWaterGroups() {
     List<BarChartGroupData> list = [];
 
-    for(int i = 0; i< map.length;i++)
-    {
-        list.add(makeDrinkWaterGroupData(i, map.entries.toList()[i].value.toDouble(),
-            isTouched: i == touchedIndexForWaterChart));
+    for (int i = 0; i < map.length; i++) {
+      list.add(makeDrinkWaterGroupData(
+          i, map.entries.toList()[i].value.toDouble(),
+          isTouched: i == touchedIndexForWaterChart));
     }
 
     return list;
   }
-
 
   _bestRecordWidget(BuildContext context) {
     return Container(
@@ -1437,7 +1706,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             style: TextStyle(
                 color: Colur.white, fontWeight: FontWeight.w700, fontSize: 18),
           ),
-          initiallyExpanded: false,
+          initiallyExpanded: true,
           tilePadding: const EdgeInsets.only(left: 5.0, right: 5.0),
           children: [
             ListView.builder(

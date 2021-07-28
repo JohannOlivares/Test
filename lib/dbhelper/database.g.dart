@@ -89,7 +89,7 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `water_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `ml` INTEGER, `date` TEXT, `time` TEXT, `date_time` TEXT, `total` INTEGER)');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `WeightData` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weightKg` TEXT, `weightLb` TEXT, `weightDate` TEXT)');
+            'CREATE TABLE IF NOT EXISTS `weight_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weight_kg` REAL, `weight_lbs` REAL, `date` TEXT, `time` TEXT, `date_time` TEXT)');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -387,34 +387,40 @@ class _$WeightDao extends WeightDao {
       : _queryAdapter = QueryAdapter(database, changeListener),
         _weightDataInsertionAdapter = InsertionAdapter(
             database,
-            'WeightData',
+            'weight_table',
             (WeightData item) => <String, Object?>{
                   'id': item.id,
-                  'weightKg': item.weightKg,
-                  'weightLb': item.weightLb,
-                  'weightDate': item.weightDate
+                  'weight_kg': item.weightKg,
+                  'weight_lbs': item.weightLbs,
+                  'date': item.date,
+                  'time': item.time,
+                  'date_time': item.dateTime
                 },
             changeListener),
         _weightDataUpdateAdapter = UpdateAdapter(
             database,
-            'WeightData',
+            'weight_table',
             ['id'],
             (WeightData item) => <String, Object?>{
                   'id': item.id,
-                  'weightKg': item.weightKg,
-                  'weightLb': item.weightLb,
-                  'weightDate': item.weightDate
+                  'weight_kg': item.weightKg,
+                  'weight_lbs': item.weightLbs,
+                  'date': item.date,
+                  'time': item.time,
+                  'date_time': item.dateTime
                 },
             changeListener),
         _weightDataDeletionAdapter = DeletionAdapter(
             database,
-            'WeightData',
+            'weight_table',
             ['id'],
             (WeightData item) => <String, Object?>{
                   'id': item.id,
-                  'weightKg': item.weightKg,
-                  'weightLb': item.weightLb,
-                  'weightDate': item.weightDate
+                  'weight_kg': item.weightKg,
+                  'weight_lbs': item.weightLbs,
+                  'date': item.date,
+                  'time': item.time,
+                  'date_time': item.dateTime
                 },
             changeListener);
 
@@ -431,37 +437,46 @@ class _$WeightDao extends WeightDao {
   final DeletionAdapter<WeightData> _weightDataDeletionAdapter;
 
   @override
-  Future<WeightData?> findTaskById(int id) async {
-    return _queryAdapter.query('SELECT * FROM WeightData WHERE id = ?1',
+  Future<WeightData?> selectWeightById(int id) async {
+    return _queryAdapter.query('SELECT * FROM weight_table WHERE id = ?1',
         mapper: (Map<String, Object?> row) => WeightData(
-            weightKg: row['weightKg'] as String?,
-            weightLb: row['weightLb'] as String?,
-            weightDate: row['weightDate'] as String?),
+            id: row['id'] as int?,
+            weightKg: row['weight_kg'] as double?,
+            weightLbs: row['weight_lbs'] as double?,
+            date: row['date'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?),
         arguments: [id]);
   }
 
   @override
-  Future<List<WeightData>> findAllTasks() async {
-    return _queryAdapter.queryList('SELECT * FROM WeightData',
+  Future<List<WeightData>> selectAllWeight() async {
+    return _queryAdapter.queryList('SELECT * FROM weight_table',
         mapper: (Map<String, Object?> row) => WeightData(
-            weightKg: row['weightKg'] as String?,
-            weightLb: row['weightLb'] as String?,
-            weightDate: row['weightDate'] as String?));
+            id: row['id'] as int?,
+            weightKg: row['weight_kg'] as double?,
+            weightLbs: row['weight_lbs'] as double?,
+            date: row['date'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?));
   }
 
   @override
-  Stream<List<WeightData>> findAllTasksAsStream() {
-    return _queryAdapter.queryListStream('SELECT * FROM WeightData',
+  Stream<List<WeightData>> selectAllWeightAsStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM weight_table',
         mapper: (Map<String, Object?> row) => WeightData(
-            weightKg: row['weightKg'] as String?,
-            weightLb: row['weightLb'] as String?,
-            weightDate: row['weightDate'] as String?),
-        queryableName: 'WeightData',
+            id: row['id'] as int?,
+            weightKg: row['weight_kg'] as double?,
+            weightLbs: row['weight_lbs'] as double?,
+            date: row['date'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?),
+        queryableName: 'weight_table',
         isView: false);
   }
 
   @override
-  Future<void> insertTask(WeightData task) async {
+  Future<void> insertWeight(WeightData task) async {
     await _weightDataInsertionAdapter.insert(task, OnConflictStrategy.abort);
   }
 

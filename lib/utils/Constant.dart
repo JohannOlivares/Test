@@ -38,6 +38,12 @@ class Constant {
   static const ML_250 = 250;
   static const ML_500 = 500;
 
+  static const MIN_KG = 20.00;
+  static const MAX_KG = 997.00;
+
+  static const MIN_LBS = 45.00;
+  static const MAX_LBS = 2200.00;
+
   static getMainURL() {
     if (Debug.SANDBOX_API_URL)
       return "http://192.168.29.239/law-game/public";

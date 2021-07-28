@@ -36,4 +36,12 @@ class Utils {
   static getCurrentDayTime() {
     return "${DateFormat.jm().format(DateTime.now())}";
   }
+
+  static double lbToKg(double weightValue) {
+    return double.parse((weightValue / 2.2046226218488).toStringAsFixed(1));
+  }
+
+  static double kgToLb( double weightValue)  {
+    return double.parse((weightValue * 2.2046226218488).toStringAsFixed(1));
+  }
 }

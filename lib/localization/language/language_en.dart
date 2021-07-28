@@ -70,6 +70,9 @@ class LanguageEn extends Languages {
   String get txtLBS => "LBS";
 
   @override
+  String get txtLB => "Lb";
+
+  @override
   String get txtMale => "Male";
 
   @override
@@ -344,7 +347,8 @@ class LanguageEn extends Languages {
   String get txtEditTargetSteps => "Edit Target Steps";
 
   @override
-  String get txtEditStepsTargetDesc => "Burned calories, walking distance & duration will be calculated accordingly.";
+  String get txtEditStepsTargetDesc =>
+      "Burned calories, walking distance & duration will be calculated accordingly.";
 
   @override
   String get txtCancel => "CANCEL";
@@ -365,12 +369,10 @@ class LanguageEn extends Languages {
   String get txtContinue => "Continue";
 
   @override
-
   String get txtFinish => "Finish";
 
   @override
-
-  String get txtFinishTraining =>"Finish Training?";
+  String get txtFinishTraining => "Finish Training?";
 
   @override
   String get txtRestart => "Restart";
@@ -426,19 +428,34 @@ class LanguageEn extends Languages {
   @override
   String get txtModerateIntensity => "Moderate \nintensity";
 
-
   @override
   String get txtGotoSettings => "Go to Settings";
 
   @override
-  String get txtPleaseGivePermissionFromSettings => "Please give us access to your GPS Location";
+  String get txtPleaseGivePermissionFromSettings =>
+      "Please give us access to your GPS Location";
 
   @override
   String get txtWeNeedYourLocation => "We Need Your Location";
 
   @override
   String get txtLongPressToUnlock => "Long press to unlock";
+
   @override
   String get txtDelete => "Delete";
 
+  @override
+  String get txtWeight => "Weight";
+
+  @override
+  String get txtLast30Days => "Last 30 days";
+
+  @override
+  String get txtAdd => "Add";
+
+  @override
+  String get txtWarningForKg => "Please enter weight grater than 20 and less than 997";
+
+  @override
+  String get txtWarningForLbs => "Please enter lbs grater than 45 and less 2200";
 }

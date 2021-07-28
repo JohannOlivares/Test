@@ -3,9 +3,6 @@ import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 
 @dao
 abstract class WaterDao {
-  @insert
-  Future<void> insertDrinkWater(WaterData waterData);
-
   @Query('SELECT * FROM water_table')
   Future<List<WaterData>> getAllDrinkWater();
 
@@ -20,6 +17,9 @@ abstract class WaterDao {
 
   @Query('SELECT *, IFNULL(SUM(ml),0) as total FROM water_table WHERE date IN(:date)')
   Future<WaterData?> getTotalDrinkWaterAverage(List<String> date);
+
+  @insert
+  Future<void> insertDrinkWater(WaterData waterData);
 
   @delete
   Future<void> deleteTodayDrinkWater(WaterData waterData);

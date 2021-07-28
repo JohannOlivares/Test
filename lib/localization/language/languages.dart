@@ -43,6 +43,8 @@ abstract class Languages {
 
   String get txtLBS;
 
+  String get txtLB;
+
   String get txtCM;
 
   String get txtFT;
@@ -292,4 +294,14 @@ abstract class Languages {
   String get txtLongPressToUnlock;
 
   String get txtDelete;
+
+  String get txtWeight;
+
+  String get txtLast30Days;
+
+  String get txtAdd;
+
+  String get txtWarningForKg;
+
+  String get txtWarningForLbs;
 }

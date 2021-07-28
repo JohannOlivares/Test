@@ -21,5 +21,11 @@ class WaterData {
   @ColumnInfo(name: "total")
   final int? total;
 
-  WaterData({this.id,required this.ml,required this.date,required this.time,required this.dateTime,this.total = 0});
+  WaterData(
+      {this.id,
+      required this.ml,
+      required this.date,
+      required this.time,
+      required this.dateTime,
+      this.total = 0});
 }

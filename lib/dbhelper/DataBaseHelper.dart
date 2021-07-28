@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:run_tracker/dbhelper/database.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
+import 'package:run_tracker/dbhelper/datamodel/WeightData.dart';
 import 'package:run_tracker/utils/Debug.dart';
 
 class DataBaseHelper {
@@ -20,6 +19,8 @@ class DataBaseHelper {
         await $FloorFlutterDatabase.databaseBuilder('running_app.db').build();
     return _database;
   }
+
+  //<!----------------------------- Water Table Operations ---------------------------------------------------!>
 
   Future<WaterData> insertDrinkWater(WaterData data) async {
     final waterDao = _database!.waterDao;
@@ -84,7 +85,9 @@ class DataBaseHelper {
     final totalDrinkWater = await waterDao.getTotalDrinkWaterAllDays(date);
     totalDrinkWater.forEach((element) {
       Debug.printLog("Total DrinkWater For Week Days ==> " +
-          element.total.toString() + " Date ==> " + element.date.toString());
+          element.total.toString() +
+          " Date ==> " +
+          element.date.toString());
     });
     return totalDrinkWater;
   }
@@ -92,15 +95,60 @@ class DataBaseHelper {
   Future<int?> getTotalDrinkWaterAverage(List<String> date) async {
     final waterDao = _database!.waterDao;
     final totalDrinkWater = await waterDao.getTotalDrinkWaterAverage(date);
-    Debug.printLog("Daily Average DrinkWater ==> " + totalDrinkWater!.total.toString());
+    Debug.printLog(
+        "Daily Average DrinkWater ==> " + totalDrinkWater!.total.toString());
     return totalDrinkWater.total;
   }
-
 
   Future<WaterData> deleteTodayDrinkWater(WaterData data) async {
     final waterDao = _database!.waterDao;
     await waterDao.deleteTodayDrinkWater(data);
-    Debug.printLog("Delete DrinkWater From Today History==> " + data.toString());
+    Debug.printLog(
+        "Delete DrinkWater From Today History==> " + data.toString());
     return data;
   }
+
+  //<!----------------------------- Weight Table Operations ---------------------------------------------------!>
+
+  Future<WeightData> insertWeight(WeightData data) async {
+    final weightDao = _database!.weightDao;
+    await weightDao.insertWeight(data);
+    Debug.printLog("Insert Weight Data Successfully  ==> " +
+        " Id ==> " +
+        data.id.toString() +
+        " Weight Kg ==> " +
+        data.weightKg.toString() +
+        " Weight Lbs ==> " +
+        data.weightLbs.toString() +
+        " Date ==> " +
+        data.date.toString() +
+        " Time ==> " +
+        data.time.toString() +
+        " Date Time ==> " +
+        data.dateTime.toString());
+    return data;
+  }
+
+  Future<List<WeightData>> selectWeight() async {
+    final weightDao = _database!.weightDao;
+    final List<WeightData> result = await weightDao.selectAllWeight();
+    result.forEach((element) {
+      Debug.printLog("Select Weight Data Successfully  ==>" +
+          " Id ==> " +
+          element.id.toString() +
+          " Weight Kg ==> " +
+          element.weightKg.toString() +
+          " Weight Lbs ==> " +
+          element.weightLbs.toString() +
+          " Date ==> " +
+          element.date.toString() +
+          " Time ==> " +
+          element.time.toString() +
+          " Date Time ==> " +
+          element.dateTime.toString());
+    });
+    return result;
+  }
+
+
 }
