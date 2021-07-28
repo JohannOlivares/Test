@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:run_tracker/common/bottombar/BottomBar.dart';
+import 'package:intl/intl.dart';
+import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
+import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/runhistorydetails/RunHistoryDetailScreen.dart';
 import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/goalSetScreen/GoalSettingScreen.dart';
 import 'package:run_tracker/ui/recentActivities/RecentActivitiesScreen.dart';
@@ -22,6 +25,36 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
   bool homeSelected = true;
   bool profileSelected = false;
+  bool recentActivityShow = false;
+  List<RunningData> recentActivitiesData = [];
+  int totalrecentActivity = 0;
+
+  @override
+  void initState() {
+
+    _checkMapData();
+    super.initState();
+
+  }
+
+  _checkMapData() async {
+    final result = await DataBaseHelper().getRecentTasksAsStream();
+    recentActivitiesData.addAll(result);
+
+
+    //print(result[0].eLong);
+
+   if(result.isEmpty||result.length == 0 ){
+     setState(() {
+       recentActivityShow = false;
+     });
+   }else{
+     setState(() {
+       recentActivityShow = true;
+     });
+   }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -381,91 +414,74 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
 
 
   recentActivities(double fullHeight, double fullWidth) {
-    return Container(
-      margin: EdgeInsets.only(top: fullHeight*0.03, left: fullWidth*0.05,right: fullWidth*0.05),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                Languages.of(context)!.txtRecentActivities,
-                style: TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w500,
-                    color: Colur.txt_white
-                ),
-              ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => RecentActivitiesScreen()));
-                },
-                child: Text(
-                  Languages.of(context)!.txtMore,
+    return Visibility(
+      visible: recentActivityShow,
+      child: Container(
+        margin: EdgeInsets.only(top: fullHeight*0.03, left: fullWidth*0.05,right: fullWidth*0.05),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  Languages.of(context)!.txtRecentActivities,
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w500,
-                      color: Colur.txt_purple
+                      color: Colur.txt_white
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: 21,),
-          recentActivitiesList(fullHeight)
-        ],
+                InkWell(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => RecentActivitiesScreen()));
+                  },
+                  child: Text(
+                    Languages.of(context)!.txtMore,
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w500,
+                        color: Colur.txt_purple
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 21,),
+            recentActivitiesList(fullHeight)
+          ],
+        ),
       ),
     );
   }
 
   recentActivitiesList(double fullHeight) {
     return Container(
-      child: Column(
-        children: [
-          recentActivitiesListTile(
-              fullHeight: fullHeight,
-              img: "ic_route_map.png",
-              date: "Jun 3",
-              distance: "0.00 mile",
-              time: "00:00:00",
-              pace: "00.00 min/mi",
-              calories: "1 Kcal"
-          ),
-          recentActivitiesListTile(
-              fullHeight: fullHeight,
-              img: "ic_route_map.png",
-              date: "Jun 3",
-              distance: "0.00 mile",
-              time: "00:00:00",
-              pace: "00.00 min/mi",
-              calories: "1 Kcal"
-          ),
-          recentActivitiesListTile(
-              fullHeight: fullHeight,
-              img: "ic_route_map.png",
-              date: "Jun 3",
-              distance: "0.00 mile",
-              time: "00:00:00",
-              pace: "00.00 min/mi",
-              calories: "1 Kcal"
-          ),
-        ],
-      ),
+      child:  ListView.builder(
+          itemCount: recentActivitiesData.length,
+          padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context)
+                  .size
+                  .height *
+                  0.05),
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder:
+              (BuildContext context, int index) {
+            return _activitiesView(context, index,fullHeight);
+          }),
     );
   }
-
-  recentActivitiesListTile({
-    required double fullHeight,
-    String? img,
-    required String date,
-    required String distance,
-    required String time,
-    required String pace,
-    required String calories
-  }) {
-    return Padding(
-      padding:  EdgeInsets.only(bottom: fullHeight*0.015),
+  _activitiesView(BuildContext context,int index,double fullheight){
+    return  InkWell(
+      onTap: (){
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => RunHistoryDetailScreen(recentActivitiesData[index])));
+        //recentActivitiesData[index]
+      },
       child: Container(
+        margin: EdgeInsets.only(top: 5,bottom: 5),
         decoration: BoxDecoration(
           color: Colur.progress_background_color,
           borderRadius: BorderRadius.circular(10),
@@ -476,12 +492,19 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ClipRRect(
-                child: Image.asset(
-                  "assets/icons/$img",
+                child:Image.file(recentActivitiesData[index].getImage()!,errorBuilder: (
+                    BuildContext context,
+                    Object error,
+                    StackTrace? stackTrace,
+                    ){return Image.asset(
+                  "assets/icons/ic_route_map.png",
                   height: 90,
                   width: 90,
                   fit: BoxFit.cover,
-                ),
+                ) ;
+                }, height: 90,
+                  width: 90,
+                  fit: BoxFit.fill,),
                 borderRadius: BorderRadius.circular(10),
               ),
               Expanded(
@@ -491,50 +514,82 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        date,
+                        DateFormat.yMMMd().format(DateTime.now()),
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
                             color: Colur.txt_white
                         ),
                       ),
-                      Text(
-                        distance,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 24,
-                            color: Colur.txt_white
-                        ),
+                      Row(
+                        children: [
+                          Text(
+                            recentActivitiesData[index].distance!,
+                            textAlign: TextAlign.end,
+                            style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 21,
+                                color: Colur.txt_white
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10,top: 4),
+                            child: Text(
+                              Languages.of(context)!.txtMile,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  color: Colur.txt_white
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       Padding(
-                        padding:  EdgeInsets.only(top: fullHeight*0.01),
+                        padding:  EdgeInsets.only(top: fullheight*0.01),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              time,
+                              recentActivitiesData[index].duration!,
                               style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 11,
-                                color: Colur.txt_grey
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15,
+                                  color: Colur.txt_grey
                               ),
                             ),
                             Text(
-                              pace,
+                              recentActivitiesData[index].speed!,
                               style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 11,
-                                color: Colur.txt_grey
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 15,
+                                  color: Colur.txt_grey
                               ),
                             ),
-                            Text(
-                              calories,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 11,
-                                color: Colur.txt_grey
-                              ),
+                            Row(
+                              children: [
+                                Text(
+                                  recentActivitiesData[index].cal!,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 15,
+                                      color: Colur.txt_grey
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left:3.0),
+                                  child: Text(
+                                    Languages.of(context)!.txtKcal,
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 11,
+                                        color: Colur.txt_grey
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -548,6 +603,18 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
         ),
       ),
     );
+  }
+
+  recentActivitiesListTile({
+    required double fullHeight,
+    String? img,
+    required String date,
+    required String distance,
+    required String time,
+    required String pace,
+    required String calories
+  }) {
+    return;
   }
 
 

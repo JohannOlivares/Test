@@ -1,13 +1,15 @@
 import 'dart:async';
-import 'dart:io' show Platform;
+import 'dart:convert';
+import 'dart:io' show Directory, File, Platform;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart'hide PermissionStatus;
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:math' show acos, asin, cos, sin, sqrt;
 import 'package:pedometer/pedometer.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
@@ -23,7 +25,6 @@ import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
-import 'package:geolocator/geolocator.dart';
 
 import 'PausePopupScreen.dart';
 
@@ -34,72 +35,55 @@ class StartRunScreen extends StatefulWidget {
   _StartRunScreenState createState() => _StartRunScreenState();
 }
 
-class _StartRunScreenState extends State<StartRunScreen>
-    with TickerProviderStateMixin
+class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStateMixin
     implements TopBarClickListener, RunningStopListener {
-  GoogleMapController? _controller;
-  Location _location = Location();
 
   RunningData? runningData;
-  //For Marker
+
+  //For Google Map
+  GoogleMapController? _controller;
+  Location _location = Location();
+  StreamSubscription<LocationData>? _locationSubscription;
+  LocationData? _currentPosition;
+  LatLng _initialcameraposition = LatLng(0.5937, 0.9629);
+  //For Markers And PolyLines
+  Map<PolylineId, Polyline> polylines = {};
+  List<LatLng> polylineCoordinatesList = [];
   BitmapDescriptor? pinLocationIcon;
   Set<Marker> markers = {};
   //For SnapShots
   Uint8List? imageBytesVar;
 
-  LocationData? _currentPosition;
-  LatLng _initialcameraposition = LatLng(0.5937, 0.9629);
-
-  Map<PolylineId, Polyline> polylines = {};
-  List<LatLng> polylineCoordinatesList = [];
-  PolylinePoints polylinePoints = PolylinePoints();
   double totalDistance = 0;
   double lastDistance = 0;
   double pace = 0;
   double calorisvalue = 0;
-  int _steps = 0;
-  String _status = "";
-  bool reset = false;
   bool setaliteEnable = false;
   bool startTrack = false;
   String? timeValue = "";
   bool isBack = true;
-  bool liveLocationBtn = false;
 
 //THis Are Final Complete Value Holder Variables::::
   double? avaragePace;
   double? finaldistance;
   double? finalspeed;
 
-  StreamSubscription<StepCount>? _stepCountStream;
-  StreamSubscription<PedestrianStatus>? _pedestrianStatusStream;
+  //THis Variables For Weight and Kcal Calculation
+  double weight = 50;
+  double durationInsec = 120;
+
+  //For Timer
   final StopWatchTimer stopWatchTimer = StopWatchTimer(
       mode: StopWatchMode.countUp,
       onChange: (value) {
         //print('onChange $value');
       });
-
-  double calculateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
-  }
-
   @override
   void initState() {
     StartRunScreen.runningStopListener = this;
-    liveLocationBtn = false;
     runningData = RunningData();
     super.initState();
-
-/*    stopWatchTimer.rawTime.listen((value) =>
-        print('rawTime $value ${StopWatchTimer.getDisplayTime(value)}'));*/
-    countStep();
   }
-
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -111,20 +95,19 @@ class _StartRunScreenState extends State<StartRunScreen>
   @override
   Future<void> dispose() async {
     super.dispose();
-    _stepCountStream?.cancel();
     await stopWatchTimer.dispose();
   }
 
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
-    _location.onLocationChanged.listen((l) {
+    _locationSubscription = _location.onLocationChanged.listen((l) {
       _controller?.moveCamera(
         CameraUpdate.newCameraPosition(
           CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 20),
         ),
       );
+      _locationSubscription!.cancel();
     });
-
   }
 
   @override
@@ -152,228 +135,12 @@ class _StartRunScreenState extends State<StartRunScreen>
             ),
             _timerAndDistance(fullwidth),
             Expanded(
-              child: _mapView(fulheight),
+              child: _mapView(fulheight,context),
             ),
           ],
         ),
       ),
     );
-  }
-
-  _addPolyLine() {
-    print("add red polyline");
-    PolylineId id = PolylineId("poly");
-    Polyline polyline = Polyline(
-        polylineId: id, color: Colors.black, points: polylineCoordinatesList,width: 4,);
-    polylines[id] = polyline;
-  }
-
-  void countStep() {
-    reset = true;
-    _stepCountStream = Pedometer.stepCountStream
-        .listen(_onData, onError: _onError, cancelOnError: false);
-
-    _pedestrianStatusStream = Pedometer.pedestrianStatusStream.listen((event) {
-      setState(() {
-        _status = event.status;
-      });
-    }, onError: (error) {
-      print("Pedestrian Status Error: $error");
-      setState(() {
-        _status = "Status not available.";
-      });
-    });
-  }
-
-  void _onError(error) {
-    _steps = 0;
-    Utils.showToast(context, "Error giving in Count Steps");
-    print("Error: $error");
-  }
-
-  void _onData(StepCount stepCountValue) {
-    setState(() {
-      /*(reset == true)?_steps = 0:*/
-      _steps = stepCountValue.steps;
-    });
-  }
-
-  @override
-  void setState(fn) {
-    if(mounted) {
-      super.setState(fn);
-    }
-  }
-
-  @override
-  Future<void> onFinish({bool value = true}) async {
-
-
-    await _snapshotImage();
-
-    Navigator.pop(context);
-
-    Future.delayed(const Duration(milliseconds: 50), () async{
-      final imageBytes = await _controller!.takeSnapshot();
-      setState(() {
-        runningData!.path = new String.fromCharCodes(imageBytes!);
-      });
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-              builder: (context) => WellDoneScreen(runningData: runningData)),
-          ModalRoute.withName("/homeWizardScreen"));
-    });
-
-
-
-
-  }
-  Future<void> _snapshotImage()async{
-    double? endpinlat;
-    double? endpinlon;
-
-    if (polylineCoordinatesList.length == 1) {
-      endpinlat = polylineCoordinatesList.first.latitude;
-      endpinlon = polylineCoordinatesList.first.longitude;
-    } else {
-      endpinlat = polylineCoordinatesList.last.latitude;
-      endpinlon = polylineCoordinatesList.last.longitude;
-    }
-    LatLng endPinPosition = LatLng(endpinlat, endpinlon);
-
-    final Uint8List markerIcon =
-    await getBytesFromAsset('assets/icons/ic_map_pin_red.png', 50);
-    setState(() {
-      final Marker marker = Marker(
-          icon: BitmapDescriptor.fromBytes(markerIcon),
-          markerId: MarkerId('2'),
-          position: endPinPosition);
-      markers.add(marker);
-    });
-
-    Utils.showToast(context, "marker added");
-    Debug.printLog("marker added");
-
-    return;
-  }
-
-  getLoc() async {
-    _location.changeSettings(interval: 2000, distanceFilter: 0.1);
-
-    _currentPosition = await _location.getLocation();
-    _initialcameraposition =
-        LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
-
-    // IF Button iS in Play Position
-    _location.onLocationChanged.listen((LocationData currentLocation) async {
-      //print("${currentLocation.latitude} : ${currentLocation.longitude}");
-      if (startTrack) {
-        if (currentLocation.latitude != null &&
-            currentLocation.longitude != null) {
-          //It Will Execute only First Time
-          if (polylineCoordinatesList.isEmpty) {
-            polylineCoordinatesList.add(
-                LatLng(currentLocation.latitude!, currentLocation.longitude!));
-            runningData!.sLat = currentLocation.latitude!.toString();
-            runningData!.sLong = currentLocation.longitude!.toString();
-            LatLng startPinPosition = LatLng(double.parse(runningData!.sLat!), double.parse(runningData!.sLong!));
-            final Uint8List markerIcon = await getBytesFromAsset('assets/icons/ic_map_pin_purple.png', 50);
-            setState(() {
-              final Marker marker = Marker(icon: BitmapDescriptor.fromBytes(markerIcon), markerId: MarkerId('1'),position: startPinPosition);
-              markers.add(marker);
-            });
-
-          }
-
-          //After that This Part only Execute
-          lastDistance = calculateDistance(
-              polylineCoordinatesList.last.latitude,
-              polylineCoordinatesList.last.longitude,
-              currentLocation.latitude,
-              currentLocation.longitude);
-          pace = _countSpeed(
-              polylineCoordinatesList.last.latitude,
-              polylineCoordinatesList.last.longitude,
-              currentLocation.latitude!,
-              currentLocation.longitude!);
-
-          double weight = 50;
-          double durationInsec = 120;
-          calorisvalue = _countCalories(durationInsec, weight);
-          double conditionDistance;
-          if (Platform.isIOS) {
-            conditionDistance = 0.06;
-          } else {
-            conditionDistance = 0.01;
-          }
-
-          setState(() {
-            if (lastDistance >= conditionDistance) {
-              totalDistance += calculateDistance(
-                  polylineCoordinatesList.last.latitude,
-                  polylineCoordinatesList.last.longitude,
-                  currentLocation.latitude,
-                  currentLocation.longitude);
-
-              Debug.printLog(
-                  "Greater Than 0.1: $lastDistance After adding It Became Total: $totalDistance:::Speed: $pace");
-              Utils.showToast(context, "greater Than 0.1");
-              /*Utils.showToast(
-                  context,
-                  "Greater Than 0.1: $lastDistance::: After adding It Became Total: $totalDistance\n"
-                  "::::Speed: $pace :::::: Distancein Meter: $distanceInMeters::::Time:  $timeValue");*/
-
-              polylineCoordinatesList.add(LatLng(
-                  currentLocation.latitude!, currentLocation.longitude!));
-              _addPolyLine();
-            } else {
-              Debug.printLog("Less Than 0.1: $lastDistance");
-              /* Utils.showToast(context,
-                  "Less Than 0.1: $lastDistance::: Without adding It Became Total: $totalDistance:::Time:  $timeValue");*/
-
-              return;
-            }
-          });
-        }
-      }
-
-      _currentPosition = currentLocation;
-      _initialcameraposition =
-          LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
-    });
-  }
-
-  void _animateToCenterofMap(){
-    LatLng latLng_1 = LatLng(double.parse(runningData!.sLat!),double.parse(runningData!.sLong!));
-    LatLng latLng_2 =  LatLng(double.parse(runningData!.eLat!),double.parse(runningData!.eLong!));
-    LatLngBounds bound = LatLngBounds(southwest: latLng_1, northeast: latLng_2);
-    CameraUpdate u2 = CameraUpdate.newLatLngBounds(bound, 50);
-    this._controller!.animateCamera(u2).then((void v){
-      check(u2,this._controller!);
-    });
-  }
-  void check(CameraUpdate u, GoogleMapController c) async {
-    c.animateCamera(u);
-    _controller!.animateCamera(u);
-    LatLngBounds l1=await c.getVisibleRegion();
-    LatLngBounds l2=await c.getVisibleRegion();
-    print(l1.toString());
-    print(l2.toString());
-    if(l1.southwest.latitude==-90 ||l2.southwest.latitude==-90)
-      check(u, c);
-  }
-
-  @override
-  void onTopBarClick(String name, {bool value = true}) {
-    if (name == Constant.STR_BACK) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          '/homeWizardScreen', (Route<dynamic> route) => false);
-    }
-    if (name == Constant.STR_SETTING) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SettingScreen()));
-    }
   }
 
   _textContainer(String text) {
@@ -497,13 +264,13 @@ class _StartRunScreenState extends State<StartRunScreen>
     );
   }
 
-  _mapView(double fullheight) {
+  _mapView(double fullheight,BuildContext context) {
     return Container(
       child: Stack(
         children: [
           GoogleMap(
             initialCameraPosition:
-            CameraPosition(target: _initialcameraposition, zoom: 20),
+            CameraPosition(target: _initialcameraposition, zoom: 18),
             mapType:
             setaliteEnable == true ? MapType.satellite : MapType.normal,
             onMapCreated: _onMapCreated,
@@ -513,7 +280,6 @@ class _StartRunScreenState extends State<StartRunScreen>
             scrollGesturesEnabled: true,
             myLocationButtonEnabled: false,
             zoomGesturesEnabled: true,
-
             polylines: Set<Polyline>.of(polylines.values),
           ),
           Container(
@@ -523,34 +289,6 @@ class _StartRunScreenState extends State<StartRunScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                /*  InkWell(
-                  child: Visibility(
-                    visible: liveLocationBtn,
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      margin: EdgeInsets.only(bottom: 10),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: setaliteEnable == true
-                              ? Colors.blue
-                              : Colors.white),
-                      child: Center(
-                          child: Icon(
-                            Icons.circle,
-                            size: 35,
-                          )),
-                    ),
-                  ),
-                  onTap: () async {
-                    final imageBytes = await _controller?.takeSnapshot();
-                    setState(() {
-                      _imageBytes = imageBytes;
-                    });
-
-
-                  },
-                ),*/
                 InkWell(
                   child: Container(
                     height: 60,
@@ -581,20 +319,6 @@ class _StartRunScreenState extends State<StartRunScreen>
                     children: [
                       InkWell(
                         onTap: () async{
-                          /*    _location.onLocationChanged.listen((event) {
-                            _currentPosition = event;
-                          });*/
-
-
-                          final imageBytes = await _controller?.takeSnapshot();
-                          setState(() {
-                            imageBytesVar = imageBytes;
-                            Utils.showToast(context, "snapshot taken:$imageBytesVar");
-                          });
-
-
-
-
                         },
                         child: Container(
                           height: 60,
@@ -607,7 +331,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                                   color: Colur.purple_gradient_color2)),
                         ),
                       ),
-                      //Start Button CODe
+                      //Start Button Code
                       Expanded(
                         child: UnconstrainedBox(
                           child: InkWell(
@@ -624,43 +348,39 @@ class _StartRunScreenState extends State<StartRunScreen>
                                       setState(() {
                                         isBack = false;
                                         startTrack = true;
-                                        getLoc();
+                                        if(_locationSubscription != null && _locationSubscription!.isPaused)
+                                          _locationSubscription!.resume();
+                                        else
+                                          getLoc();
                                         stopWatchTimer.onExecute
                                             .add(StopWatchExecute.start);
                                       });
                                     });
                               } else {
                                 //IF User Pressed Pause Button then This part Will Do actions>>>>>>>>>
+                                _locationSubscription!.pause();
                                 stopWatchTimer.onExecute.add(StopWatchExecute
                                     .stop); //It will pause the timer
-                                startTrack = false;
-                                if(polylineCoordinatesList.length > 1) {
+                                setState(() { startTrack = false;});
+                                if(polylineCoordinatesList.length >= 1) {
                                   runningData!.eLat =
                                       polylineCoordinatesList.last.latitude
                                           .toString();
-                                  runningData!.eLong =
-                                      polylineCoordinatesList.last.longitude
-                                          .toString();
-                                }else if(polylineCoordinatesList.length == 1){
-                                  runningData!.eLat =
-                                      polylineCoordinatesList.first.latitude
-                                          .toString();
-                                  runningData!.eLong =
-                                      polylineCoordinatesList.first.longitude
-                                          .toString();
+                                  runningData!.eLong = polylineCoordinatesList.last.longitude.toString();
                                 }
                                 else{
-                                  Utils.showToast(context, "Static value added");
-                                  runningData!.eLat = "0.5937";
-                                  runningData!.eLong = "0.9629";
+                                  Utils.showToast(context, "Discard");
+                                  return  showDiscardDialog();
                                 }
 
-                                _animateToCenterofMap();
+                                await _animateToCenterofMap();
 
                                 await calculationsForAllValues()
                                     .then((value) async {
                                   final String result = (await Navigator.push(context, PausePopupScreen(stopWatchTimer, startTrack,runningData,_controller,markers)))!;
                                   setState(() {
+                                    if(_locationSubscription != null && _locationSubscription!.isPaused)
+                                      _locationSubscription!.resume();
                                     //if User Pressed Restart then below function called
                                     if (result == "false") {
                                       stopWatchTimer.onExecute
@@ -669,6 +389,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                                     }
                                     //if User Pressed RESUME then below function called
                                     if (result == "true") {
+
                                       setState(() {
                                         startTrack = true;
                                         isBack = false;
@@ -749,6 +470,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                               duration: const Duration(milliseconds: 400),
                               vsync: this);
 
+
                           showDialog(
                             barrierDismissible: false,
                             context: context,
@@ -769,44 +491,248 @@ class _StartRunScreenState extends State<StartRunScreen>
     );
   }
 
-  double _countSpeed(double lat1, double lon1, double lat2, double lon2) {
-    // Convert degrees to radians
-    double M_PI = 3.141592;
-    lat1 = lat1 * M_PI / 180.0;
-    lon1 = lon1 * M_PI / 180.0;
+  void showDiscardDialog() {
+    showDialog(
+      barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(Languages.of(context)!.txtDiscard+" ?"),
+            content:  Text(Languages.of(context)!.txtAlertForNoLocation),
+            actions: [
+             /* TextButton(
+                child: Text(Languages.of(context)!.txtCancel),
+                onPressed: () {
 
-    lat2 = lat2 * M_PI / 180.0;
-    lon2 = lon2 * M_PI / 180.0;
-
-    // radius of earth in metres
-    double r = 6378100;
-
-    // P
-    double rho1 = r * cos(lat1);
-    double z1 = r * sin(lat1);
-    double x1 = rho1 * cos(lon1);
-    double y1 = rho1 * sin(lon1);
-
-    // Q
-    double rho2 = r * cos(lat2);
-    double z2 = r * sin(lat2);
-    double x2 = rho2 * cos(lon2);
-    double y2 = rho2 * sin(lon2);
-
-    // Dot product
-    double dot = (x1 * x2 + y1 * y2 + z1 * z2);
-    double cos_theta = dot / (r * r);
-
-    double theta = acos(cos_theta);
-
-    return r * theta;
+                  Navigator.pop(context);
+                },
+              ),*/
+              TextButton(
+                child: Text(Languages.of(context)!.txtDiscard),
+                onPressed: () async {
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
+                },
+              ),
+            ],
+          );
+        });
+  }
+  _addPolyLine() {
+    print("add red polyline");
+    PolylineId id = PolylineId("poly");
+    Polyline polyline = Polyline(
+      polylineId: id, color: Colors.black, points: polylineCoordinatesList,width: 4,);
+    polylines[id] = polyline;
   }
 
-  double _countCalories(double durationInsec, double weight) {
-    double METConstant = 2;
-    double caloriesValue = (durationInsec * METConstant * 3.5 * weight) / 6000;
-    return caloriesValue;
+  @override
+  void setState(fn) {
+    if(mounted) {
+      super.setState(fn);
+    }
   }
+
+  @override
+  Future<void> onFinish({bool value = true}) async {
+    if(_locationSubscription != null && _locationSubscription!.isPaused)
+      _locationSubscription!.cancel();
+
+    await _addEndMarker();
+
+    Navigator.pop(context);
+
+    runningData!.polyLine = jsonEncode(polylineCoordinatesList);
+
+    Future.delayed(const Duration(milliseconds: 50), () async{
+      //1
+      final imageBytes = await _controller!.takeSnapshot();
+      await saveFile(imageBytes!,"${DateTime.now().millisecond}");
+
+    });
+  }
+
+  Future<String?> _findLocalPath() async {
+    final TargetPlatform plateform2 = Theme.of(context).platform;
+    final directory = (plateform2 == TargetPlatform.android)
+        ? await getExternalStorageDirectory()
+        : await getApplicationDocumentsDirectory();
+
+    /* if(plateform2 == TargetPlatform.android)
+      return '/storage/emulated/0';*/
+
+    return directory?.path;
+  }
+
+
+  Future<bool> saveFile(Uint8List imageBytes,String filename)async{
+    try{
+      late String _localPath;
+      _localPath = (await _findLocalPath())! + Platform.pathSeparator + 'Download';
+
+      final savedDir = Directory(_localPath);
+      bool hasExisted = await savedDir.exists();
+      if (!hasExisted) {
+        savedDir.create();
+        Debug.printLog(savedDir.toString());
+        return true;
+      }
+
+      var newFile = await File(savedDir.path+ Platform.pathSeparator+filename+".png").create(recursive: true);
+      await newFile.writeAsBytes(imageBytes);
+      runningData!.imageFile = newFile;
+      runningData!.image = newFile.path;
+
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+              builder: (context) => WellDoneScreen(runningData: runningData)),
+          ModalRoute.withName("/homeWizardScreen"));
+
+      return true;
+    }catch(e){
+      Debug.printLog(e.toString());
+      Utils.showToast(context, e.toString());
+    }
+    return false;
+  }
+
+
+  Future<void> _addEndMarker()async{
+    double? endpinlat;
+    double? endpinlon;
+
+    if (polylineCoordinatesList.length == 1) {
+      endpinlat = polylineCoordinatesList.first.latitude;
+      endpinlon = polylineCoordinatesList.first.longitude;
+    } else {
+      endpinlat = polylineCoordinatesList.last.latitude;
+      endpinlon = polylineCoordinatesList.last.longitude;
+    }
+    LatLng endPinPosition = LatLng(endpinlat, endpinlon);
+
+    final Uint8List markerIcon =
+    await getBytesFromAsset('assets/icons/ic_map_pin_red.png', 50);
+    setState(() {
+      final Marker marker = Marker(
+          icon: BitmapDescriptor.fromBytes(markerIcon),
+          markerId: MarkerId('2'),
+          position: endPinPosition);
+      markers.add(marker);
+    });
+
+    //Utils.showToast(context, "marker added");
+    Debug.printLog("marker added");
+
+    return;
+  }
+
+  getLoc() async {
+    //_location.changeSettings(interval: 2000, distanceFilter: 0.1);
+
+    //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    _location.changeSettings(accuracy: LocationAccuracy.low,);
+
+    _currentPosition = await _location.getLocation();
+    _initialcameraposition =
+        LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
+
+    // IF Button IS in Play Position
+    _locationSubscription = _location.onLocationChanged.listen((LocationData currentLocation) async {
+      print("${currentLocation.latitude} : ${currentLocation.longitude}");
+      if (startTrack) {
+        if (currentLocation.latitude != null &&
+            currentLocation.longitude != null) {
+          //It Will Execute only First Time
+          if (polylineCoordinatesList.isEmpty) {
+            polylineCoordinatesList.add(
+                LatLng(currentLocation.latitude!, currentLocation.longitude!));
+            runningData!.sLat = currentLocation.latitude!.toString();
+            runningData!.sLong = currentLocation.longitude!.toString();
+            LatLng startPinPosition = LatLng(double.parse(runningData!.sLat!), double.parse(runningData!.sLong!));
+            final Uint8List markerIcon = await getBytesFromAsset('assets/icons/ic_map_pin_purple.png', 50);
+            setState(() {
+              final Marker marker = Marker(icon: BitmapDescriptor.fromBytes(markerIcon), markerId: MarkerId('1'),position: startPinPosition);
+              markers.add(marker);
+            });
+
+          }
+
+          //After that This Part only Execute
+          lastDistance = calculateDistance(
+              polylineCoordinatesList.last.latitude,
+              polylineCoordinatesList.last.longitude,
+              currentLocation.latitude,
+              currentLocation.longitude);
+          pace = _countSpeed(
+              polylineCoordinatesList.last.latitude,
+              polylineCoordinatesList.last.longitude,
+              currentLocation.latitude!,
+              currentLocation.longitude!);
+
+          calorisvalue = _countCalories(durationInsec, weight);
+          double conditionDistance;
+          if (Platform.isIOS) {
+            conditionDistance = 0.06;
+          } else {
+            conditionDistance = 0.01;
+          }
+
+          setState(() {
+            if (lastDistance >= conditionDistance) {
+              totalDistance += calculateDistance(
+                  polylineCoordinatesList.last.latitude,
+                  polylineCoordinatesList.last.longitude,
+                  currentLocation.latitude,
+                  currentLocation.longitude);
+
+              Utils.showToast(context, "greater Than 0.1");
+
+              polylineCoordinatesList.add(LatLng(
+                  currentLocation.latitude!, currentLocation.longitude!));
+              _addPolyLine();
+            } else {
+              Debug.printLog("Less Than 0.1: $lastDistance");
+              return;
+            }
+          });
+        }
+      }
+    });
+  }
+
+  Future<void> _animateToCenterofMap()async {
+
+    //This IS Method For Calculation NorthEast And South West
+    LatLngBounds boundsFromLatLngList(List<LatLng> list) {
+      assert(list.isNotEmpty);
+      double? x0;
+      double? x1;
+      double? y0;
+      double? y1;
+      for (LatLng latLng in list) {
+        if (x0 == null) {
+          x0 = x1 = latLng.latitude;
+          y0 = y1 = latLng.longitude;
+        } else {
+          if (latLng.latitude > x1!) x1 = latLng.latitude;
+          if (latLng.latitude < x0) x0 = latLng.latitude;
+          if (latLng.longitude > y1!) y1 = latLng.longitude;
+          if (latLng.longitude < y0!) y0 = latLng.longitude;
+        }
+      }
+      return LatLngBounds(northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
+    }
+
+    //After adding polylines list for Calculate NorthEast And South West Positions and Animate Camera
+    jsonEncode(polylineCoordinatesList);
+    LatLngBounds latLngBounds = boundsFromLatLngList(polylineCoordinatesList);
+    _controller!.animateCamera(CameraUpdate.newLatLngBounds(
+        latLngBounds,
+        100
+    ));
+  }
+
 
   Future<void> calculationsForAllValues() async {
     avaragePace = 0;
@@ -825,16 +751,69 @@ class _StartRunScreenState extends State<StartRunScreen>
     runningData!.speed =finalspeed.toString();
     runningData!.distance =finaldistance.toString();
     runningData!.cal =calorisvalue.toString();
+  }
 
-/*    Utils.showToast(context,
-        "Timevalue: $timeValue||distance: $finaldistance\n||speed: $finalspeed||Calories: $calorisvalue");
-    Debug.printLog(
-        "Timevalue: $timeValue||distance: $finaldistance\n||speed: $finalspeed||Calories: $calorisvalue");*/
+  double _countSpeed(double lat1, double lon1, double lat2, double lon2) {
+    // Convert degrees to radians
+    double M_PI = 3.141592;
+    lat1 = lat1 * M_PI / 180.0;
+    lon1 = lon1 * M_PI / 180.0;
+    lat2 = lat2 * M_PI / 180.0;
+    lon2 = lon2 * M_PI / 180.0;
+
+    // radius of earth in metres
+    double r = 6378100;
+    // P
+    double rho1 = r * cos(lat1);
+    double z1 = r * sin(lat1);
+    double x1 = rho1 * cos(lon1);
+    double y1 = rho1 * sin(lon1);
+    // Q
+    double rho2 = r * cos(lat2);
+    double z2 = r * sin(lat2);
+    double x2 = rho2 * cos(lon2);
+    double y2 = rho2 * sin(lon2);
+    // Dot product
+    double dot = (x1 * x2 + y1 * y2 + z1 * z2);
+    double cos_theta = dot / (r * r);
+
+    double theta = acos(cos_theta);
+
+    return r * theta;
+  }
+
+  double _countCalories(double durationInsec, double weight) {
+    double METConstant = 2;
+    double caloriesValue = (durationInsec * METConstant * 3.5 * weight) / 6000;
+    return caloriesValue;
+  }
+
+  double calculateDistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return 12742 * asin(sqrt(a));
   }
 
 
+
+  @override
+  void onTopBarClick(String name, {bool value = true}) {
+    if (name == Constant.STR_BACK) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          '/homeWizardScreen', (Route<dynamic> route) => false);
+    }
+    if (name == Constant.STR_SETTING) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => SettingScreen()));
+    }
+  }
 //End Class
 }
+
+//=====================================================================================================
 
 class PopUp extends StatefulWidget {
   final AnimationController? controller;
@@ -953,6 +932,8 @@ class PopUpState extends State<PopUp> {
       ),
     );
   }
+
+
 
   void checkCompleted() {
     if (widget.controller?.status == AnimationStatus.forward) {

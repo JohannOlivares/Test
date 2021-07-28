@@ -178,7 +178,7 @@ class LanguageEn extends Languages {
   String get txtPM => "PM";
 
   @override
-  String get txtPaceMinPerKM => "PACE(MIN/KM)";
+  String get txtPaceMinPerKM => "PACE (MIN/KM)";
 
   @override
   String get txtKCAL => "KCAL";
@@ -206,7 +206,7 @@ class LanguageEn extends Languages {
   String get txtDetails => "Details";
 
   @override
-  String get txtDistanceKM => "Distance(km)";
+  String get txtDistanceKM => "Distance (km)";
 
   @override
   String get txtDuration => "Duration";
@@ -443,6 +443,18 @@ class LanguageEn extends Languages {
 
   @override
   String get txtDelete => "Delete";
+
+  @override
+  String get txtRunningApp => "RunningApp";
+
+  @override
+  String get txtAlertForNoLocation => "There is no Location Found. Do you want to discard?";
+
+  @override
+  String get txtDiscard => "Discard";
+
+  @override
+  String get txtTime => "Time";
 
   @override
   String get txtWeight => "Weight";

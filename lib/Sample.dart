@@ -84,7 +84,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
   void initState() {
     StartRunScreen.runningStopListener = this;
     liveLocationBtn = false;
-    runningData = RunningData();
+    runningData = RunningData(id: null);
 
     super.initState();
 
@@ -235,7 +235,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     Future.delayed(const Duration(milliseconds: 10), () async{
       final imageBytes = await _controller!.takeSnapshot();
       setState(() {
-        runningData!.path = new String.fromCharCodes(imageBytes!);
+        runningData!.image = new String.fromCharCodes(imageBytes!);
       });
       Navigator.pushAndRemoveUntil(
           context,

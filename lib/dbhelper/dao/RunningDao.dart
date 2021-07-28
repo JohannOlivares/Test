@@ -7,13 +7,16 @@ abstract class RunningDao {
   Future<RunningData?> findTaskById(int id);
 
   @Query('SELECT * FROM RunningData')
-  Future<List<RunningData>> findAllTasks();
+  Future<List<RunningData>> getAllHistory();
 
   @Query('SELECT * FROM RunningData')
   Stream<List<RunningData>> findAllTasksAsStream();
 
+  @Query('SELECT * FROM RunningData ORDER BY id DESC LIMIT 3')
+  Future<List<RunningData>> findRecentTasksAsStream();
+
   @insert
-  Future<void> insertTask(RunningData task);
+  Future<int> insertTask(RunningData task);
 
   @insert
   Future<void> insertTasks(List<RunningData> tasks);

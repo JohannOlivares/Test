@@ -1,23 +1,17 @@
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' ;
 import 'package:lottie/lottie.dart'as lottie;
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/common/ratingbottomsheetdialog/RatingDialog.dart';
+import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
-import 'package:run_tracker/ui/home/HomeScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Utils.dart';
-import 'dart:ui' as ui;
 
 import '../../custom/GradientButtonSmall.dart';
-import '../../localization/language/languages.dart';
-import '../../localization/language/languages.dart';
 import '../../localization/language/languages.dart';
 
 class WellDoneScreen extends StatefulWidget {
@@ -100,24 +94,46 @@ class _WellDoneScreenState extends State<WellDoneScreen>
   }
 
   @override
-  void onTopBarClick(String name, {bool value = true}) {
+  Future<void> onTopBarClick(String name, {bool value = true}) async {
     if (name == Constant.STR_DELETE) {
       Utils.showToast(context, "Delete Data");//TODO
     }
     if (name == Constant.STR_CLOSE) {
+      var data = widget.runningData!;
+
+      await DataBaseHelper.insertRunningData(RunningData(id: null,
+          duration: data.duration,
+          distance: data.distance,
+          speed: data.speed,
+          cal: data.cal,
+          sLat: data.sLat,
+          sLong: data.sLong,
+          eLat: data.eLat,
+          eLong: data.eLong,
+          image: data.image,
+          polyLine: data.polyLine));
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
     }
   }
 
   _mapScreenShot(double fullheight, double fullwidth) {
+    widget.runningData!.getPolyLineData();
     return Container(
       width: fullwidth,
-      height: fullheight * 0.35,
       margin: EdgeInsets.only(top: 20, bottom: 20),
-      child: ClipRRect(
+      child: /*ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(12.0)),
-        child: (widget.runningData!.path != null)?Image.memory(Uint8List.fromList(widget.runningData!.path!.codeUnits),fit: BoxFit.cover,): Image.asset(
+        child: (widget.runningData!.image != null && widget.runningData!.getImage() != null)?Image.memory(widget.runningData!.getImage()!,fit: BoxFit.contain,): Image.asset(
+          'assets/images/dummy_map.png',
+          fit: BoxFit.cover,
+        ),
+      ),*/
+
+      ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        child: (widget.runningData!.imageFile != null)?Image.file(
+          widget.runningData!.imageFile!,fit: BoxFit.contain,): Image.asset(
           'assets/images/dummy_map.png',
           fit: BoxFit.cover,
         ),

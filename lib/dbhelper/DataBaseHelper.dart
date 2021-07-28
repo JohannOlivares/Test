@@ -1,4 +1,5 @@
 import 'package:run_tracker/dbhelper/database.dart';
+import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WeightData.dart';
 import 'package:run_tracker/utils/Debug.dart';
@@ -70,6 +71,25 @@ class DataBaseHelper {
           element.dateTime.toString());
     });
     return result;
+  }
+
+  Future<List<RunningData>> selectMapHistory() async {
+    final runningDao = _database!.runningDao;
+    final result = await runningDao.getAllHistory();
+    return result;
+  }
+
+  Future<List<RunningData>> getRecentTasksAsStream() async {
+    final runningDao = _database!.runningDao;
+    final result = await runningDao.findRecentTasksAsStream();
+    return result;
+  }
+
+  static Future<void> insertRunningData(RunningData data) async {
+    final runningDao = _database!.runningDao;
+    int id  = await runningDao.insertTask(data);
+    Debug.printLog("insertRunningData Data Successfully  ==> " + id.toString());
+    return;
   }
 
   Future<int?> getTotalDrinkWater(String date) async {

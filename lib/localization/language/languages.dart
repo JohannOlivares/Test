@@ -308,6 +308,17 @@ abstract class Languages {
   String get txtWarningForKg;
 
   String get txtWarningForLbs;
+
   String get txtTurnedOff;
+
   String get txtSaveChanges;
+
+  String get txtRunningApp;
+
+  String get txtAlertForNoLocation;
+
+  String get txtDiscard;
+
+  String get txtTime;
+
 }

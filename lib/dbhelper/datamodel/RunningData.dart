@@ -1,4 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:floor/floor.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 @entity
 class RunningData {
@@ -13,10 +19,15 @@ class RunningData {
   String? sLong;
   String? eLat;
   String? eLong;
-  String? path;
+  String? image;
+  String? polyLine;
+
+  @ignore
+  File? imageFile;
 
   RunningData(
-      {this.duration,
+      {this.id,
+        this.duration,
       this.distance,
         this.speed,
         this.cal,
@@ -24,7 +35,33 @@ class RunningData {
       this.eLong,
       this.eLat,
       this.sLong,
-      this.path});
+      this.image,this.polyLine});
+
+
+  File? getImage(){
+    File? file;
+    if(image != null) {
+      file = File(image!);
+    }
+
+    return file;
+  }
+
+  List<LatLng>? getPolyLineData()
+  {
+    List<LatLng> polylineData = [];
+
+    List<dynamic> list = jsonDecode(polyLine!);
+
+    list.forEach((element) {
+      var lat = double.parse((element as List<dynamic>)[0].toString());
+      var long = double.parse((element as List<dynamic>)[1].toString());
+
+      polylineData.add(LatLng(lat, long));
+    });
+
+    return polylineData;
+  }
 
 /*@override
   bool operator ==(Object other) =>
