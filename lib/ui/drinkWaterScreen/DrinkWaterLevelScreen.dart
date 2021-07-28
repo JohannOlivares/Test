@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/custom/waterLevel/Liquid_progress_indicator.dart';
@@ -8,6 +9,7 @@ import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/main.dart';
 import 'package:run_tracker/ui/drinkWaterSettings/DrinkWaterSettingsScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
@@ -40,14 +42,15 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   var formatEndDateOfCurrentWeek;
 
   var prefTargetValue;
+  var prefSelectedML;
 
   List<WaterData> drinkWaterHistory = [];
+  DateTime? nextDrinkTime;
 
   @override
   void initState() {
     _getPreference();
     _getDataFromDataBase();
-    num = 1;
 
     startDateOfCurrentWeek =
         getDate(currentDate.subtract(Duration(days: currentDate.weekday - 1)));
@@ -79,11 +82,20 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   _getPreference() {
     prefTargetValue =
         Preference.shared.getString(Preference.TARGET_DRINK_WATER);
+    prefSelectedML =
+        Preference.shared.getInt(Preference.SELECTED_DRINK_WATER_ML);
+
     setState(() {
       if (prefTargetValue == null) {
         maxLimitOfDrinkWater = 2000;
       } else {
         maxLimitOfDrinkWater = int.parse(prefTargetValue);
+      }
+
+      if (prefSelectedML == null) {
+        num = 1;
+      } else {
+        num = prefSelectedML;
       }
     });
   }
@@ -96,6 +108,34 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
     _getChartDataForDrinkWater();
     _getDailyDrinkWaterAverage();
     _getDailyDrinkWaterAverage();
+    List<PendingNotificationRequest> notificationList =
+        await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+
+    List<PendingNotificationRequest> todayList = [];
+
+    notificationList.forEach((element) {
+      DateTime scheduleTime =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(element.payload!));
+      DateTime currTime = DateTime.now();
+
+      if (currTime.day == scheduleTime.day &&
+          currTime.month == scheduleTime.month &&
+          currTime.year == currTime.year) {
+        if (scheduleTime.isAfter(currTime)) todayList.add(element);
+      }
+    });
+
+    if (todayList.isNotEmpty) {
+      todayList.sort(
+          (a, b) => int.parse(a.payload!).compareTo(int.parse(b.payload!)));
+      nextDrinkTime =
+          DateTime.fromMillisecondsSinceEpoch(int.parse(todayList[0].payload!));
+
+      Debug.printLog(
+          "nextDrinkTime Notification Time" + nextDrinkTime!.toIso8601String());
+    }
+    Debug.printLog(
+        "Pending Notification" + notificationList[0].payload.toString());
     setState(() {});
   }
 
@@ -121,15 +161,13 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           isMatch = true;
         }
       });
-      if(!isMatch)
-        map.putIfAbsent(dates[i], () => 0);
+      if (!isMatch) map.putIfAbsent(dates[i], () => 0);
     }
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   String? drinkWaterAverage;
+
   _getDailyDrinkWaterAverage() async {
     List<String> dates = [];
     for (int i = 0; i <= 6; i++) {
@@ -140,7 +178,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
       dates.add(formatCurrentWeekDates);
     }
     int? average = await DataBaseHelper().getTotalDrinkWaterAverage(dates);
-    drinkWaterAverage = (average!~/7).toString();
+    drinkWaterAverage = (average! ~/ 7).toString();
     setState(() {});
     Debug.printLog("drinkWaterAverage =====>" + drinkWaterAverage!);
   }
@@ -201,7 +239,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 20,bottom: 10.0),
+                margin: const EdgeInsets.only(top: 20, bottom: 10.0),
                 height: 60,
                 child: Image.asset(
                   'assets/icons/ic_bottle.png',
@@ -214,7 +252,9 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                   child: Column(
                     children: [
                       Text(
-                        drinkWater != null ? drinkWater.toString() : 0.toString(),
+                        drinkWater != null
+                            ? drinkWater.toString()
+                            : 0.toString(),
                         style: TextStyle(
                           color: Colur.txt_white,
                           fontSize: 48,
@@ -285,7 +325,9 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           Container(
             margin: EdgeInsets.only(top: 10.0),
             child: Text(
-              valueForIncrement.toString() + Languages.of(context)!.txtMl,
+                valueForIncrement.toString() +
+                    " " +
+                    Languages.of(context)!.txtMl,
               style: TextStyle(
                   color: Colur.txt_grey,
                   fontSize: 12,
@@ -307,6 +349,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             onTap: () {
               setState(() {
                 num = 1;
+                Preference.clearSelectedDrinkWaterML();
+                Preference.shared.setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
                 Debug.printLog("Value ==> $num");
               });
             },
@@ -323,6 +367,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             onTap: () {
               setState(() {
                 num = 2;
+                Preference.clearSelectedDrinkWaterML();
+                Preference.shared.setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
                 Debug.printLog("Value ==> $num");
               });
             },
@@ -339,6 +385,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             onTap: () {
               setState(() {
                 num = 3;
+                Preference.clearSelectedDrinkWaterML();
+                Preference.shared.setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
                 Debug.printLog("Value ==> $num");
               });
             },
@@ -355,6 +403,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             onTap: () {
               setState(() {
                 num = 4;
+                Preference.clearSelectedDrinkWaterML();
+                Preference.shared.setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
                 Debug.printLog("Value ==> $num");
               });
             },
@@ -675,18 +725,17 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
         }
       });*/
 
-  List<BarChartGroupData> showingDrinkWaterGroups(){
+  List<BarChartGroupData> showingDrinkWaterGroups() {
     List<BarChartGroupData> list = [];
 
-    for(int i = 0; i< map.length;i++)
-      {
-          list.add(makeDrinkWaterGroupData(i, map.entries.toList()[i].value.toDouble(),
-              isTouched: i == touchedIndexForWaterChart));
-      }
+    for (int i = 0; i < map.length; i++) {
+      list.add(makeDrinkWaterGroupData(
+          i, map.entries.toList()[i].value.toDouble(),
+          isTouched: i == touchedIndexForWaterChart));
+    }
 
     return list;
   }
-
 
   _todayHistory(double fullheight, double fullwidth) {
     return Container(
@@ -750,7 +799,9 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                       Container(
                         margin: const EdgeInsets.only(),
                         child: Text(
-                          "${DateFormat().add_jm().format(DateTime.now()).toString()}",
+                          (nextDrinkTime != null)
+                              ? "${DateFormat.jm().format(nextDrinkTime!)}"
+                              : Languages.of(context)!.txtTurnedOff,
                           style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w400,
@@ -773,7 +824,9 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                 Container(
                   margin: const EdgeInsets.only(right: 10),
                   child: Text(
-                    "100" + " " + Languages.of(context)!.txtMl,
+                    valueForIncrement.toString() +
+                        " " +
+                        Languages.of(context)!.txtMl,
                     style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w400,

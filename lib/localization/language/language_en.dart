@@ -458,4 +458,16 @@ class LanguageEn extends Languages {
 
   @override
   String get txtWarningForLbs => "Please enter lbs grater than 45 and less 2200";
+
+  @override
+  String get txtDrinkWaterNotiMsg => "It's Time to drink water";
+
+  @override
+  String get txtTimeToHydrate => "Time to Hydrate";
+
+  @override
+  String get txtTurnedOff => "Turned Off";
+
+  @override
+  String get txtSaveChanges => "Save Changes?";
 }

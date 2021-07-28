@@ -19,6 +19,11 @@ class Preference {
   static const String NEED_TO_SYNC = "NEED_TO_SYNC";
 
   static const String TARGET_DRINK_WATER = "TARGET_DRINK_WATER";
+  static const String SELECTED_DRINK_WATER_ML = "SELECTED_DRINK_WATER_ML";
+  static const String IS_REMINDER_ON = "IS_REMINDER_ON";
+  static const String START_TIME_REMINDER = "START_TIME_REMINDER";
+  static const String END_TIME_REMINDER = "END_TIME_REMINDER";
+  static const String DRINK_WATER_NOTIFICATION_MESSAGE = "DRINK_WATER_NOTIFICATION_MESSAGE";
 
   // ------------------ SINGLETON -----------------------
   static final Preference _preference = Preference._internal();
@@ -111,6 +116,35 @@ class Preference {
   static Future<bool> clearTargetDrinkWater() async {
     _pref!.getKeys().forEach((key) async {
       if (key == TARGET_DRINK_WATER) {
+        await _pref!.remove(key);
+      }
+    });
+    return Future.value(true);
+  }
+
+
+  static Future<bool> clearStartTimeReminder() async {
+    _pref!.getKeys().forEach((key) async {
+      if (key == START_TIME_REMINDER) {
+        await _pref!.remove(key);
+      }
+    });
+    return Future.value(true);
+  }
+
+
+  static Future<bool> clearEndTimeReminder() async {
+    _pref!.getKeys().forEach((key) async {
+      if (key == END_TIME_REMINDER) {
+        await _pref!.remove(key);
+      }
+    });
+    return Future.value(true);
+  }
+
+  static Future<bool> clearSelectedDrinkWaterML() async {
+    _pref!.getKeys().forEach((key) async {
+      if (key == SELECTED_DRINK_WATER_ML) {
         await _pref!.remove(key);
       }
     });

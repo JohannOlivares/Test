@@ -295,6 +295,10 @@ abstract class Languages {
 
   String get txtDelete;
 
+  String get txtDrinkWaterNotiMsg;
+
+  String get txtTimeToHydrate;
+
   String get txtWeight;
 
   String get txtLast30Days;
@@ -304,4 +308,6 @@ abstract class Languages {
   String get txtWarningForKg;
 
   String get txtWarningForLbs;
+  String get txtTurnedOff;
+  String get txtSaveChanges;
 }
