@@ -1,18 +1,22 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Utils.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 
 class RunHistoryDetailScreen extends StatefulWidget {
   RunningData recentActivitiesData;
+
  RunHistoryDetailScreen(this.recentActivitiesData, {Key? key}) : super(key: key);
 
   @override
@@ -29,7 +33,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
   StreamSubscription<LocationData>? _locationSubscription;
   LatLng? _startLatLong;
   LatLng? _EndLatLong;
-  final Set<Polyline>_polyline={};
+  Map<PolylineId, Polyline> polylines = {};
   List<LatLng> _polylineList = [];
   BitmapDescriptor? pinLocationIcon;
   Set<Marker> markers = {};
@@ -44,6 +48,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
     _startLatLong = LatLng(double.parse(widget.recentActivitiesData.sLat!),double.parse(widget.recentActivitiesData.sLong!));
     _EndLatLong = LatLng(double.parse(widget.recentActivitiesData.eLat!),double.parse(widget.recentActivitiesData.eLong!));
 
+    //this is For add Markers in Map
     final Uint8List markerIcon1 =
         await getBytesFromAsset('assets/icons/ic_map_pin_purple.png', 50);
     final Uint8List markerIcon2 =
@@ -61,7 +66,23 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
       markers.add(marker2);
     });
 
+    Debug.printLog(widget.recentActivitiesData.polyLine!);
+    //Utils.showToast(context, "PolyLines Added");
+    _drawPolyLines();
+
   }
+
+  _drawPolyLines(){
+    _polylineList = widget.recentActivitiesData.getPolyLineData()!;
+    PolylineId id = PolylineId("poly");
+    Polyline polyline = Polyline(
+      polylineId: id, color: Colors.black, points: _polylineList,width: 4,);
+    polylines[id] = polyline;
+
+    _animateCameraToPosition(_controller);
+
+  }
+
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
@@ -96,13 +117,39 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
   }
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
-    _locationSubscription = _location.onLocationChanged.listen((l) {
-      _controller?.moveCamera(
-        CameraUpdate.newCameraPosition(
-          CameraPosition(target: LatLng(l.latitude!, l.longitude!), zoom: 15),
-        ),
-      );
-      _locationSubscription!.cancel();
+    _animateCameraToPosition(_controller);
+  }
+
+  _animateCameraToPosition(GoogleMapController? _controller){
+    //This IS Method For Calculation NorthEast And South West
+    LatLngBounds boundsFromLatLngList(List<LatLng> list) {
+      assert(list.isNotEmpty);
+      double? x0;
+      double? x1;
+      double? y0;
+      double? y1;
+      for (LatLng latLng in list) {
+        if (x0 == null) {
+          x0 = x1 = latLng.latitude;
+          y0 = y1 = latLng.longitude;
+        } else {
+          if (latLng.latitude > x1!) x1 = latLng.latitude;
+          if (latLng.latitude < x0) x0 = latLng.latitude;
+          if (latLng.longitude > y1!) y1 = latLng.longitude;
+          if (latLng.longitude < y0!) y0 = latLng.longitude;
+        }
+      }
+      return LatLngBounds(northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
+    }
+
+    //After adding polylines list for Calculate NorthEast And South West Positions and Animate Camera
+    Future.delayed(Duration(milliseconds: 10)).then((value) {
+      jsonEncode(_polylineList);
+      LatLngBounds latLngBounds = boundsFromLatLngList(_polylineList);
+      _controller!.animateCamera(CameraUpdate.newLatLngBounds(
+          latLngBounds,
+          100
+      ));
     });
   }
 
@@ -117,7 +164,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
             setaliteEnable == true ? MapType.satellite : MapType.normal,
             onMapCreated: _onMapCreated,
             markers: markers,
-            polylines:_polyline,
+            polylines:Set<Polyline>.of(polylines.values),
             buildingsEnabled: false,
             myLocationEnabled: true,
             scrollGesturesEnabled: true,
@@ -128,27 +175,90 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
             },
           ),
           Container(
+            color: Colors.lightGreen,
             margin:
-            EdgeInsets.only(left: 20, right: 20, bottom: fullheight * 0.03),
+            EdgeInsets.only(left: 15, right: 15, top: fullheight * 0.3),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
+               /////
+              ],
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 55.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(
+                      onTap: () {
+
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 15.0,bottom: 5),
+                        padding: const EdgeInsets.all(12.0),
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                            color: Colur.txt_white,
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(15))),
+                        child: Image.asset(
+                          'assets/icons/ic_back_white.png',color: Colur.txt_grey,
+                          scale: 3.7,
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        //DELETE
+
+                        _showDeleteDialog(context);
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(right: 15.0,bottom: 5),
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                            color: Colur.txt_white,
+
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(15))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Image.asset('assets/icons/ic_delete.png'),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 InkWell(
                   child: Container(
-                    height: 60,
-                    width: 60,
-                    margin: EdgeInsets.only(bottom: 10),
+                    height: 44,
+                    width: 44,
+                    margin: EdgeInsets.only(right: 15.0,top: 5),
                     decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white),
-                    child: Center(
-                        child: Image.asset(
-                          'assets/icons/ic_setalite.png',
-                          scale: 4.0,
-                          color: setaliteEnable
-                              ? Colur.purple_gradient_color2
-                              : Colur.txt_grey,
-                        )),
+                        color: Colur.txt_white,
+
+                        borderRadius:
+                        BorderRadius.all(Radius.circular(15))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Image.asset(
+                        'assets/icons/ic_setalite.png',
+                        color: setaliteEnable
+                            ? Colur.purple_gradient_color2
+                            : Colur.txt_grey,
+                      ),
+                    ),
                   ),
                   onTap: () {
                     setState(() {
@@ -162,60 +272,41 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(top: 55.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                  onTap: () {
-
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(left: 15.0,bottom: 5),
-                    padding: const EdgeInsets.all(12.0),
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                        color: Colur.txt_white,
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(15))),
-                    child: Image.asset(
-                      'assets/icons/ic_back_white.png',color: Colur.txt_grey,
-                      scale: 3.7,
-                      width: 20,
-                      height: 20,
-                    ),
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.only(right: 15.0,bottom: 5),
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                        color: Colur.txt_white,
-
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(15))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Image.asset('assets/icons/ic_delete.png'),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
             alignment: Alignment.bottomCenter,
             child: _bottomSheetDialog(context),
           ),
         ],
       ),
+    );
+  }
+
+  _showDeleteDialog(BuildContext context){
+    return  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(Languages.of(context)!.txtDeleteHitory),
+          content: Text(Languages.of(context)!.txtDeleteConfirmationMessage),
+          actions: [
+            FlatButton(
+              child: Text(Languages.of(context)!.txtCancel),
+              onPressed: () async {
+                Navigator.pop(context);
+
+              },
+            ),
+        FlatButton(
+        child: Text(Languages.of(context)!.txtDelete.toUpperCase()),
+        onPressed: () async {
+          await DataBaseHelper.deleteRunningData(widget.recentActivitiesData).then((value) => Navigator.of(context)
+              .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false));
+
+        },
+        ),
+
+          ],
+        );
+      },
     );
   }
 
@@ -256,7 +347,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                         children: [
                           Container(
                             child: Text(
-                              "00:00",
+                              widget.recentActivitiesData.duration.toString(),
                               //widget.runningData!.duration.toString(),
                               style: TextStyle(
                                   color: Colur.txt_white,
@@ -283,7 +374,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                         children: [
                           Container(
                             child: Text(
-                              "00:20", //widget.runningData!.speed.toString(),
+                              widget.recentActivitiesData.speed.toString(), //widget.runningData!.speed.toString(),
                               style: TextStyle(
                                   color: Colur.txt_white,
                                   fontWeight: FontWeight.w600,
@@ -308,7 +399,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                         children: [
                           Container(
                             child: Text(
-                              "6.0", //widget.runningData!.cal.toString(),
+                              widget.recentActivitiesData.cal.toString(), //widget.runningData!.cal.toString(),
                               style: TextStyle(
                                   color: Colur.txt_white,
                                   fontWeight: FontWeight.w600,
@@ -344,7 +435,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
               children: [
                 Container(
                   child: Text(
-                    "0.45",//widget.runningData!.distance.toString(),
+                    widget.recentActivitiesData.distance.toString(),//widget.runningData!.distance.toString(),
                     style: TextStyle(
                         color: Colur.txt_white,
                         fontWeight: FontWeight.w600,

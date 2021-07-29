@@ -75,6 +75,7 @@ class PausePopupScreen extends ModalRoute<String> {
                 children: [
                   Icon(Icons.refresh_sharp, color: Colur.txt_white, size: 15,),
                   Container(
+                    margin: EdgeInsets.only(left: 4),
                     child: Text(Languages
                         .of(context)!
                         .txtRestart

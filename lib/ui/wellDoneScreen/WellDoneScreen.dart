@@ -96,7 +96,9 @@ class _WellDoneScreenState extends State<WellDoneScreen>
   @override
   Future<void> onTopBarClick(String name, {bool value = true}) async {
     if (name == Constant.STR_DELETE) {
-      Utils.showToast(context, "Delete Data");//TODO
+      Utils.showToast(context, "THis Data is not Stored In History");
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
     }
     if (name == Constant.STR_CLOSE) {
       var data = widget.runningData!;
@@ -111,7 +113,8 @@ class _WellDoneScreenState extends State<WellDoneScreen>
           eLat: data.eLat,
           eLong: data.eLong,
           image: data.image,
-          polyLine: data.polyLine));
+          polyLine: data.polyLine,
+      date: data.date));
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
     }

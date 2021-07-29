@@ -321,4 +321,10 @@ abstract class Languages {
 
   String get txtTime;
 
+  String get txtDeleteHitory;
+
+  String get txtDeleteConfirmationMessage;
+
+
+
 }

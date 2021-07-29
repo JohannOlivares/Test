@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io' show Directory, File, Platform;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
@@ -427,8 +428,8 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                                     Text(
                                       //TODO TExtADded to Language file addd
                                       !startTrack
-                                          ? Languages.of(context)!.txtStart
-                                          : Languages.of(context)!.txtPause,
+                                          ? Languages.of(context)!.txtStart.toUpperCase()
+                                          : Languages.of(context)!.txtPause.toUpperCase(),
                                       style: TextStyle(
                                           fontSize: 20,
                                           color: Colur.white,
@@ -575,13 +576,13 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
       if (!hasExisted) {
         savedDir.create();
         Debug.printLog(savedDir.toString());
-        return true;
       }
 
       var newFile = await File(savedDir.path+ Platform.pathSeparator+filename+".png").create(recursive: true);
       await newFile.writeAsBytes(imageBytes);
       runningData!.imageFile = newFile;
       runningData!.image = newFile.path;
+
 
       Navigator.pushAndRemoveUntil(
           context,
@@ -751,6 +752,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     runningData!.speed =finalspeed.toString();
     runningData!.distance =finaldistance.toString();
     runningData!.cal =calorisvalue.toString();
+    runningData!.date = DateFormat.yMMMd().format(DateTime.now()).toString();
   }
 
   double _countSpeed(double lat1, double lon1, double lat2, double lon2) {

@@ -21,6 +21,7 @@ class RunningData {
   String? eLong;
   String? image;
   String? polyLine;
+  String? date;
 
   @ignore
   File? imageFile;
@@ -35,7 +36,7 @@ class RunningData {
       this.eLong,
       this.eLat,
       this.sLong,
-      this.image,this.polyLine});
+      this.image,this.polyLine,this.date});
 
 
   File? getImage(){

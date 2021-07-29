@@ -92,6 +92,15 @@ class DataBaseHelper {
     return;
   }
 
+  static Future<void> deleteRunningData(RunningData data) async {
+    final runningDao = _database!.runningDao;
+    await runningDao.deleteTask(data);
+    Debug.printLog(
+        "Delete RunningData History==> " + data.toString());
+  }
+
+  //======================================
+
   Future<int?> getTotalDrinkWater(String date) async {
     final waterDao = _database!.waterDao;
     // final waterDao = await _database!.database.rawQuery('SELECT SUM(ml) as Total FROM WaterData');

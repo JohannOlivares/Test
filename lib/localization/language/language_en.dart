@@ -482,4 +482,10 @@ class LanguageEn extends Languages {
 
   @override
   String get txtSaveChanges => "Save Changes?";
+
+  @override
+  String get txtDeleteConfirmationMessage => "Are You Sure Do You want to Delete this Data ?";
+
+  @override
+  String get txtDeleteHitory => "Delete History";
 }

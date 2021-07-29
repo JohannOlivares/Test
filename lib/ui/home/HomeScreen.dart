@@ -4,10 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/localization/language/languages.dart';
-import 'package:run_tracker/runhistorydetails/RunHistoryDetailScreen.dart';
 import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/goalSetScreen/GoalSettingScreen.dart';
 import 'package:run_tracker/ui/recentActivities/RecentActivitiesScreen.dart';
+import 'package:run_tracker/ui/runhistorydetails/RunHistoryDetailScreen.dart';
 import 'package:run_tracker/ui/stepsTracker/StepsTrackerScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
@@ -514,7 +514,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        DateFormat.yMMMd().format(DateTime.now()),
+                       recentActivitiesData[index].date!,
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
