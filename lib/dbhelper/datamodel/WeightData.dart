@@ -1,6 +1,8 @@
 import 'package:floor/floor.dart';
 
-@Entity(tableName: "weight_table")
+@Entity(tableName: "weight_table",indices: [
+  Index(value: ['date'], unique: true)
+],)
 class WeightData {
   @PrimaryKey(autoGenerate: true)
   @ColumnInfo(name: 'id')
@@ -15,17 +17,9 @@ class WeightData {
   @ColumnInfo(name: 'date')
   final String? date;
 
-  @ColumnInfo(name: 'time')
-  final String? time;
-
-  @ColumnInfo(name: "date_time")
-  final String? dateTime;
-
   WeightData(
       {this.id,
       required this.weightKg,
       required this.weightLbs,
-      required this.date,
-      required this.time,
-      required this.dateTime});
+      required this.date});
 }

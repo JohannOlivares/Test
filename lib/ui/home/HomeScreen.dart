@@ -129,12 +129,9 @@ class _HomeScreenState extends State<HomeScreen>
                             ],
                           ),
                         ),
-                        // Steps and Water Buttons
-                        stepNdWaterBtns(fullHeight, fullWidth),
-                        //Recent Activities
+                        stepsAndWaterButtons(fullHeight, fullWidth),
                         recentActivities(fullHeight, fullWidth),
-                        //Best Records
-                        bestRecords(fullHeight, fullWidth)
+                        bestRecords(fullHeight, fullWidth),
                       ],
                     ),
                   ),
@@ -275,54 +272,10 @@ class _HomeScreenState extends State<HomeScreen>
         ]);
   }
 
-  bottomBarIcons(double fullWidth, double fullHeight) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(right: fullWidth * 0.12),
-          child: IconButton(
-              icon: Icon(
-                Icons.home_rounded,
-                size: fullHeight * 0.04,
-                color: homeSelected
-                    ? Colur.purple_gradient_color2
-                    : Colur.txt_grey,
-              ),
-              onPressed: () {
-                setState(() {
-                  homeSelected = true;
-                  profileSelected = false;
-                });
-                //Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen())); //TODO: Uncomment
-              }),
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: fullWidth * 0.12),
-          child: IconButton(
-              icon: Icon(
-                Icons.person,
-                size: fullHeight * 0.04,
-                color: profileSelected
-                    ? Colur.purple_gradient_color2
-                    : Colur.txt_grey,
-              ),
-              onPressed: () {
-                setState(() {
-                  profileSelected = true;
-                  homeSelected = false;
-                });
-              }),
-        ),
-      ],
-    );
-  }
-
   bestRecords(double fullHeight, double fullWidth) {
     return Padding(
       padding: EdgeInsets.only(
-          top: fullHeight * 0.001,
+          top: 30,
           left: fullWidth * 0.05,
           right: fullWidth * 0.05),
       child: Container(
@@ -357,23 +310,27 @@ class _HomeScreenState extends State<HomeScreen>
           bestRecordListTile(
               img: "ic_distance.webp",
               text: Languages.of(context)!.txtLongestDistance,
-              value: (longestDistance != null)
-                  ? longestDistance!.distance.toString()
-                  : "0.0",
+              value:
+                  (longestDistance != null && longestDistance!.distance != null)
+                      ? longestDistance!.distance.toString()
+                      : "0.0",
               unit: "mile",
               isNotDuration: true),
           bestRecordListTile(
               img: "ic_best_pace.png",
               text: Languages.of(context)!.txtBestPace,
-              value: (bestPace != null) ? bestPace!.speed!.toString() : "0.0",
+              value: (bestPace != null && bestPace!.speed != null)
+                  ? bestPace!.speed!.toString()
+                  : "0.0",
               unit: "min/mi",
               isNotDuration: true),
           bestRecordListTile(
               img: "ic_duration.webp",
               text: Languages.of(context)!.txtLongestDuration,
-              value: (longestDuration != null)
-                  ? Utils.secToString(longestDuration!.duration!)
-                  : "0:0",
+              value:
+                  (longestDuration != null && longestDuration!.duration != null)
+                      ? Utils.secToString(longestDuration!.duration!)
+                      : "0:0",
               isNotDuration: false),
         ],
       ),
@@ -460,7 +417,7 @@ class _HomeScreenState extends State<HomeScreen>
       visible: recentActivityShow,
       child: Container(
         margin: EdgeInsets.only(
-            top: fullHeight * 0.03,
+            top: 30,
             left: fullWidth * 0.05,
             right: fullWidth * 0.05),
         child: Column(
@@ -506,8 +463,6 @@ class _HomeScreenState extends State<HomeScreen>
     return Container(
       child: ListView.builder(
           itemCount: recentActivitiesData.length,
-          padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).size.height * 0.05),
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
@@ -650,18 +605,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  recentActivitiesListTile(
-      {required double fullHeight,
-      String? img,
-      required String date,
-      required String distance,
-      required String time,
-      required String pace,
-      required String calories}) {
-    return;
-  }
-
-  stepNdWaterBtns(double fullHeight, double fullWidth) {
+  stepsAndWaterButtons(double fullHeight, double fullWidth) {
     return Container(
       margin: EdgeInsets.only(top: fullHeight * 0.03),
       child: Row(

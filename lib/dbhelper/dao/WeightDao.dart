@@ -12,7 +12,7 @@ abstract class WeightDao {
   @Query('SELECT * FROM weight_table')
   Stream<List<WeightData>> selectAllWeightAsStream();
 
-  @insert
+  @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertWeight(WeightData task);
 
   @insert

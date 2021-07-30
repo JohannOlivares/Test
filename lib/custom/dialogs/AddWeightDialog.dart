@@ -33,15 +33,15 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
   void initState() {
     isKg = true;
     isLsb = false;
-    Future.delayed(const Duration(milliseconds: 200), () {
+    Future.delayed(const Duration(milliseconds: 100), () {
       setState(() {
-        _datePickerController.animateToSelection(curve: Curves.ease);
+        _datePickerController.animateToSelection();
       });
     });
 
     //Total days count of 2 year.
     startDate = DateTime(
-        DateTime.now().year - 2, DateTime.now().month, DateTime.now().day);
+        DateTime.now().year - 1, DateTime.now().month, DateTime.now().day);
     endDate = DateTime.now().add(Duration(days: 4));
     daysCount = endDate!.difference(startDate!).inDays;
 
@@ -131,7 +131,7 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                   Container(
                     margin: const EdgeInsets.only(top: 20.0),
                     child: DatePicker(
-                      DateTime(DateTime.now().year - 2, DateTime.now().month,
+                      DateTime(DateTime.now().year - 1, DateTime.now().month,
                           DateTime.now().day),
                       width: 60,
                       height: 80,
@@ -351,13 +351,11 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                               if (double.parse(weightController.text.toString()) >= Constant.MIN_KG && double.parse(weightController.text.toString()) <= Constant.MAX_KG){
                                 setState(() {
                                   //Insert weight in weight table.
-                                  DataBaseHelper().insertWeight(WeightData(
+                                  DataBaseHelper.insertWeight(WeightData(
                                     id: null,
                                     weightKg: (isKg && !isLsb) ? double.parse(weightController.text.toString()) : Utils.lbToKg(double.parse(weightController.text.toString())),
                                     weightLbs: (!isKg && isLsb) ? double.parse(weightController.text.toString()) : Utils.kgToLb(double.parse(weightController.text.toString())),
                                     date: DateFormat.yMd().format(_selectedDate),
-                                    time: DateFormat.jm().format(_selectedDate),
-                                    dateTime: "${_selectedDate.year.toString()}-${_selectedDate.month.toString().padLeft(2, '0')}-${_selectedDate.day.toString().padLeft(2, '0')} ${_selectedDate.hour.toString()}-${_selectedDate.minute.toString()}-${_selectedDate.second.toString()}",
                                   ));
                                   Navigator.pop(context);
                                 });
@@ -368,13 +366,11 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                               if (double.parse(weightController.text.toString()) >= Constant.MIN_LBS && double.parse(weightController.text.toString()) <= Constant.MAX_LBS) {
                                 setState(() {
                                   //Insert weight in weight table.
-                                  DataBaseHelper().insertWeight(WeightData(
+                                  DataBaseHelper.insertWeight(WeightData(
                                     id: null,
                                     weightKg: (isKg && !isLsb) ? double.parse(weightController.text.toString()) : Utils.lbToKg(double.parse(weightController.text.toString())),
                                     weightLbs: (!isKg && isLsb) ? double.parse(weightController.text.toString()) : Utils.kgToLb(double.parse(weightController.text.toString())),
                                     date: DateFormat.yMd().format(_selectedDate),
-                                    time: DateFormat.jm().format(_selectedDate),
-                                    dateTime: "${_selectedDate.year.toString()}-${_selectedDate.month.toString().padLeft(2, '0')}-${_selectedDate.day.toString().padLeft(2, '0')} ${_selectedDate.hour.toString()}-${_selectedDate.minute.toString()}-${_selectedDate.second.toString()}",
                                   ));
                                   Navigator.pop(context);
                                 });

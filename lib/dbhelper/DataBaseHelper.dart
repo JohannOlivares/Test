@@ -74,55 +74,6 @@ class DataBaseHelper {
     return result;
   }
 
-  Future<List<RunningData>> selectMapHistory() async {
-    final runningDao = _database!.runningDao;
-    final result = await runningDao.getAllHistory();
-    return result;
-  }
-
-  Future<List<RunningData>> getRecentTasksAsStream() async {
-    final runningDao = _database!.runningDao;
-    final result = await runningDao.findRecentTasksAsStream();
-    return result;
-  }
-
-  static Future<void> insertRunningData(RunningData data) async {
-    final runningDao = _database!.runningDao;
-    int id  = await runningDao.insertTask(data);
-    Debug.printLog("insertRunningData Data Successfully  ==> " + id.toString());
-    return;
-  }
-
-  static Future<void> deleteRunningData(RunningData data) async {
-    final runningDao = _database!.runningDao;
-    await runningDao.deleteTask(data);
-    Debug.printLog(
-        "Delete RunningData History==> " + data.toString());
-  }
-
-  static Future<RunningData?> getMaxDistance()async{
-     final runningDao = _database!.runningDao;
-     final maxDistance = await runningDao.findLongestDistance();
-     Debug.printLog(maxDistance.toString());
-     return maxDistance!;
-  }
-
-  static Future<RunningData?> getMaxPace()async{
-    final runningDao = _database!.runningDao;
-    final maxPace = await runningDao.findBestPace();
-    Debug.printLog(maxPace.toString());
-    return maxPace!;
-  }
-
-  static Future<RunningData?> getLongestDuration()async{
-    final runningDao = _database!.runningDao;
-    final longestDuration = await runningDao.findMaxDuration();
-    Debug.printLog(longestDuration.toString());
-    return longestDuration!;
-  }
-
-  //======================================
-
   static Future<int?> getTotalDrinkWater(String date) async {
     final waterDao = _database!.waterDao;
     // final waterDao = await _database!.database.rawQuery('SELECT SUM(ml) as Total FROM WaterData');
@@ -131,7 +82,8 @@ class DataBaseHelper {
     return totalDrinkWater.total;
   }
 
-  static Future<List<WaterData>> getTotalDrinkWaterAllDays(List<String> date) async {
+  static Future<List<WaterData>> getTotalDrinkWaterAllDays(
+      List<String> date) async {
     final waterDao = _database!.waterDao;
     final totalDrinkWater = await waterDao.getTotalDrinkWaterAllDays(date);
     totalDrinkWater.forEach((element) {
@@ -151,7 +103,7 @@ class DataBaseHelper {
     return totalDrinkWater.total;
   }
 
- static Future<WaterData> deleteTodayDrinkWater(WaterData data) async {
+  static Future<WaterData> deleteTodayDrinkWater(WaterData data) async {
     final waterDao = _database!.waterDao;
     await waterDao.deleteTodayDrinkWater(data);
     Debug.printLog(
@@ -161,7 +113,7 @@ class DataBaseHelper {
 
   //<!----------------------------- Weight Table Operations ---------------------------------------------------!>
 
-  Future<WeightData> insertWeight(WeightData data) async {
+  static Future<WeightData> insertWeight(WeightData data) async {
     final weightDao = _database!.weightDao;
     await weightDao.insertWeight(data);
     Debug.printLog("Insert Weight Data Successfully  ==> " +
@@ -172,15 +124,11 @@ class DataBaseHelper {
         " Weight Lbs ==> " +
         data.weightLbs.toString() +
         " Date ==> " +
-        data.date.toString() +
-        " Time ==> " +
-        data.time.toString() +
-        " Date Time ==> " +
-        data.dateTime.toString());
+        data.date.toString());
     return data;
   }
 
-  Future<List<WeightData>> selectWeight() async {
+  static Future<List<WeightData>> selectWeight() async {
     final weightDao = _database!.weightDao;
     final List<WeightData> result = await weightDao.selectAllWeight();
     result.forEach((element) {
@@ -192,14 +140,53 @@ class DataBaseHelper {
           " Weight Lbs ==> " +
           element.weightLbs.toString() +
           " Date ==> " +
-          element.date.toString() +
-          " Time ==> " +
-          element.time.toString() +
-          " Date Time ==> " +
-          element.dateTime.toString());
+          element.date.toString());
     });
     return result;
   }
 
+  //<!----------------------------- Running Table Operations ---------------------------------------------------!>
 
+  Future<List<RunningData>> selectMapHistory() async {
+    final runningDao = _database!.runningDao;
+    final result = await runningDao.getAllHistory();
+    return result;
+  }
+
+  Future<List<RunningData>> getRecentTasksAsStream() async {
+    final runningDao = _database!.runningDao;
+    final result = await runningDao.findRecentTasksAsStream();
+    return result;
+  }
+
+  static Future<void> insertRunningData(RunningData data) async {
+    final runningDao = _database!.runningDao;
+    int id = await runningDao.insertTask(data);
+    Debug.printLog("insertRunningData Data Successfully  ==> " + id.toString());
+    return;
+  }
+
+  static Future<void> deleteRunningData(RunningData data) async {
+    final runningDao = _database!.runningDao;
+    await runningDao.deleteTask(data);
+    Debug.printLog("Delete RunningData History==> " + data.toString());
+  }
+
+  static Future<RunningData?> getMaxDistance() async {
+    final runningDao = _database!.runningDao;
+    final maxDistance = await runningDao.findLongestDistance();
+    return maxDistance!;
+  }
+
+  static Future<RunningData?> getMaxPace() async {
+    final runningDao = _database!.runningDao;
+    final maxPace = await runningDao.findBestPace();
+    return maxPace!;
+  }
+
+  static Future<RunningData?> getLongestDuration() async {
+    final runningDao = _database!.runningDao;
+    final longestDuration = await runningDao.findMaxDuration();
+    return longestDuration!;
+  }
 }

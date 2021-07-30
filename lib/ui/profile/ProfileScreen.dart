@@ -1,16 +1,18 @@
-import 'dart:math';
-
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
+import 'package:run_tracker/custom/chart/CustomCircleSymbolRenderer.dart';
 import 'package:run_tracker/custom/dialogs/AddWeightDialog.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
+import 'package:run_tracker/dbhelper/datamodel/WeightData.dart';
+import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:run_tracker/utils/Utils.dart';
 
 import '../../localization/language/languages.dart';
@@ -36,12 +38,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var formatStartDateOfPreviousWeek;
   var formatEndDateOfPreviousWeek;
 
+  List<String> daysText = [];
+  List<String> daysYearText = [];
+
   bool isNextWeek = false;
   bool isPreviousWeek = false;
 
+  List<charts.Series<LinearSales, DateTime>>? series;
+  List<LinearSales> data = [];
+
+  int minWeight = Constant.MIN_KG.toInt();
+  int maxWeight = Constant.MAX_KG.toInt();
+
   @override
   void initState() {
-    DataBaseHelper().selectWeight();
     _getPreference();
     _getChartDataForDrinkWater();
     _getDailyDrinkWaterAverage();
@@ -69,27 +79,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     isPreviousWeek = true;
     isNextWeek = false;
 
-    Debug.printLog("currentDate ==>" + currentDate.toString());
-    Debug.printLog("currentDay ==>" + currentDay.toString());
-
-    Debug.printLog(
-        "startDateOfCurrentWeek ==>" + startDateOfCurrentWeek.toString());
-    Debug.printLog(
-        "endDateOfCurrentWeek ==>" + endDateOfCurrentWeek.toString());
-    Debug.printLog("formatStartDateOfCurrentWeek ==>" +
-        formatStartDateOfCurrentWeek.toString());
-    Debug.printLog("formatEndDateOfCurrentWeek ==>" +
-        formatEndDateOfCurrentWeek.toString());
-
-    Debug.printLog(
-        "startDateOfPreviousWeek ==>" + startDateOfPreviousWeek.toString());
-    Debug.printLog(
-        "endDateOfPreviousWeek ==>" + endDateOfPreviousWeek.toString());
-    Debug.printLog("formatStartDateOfPreviousWeek ==>" +
-        formatStartDateOfPreviousWeek.toString());
-    Debug.printLog("formatEndDateOfPreviousWeek ==>" +
-        formatEndDateOfPreviousWeek.toString());
-
+    int totalDaysInYear = DateTime(DateTime.now().year, 12, 31)
+        .difference(DateTime(DateTime.now().year, 1, 1))
+        .inDays;
+    DateTime start = DateTime(DateTime.now().year, 1, 1);
+    for (int i = 0; i < totalDaysInYear; i++) {
+      daysText.add(DateFormat("dd/MM").format(start));
+      daysYearText.add(DateFormat("yyyy-MM-dd").format(start));
+      data.add(LinearSales(start, null));
+      start = start.add(Duration(days: 1));
+    }
+    _getChartDataForWeight();
     super.initState();
   }
 
@@ -123,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       dates.add(formatCurrentWeekDates);
     }
     total = await DataBaseHelper.getTotalDrinkWaterAllDays(dates);
-
+    map.clear();
     for (int i = 0; i < dates.length; i++) {
       bool isMatch = false;
       total!.forEach((element) {
@@ -183,6 +183,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return longestDuration!;
   }
 
+  List<WeightData> weightDataList = [];
+
+  _getChartDataForWeight() async {
+    weightDataList = await DataBaseHelper.selectWeight();
+    if (weightDataList.isNotEmpty) {
+      minWeight = weightDataList[0].weightKg!.toInt();
+      maxWeight = weightDataList[0].weightKg!.toInt();
+    }
+
+    weightDataList.forEach((element) {
+      if (minWeight > element.weightKg!.toInt())
+        minWeight = element.weightKg!.toInt();
+
+      if (maxWeight < element.weightKg!.toInt())
+        maxWeight = element.weightKg!.toInt();
+
+      DateTime date = DateFormat.yMd().parse(element.date!);
+      var index =
+          data.indexWhere((element) => element.date.isAtSameMomentAs(date));
+      if (index > 0) {
+        data[index].sales = element.weightKg!.toInt();
+      }
+    });
+
+    setState(() {});
+
+    return weightDataList;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,7 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _weightWidget(context),
                     _drinkWaterWidget(context),
                     _bestRecordWidget(context),
-                    _fastestTimeWidget(context),
+                    // _fastestTimeWidget(context),
                   ],
                 ),
               ),
@@ -929,6 +958,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   _weightWidget(BuildContext context) {
+    series = [
+      new charts.Series<LinearSales, DateTime>(
+        id: 'Weight',
+        colorFn: (_, __) =>
+            charts.ColorUtil.fromDartColor(Colur.purple_gradient_color1),
+        domainFn: (LinearSales sales, _) => sales.date,
+        measureFn: (LinearSales sales, _) => sales.sales,
+        radiusPxFn: (LinearSales sales, _) => 5,
+        data: data,
+      )
+    ];
+
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
       margin: const EdgeInsets.only(top: 8.0),
@@ -953,8 +994,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               InkWell(
-                onTap: (){
-                  showDialog(context: context, builder: (context) => AddWeightDialog());
+                onTap: () {
+                  showDialog(
+                          context: context,
+                          builder: (context) => AddWeightDialog())
+                      .then((value) => _getChartDataForWeight());
                 },
                 child: Text(
                   Languages.of(context)!.txtAdd.toUpperCase(),
@@ -1001,196 +1045,65 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Container(
-            height: 200,
-            margin: EdgeInsets.only(top: 20.0),
+            margin: EdgeInsets.only(top: 20.0, bottom: 10.0),
             width: double.infinity,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Container(
-                height: 200,
-                padding: const EdgeInsets.only(
-                    bottom: 0.0, right: 10.0, left: 10.0, top: 0.0),
-                width: MediaQuery.of(context).size.width * 3,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(18),
-                  ),
-                ),
-                child: LineChart(
-                  mainData(),
-                  swapAnimationDuration: Duration(seconds: 0),
-                  swapAnimationCurve: Curves.ease,
+            height: 350,
+            child: charts.TimeSeriesChart(
+              series!,
+              animate: false,
+              domainAxis: new charts.DateTimeAxisSpec(
+                tickProviderSpec: charts.DayTickProviderSpec(increments: [1]),
+                viewport: new charts.DateTimeExtents(
+                    start: DateTime.now().subtract(Duration(days: 5)),
+                    end: DateTime.now().add(Duration(days: 3))),
+                tickFormatterSpec: new charts.AutoDateTimeTickFormatterSpec(
+                    day: new charts.TimeFormatterSpec(
+                        format: 'd', transitionFormat: 'dd/MM')),
+                renderSpec: new charts.SmallTickRendererSpec(
+                  labelStyle: new charts.TextStyleSpec(
+                      fontSize: 15,
+                      color: charts.ColorUtil.fromDartColor(Colur.txt_grey)),
+                  lineStyle: new charts.LineStyleSpec(
+                      color: charts.ColorUtil.fromDartColor(Colur.txt_grey)),
                 ),
               ),
+              behaviors: [
+                new charts.PanBehavior(),
+                charts.LinePointHighlighter(
+                    symbolRenderer:
+                        CustomCircleSymbolRenderer() // add this line in behaviours
+                    )
+              ],
+              primaryMeasureAxis: charts.NumericAxisSpec(
+                tickProviderSpec: charts.BasicNumericTickProviderSpec(
+                    zeroBound: false,
+                    dataIsInWholeNumbers: true,
+                    desiredTickCount: 5),
+                renderSpec: charts.GridlineRendererSpec(
+                  lineStyle: new charts.LineStyleSpec(
+                      color: charts.ColorUtil.fromDartColor(Colur.txt_grey)),
+                  labelStyle: charts.TextStyleSpec(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500.toString(),
+                    color: charts.ColorUtil.fromDartColor(Colur.txt_grey),
+                  ),
+                ),
+              ),
+              selectionModels: [
+                charts.SelectionModelConfig(
+                    changedListener: (charts.SelectionModel model) {
+                  if (model.hasDatumSelection) {
+                    final value = model.selectedSeries[0]
+                        .measureFn(model.selectedDatum[0].index);
+                    CustomCircleSymbolRenderer.value =
+                        value.toString(); // paints the tapped value
+                  }
+                })
+              ],
             ),
           ),
         ],
       ),
-    );
-  }
-
-  LineChartData mainData() {
-    return LineChartData(
-      gridData: FlGridData(
-        show: true,
-        drawHorizontalLine: true,
-        getDrawingHorizontalLine: (value) {
-          return FlLine(
-            color: Colur.txt_grey,
-            strokeWidth: 1,
-          );
-        },
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 20,
-          getTextStyles: (value) => const TextStyle(
-              color: Colur.txt_grey, fontWeight: FontWeight.w500, fontSize: 14),
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 0:
-                return '1';
-              case 1:
-                return '2';
-              case 2:
-                return '3';
-              case 3:
-                return '4';
-              case 4:
-                return '5';
-              case 5:
-                return '6';
-              case 6:
-                return '7';
-              case 7:
-                return '8';
-              case 8:
-                return '9';
-              case 9:
-                return '10';
-              case 10:
-                return '11';
-              case 11:
-                return '12';
-              case 12:
-                return '13';
-              case 13:
-                return '14';
-              case 14:
-                return '15';
-              case 15:
-                return '16';
-              case 16:
-                return '17';
-              case 17:
-                return '18';
-              case 18:
-                return '19';
-              case 19:
-                return '20';
-              case 20:
-                return '21';
-              case 21:
-                return '22';
-              case 22:
-                return '23';
-              case 23:
-                return '24';
-              case 24:
-                return '25';
-              case 25:
-                return '26';
-              case 26:
-                return '27';
-              case 27:
-                return '28';
-              case 28:
-                return '29';
-              case 29:
-                return '30';
-              case 30:
-                return '31';
-            }
-            return '';
-          },
-          margin: 0,
-        ),
-        leftTitles: SideTitles(
-          showTitles: true,
-          getTextStyles: (value) => const TextStyle(
-            color: Colur.txt_grey,
-            fontWeight: FontWeight.w500,
-            fontSize: 14,
-          ),
-          margin: 15.0,
-          getTitles: (value) {
-            switch (value.toInt()) {
-              case 1:
-                return '2';
-              case 2:
-                return '4';
-              case 3:
-                return '6';
-            }
-            return '';
-          },
-          reservedSize: 5,
-        ),
-      ),
-      borderData: FlBorderData(show: false),
-      minX: 0,
-      maxX: 31,
-      minY: 0,
-      maxY: 4,
-      lineBarsData: [
-        LineChartBarData(
-          spots: [
-            FlSpot(0, 1),
-            FlSpot(1, 2),
-            FlSpot(2, 3),
-            FlSpot(3, 3),
-            FlSpot(4, 1),
-            FlSpot(5, 2),
-            FlSpot(6, 3),
-            FlSpot(7, 1),
-            FlSpot(8, 2),
-            FlSpot(9, 3),
-            FlSpot(10, 3),
-            FlSpot(11, 1),
-            FlSpot(12, 2),
-            FlSpot(13, 3),
-            FlSpot(14, 1),
-            FlSpot(15, 2),
-            FlSpot(16, 3),
-            FlSpot(17, 3),
-            FlSpot(18, 1),
-            FlSpot(19, 2),
-            FlSpot(20, 3),
-            FlSpot(21, 1),
-            FlSpot(22, 2),
-            FlSpot(23, 3),
-            FlSpot(24, 1),
-            FlSpot(25, 2),
-            FlSpot(26, 3),
-            FlSpot(27, 3),
-            FlSpot(28, 1),
-            FlSpot(29, 2),
-            FlSpot(30, 3),
-          ],
-          isCurved: false,
-          colors: Colur.gradient_for_weight_colors,
-          barWidth: 3,
-          isStrokeCapRound: true,
-          dotData: FlDotData(
-            show: false,
-          ),
-          belowBarData: BarAreaData(
-            show: false,
-          ),
-        ),
-      ],
     );
   }
 
@@ -1472,7 +1385,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _bestRecordWidget(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 25.0, horizontal: 25.0),
+      padding: const EdgeInsets.only(
+          top: 25.0, left: 25.0, right: 25.0, bottom: 40.0),
       margin: const EdgeInsets.only(top: 8.0),
       width: double.infinity,
       color: Colur.rounded_rectangle_color,
@@ -1523,7 +1437,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                (longestDistance != null)
+                                (longestDistance != null &&
+                                        longestDistance!.date != null)
                                     ? longestDistance!.distance.toString()
                                     : "0.0",
                                 textAlign: TextAlign.left,
@@ -1558,9 +1473,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: const EdgeInsets.only(
                                     left: 5.0, bottom: 3.0),
                                 child: Text(
-                                  (longestDistance != null)
+                                  (longestDistance != null &&
+                                          longestDistance!.date != null)
                                       ? longestDistance!.date!
-                                      : "mm dd time",
+                                      : "",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -1615,7 +1531,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                (bestPace != null)
+                                (bestPace != null && bestPace!.speed != null)
                                     ? bestPace!.speed!.toString()
                                     : "0.0",
                                 textAlign: TextAlign.left,
@@ -1688,9 +1604,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                          ( longestDuration!= null)
-                              ? Utils.secToString(longestDuration!.duration!)
-                              : "0:0",
+                                  (longestDuration != null &&
+                                          longestDuration!.duration != null)
+                                      ? Utils.secToString(
+                                          longestDuration!.duration!)
+                                      : "00:00",
                                   textAlign: TextAlign.left,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -1705,9 +1623,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: const EdgeInsets.only(
                                     left: 5.0, bottom: 3.0),
                                 child: Text(
-                                    ( longestDuration!= null)
-                                        ? longestDuration!.date!
-                                        : "0:0",
+                                  (longestDuration != null &&
+                                          longestDuration!.duration != null)
+                                      ? longestDuration!.date!
+                                      : "",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -1808,4 +1727,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
+}
+
+class LinearSales {
+  DateTime date;
+  int? sales;
+
+  LinearSales(this.date, this.sales);
 }

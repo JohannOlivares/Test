@@ -60,20 +60,6 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
         DateFormat.MMMd('en_US').format(startDateOfCurrentWeek);
     formatEndDateOfCurrentWeek =
         DateFormat.MMMd('en_US').format(endDateOfCurrentWeek);
-
-    Debug.printLog("currentDate ==>" + currentDate.toString());
-    Debug.printLog("currentDay ==>" + currentDay.toString());
-
-    Debug.printLog(
-        "startDateOfCurrentWeek ==>" + startDateOfCurrentWeek.toString());
-    Debug.printLog(
-        "startDateOfCurrentWeek ==>" + startDateOfCurrentWeek.toString());
-    Debug.printLog(
-        "endDateOfCurrentWeek ==>" + endDateOfCurrentWeek.toString());
-    Debug.printLog("formatStartDateOfCurrentWeek ==>" +
-        formatStartDateOfCurrentWeek.toString());
-    Debug.printLog("formatEndDateOfCurrentWeek ==>" +
-        formatEndDateOfCurrentWeek.toString());
     super.initState();
   }
 
@@ -152,7 +138,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
       dates.add(formatCurrentWeekDates);
     }
     total = await DataBaseHelper.getTotalDrinkWaterAllDays(dates);
-
+    map.clear();
     for (int i = 0; i < dates.length; i++) {
       bool isMatch = false;
       total!.forEach((element) {
@@ -293,26 +279,27 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           ),
           InkWell(
             onTap: () {
-              setState(() {
-                (drinkWater != null)
-                    ? drinkWater = drinkWater! + valueForIncrement!
-                    : drinkWater = 0;
-                Debug.printLog("Plus Water drinkWater ==> " +
-                    valueForIncrement.toString());
+              (drinkWater != null)
+                  ? drinkWater = drinkWater! + valueForIncrement!
+                  : drinkWater = 0;
+              Debug.printLog(
+                  "Plus Water drinkWater ==> " + valueForIncrement.toString());
 
-                //Insert water in water table.
-                DataBaseHelper().insertDrinkWater(WaterData(
-                  id: null,
-                  ml: valueForIncrement,
-                  date: Utils.getCurrentDate(),
-                  time: Utils.getCurrentDayTime(),
-                  dateTime: Utils.getCurrentDateTime(),
-                ));
-
-                //Refresh today drink water history.
-                drinkWaterHistory.clear();
-                _getDataFromDataBase();
-              });
+              //Insert water in water table.
+              DataBaseHelper()
+                  .insertDrinkWater(WaterData(
+                    id: null,
+                    ml: valueForIncrement,
+                    date: Utils.getCurrentDate(),
+                    time: Utils.getCurrentDayTime(),
+                    dateTime: Utils.getCurrentDateTime(),
+                  ))
+                  .then((value) => {
+                        drinkWaterHistory.clear(),
+                        _getDataFromDataBase(),
+                        _getChartDataForDrinkWater(),
+                        setState(() {})
+                      });
             },
             child: Container(
               alignment: Alignment.center,
@@ -325,9 +312,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           Container(
             margin: EdgeInsets.only(top: 10.0),
             child: Text(
-                valueForIncrement.toString() +
-                    " " +
-                    Languages.of(context)!.txtMl,
+              valueForIncrement.toString() + " " + Languages.of(context)!.txtMl,
               style: TextStyle(
                   color: Colur.txt_grey,
                   fontSize: 12,
@@ -350,7 +335,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
               setState(() {
                 num = 1;
                 Preference.clearSelectedDrinkWaterML();
-                Preference.shared.setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
+                Preference.shared
+                    .setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
                 Debug.printLog("Value ==> $num");
               });
             },
@@ -368,7 +354,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
               setState(() {
                 num = 2;
                 Preference.clearSelectedDrinkWaterML();
-                Preference.shared.setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
+                Preference.shared
+                    .setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
                 Debug.printLog("Value ==> $num");
               });
             },
@@ -386,7 +373,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
               setState(() {
                 num = 3;
                 Preference.clearSelectedDrinkWaterML();
-                Preference.shared.setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
+                Preference.shared
+                    .setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
                 Debug.printLog("Value ==> $num");
               });
             },
@@ -404,7 +392,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
               setState(() {
                 num = 4;
                 Preference.clearSelectedDrinkWaterML();
-                Preference.shared.setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
+                Preference.shared
+                    .setInt(Preference.SELECTED_DRINK_WATER_ML, num!);
                 Debug.printLog("Value ==> $num");
               });
             },
@@ -696,34 +685,6 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
       ],
     );
   }
-
-  /*List<BarChartGroupData> showingDrinkWaterGroups() => List.generate(7, (i) {
-        switch (i) {
-          case 0:
-            return makeDrinkWaterGroupData(0, 100.0,
-                isTouched: i == touchedIndexForWaterChart);
-          case 1:
-            return makeDrinkWaterGroupData(1, 50.5,
-                isTouched: i == touchedIndexForWaterChart);
-          case 2:
-            return makeDrinkWaterGroupData(2, 80.0,
-                isTouched: i == touchedIndexForWaterChart);
-          case 3:
-            return makeDrinkWaterGroupData(3, 70.5,
-                isTouched: i == touchedIndexForWaterChart);
-          case 4:
-            return makeDrinkWaterGroupData(4, 90.0,
-                isTouched: i == touchedIndexForWaterChart);
-          case 5:
-            return makeDrinkWaterGroupData(5, 20.5,
-                isTouched: i == touchedIndexForWaterChart);
-          case 6:
-            return makeDrinkWaterGroupData(6, 60.5,
-                isTouched: i == touchedIndexForWaterChart);
-          default:
-            return throw Error();
-        }
-      });*/
 
   List<BarChartGroupData> showingDrinkWaterGroups() {
     List<BarChartGroupData> list = [];
