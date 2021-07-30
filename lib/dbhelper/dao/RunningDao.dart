@@ -15,6 +15,15 @@ abstract class RunningDao {
   @Query('SELECT * FROM RunningData ORDER BY id DESC LIMIT 3')
   Future<List<RunningData>> findRecentTasksAsStream();
 
+  @Query('SELECT *,IFNULL(MAX(distance),0) FROM RunningData')
+  Future<RunningData?> findLongestDistance();
+
+  @Query('SELECT *,IFNULL(MAX(speed),0) FROM RunningData')
+  Future<RunningData?> findBestPace();
+
+  @Query('SELECT *,IFNULL(MAX(duration),0) FROM RunningData')
+  Future<RunningData?> getMaxDuration();
+
   @insert
   Future<int> insertTask(RunningData task);
 

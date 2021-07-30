@@ -101,7 +101,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   }
 
   _getDataFromDataBase() async {
-    drinkWater = await DataBaseHelper()
+    drinkWater = await DataBaseHelper
         .getTotalDrinkWater(DateFormat.yMd().format(currentDate).toString());
     drinkWaterHistory =
         await DataBaseHelper().selectTodayDrinkWater(Utils.getCurrentDate());
@@ -151,7 +151,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
       String formatCurrentWeekDates = DateFormat.yMd().format(currentWeekDates);
       dates.add(formatCurrentWeekDates);
     }
-    total = await DataBaseHelper().getTotalDrinkWaterAllDays(dates);
+    total = await DataBaseHelper.getTotalDrinkWaterAllDays(dates);
 
     for (int i = 0; i < dates.length; i++) {
       bool isMatch = false;
@@ -177,7 +177,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
       String formatCurrentWeekDates = DateFormat.yMd().format(currentWeekDates);
       dates.add(formatCurrentWeekDates);
     }
-    int? average = await DataBaseHelper().getTotalDrinkWaterAverage(dates);
+    int? average = await DataBaseHelper.getTotalDrinkWaterAverage(dates);
     drinkWaterAverage = (average! ~/ 7).toString();
     setState(() {});
     Debug.printLog("drinkWaterAverage =====>" + drinkWaterAverage!);
@@ -925,7 +925,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                   onSelected: (value) {
                     if (value != null && value == 1) {
                       setState(() {
-                        DataBaseHelper()
+                        DataBaseHelper
                             .deleteTodayDrinkWater(drinkWaterHistory[index]);
                         _getDataFromDataBase();
                       });

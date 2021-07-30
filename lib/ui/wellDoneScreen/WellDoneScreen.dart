@@ -167,7 +167,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                   ),
                   Container(
                     child: Text(
-                      widget.runningData!.duration.toString(),
+                      Utils.secToString(widget.runningData!.duration!),
                       style: TextStyle(
                           color: Colur.txt_white,
                           fontWeight: FontWeight.w600,

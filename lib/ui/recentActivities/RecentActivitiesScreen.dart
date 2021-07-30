@@ -151,7 +151,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                       Row(
                         children: [
                           Text(
-                            activityList[index].distance!,
+                            activityList[index].distance!.toString(),
                             textAlign: TextAlign.end,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -180,7 +180,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              activityList[index].duration!,
+                              activityList[index].duration!.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,
@@ -188,7 +188,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                               ),
                             ),
                             Text(
-                              activityList[index].speed!,
+                              activityList[index].speed!.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,
@@ -198,7 +198,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                             Row(
                               children: [
                                 Text(
-                                  activityList[index].cal!,
+                                  activityList[index].cal!.toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 15,

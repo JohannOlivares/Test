@@ -41,7 +41,7 @@ class Utils {
     return double.parse((weightValue / 2.2046226218488).toStringAsFixed(1));
   }
 
-  static double kgToLb( double weightValue)  {
+  static double kgToLb(double weightValue) {
     return double.parse((weightValue * 2.2046226218488).toStringAsFixed(1));
   }
 
@@ -77,5 +77,19 @@ class Utils {
     else if (year % 4 == 0) leapYear = true;
 
     return leapYear;
+  }
+
+  static String secToString(int sec) {
+    var formatter = NumberFormat("00");
+    var p1 = sec % 60;
+    var p2 = sec / 60;
+    var p3 = p2 % 60;
+    p2 /= 60;
+
+    return formatter.format(p2) +
+        ":" +
+        formatter.format(p3) +
+        ":" +
+        formatter.format(p1);
   }
 }

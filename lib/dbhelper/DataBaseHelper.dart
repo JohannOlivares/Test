@@ -3,6 +3,7 @@ import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WeightData.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Utils.dart';
 
 class DataBaseHelper {
   static final DataBaseHelper _dataBaseHelper = DataBaseHelper._internal();
@@ -99,9 +100,30 @@ class DataBaseHelper {
         "Delete RunningData History==> " + data.toString());
   }
 
+  static Future<RunningData?> getMaxDistance()async{
+     final runningDao = _database!.runningDao;
+     final maxDistance = await runningDao.findLongestDistance();
+     Debug.printLog(maxDistance.toString());
+     return maxDistance!;
+  }
+
+  static Future<RunningData?> getMaxPace()async{
+    final runningDao = _database!.runningDao;
+    final maxPace = await runningDao.findBestPace();
+    Debug.printLog(maxPace.toString());
+    return maxPace!;
+  }
+
+  static Future<RunningData?> longestDuration()async{
+    final runningDao = _database!.runningDao;
+    final longestDuration = await runningDao.getMaxDuration();
+    Debug.printLog(longestDuration.toString());
+    return longestDuration!;
+  }
+
   //======================================
 
-  Future<int?> getTotalDrinkWater(String date) async {
+  static Future<int?> getTotalDrinkWater(String date) async {
     final waterDao = _database!.waterDao;
     // final waterDao = await _database!.database.rawQuery('SELECT SUM(ml) as Total FROM WaterData');
     final totalDrinkWater = await waterDao.getTotalOfDrinkWater(date);
@@ -109,7 +131,7 @@ class DataBaseHelper {
     return totalDrinkWater.total;
   }
 
-  Future<List<WaterData>> getTotalDrinkWaterAllDays(List<String> date) async {
+  static Future<List<WaterData>> getTotalDrinkWaterAllDays(List<String> date) async {
     final waterDao = _database!.waterDao;
     final totalDrinkWater = await waterDao.getTotalDrinkWaterAllDays(date);
     totalDrinkWater.forEach((element) {
@@ -121,7 +143,7 @@ class DataBaseHelper {
     return totalDrinkWater;
   }
 
-  Future<int?> getTotalDrinkWaterAverage(List<String> date) async {
+  static Future<int?> getTotalDrinkWaterAverage(List<String> date) async {
     final waterDao = _database!.waterDao;
     final totalDrinkWater = await waterDao.getTotalDrinkWaterAverage(date);
     Debug.printLog(
@@ -129,7 +151,7 @@ class DataBaseHelper {
     return totalDrinkWater.total;
   }
 
-  Future<WaterData> deleteTodayDrinkWater(WaterData data) async {
+ static Future<WaterData> deleteTodayDrinkWater(WaterData data) async {
     final waterDao = _database!.waterDao;
     await waterDao.deleteTodayDrinkWater(data);
     Debug.printLog(

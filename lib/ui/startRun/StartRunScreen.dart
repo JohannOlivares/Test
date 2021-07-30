@@ -538,11 +538,8 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
   Future<void> onFinish({bool value = true}) async {
     if(_locationSubscription != null && _locationSubscription!.isPaused)
       _locationSubscription!.cancel();
-
     await _addEndMarker();
-
     Navigator.pop(context);
-
     runningData!.polyLine = jsonEncode(polylineCoordinatesList);
 
     Future.delayed(const Duration(milliseconds: 50), () async{
@@ -748,12 +745,20 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     }
     finaldistance = double.parse(totalDistance.toStringAsFixed(2));
     finalspeed = double.parse(avaragePace!.toStringAsFixed(2));
-    runningData!.duration =timeValue;
-    runningData!.speed =finalspeed.toString();
-    runningData!.distance =finaldistance.toString();
-    runningData!.cal =calorisvalue.toString();
     runningData!.date = DateFormat.yMMMd().format(DateTime.now()).toString();
+    int hr = int.parse(timeValue!.split(":")[0]);
+    int min = int.parse(timeValue!.split(":")[1]);
+    int sec = int.parse(timeValue!.split(":")[2]);
+    int TotalTimeInSec = (hr*3600)+(min*60)+(sec);
+
+    runningData!.duration =TotalTimeInSec;
+    runningData!.speed =finalspeed;
+    runningData!.distance =finaldistance;
+    runningData!.cal =calorisvalue;
+   /* Utils.showToast(context, "Hours: $hr||||Min: $min ||| Sec: $sec||durationInSec:$TotalTimeInSec");
+    Debug.printLog( "Hours: $hr||||Min: $min");*/
   }
+
 
   double _countSpeed(double lat1, double lon1, double lat2, double lon2) {
     // Convert degrees to radians

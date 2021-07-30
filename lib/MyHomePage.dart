@@ -930,12 +930,14 @@ class _StartRunScreenState extends State<StartRunScreen>
           polylineCoordinatesList.last.latitude,
           polylineCoordinatesList.last.longitude);
     }
+/*
     finaldistance = double.parse(totalDistance.toStringAsFixed(2));
     finalspeed = double.parse(avaragePace!.toStringAsFixed(2));
     runningData!.duration =timeValue;
-    runningData!.speed =finalspeed.toString();
-    runningData!.distance =finaldistance.toString();
-    runningData!.cal =calorisvalue.toString();
+    runningData!.speed =finalspeed;
+    runningData!.distance =finaldistance;
+    runningData!.cal =calorisvalue;
+*/
 
 /*    Utils.showToast(context,
         "Timevalue: $timeValue||distance: $finaldistance\n||speed: $finalspeed||Calories: $calorisvalue");

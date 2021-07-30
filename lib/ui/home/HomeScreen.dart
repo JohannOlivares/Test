@@ -11,6 +11,8 @@ import 'package:run_tracker/ui/runhistorydetails/RunHistoryDetailScreen.dart';
 import 'package:run_tracker/ui/stepsTracker/StepsTrackerScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
+import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Utils.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../../common/commonTopBar/CommonTopBar.dart';
@@ -33,8 +35,31 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
   void initState() {
 
     _checkMapData();
+    _getBestRecordsDataForDistance();
+    _getBestRecordsDataForBestPace();
+    _getLongestDuration();
     super.initState();
 
+  }
+
+  RunningData? longestDistance;
+  _getBestRecordsDataForDistance() async {
+    longestDistance = await DataBaseHelper.getMaxDistance();
+    Debug.printLog("Longest Distance =====>" + longestDistance!.distance.toString());
+    return longestDistance!;
+  }
+  RunningData? bestPace;
+  _getBestRecordsDataForBestPace() async {
+    bestPace = await DataBaseHelper.getMaxPace();
+    Debug.printLog("Max Pace =====>" + bestPace!.speed.toString());
+    return bestPace!;
+  }
+
+  RunningData? longestDuration;
+  _getLongestDuration() async {
+    longestDuration = await DataBaseHelper.longestDuration();
+    Debug.printLog("Longest Duration =====>" + longestDuration!.duration.toString());
+    return longestDuration!;
   }
 
   _checkMapData() async {
@@ -312,21 +337,27 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
           bestRecordListTile(
               img: "ic_distance.webp",
               text: Languages.of(context)!.txtLongestDistance,
-              value: "0",
+              value:(longestDistance != null)
+                  ? longestDistance!.distance.toString()
+                  : "0.0",
               unit: "mile",
               isNotDuration: true
           ),
           bestRecordListTile(
               img: "ic_best_pace.png",
               text: Languages.of(context)!.txtBestPace,
-              value: "0",
+              value:  (bestPace != null)
+                  ? bestPace!.speed!.toString()
+                  : "0.0",
               unit: "min/mi",
               isNotDuration: true
           ),
           bestRecordListTile(
               img: "ic_duration.webp",
               text: Languages.of(context)!.txtLongestDuration,
-              value: "00:00",
+              value:  ( longestDuration!= null)
+                  ? Utils.secToString(longestDuration!.duration!)
+                  : "0:0",
               isNotDuration: false
           ),
         ],
@@ -524,7 +555,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                       Row(
                         children: [
                           Text(
-                            recentActivitiesData[index].distance!,
+                            recentActivitiesData[index].distance!.toString(),
                             textAlign: TextAlign.end,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -553,7 +584,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              recentActivitiesData[index].duration!,
+                              Utils.secToString(recentActivitiesData[index].duration!),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,
@@ -561,7 +592,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                               ),
                             ),
                             Text(
-                              recentActivitiesData[index].speed!,
+                              recentActivitiesData[index].speed!.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,
@@ -571,7 +602,7 @@ class _HomeScreenState extends State<HomeScreen> implements TopBarClickListener{
                             Row(
                               children: [
                                 Text(
-                                  recentActivitiesData[index].cal!,
+                                  recentActivitiesData[index].cal!.toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 15,

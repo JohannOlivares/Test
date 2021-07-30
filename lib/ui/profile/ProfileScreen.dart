@@ -7,9 +7,11 @@ import 'package:intl/intl.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/custom/dialogs/AddWeightDialog.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
+import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
+import 'package:run_tracker/utils/Utils.dart';
 
 import '../../localization/language/languages.dart';
 import '../../utils/Color.dart';
@@ -43,6 +45,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _getPreference();
     _getChartDataForDrinkWater();
     _getDailyDrinkWaterAverage();
+    _getBestRecordsDataForDistance();
+    _getBestRecordsDataForBestPace();
+    _getLongestDuration();
     startDateOfCurrentWeek =
         getDate(currentDate.subtract(Duration(days: currentDate.weekday - 1)));
     endDateOfCurrentWeek = getDate(currentDate
@@ -117,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       String formatCurrentWeekDates = DateFormat.yMd().format(currentWeekDates);
       dates.add(formatCurrentWeekDates);
     }
-    total = await DataBaseHelper().getTotalDrinkWaterAllDays(dates);
+    total = await DataBaseHelper.getTotalDrinkWaterAllDays(dates);
 
     for (int i = 0; i < dates.length; i++) {
       bool isMatch = false;
@@ -143,10 +148,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
       String formatCurrentWeekDates = DateFormat.yMd().format(currentWeekDates);
       dates.add(formatCurrentWeekDates);
     }
-    int? average = await DataBaseHelper().getTotalDrinkWaterAverage(dates);
+    int? average = await DataBaseHelper.getTotalDrinkWaterAverage(dates);
     drinkWaterAverage = (average! ~/ 7).toString();
     setState(() {});
     Debug.printLog("drinkWaterAverage =====>" + drinkWaterAverage!);
+  }
+
+  RunningData? longestDistance;
+  _getBestRecordsDataForDistance() async {
+    longestDistance = await DataBaseHelper.getMaxDistance();
+    Debug.printLog("Longest Distance =====>" + longestDistance!.distance.toString());
+    return longestDistance!;
+  }
+  RunningData? bestPace;
+  _getBestRecordsDataForBestPace() async {
+    bestPace = await DataBaseHelper.getMaxPace();
+    Debug.printLog("Max Pace =====>" + bestPace!.speed.toString());
+    return bestPace!;
+  }
+
+  RunningData? longestDuration;
+  _getLongestDuration() async {
+    longestDuration = await DataBaseHelper.longestDuration();
+    Debug.printLog("Longest Duration =====>" + longestDuration!.duration.toString());
+    return longestDuration!;
   }
 
   @override
@@ -1489,7 +1514,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                "0",
+                                (longestDistance != null)
+                                    ? longestDistance!.distance.toString()
+                                    : "0.0",
                                 textAlign: TextAlign.left,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -1522,7 +1549,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: const EdgeInsets.only(
                                     left: 5.0, bottom: 3.0),
                                 child: Text(
-                                  "Jul 3 09:24",
+                                  (longestDistance != null)
+                                      ? longestDistance!.date!
+                                      : "mm dd time",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
@@ -1577,7 +1606,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               Text(
-                                "0",
+                                (bestPace != null)
+                                    ? bestPace!.speed!.toString()
+                                    : "0.0",
                                 textAlign: TextAlign.left,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
@@ -1648,7 +1679,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               Expanded(
                                 child: Text(
-                                  "00.00",
+                          ( longestDuration!= null)
+                              ? Utils.secToString(longestDuration!.duration!)
+                              : "0:0",
                                   textAlign: TextAlign.left,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
@@ -1663,7 +1696,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: const EdgeInsets.only(
                                     left: 5.0, bottom: 3.0),
                                 child: Text(
-                                  "Jul 3 09:24",
+                                    ( longestDuration!= null)
+                                        ? longestDuration!.date!
+                                        : "0:0",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(

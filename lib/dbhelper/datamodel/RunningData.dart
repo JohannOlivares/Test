@@ -1,9 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:floor/floor.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 @entity
@@ -11,10 +9,10 @@ class RunningData {
   @PrimaryKey(autoGenerate: true)
   int? id;
 
-  String? duration;
-  String? distance;
-  String? speed;
-  String? cal;
+   int? duration;
+  double? distance;
+  double? speed;
+  double? cal;
   String? sLat;
   String? sLong;
   String? eLat;
