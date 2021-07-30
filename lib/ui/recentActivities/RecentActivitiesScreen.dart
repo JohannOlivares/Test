@@ -88,12 +88,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
     return Container(
       child: ListView.builder(
           itemCount: activityList.length,
-          padding: EdgeInsets.only(
-              bottom: MediaQuery
-                  .of(context)
-                  .size
-                  .height *
-                  0.05),
+          padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 15.0),
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           reverse: true,
