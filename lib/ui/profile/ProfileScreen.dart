@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _getDailyDrinkWaterAverage();
     _getBestRecordsDataForDistance();
     _getBestRecordsDataForBestPace();
-    _getLongestDuration();
+    _getBestRecordsDataForLongestDuration();
     startDateOfCurrentWeek =
         getDate(currentDate.subtract(Duration(days: currentDate.weekday - 1)));
     endDateOfCurrentWeek = getDate(currentDate
@@ -155,22 +155,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   RunningData? longestDistance;
+
   _getBestRecordsDataForDistance() async {
     longestDistance = await DataBaseHelper.getMaxDistance();
-    Debug.printLog("Longest Distance =====>" + longestDistance!.distance.toString());
+    Debug.printLog(
+        "Longest Distance =====>" + longestDistance!.distance.toString());
+    setState(() {});
     return longestDistance!;
   }
+
   RunningData? bestPace;
+
   _getBestRecordsDataForBestPace() async {
     bestPace = await DataBaseHelper.getMaxPace();
     Debug.printLog("Max Pace =====>" + bestPace!.speed.toString());
+    setState(() {});
     return bestPace!;
   }
 
   RunningData? longestDuration;
-  _getLongestDuration() async {
-    longestDuration = await DataBaseHelper.longestDuration();
-    Debug.printLog("Longest Duration =====>" + longestDuration!.duration.toString());
+
+  _getBestRecordsDataForLongestDuration() async {
+    longestDuration = await DataBaseHelper.getLongestDuration();
+    Debug.printLog(
+        "Longest Duration =====>" + longestDuration!.duration.toString());
+    setState(() {});
     return longestDuration!;
   }
 

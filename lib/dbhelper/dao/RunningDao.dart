@@ -22,7 +22,7 @@ abstract class RunningDao {
   Future<RunningData?> findBestPace();
 
   @Query('SELECT *,IFNULL(MAX(duration),0) FROM RunningData')
-  Future<RunningData?> getMaxDuration();
+  Future<RunningData?> findMaxDuration();
 
   @insert
   Future<int> insertTask(RunningData task);

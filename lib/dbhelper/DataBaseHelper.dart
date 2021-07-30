@@ -114,9 +114,9 @@ class DataBaseHelper {
     return maxPace!;
   }
 
-  static Future<RunningData?> longestDuration()async{
+  static Future<RunningData?> getLongestDuration()async{
     final runningDao = _database!.runningDao;
-    final longestDuration = await runningDao.getMaxDuration();
+    final longestDuration = await runningDao.findMaxDuration();
     Debug.printLog(longestDuration.toString());
     return longestDuration!;
   }
