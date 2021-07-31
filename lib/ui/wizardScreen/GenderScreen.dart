@@ -4,6 +4,7 @@ import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 
 enum Gender { Male, Female }
@@ -14,7 +15,12 @@ class GenderScreen extends StatefulWidget {
   bool? isBack;
   Function? pageNum;
 
-  GenderScreen({this.pageController,this.updatevalue,this.isBack,this.pageNum}){
+  WizardScreenState wizardScreenState;
+  String? gender;
+  Function onGender;
+
+
+  GenderScreen({this.pageController,this.updatevalue,this.isBack,this.pageNum,required this.gender,required this.onGender, required this.wizardScreenState}){
     isBack = false;
 
   }
@@ -24,7 +30,14 @@ class GenderScreen extends StatefulWidget {
 }
 
 class _GenderScreenState extends State<GenderScreen> {
-  Gender? _gender = Gender.Male;
+  Gender? gender = Gender.Male;
+
+  @override
+  void initState() {
+    getGender();
+    super.initState();
+  }
+
 
 
   @override
@@ -101,8 +114,9 @@ class _GenderScreenState extends State<GenderScreen> {
                     Colur.purple_gradient_color2,
                   ],
                 ),
-                onPressed: () {
+                onPressed: () async {
                   setState(() {
+                    widget.onGender(gender.toString());
                     widget.updatevalue!(0.66);
                     widget.pageNum!(2);
                   });
@@ -110,6 +124,7 @@ class _GenderScreenState extends State<GenderScreen> {
                     duration: const Duration(milliseconds: 400),
                     curve: Curves.easeInOut,
                   );
+
                 },
               ),
             ),
@@ -124,7 +139,7 @@ class _GenderScreenState extends State<GenderScreen> {
     return InkWell(
       onTap: () {
         setState(() {
-          _gender = Gender.Male;
+          gender = Gender.Male;
           Debug.printLog("Male Selected");
           Utils.showToast(context, "Male");
         });
@@ -165,12 +180,12 @@ class _GenderScreenState extends State<GenderScreen> {
                 fillColor: MaterialStateColor.resolveWith((states) =>
                 Colur.white),
                 value: Gender.Male,
-                groupValue: _gender,
+                groupValue: gender,
                 onChanged: (Gender? value) {
                   setState(() {
-                    _gender = value;
+                    gender = value;
                     Debug.printLog(
-                        "Male Selected From Radio" + _gender.toString());
+                        "Male Selected From Radio" + gender.toString());
                   });
                 },
               ),
@@ -185,7 +200,7 @@ class _GenderScreenState extends State<GenderScreen> {
     return InkWell(
       onTap: () {
         setState(() {
-          _gender = Gender.Female;
+          gender = Gender.Female;
           Debug.printLog("Female Selected");
           Utils.showToast(context, "Female");
         });
@@ -226,12 +241,12 @@ class _GenderScreenState extends State<GenderScreen> {
                 fillColor: MaterialStateColor.resolveWith((states) =>
                 Colur.white),
                 value: Gender.Female,
-                groupValue: _gender,
+                groupValue: gender,
                 onChanged: (Gender? value) {
                   setState(() {
-                    _gender = value;
+                    gender = value;
                     Debug.printLog("Female Selected From Radio" +
-                        _gender.toString());
+                        gender.toString());
                   });
                 },
               ),
@@ -240,6 +255,11 @@ class _GenderScreenState extends State<GenderScreen> {
         ),
       ),
     );
+  }
+
+  getGender() {
+    String? gen = Preference.shared.getString(Preference.GENDER);
+    Debug.printLog("Gender from prefs: $gen");
   }
 
 

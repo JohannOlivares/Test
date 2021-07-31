@@ -25,6 +25,19 @@ class Preference {
   static const String END_TIME_REMINDER = "END_TIME_REMINDER";
   static const String DRINK_WATER_NOTIFICATION_MESSAGE = "DRINK_WATER_NOTIFICATION_MESSAGE";
 
+  static const String GENDER = "GENDER";
+  static const String DISTANCE = "DISTANCE";
+  static const String HEIGHT = "HEIGHT";
+  static const String WEIGHT = "WEIGHT";
+  static const String TOTAL_STEPS = "TOTAL_STEPS";
+  static const String CURRENT_STEPS = "CURRENT_STEPS";
+  static const String TARGET_STEPS = "TARGET_STEPS";
+  static const String OLD_TIME = "OLD_TIME";
+  static const String OLD_DISTANCE = "OLD_DISTANCE";
+  static const String OLD_CALORIES = "OLD_CALORIES";
+  static const String CALORIES = "CALORIES";
+  static const String DATE = "DATE";
+
   // ------------------ SINGLETON -----------------------
   static final Preference _preference = Preference._internal();
 
@@ -75,6 +88,15 @@ class Preference {
 
   Future<bool> setBool(String key, bool value) {
     return _pref!.setBool(key, value);
+  }
+
+  // Double get & set
+  double? getDouble(String key) {
+    return _pref!.getDouble(key);
+  }
+
+  Future<bool> setDouble(String key, double value) {
+    return _pref!.setDouble(key, value);
   }
 
   // Array get & set

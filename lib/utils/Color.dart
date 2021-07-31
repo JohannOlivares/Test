@@ -29,6 +29,7 @@ class Colur {
   static const green_gradient_color2 = const Color(0xff7BDE56);
 
   static const green_gradient_shadow = const Color(0x902fc31c);
+  static const red_gradient_shadow = Color(0x90ff4343);
 
   static const txt_grey = const Color(0xff9195B6);
   static const txt_white = const Color(0xffFFFFFF);

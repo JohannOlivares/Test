@@ -3,16 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/custom/custom_tabbarview.dart';
 import 'package:run_tracker/localization/language/languages.dart';
-import 'package:run_tracker/ui/home/HomeWizardScreen.dart';
-import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
-import 'package:run_tracker/ui/home/HomeScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
 
-import '../home/HomeScreen.dart';
+import '../../utils/Preference.dart';
+
 
 class WeeklyGoalSetScreen extends StatefulWidget {
-  const WeeklyGoalSetScreen({Key? key}) : super(key: key);
+  String? gender;
+  int? height;
+  int? weight;
+
+  WeeklyGoalSetScreen({
+    Key? key,
+    required this.gender,
+    required this.height,
+    required this.weight,
+  }) : super(key: key);
 
   @override
   _WeeklyGoalSetScreenState createState() => _WeeklyGoalSetScreenState();
@@ -22,9 +29,17 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
   bool KmSelected = true;
   bool MileSelected = false;
 
-  String? unit;
-  var weightKM = 1;
-  var weightMILE = 1;
+  bool unit = true; //true for km and false for mile.
+  var distanceKM = 1;
+  var distanceMILE = 1;
+
+  int? distance;
+
+  @override
+  void initState() {
+    getDistance();
+    super.initState();
+  }
 
 
   @override
@@ -76,7 +91,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
         margin: EdgeInsets.only(top: fullHeight * 0.06),
         child: Column(
           children: [
-            //Row For Waliking Information
+            //Row For Walking Information
             Row(
               children: [
                 Container(
@@ -252,9 +267,9 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               setState(() {
                 KmSelected = true;
                 MileSelected = false;
-                unit = Languages.of(context)!.txtKM;
+                unit = true;
               });
-              Debug.printLog("$unit selected");
+              Debug.printLog("km selected");
             },
             child: Container(
               width: 100,
@@ -262,7 +277,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                 child: Text(
                   Languages.of(context)!.txtKM,
                   style: TextStyle(
-                      color: KmSelected ? Colors.white : Color(0xFF9195B6),
+                      color: KmSelected ? Colors.white : Colur.txt_grey,
                       fontWeight: FontWeight.w500,
                       fontSize: 18),
                 ),
@@ -272,7 +287,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
           Container(
             height: 23,
             child: VerticalDivider(
-              color: Color(0xFF9195B6),
+              color: Colur.txt_grey,
               width: 1,
               thickness: 1,
             ),
@@ -282,8 +297,8 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               setState(() {
                 KmSelected = false;
                 MileSelected = true;
-                unit = Languages.of(context)!.txtMILE;
-                Debug.printLog("$unit selected");
+                unit = false;
+                Debug.printLog("mile selected");
               });
             },
             child: Container(
@@ -292,7 +307,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                 child: Text(
                   Languages.of(context)!.txtMILE,
                   style: TextStyle(
-                      color: MileSelected ? Colur.white : Color(0xFF9195B6),
+                      color: MileSelected ? Colur.white :Colur.txt_grey,
                       fontWeight: FontWeight.w500,
                       fontSize: 18),
                 ),
@@ -329,6 +344,10 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
           ],
         ),
         onPressed: () {
+          convert();
+
+          setDataToPrefs();
+
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
         },
@@ -359,64 +378,95 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               selectionOverlay: CupertinoPickerDefaultSelectionOverlay(background: Colur.transparent,),
               onSelectedItemChanged: (value) {
                 setState(() {
-                  if (unit == Languages.of(context)!.txtMILE) {
+                  if (unit == false) {
                     value += 1;
-                    weightMILE = value;
-                    Debug.printLog("$weightMILE $unit selected");
+                    distanceMILE = value;
+                    //Debug.printLog("$distanceMILE mile selected");
                   } else {
                     value += 1;
-                    weightKM = value;
-                    Debug.printLog("$weightKM $unit selected");
+                    distanceKM = value;
+                    //Debug.printLog("$distanceKM km selected");
                   }
                 });
               },
               itemExtent: 75.0,
-              children: unit == Languages.of(context)!.txtMILE
+              children: unit == false
                   ? List.generate(2155, (index) {
-                      index += 1;
-                      return Text(
-                        "$index",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 48,
-                            fontWeight: FontWeight.bold),
-                      );
-                    })
+                index += 1;
+                return Text(
+                  "$index",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold),
+                );
+              })
                   : List.generate(978, (index) {
-                      index += 1;
-                      return Text(
-                        "$index",
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 48,
-                            fontWeight: FontWeight.bold),
-                      );
-                    }),
+                index += 1;
+                return Text(
+                  "$index",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold),
+                );
+              }),
             ),
           ),
           (KmSelected == true)
               ? Container(
-                  margin: EdgeInsets.only(left: 5),
-                  child: Text(
-                    Languages.of(context)!.txtKM,
-                    style: TextStyle(
-                        color: Colur.txt_white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500),
-                  ),
-                )
+            margin: EdgeInsets.only(left: 5),
+            child: Text(
+              Languages.of(context)!.txtKM,
+              style: TextStyle(
+                  color: Colur.txt_white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500),
+            ),
+          )
               : Container(
-                  margin: EdgeInsets.only(left: 5),
-                  child: Text(
-                    Languages.of(context)!.txtMILE,
-                    style: TextStyle(
-                        color: Colur.txt_white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
+            margin: EdgeInsets.only(left: 5),
+            child: Text(
+              Languages.of(context)!.txtMILE,
+              style: TextStyle(
+                  color: Colur.txt_white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
         ],
       ),
     );
+  }
+
+
+  getDistance() {
+    var d = Preference.shared.getInt(Preference.DISTANCE);
+    Debug.printLog("Distance from prefs: $d km");
+  }
+
+  setDataToPrefs() {
+    if(Debug.STORE_RES_IN_PREF) {
+
+      Preference.shared.setString(Preference.GENDER, widget.gender!);
+      Debug.printLog("Gender stored in pref: ${widget.gender}");
+
+      Preference.shared.setInt(Preference.WEIGHT, widget.weight!);
+      Debug.printLog("Weight stored in pref: ${widget.weight} kg");
+
+      Preference.shared.setInt(Preference.HEIGHT, widget.height!);
+      Debug.printLog("Height stored in pref: ${widget.height} cm");
+
+      Preference.shared.setInt(Preference.DISTANCE, distanceKM);
+      Debug.printLog("Distance stored in pref: $distanceKM km");
+    }
+  }
+
+  //convert mile in km.
+  convert() {
+    if(unit == false) {
+      var d = distanceMILE*1.609;
+      distanceKM = d.toInt();
+    }
   }
 }

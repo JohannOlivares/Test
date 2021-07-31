@@ -3,14 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/weeklygoalSetScreen/WeeklyGoalSetScreen.dart';
+import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 
+
 class HeightScreen extends StatefulWidget {
+  PageController? pageController;
   bool? isBack;
 
-  HeightScreen({this.isBack}){
+  WizardScreenState wizardScreenState;
+
+  HeightScreen({this.isBack, required this.wizardScreenState,}){
     isBack = true;
 
   }
@@ -24,8 +30,15 @@ class _HeightScreenState extends State<HeightScreen> {
   bool ftSelected = false;
   var ftHeight = 0;
   var inchHeight = 0;
-  var cmHeight = 20;
-  String unit = "CM";
+  int? cmHeight = 20;
+  bool unit = true; //true for cm and false for feet
+
+  @override
+  void initState() {
+    getHeight();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +85,6 @@ class _HeightScreenState extends State<HeightScreen> {
 
 
           //Next Step Button
-
           Container(
             margin: EdgeInsets.only(left: fullWidth*0.15, bottom: fullHeight*0.08, right: fullWidth*0.15),
             alignment: Alignment.bottomCenter,
@@ -99,18 +111,21 @@ class _HeightScreenState extends State<HeightScreen> {
                 ],
               ),
               onPressed: () {
-                unit == Languages.of(context)!.txtCM ?
-                  Utils.showToast(context, "$cmHeight $unit") :
-                Utils.showToast(context, "$ftHeight' $inchHeight\" $unit") ;
+                unit == true ?
+                Utils.showToast(context, "$cmHeight cm") :
+                Utils.showToast(context, "$ftHeight' $inchHeight\" feet") ;
 
-                /*widget.pageController.nextPage(
-                  duration: const Duration(milliseconds: 400),
-                  curve: Curves.easeInOut,
-                );*/
+                convert();
+
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => WeeklyGoalSetScreen()),
+                      builder: (context) => WeeklyGoalSetScreen(
+                        weight: widget.wizardScreenState.weightSelected,
+                        height: cmHeight,
+                        gender: widget.wizardScreenState.genderSelected,
+                      )
+                  ),
                 );
               },
             ),
@@ -138,8 +153,8 @@ class _HeightScreenState extends State<HeightScreen> {
               setState(() {
                 cmSelected = true;
                 ftSelected = false;
-                unit = Languages.of(context)!.txtCM;
-                Debug.printLog("$unit selected");
+                unit = true;
+                Debug.printLog("cm selected");
               });
             },
             child: Container(
@@ -168,8 +183,8 @@ class _HeightScreenState extends State<HeightScreen> {
               setState(() {
                 cmSelected = false;
                 ftSelected = true;
-                unit = Languages.of(context)!.txtFT;
-                Debug.printLog("$unit selected");
+                unit = false;
+                Debug.printLog("feet selected");
               });
             },
             child: Container(
@@ -189,9 +204,9 @@ class _HeightScreenState extends State<HeightScreen> {
       ),
     );
   }
-  
+
   _heightSelector(double fullHeight) {
-    if(unit == Languages.of(context)!.txtFT) {
+    if(unit == false) {
       return Expanded(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -219,7 +234,7 @@ class _HeightScreenState extends State<HeightScreen> {
                     onSelectedItemChanged: (value) {
                       setState(() {
                         ftHeight = value;
-                        Debug.printLog("$ftHeight ft selected");
+                        //Debug.printLog("$ftHeight ft selected");
                       });
                     },
                     itemExtent: 75.0,
@@ -246,7 +261,7 @@ class _HeightScreenState extends State<HeightScreen> {
                     onSelectedItemChanged: (value) {
                       setState(() {
                         inchHeight = value;
-                        Debug.printLog("$inchHeight inch selected");
+                        //Debug.printLog("$inchHeight inch selected");
                       });
 
                     },
@@ -293,9 +308,8 @@ class _HeightScreenState extends State<HeightScreen> {
                   setState(() {
                     value+=20;
                     cmHeight = value;
-                    Debug.printLog("$cmHeight $unit selected");
+                    //Debug.printLog("$cmHeight cm selected");
                   });
-
                 },
                 itemExtent: 75.0,
                 children: List.generate(381, (index) {
@@ -316,5 +330,23 @@ class _HeightScreenState extends State<HeightScreen> {
       );
     }
   }
-  
+
+  //convert feet into cm
+  convert() {
+    if(unit == false) {
+      var h = (ftHeight*30.48) + (inchHeight*2.59);
+      cmHeight = h.toInt();
+    }
+  }
+
+  getHeight() {
+    ////Height is stored in cm only.
+    var h = Preference.shared.getInt(Preference.HEIGHT);
+    Debug.printLog("Height from prefs: $h cm");
+
+
+  }
+
 }
+
+

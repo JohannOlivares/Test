@@ -1,5 +1,6 @@
 import 'package:run_tracker/dbhelper/database.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
+import 'package:run_tracker/dbhelper/datamodel/StepsData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WeightData.dart';
 import 'package:run_tracker/utils/Debug.dart';
@@ -188,5 +189,105 @@ class DataBaseHelper {
     final runningDao = _database!.runningDao;
     final longestDuration = await runningDao.findMaxDuration();
     return longestDuration!;
+  }
+
+  //<!----------------------------- Steps Table Operations ---------------------------------------------------!>
+  Future<StepsData> insertSteps(StepsData data) async {
+    final stepsDao = _database!.stepsDao;
+    await stepsDao.insertAllStepsData(data);
+    Debug.printLog("Insert Steps Data Successfully  ==> " +
+        " Steps ==> " +
+        data.steps.toString() +
+        " Target Steps ==> " +
+        data.targetSteps.toString() +
+        " Calories ==> " +
+        data.cal.toString() +
+        " Distance ==> " +
+        data.distance.toString() +
+        " Duration ==> " +
+        data.duration.toString() +
+        " CurrentTime ==> " +
+        data.dateTime.toString() +
+        " Date ==> " +
+        data.stepDate.toString() +
+        " Time ==> " +
+        data.time.toString());
+    return data;
+  }
+
+  Future<List<StepsData>> getAllStepsData() async {
+    final stepsDao = _database!.stepsDao;
+    final List<StepsData> result = await stepsDao.getAllStepsData();
+    result.forEach((element) {
+      Debug.printLog("Select Steps Data Successfully  ==> Id=>" +
+          element.id.toString() +
+          " Steps=>" +
+          element.steps.toString() +
+          " Target Steps=>" +
+          element.targetSteps.toString() +
+          " Date=>" +
+          element.stepDate.toString() +
+          " Time=>" +
+          element.time.toString() +
+          " DateTime=>" +
+          element.dateTime.toString() +
+          " Kcal=>" +
+          element.cal.toString() +
+          " Duration=>" +
+          element.duration.toString() +
+          " Distance=>" +
+          element.distance.toString());
+    });
+    return result;
+  }
+
+  Future<List<StepsData>> getStepsForCurrentWeek() async {
+    final stepsDao = _database!.stepsDao;
+    final steps = await stepsDao.getStepsForCurrentWeek();
+    steps.forEach((element) {
+      Debug.printLog("-----------Steps For Week Days ==> " +
+          " Steps ==> " + element.steps.toString() + " Date ==> " +
+          element.stepDate.toString() + "------------");
+    });
+    return steps;
+  }
+
+  Future<int?> getStepsForLast7Days() async {
+    final stepsDao = _database!.stepsDao;
+    final totalSteps = await stepsDao.getStepsForLast7Days();
+    Debug.printLog("Steps from last 7 days =====> ${totalSteps!.steps}");
+    return totalSteps.steps;
+  }
+
+  Future<List<StepsData>> getStepsForCurrentMonth() async {
+    final stepsDao = _database!.stepsDao;
+    final steps = await stepsDao.getStepsForCurrentMonth();
+    steps.forEach((element) {
+      Debug.printLog("-----------Steps For Month Days ==> " +
+          " Steps ==> " + element.steps.toString() + " Date ==> " +
+          element.stepDate.toString() + "------------");
+    });
+    return steps;
+  }
+
+  Future<int?> getTotalStepsForCurrentMonth() async {
+    final stepsDao = _database!.stepsDao;
+    final totalSteps = await stepsDao.getTotalStepsForCurrentMonth();
+    Debug.printLog("Total Steps from current month =====> ${totalSteps!.steps}");
+    return totalSteps.steps;
+  }
+
+  /*Future<double?> getAverageStepsForCurrentMonth() async {
+    final stepsDao = _database!.stepsDao;
+    final avgSteps = await stepsDao.getAverageStepsForCurrentMonth();
+    Debug.printLog("Average of steps from current month =====> ${avgSteps!.distance}");
+    return avgSteps.distance;
+  }*/
+
+  Future<int?> getTotalStepsForCurrentWeek() async {
+    final stepsDao = _database!.stepsDao;
+    final totalSteps = await stepsDao.getTotalStepsForCurrentWeek();
+    Debug.printLog("Total Steps from current week =====> ${totalSteps!.steps}");
+    return totalSteps.steps;
   }
 }

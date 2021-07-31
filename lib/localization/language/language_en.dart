@@ -488,4 +488,58 @@ class LanguageEn extends Languages {
 
   @override
   String get txtDeleteHitory => "Delete History";
+
+  @override
+  String get txtApril => "April";
+
+  @override
+  String get txtAugust => "August";
+
+  @override
+  String get txtAverage => "Average";
+
+  @override
+  String get txtDecember => "December";
+
+  @override
+  String get txtFebruary => "February";
+
+  @override
+  String get txtJanuary => "January";
+
+  @override
+  String get txtJuly => "July";
+
+  @override
+  String get txtJune => "June";
+
+  @override
+  String get txtMarch => "March";
+
+  @override
+  String get txtMay => "May";
+
+  @override
+  String get txtMonth => "Month";
+
+  @override
+  String get txtNovember => "November";
+
+  @override
+  String get txtOctober => "October";
+
+  @override
+  String get txtReport => "Report";
+
+  @override
+  String get txtSeptember => "September";
+
+  @override
+  String get txtThisWeek => "This Week";
+
+  @override
+  String get txtTotal => "Total";
+
+  @override
+  String get txtPaused => "Paused";
 }

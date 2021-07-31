@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:run_tracker/custom/CustomRadioSelection.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
-import 'package:run_tracker/utils/Utils.dart';
+import 'package:run_tracker/utils/Preference.dart';
+
 
 class WeightScreen extends StatefulWidget {
   PageController? pageController;
@@ -13,7 +14,19 @@ class WeightScreen extends StatefulWidget {
   bool? isBack;
   Function? pageNum;
 
-  WeightScreen({this.pageController, this.updatevalue,this.isBack, this.pageNum}){
+  WizardScreenState wizardScreenState;
+  int? weight;
+  Function onWeight;
+
+  WeightScreen({
+    this.pageController,
+    this.updatevalue,
+    this.isBack,
+    this.pageNum,
+    required this.wizardScreenState,
+    required this.weight,
+    required this.onWeight
+  }){
     isBack = true;
   }
 
@@ -23,14 +36,19 @@ class WeightScreen extends StatefulWidget {
 
 class _WeightScreenState extends State<WeightScreen> {
 
-
-
   bool kgSelected = true;
   bool lbsSelected = false;
 
-  String unit = "KG";
-  var weightKG = 20;
-  var weightLBS = 44;
+  bool unit = true;//true for kg and false for lbs
+  int? weightKG = 20;
+  int weightLBS = 44;
+
+
+  @override
+  void initState() {
+    getWeight();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,15 +126,15 @@ class _WeightScreenState extends State<WeightScreen> {
                 ],
               ),
               onPressed: () {
+
                 setState(() {
                   widget.updatevalue!(1.0);
                   widget.pageNum!(3);
                 });
-                if(unit == Languages.of(context)!.txtLBS) {
-                  Utils.showToast(context, "$weightLBS $unit");
-                } else{
-                  Utils.showToast(context, "$weightKG $unit");
-                }
+
+                convert();
+                widget.onWeight(weightKG);
+
 
                 widget.pageController!.nextPage(
                   duration: const Duration(milliseconds: 400),
@@ -149,9 +167,9 @@ class _WeightScreenState extends State<WeightScreen> {
               setState(() {
                 kgSelected = true;
                 lbsSelected = false;
-                unit = Languages.of(context)!.txtKG;
+                unit = true;
               });
-              Debug.printLog("$unit selected");
+              Debug.printLog("kg selected");
             },
             child: Container(
               width: 100,
@@ -179,8 +197,8 @@ class _WeightScreenState extends State<WeightScreen> {
               setState(() {
                 kgSelected = false;
                 lbsSelected = true;
-                unit = Languages.of(context)!.txtLBS;
-                Debug.printLog("$unit selected");
+                unit = false;
+                Debug.printLog("lbs selected");
               });
             },
             child: Container(
@@ -200,69 +218,123 @@ class _WeightScreenState extends State<WeightScreen> {
       ),
     );
   }
+
   weightSelector(double fullHeight) {
-    return Expanded(
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              child: Padding(
-                padding:  EdgeInsets.only(bottom: fullHeight*0.025),
-                child: Image.asset(
-                  "assets/icons/ic_select_pointer.png",
+    if(unit == false) {
+      return Expanded(
+        child: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: fullHeight * 0.025),
+                  child: Image.asset(
+                    "assets/icons/ic_select_pointer.png",
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 125,
-              height: fullHeight*0.32,
-              child: CupertinoPicker(
-                useMagnifier: true,
-                magnification: 1.05,
-                selectionOverlay: CupertinoPickerDefaultSelectionOverlay(background: Colur.transparent,),
-                onSelectedItemChanged: (value) {
-                  setState(() {
-                    if (unit ==Languages.of(context)!.txtLBS) {
-                      value+=44;
+              Container(
+                width: 125,
+                height: fullHeight * 0.32,
+                child: CupertinoPicker(
+                  useMagnifier: true,
+                  magnification: 1.05,
+                  selectionOverlay:
+                  CupertinoPickerDefaultSelectionOverlay(
+                    background: Colur.transparent,
+                  ),
+                  scrollController:
+                  FixedExtentScrollController(initialItem: 0),
+                  onSelectedItemChanged: (value) {
+                    setState(() {
+                      value += 44;
                       weightLBS = value;
-                      Debug.printLog("$weightLBS $unit selected");
-                    } else {
-                      value+=20;
-                      weightKG = value;
-                      Debug.printLog("$weightKG $unit selected");
-                    }
-                  });
-
-                },
-                itemExtent: 75.0,
-                children: unit == Languages.of(context)!.txtLBS ? List.generate(2155, (index) {
-                  index+=44;
-                  return Text(
-                    "$index",
-                    style: TextStyle(
-                        color: Colur.txt_white,
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold
-                    ),
-                  );
-                }) : List.generate(978, (index) {
-                  index+=20;
-                  return Text(
-                    "$index",
-                    style: TextStyle(
-                        color: Colur.txt_white,
-                        fontSize: 48,
-                        fontWeight: FontWeight.bold
-                    ),
-                  );
-                }),
-              ),
-            ),
-          ],
+                      //Debug.printLog("$weightLBS lbs selected");
+                    });
+                  },
+                  itemExtent: 75.0,
+                  children: List.generate(2155, (index) {
+                    index += 44;
+                    return Text(
+                      "$index",
+                      style: TextStyle(
+                          color: Colur.txt_white,
+                          fontSize: 48,
+                          fontWeight: FontWeight.bold),
+                    );
+                  }),
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Expanded(
+        child: Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: fullHeight * 0.025),
+                  child: Image.asset(
+                    "assets/icons/ic_select_pointer.png",
+                  ),
+                ),
+              ),
+              Container(
+                width: 125,
+                height: fullHeight * 0.32,
+                child: CupertinoPicker(
+                  useMagnifier: true,
+                  magnification: 1.05,
+                  selectionOverlay:
+                  CupertinoPickerDefaultSelectionOverlay(
+                    background: Colur.transparent,
+                  ),
+                  scrollController:
+                  FixedExtentScrollController(initialItem: 0),
+                  onSelectedItemChanged: (value) {
+                    setState(() {
+                      value += 20;
+                      weightKG = value;
+                      // Debug.printLog("$weightKG kg selected");
+                    });
+                  },
+                  itemExtent: 75.0,
+                  children: List.generate(978, (index) {
+                    index += 20;
+                    return Text(
+                      "$index",
+                      style: TextStyle(
+                          color: Colur.txt_white,
+                          fontSize: 48,
+                          fontWeight: FontWeight.bold),
+                    );
+                  }),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+
+  //convert lbs into kg.
+  convert() {
+    if(unit == false) {
+      print(weightLBS);
+      var w = weightLBS *0.45;
+      weightKG = w.toInt();
+      print("w in kg: "+weightKG.toString());
+    }
+  }
+
+  getWeight() {
+    var w = Preference.shared.getInt(Preference.WEIGHT);
+    Debug.printLog("Weight from prefs: $w kg");
   }
 }
-

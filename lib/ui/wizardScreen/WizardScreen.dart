@@ -1,29 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:run_tracker/common/ratingbottomsheetdialog/RatingDialog.dart';
-import 'package:run_tracker/common/topBar/ProgressTopBar.dart';
-import 'package:run_tracker/interfaces/TopBarClickListener.dart';
-import 'package:run_tracker/localization/language/languages.dart';
+
 import 'package:run_tracker/ui/WelcomeDialogScreen.dart';
 import 'package:run_tracker/ui/wizardScreen/GenderScreen.dart';
 import 'package:run_tracker/ui/wizardScreen/HeightScreen.dart';
 import 'package:run_tracker/ui/wizardScreen/WeightScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
-import 'package:run_tracker/utils/Constant.dart';
-import 'package:run_tracker/utils/Debug.dart';
-import 'package:syncfusion_flutter_gauges/gauges.dart';
+
 
 class WizardScreen extends StatefulWidget {
   const WizardScreen({Key? key}) : super(key: key);
 
   @override
-  _WizardScreenState createState() => _WizardScreenState();
+  WizardScreenState createState() => WizardScreenState();
 }
 
-class _WizardScreenState extends State<WizardScreen> {
+class WizardScreenState extends State<WizardScreen> {
   double? _updateValue;
   PageController pageController = new PageController();
   bool isBack = false;
   late int pageNum;
+
+  String? genderSelected;
+  int? weightSelected;
+
+  void onGender(String gender) {
+    setState(() {
+      genderSelected = gender;
+
+    });
+  }
+
+  void onWeight(int weight) {
+    setState(() {
+      weightSelected = weight;
+    });
+  }
 
 
   @override
@@ -82,10 +93,28 @@ class _WizardScreenState extends State<WizardScreen> {
                   controller: pageController,
                   physics: new NeverScrollableScrollPhysics(),
                   children: <Widget>[
-                    GenderScreen(pageController: pageController,updatevalue: updateValue,isBack:isBack,pageNum:updagePageNumber),
+                    GenderScreen(
+                      pageController: pageController,
+                      updatevalue: updateValue,
+                      isBack:isBack,
+                      pageNum:updagePageNumber,
+                      onGender: onGender,
+                      gender: genderSelected,
+                      wizardScreenState: this,
+                    ),
                     WeightScreen(
-                      pageController: pageController,updatevalue: updateValue,isBack:isBack,pageNum:updagePageNumber),
-                    HeightScreen(isBack:isBack),
+                      pageController: pageController,
+                      updatevalue: updateValue,
+                      isBack:isBack,
+                      pageNum:updagePageNumber,
+                      onWeight: onWeight,
+                      wizardScreenState: this,
+                      weight: weightSelected,
+                    ),
+                    HeightScreen(
+                      isBack:isBack,
+                      wizardScreenState: this,
+                    ),
                   ],
                 ),
               ),

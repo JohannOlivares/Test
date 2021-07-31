@@ -325,6 +325,40 @@ abstract class Languages {
 
   String get txtDeleteConfirmationMessage;
 
+  String get txtReport;
 
+  String get txtMonth;
+
+  String get txtThisWeek;
+
+  String get txtTotal;
+
+  String get txtAverage;
+
+  String get txtJanuary;
+
+  String get txtFebruary;
+
+  String get txtMarch;
+
+  String get txtApril;
+
+  String get txtMay;
+
+  String get txtJune;
+
+  String get txtJuly;
+
+  String get txtAugust;
+
+  String get txtSeptember;
+
+  String get txtOctober;
+
+  String get txtNovember;
+
+  String get txtDecember;
+
+  String get txtPaused;
 
 }
