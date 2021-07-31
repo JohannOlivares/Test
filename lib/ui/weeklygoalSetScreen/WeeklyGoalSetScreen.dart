@@ -269,7 +269,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                 MileSelected = false;
                 unit = true;
               });
-              Debug.printLog("km selected");
+              //Debug.printLog("km selected");
             },
             child: Container(
               width: 100,
@@ -298,7 +298,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                 KmSelected = false;
                 MileSelected = true;
                 unit = false;
-                Debug.printLog("mile selected");
+                //Debug.printLog("mile selected");
               });
             },
             child: Container(
@@ -442,23 +442,23 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
 
   getDistance() {
     var d = Preference.shared.getInt(Preference.DISTANCE);
-    Debug.printLog("Distance from prefs: $d km");
+    //Debug.printLog("Distance from prefs: $d km");
   }
 
   setDataToPrefs() {
     if(Debug.STORE_RES_IN_PREF) {
 
       Preference.shared.setString(Preference.GENDER, widget.gender!);
-      Debug.printLog("Gender stored in pref: ${widget.gender}");
+      //Debug.printLog("Gender stored in pref: ${widget.gender}");
 
       Preference.shared.setInt(Preference.WEIGHT, widget.weight!);
-      Debug.printLog("Weight stored in pref: ${widget.weight} kg");
+      //Debug.printLog("Weight stored in pref: ${widget.weight} kg");
 
       Preference.shared.setInt(Preference.HEIGHT, widget.height!);
-      Debug.printLog("Height stored in pref: ${widget.height} cm");
+      //Debug.printLog("Height stored in pref: ${widget.height} cm");
 
       Preference.shared.setInt(Preference.DISTANCE, distanceKM);
-      Debug.printLog("Distance stored in pref: $distanceKM km");
+      //Debug.printLog("Distance stored in pref: $distanceKM km");
     }
   }
 

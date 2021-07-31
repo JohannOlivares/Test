@@ -174,27 +174,30 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                       fontWeight: FontWeight.w700,
                       color: Colur.txt_white),
                 ),
-                InkWell(
-                  onTap: () {
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => WeekGraphScreen()));
-                  },
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colur.common_bg_dark,
+                Visibility(
+                  visible: false,
+                  child: InkWell(
+                    onTap: () {
+
+                    },
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colur.common_bg_dark,
+                          ),
                         ),
-                      ),
-                      Image.asset(
-                        "assets/icons/ic_arrow_green_gradient.png",
-                        height: 12,
-                        width: 7.41,
-                      ),
-                    ],
+                        Image.asset(
+                          "assets/icons/ic_arrow_green_gradient.png",
+                          height: 12,
+                          width: 7.41,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -769,7 +772,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       //Reset steps
       totalSteps = Preference.shared.getInt(Preference.TOTAL_STEPS);
       oldStepCount = Preference.shared.getInt(Preference.TOTAL_STEPS);
-      Debug.printLog("steps: $oldStepCount");
+      //Debug.printLog("steps: $oldStepCount");
       currentStepCount = totalSteps! - oldStepCount!;
       Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
 
@@ -791,13 +794,13 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     setState(() {
       distance = currentStepCount! * 0.0008 * 0.6214;
       Preference.shared.setDouble(Preference.OLD_DISTANCE, distance!);
-      Debug.printLog("Distance: $distance");
+      //Debug.printLog("Distance: $distance");
     });
   }
 
   getDuration() {
     var t = Preference.shared.getInt(Preference.OLD_TIME);
-    Debug.printLog("t: $t");
+    //Debug.printLog("t: $t");
 
     if (t != null) {
       oldTime = t;
@@ -806,7 +809,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     }
 
     var d = Preference.shared.getString("DURATION");
-    Debug.printLog("t: $d");
+    //Debug.printLog("t: $d");
 
     if (d != null) {
       duration = d;
@@ -886,7 +889,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
             stepDate: oldDate.toString(),
             dateTime: Utils.getCurrentDateTime()));
         resetData();
-        Debug.printLog("Reset");
+        //Debug.printLog("Reset");
       }
     }
   }

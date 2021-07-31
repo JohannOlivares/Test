@@ -169,7 +169,7 @@ class _WeightScreenState extends State<WeightScreen> {
                 lbsSelected = false;
                 unit = true;
               });
-              Debug.printLog("kg selected");
+              //Debug.printLog("kg selected");
             },
             child: Container(
               width: 100,
@@ -198,7 +198,7 @@ class _WeightScreenState extends State<WeightScreen> {
                 kgSelected = false;
                 lbsSelected = true;
                 unit = false;
-                Debug.printLog("lbs selected");
+                //Debug.printLog("lbs selected");
               });
             },
             child: Container(
@@ -326,15 +326,15 @@ class _WeightScreenState extends State<WeightScreen> {
   //convert lbs into kg.
   convert() {
     if(unit == false) {
-      print(weightLBS);
+      //print(weightLBS);
       var w = weightLBS *0.45;
       weightKG = w.toInt();
-      print("w in kg: "+weightKG.toString());
+      //print("w in kg: "+weightKG.toString());
     }
   }
 
   getWeight() {
     var w = Preference.shared.getInt(Preference.WEIGHT);
-    Debug.printLog("Weight from prefs: $w kg");
+   //Debug.printLog("Weight from prefs: $w kg");
   }
 }

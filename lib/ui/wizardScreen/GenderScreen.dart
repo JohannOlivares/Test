@@ -140,8 +140,8 @@ class _GenderScreenState extends State<GenderScreen> {
       onTap: () {
         setState(() {
           gender = Gender.Male;
-          Debug.printLog("Male Selected");
-          Utils.showToast(context, "Male");
+         /* Debug.printLog("Male Selected");
+          Utils.showToast(context, "Male");*/
         });
       },
       child: Container(
@@ -184,8 +184,8 @@ class _GenderScreenState extends State<GenderScreen> {
                 onChanged: (Gender? value) {
                   setState(() {
                     gender = value;
-                    Debug.printLog(
-                        "Male Selected From Radio" + gender.toString());
+                    /*Debug.printLog(
+                        "Male Selected From Radio" + gender.toString());*/
                   });
                 },
               ),
@@ -201,8 +201,8 @@ class _GenderScreenState extends State<GenderScreen> {
       onTap: () {
         setState(() {
           gender = Gender.Female;
-          Debug.printLog("Female Selected");
-          Utils.showToast(context, "Female");
+          /*Debug.printLog("Female Selected");
+          Utils.showToast(context, "Female");*/
         });
       },
       child: Container(
@@ -245,8 +245,8 @@ class _GenderScreenState extends State<GenderScreen> {
                 onChanged: (Gender? value) {
                   setState(() {
                     gender = value;
-                    Debug.printLog("Female Selected From Radio" +
-                        gender.toString());
+                    /*Debug.printLog("Female Selected From Radio" +
+                        gender.toString());*/
                   });
                 },
               ),
@@ -259,7 +259,7 @@ class _GenderScreenState extends State<GenderScreen> {
 
   getGender() {
     String? gen = Preference.shared.getString(Preference.GENDER);
-    Debug.printLog("Gender from prefs: $gen");
+    //Debug.printLog("Gender from prefs: $gen");
   }
 
 

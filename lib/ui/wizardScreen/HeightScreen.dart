@@ -111,9 +111,9 @@ class _HeightScreenState extends State<HeightScreen> {
                 ],
               ),
               onPressed: () {
-                unit == true ?
+                /*unit == true ?
                 Utils.showToast(context, "$cmHeight cm") :
-                Utils.showToast(context, "$ftHeight' $inchHeight\" feet") ;
+                Utils.showToast(context, "$ftHeight' $inchHeight\" feet") ;*/
 
                 convert();
 
@@ -154,7 +154,7 @@ class _HeightScreenState extends State<HeightScreen> {
                 cmSelected = true;
                 ftSelected = false;
                 unit = true;
-                Debug.printLog("cm selected");
+                //Debug.printLog("cm selected");
               });
             },
             child: Container(
@@ -184,7 +184,7 @@ class _HeightScreenState extends State<HeightScreen> {
                 cmSelected = false;
                 ftSelected = true;
                 unit = false;
-                Debug.printLog("feet selected");
+                //Debug.printLog("feet selected");
               });
             },
             child: Container(
@@ -342,7 +342,7 @@ class _HeightScreenState extends State<HeightScreen> {
   getHeight() {
     ////Height is stored in cm only.
     var h = Preference.shared.getInt(Preference.HEIGHT);
-    Debug.printLog("Height from prefs: $h cm");
+    //Debug.printLog("Height from prefs: $h cm");
 
 
   }
