@@ -394,7 +394,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
           //Statistics icon
           InkWell(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => StepsStatisticsScreen(currentStepCount: currentStepCount!,)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => StepsStatisticsScreen(currentStepCount: currentStepCount!)));
             },
             child: Stack(
               alignment: Alignment.center,
@@ -638,20 +638,6 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
               width: 0.13,
               sizeUnit: GaugeSizeUnit.factor,
             ),
-
-            /*MarkerPointer(
-              value: 0,
-              color: currentStepCount == 0 ? Colur.transparent : Colur.green_gradient_color2,
-              //color: Colur.transparent,
-              offsetUnit: GaugeSizeUnit.factor,
-              // gradient: SweepGradient(colors: [
-              //   Colur.green_gradient_color1,
-              //   Colur.green_gradient_color2
-              // ]),
-              markerType: MarkerType.circle,
-              markerHeight: 12,
-              markerWidth: 12,
-            )*/
           ],
           annotations: <GaugeAnnotation>[
             GaugeAnnotation(
@@ -687,16 +673,16 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       setState(() {
         totalSteps = value.steps;
         Preference.shared.setInt(Preference.TOTAL_STEPS, totalSteps!);
-        Debug.printLog("total step count: $totalSteps");
+        //Debug.printLog("total step count: $totalSteps");
 
         if (reset) {
           currentStepCount = totalSteps! - oldStepCount!;
           Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
-          Debug.printLog("--------current step count: $currentStepCount");
+          //Debug.printLog("--------current step count: $currentStepCount");
         } else {
           currentStepCount = currentStepCount! + 1;
           Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
-          Debug.printLog("--------current step count: $currentStepCount");
+         // Debug.printLog("--------current step count: $currentStepCount");
         }
         calculateDistance();
         calculateCalories();
@@ -705,7 +691,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       });
     }, onError: (error) {
       totalSteps = 0;
-      print("Error: $error");
+      Debug.printLog("Error: $error");
     }, cancelOnError: false);
   }
 
@@ -724,8 +710,8 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
           } else {
             stepsPercentValue![i] = 1.0;
           }
-          Debug.printLog(
-              "value: $value  & dates[$i]: ${weekDates[i]}");
+          /*Debug.printLog(
+              "value: $value  & dates[$i]: ${weekDates[i]}");*/
         });
       }
     }
@@ -768,7 +754,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   getsteps() {
     targetSteps = Preference.shared.getInt(Preference.TARGET_STEPS);
     var step = Preference.shared.getInt(Preference.CURRENT_STEPS);
-    Debug.printLog("current step: $step");
+    //Debug.printLog("current step: $step");
 
     if (step != null) {
       currentStepCount = step;
@@ -831,7 +817,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   getDistance() {
     var dist = Preference.shared.getDouble(Preference.OLD_DISTANCE);
-    Debug.printLog("d: $dist");
+    //Debug.printLog("d: $dist");
 
     if (dist != null) {
       distance = dist;
@@ -842,13 +828,13 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   getCalories() {
     height = Preference.shared.getInt(Preference.HEIGHT);
-    Debug.printLog("Height: $height");
+    //Debug.printLog("Height: $height");
 
     weight = Preference.shared.getInt(Preference.WEIGHT);
-    Debug.printLog("Weight: $weight");
+    //Debug.printLog("Weight: $weight");
 
     var cal = Preference.shared.getDouble(Preference.OLD_CALORIES);
-    Debug.printLog("calories: $cal");
+    //Debug.printLog("calories: $cal");
 
     if (cal != null) {
       calories = cal;
@@ -871,7 +857,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       //Debug.printLog("cal: $cal");
       //calories = ((0.035*weight!)+((velocity*velocity)/(height!*0.01))) * 0.029 *weight!;
       Preference.shared.setDouble(Preference.OLD_CALORIES, calories!);
-      Debug.printLog("Calories: $calories");
+      //Debug.printLog("Calories: $calories");
     });
   }
 
@@ -880,13 +866,13 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     var date = Preference.shared.getString(Preference.DATE);
     if (date != null) {
       oldDate = DateTime.parse(date);
-      Debug.printLog("Old Date: $oldDate");
+     // Debug.printLog("Old Date: $oldDate");
     }
 
     //var now = DateTime.now();
     var currentDate = getDate(DateTime.now());
     Preference.shared.setString(Preference.DATE, currentDate.toString());
-    Debug.printLog("Current Date: $currentDate");
+    //Debug.printLog("Current Date: $currentDate");
 
     if (oldDate != null) {
       if (currentDate == oldDate.add(Duration(days: 1))) {
@@ -936,8 +922,8 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
             } else {
               stepsPercentValue!.add(1.0);
             }
-            Debug.printLog(
-                "value: $value & element.stepDate: ${element.stepDate} & dates[$i]: ${weekDates[i]}");
+            /*Debug.printLog(
+                "value: $value & element.stepDate: ${element.stepDate} & dates[$i]: ${weekDates[i]}");*/
           });
         }
       });
@@ -955,7 +941,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   getLast7DaysSteps() async{
     last7DaysSteps = await DataBaseHelper().getStepsForLast7Days();
-    Debug.printLog("Steps from last 7 days: $last7DaysSteps");
+    //Debug.printLog("Steps from last 7 days: $last7DaysSteps");
   }
 
   @override
