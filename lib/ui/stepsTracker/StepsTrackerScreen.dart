@@ -941,6 +941,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   getLast7DaysSteps() async{
     last7DaysSteps = await DataBaseHelper().getStepsForLast7Days();
+    setState(() { });
     //Debug.printLog("Steps from last 7 days: $last7DaysSteps");
   }
 
