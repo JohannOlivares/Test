@@ -83,7 +83,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                     height: 42,
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colur.rounded_rectangle_color,
+                          color: Colur.gray_border,
                         ),
                         borderRadius:
                         BorderRadius.all(Radius.circular(15))),
@@ -139,7 +139,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
 
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colur.rounded_rectangle_color,
+                          color: Colur.gray_border,
                         ),
                         borderRadius:
                         BorderRadius.all(Radius.circular(15))),
@@ -163,7 +163,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                     height: 42,
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colur.rounded_rectangle_color,
+                          color: Colur.gray_border,
                         ),
                         borderRadius:
                         BorderRadius.all(Radius.circular(15))),
@@ -188,7 +188,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                     height: 42,
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colur.rounded_rectangle_color,
+                          color: Colur.gray_border,
                         ),
                         borderRadius:
                         BorderRadius.all(Radius.circular(15))),
@@ -213,7 +213,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                     height: 42,
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colur.rounded_rectangle_color,
+                          color: Colur.gray_border,
                         ),
                         borderRadius:
                         BorderRadius.all(Radius.circular(15))),
@@ -238,7 +238,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                     height: 42,
                     decoration: BoxDecoration(
                         border: Border.all(
-                          color: Colur.rounded_rectangle_color,
+                          color: Colur.gray_border,
                         ),
                         borderRadius:
                         BorderRadius.all(Radius.circular(15))),

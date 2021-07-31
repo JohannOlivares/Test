@@ -66,6 +66,8 @@ class _$FlutterDatabase extends FlutterDatabase {
 
   WeightDao? _weightDaoInstance;
 
+  StepsDao? _stepsDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -91,6 +93,8 @@ class _$FlutterDatabase extends FlutterDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `weight_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `weight_kg` REAL, `weight_lbs` REAL, `date` TEXT)');
         await database.execute(
+            'CREATE TABLE IF NOT EXISTS `steps_table` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `steps` INTEGER, `targetSteps` INTEGER, `stepDate` TEXT, `time` TEXT, `date_time` TEXT, `duration` TEXT, `cal` INTEGER, `distance` REAL)');
+        await database.execute(
             'CREATE UNIQUE INDEX `index_weight_table_date` ON `weight_table` (`date`)');
 
         await callback?.onCreate?.call(database, version);
@@ -112,6 +116,11 @@ class _$FlutterDatabase extends FlutterDatabase {
   @override
   WeightDao get weightDao {
     return _weightDaoInstance ??= _$WeightDao(database, changeListener);
+  }
+
+  @override
+  StepsDao get stepsDao {
+    return _stepsDaoInstance ??= _$StepsDao(database, changeListener);
   }
 }
 
@@ -585,5 +594,229 @@ class _$WeightDao extends WeightDao {
   @override
   Future<void> deleteTasks(List<WeightData> tasks) async {
     await _weightDataDeletionAdapter.deleteList(tasks);
+  }
+}
+
+class _$StepsDao extends StepsDao {
+  _$StepsDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database, changeListener),
+        _stepsDataInsertionAdapter = InsertionAdapter(
+            database,
+            'steps_table',
+            (StepsData item) => <String, Object?>{
+                  'id': item.id,
+                  'steps': item.steps,
+                  'targetSteps': item.targetSteps,
+                  'stepDate': item.stepDate,
+                  'time': item.time,
+                  'date_time': item.dateTime,
+                  'duration': item.duration,
+                  'cal': item.cal,
+                  'distance': item.distance
+                },
+            changeListener),
+        _stepsDataUpdateAdapter = UpdateAdapter(
+            database,
+            'steps_table',
+            ['id'],
+            (StepsData item) => <String, Object?>{
+                  'id': item.id,
+                  'steps': item.steps,
+                  'targetSteps': item.targetSteps,
+                  'stepDate': item.stepDate,
+                  'time': item.time,
+                  'date_time': item.dateTime,
+                  'duration': item.duration,
+                  'cal': item.cal,
+                  'distance': item.distance
+                },
+            changeListener),
+        _stepsDataDeletionAdapter = DeletionAdapter(
+            database,
+            'steps_table',
+            ['id'],
+            (StepsData item) => <String, Object?>{
+                  'id': item.id,
+                  'steps': item.steps,
+                  'targetSteps': item.targetSteps,
+                  'stepDate': item.stepDate,
+                  'time': item.time,
+                  'date_time': item.dateTime,
+                  'duration': item.duration,
+                  'cal': item.cal,
+                  'distance': item.distance
+                },
+            changeListener);
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<StepsData> _stepsDataInsertionAdapter;
+
+  final UpdateAdapter<StepsData> _stepsDataUpdateAdapter;
+
+  final DeletionAdapter<StepsData> _stepsDataDeletionAdapter;
+
+  @override
+  Future<StepsData?> findTaskById(int id) async {
+    return _queryAdapter.query('SELECT * FROM steps_table WHERE id = ?1',
+        mapper: (Map<String, Object?> row) => StepsData(
+            id: row['id'] as int?,
+            steps: row['steps'] as int?,
+            targetSteps: row['targetSteps'] as int?,
+            stepDate: row['stepDate'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            cal: row['cal'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as double?),
+        arguments: [id]);
+  }
+
+  @override
+  Stream<List<StepsData>> findAllTasksAsStream() {
+    return _queryAdapter.queryListStream('SELECT * FROM steps_table',
+        mapper: (Map<String, Object?> row) => StepsData(
+            id: row['id'] as int?,
+            steps: row['steps'] as int?,
+            targetSteps: row['targetSteps'] as int?,
+            stepDate: row['stepDate'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            cal: row['cal'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as double?),
+        queryableName: 'steps_table',
+        isView: false);
+  }
+
+  @override
+  Future<List<StepsData>> getAllStepsData() async {
+    return _queryAdapter.queryList('SELECT * FROM steps_table',
+        mapper: (Map<String, Object?> row) => StepsData(
+            id: row['id'] as int?,
+            steps: row['steps'] as int?,
+            targetSteps: row['targetSteps'] as int?,
+            stepDate: row['stepDate'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            cal: row['cal'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as double?));
+  }
+
+  @override
+  Future<List<StepsData>> getStepsForCurrentWeek() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM steps_table WHERE (DATE(stepDate) >= DATE("now","weekday 1","-7 days"))',
+        mapper: (Map<String, Object?> row) => StepsData(
+            id: row['id'] as int?,
+            steps: row['steps'] as int?,
+            targetSteps: row['targetSteps'] as int?,
+            stepDate: row['stepDate'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            cal: row['cal'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as double?));
+  }
+
+  @override
+  Future<StepsData?> getStepsForLast7Days() async {
+    return _queryAdapter.query(
+        'SELECT IFNULL(SUM(steps),0) as steps FROM steps_table WHERE DATE(stepDate) >= (SELECT DATE("now","-7 days"))',
+        mapper: (Map<String, Object?> row) => StepsData(
+            id: row['id'] as int?,
+            steps: row['steps'] as int?,
+            targetSteps: row['targetSteps'] as int?,
+            stepDate: row['stepDate'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            cal: row['cal'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as double?));
+  }
+
+  @override
+  Future<List<StepsData>> getStepsForCurrentMonth() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM steps_table WHERE (DATE(stepDate) >= DATE("now","start of month"))',
+        mapper: (Map<String, Object?> row) => StepsData(
+            id: row['id'] as int?,
+            steps: row['steps'] as int?,
+            targetSteps: row['targetSteps'] as int?,
+            stepDate: row['stepDate'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            cal: row['cal'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as double?));
+  }
+
+  @override
+  Future<StepsData?> getTotalStepsForCurrentMonth() async {
+    return _queryAdapter.query(
+        'SELECT IFNULL(SUM(steps),0) as steps FROM steps_table WHERE (DATE(stepDate) >= DATE("now","start of month"))',
+        mapper: (Map<String, Object?> row) => StepsData(
+            id: row['id'] as int?,
+            steps: row['steps'] as int?,
+            targetSteps: row['targetSteps'] as int?,
+            stepDate: row['stepDate'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            cal: row['cal'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as double?));
+  }
+
+  @override
+  Future<StepsData?> getTotalStepsForCurrentWeek() async {
+    return _queryAdapter.query(
+        'SELECT IFNULL(SUM(steps),0) as steps FROM steps_table WHERE (DATE(stepDate) >= DATE("now","weekday 1","-7 days"))',
+        mapper: (Map<String, Object?> row) => StepsData(
+            id: row['id'] as int?,
+            steps: row['steps'] as int?,
+            targetSteps: row['targetSteps'] as int?,
+            stepDate: row['stepDate'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            cal: row['cal'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as double?));
+  }
+
+  @override
+  Future<void> insertAllStepsData(StepsData stepsData) async {
+    await _stepsDataInsertionAdapter.insert(
+        stepsData, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> insertTasks(List<StepsData> tasks) async {
+    await _stepsDataInsertionAdapter.insertList(
+        tasks, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTask(StepsData task) async {
+    await _stepsDataUpdateAdapter.update(task, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> updateTasks(List<StepsData> task) async {
+    await _stepsDataUpdateAdapter.updateList(task, OnConflictStrategy.abort);
+  }
+
+  @override
+  Future<void> deleteTask(StepsData task) async {
+    await _stepsDataDeletionAdapter.delete(task);
+  }
+
+  @override
+  Future<void> deleteTasks(List<StepsData> tasks) async {
+    await _stepsDataDeletionAdapter.deleteList(tasks);
   }
 }

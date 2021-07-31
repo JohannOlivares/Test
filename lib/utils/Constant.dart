@@ -30,7 +30,7 @@ class Constant {
   static const STR_OPTIONS = "OPTIONS";
 
   static const STR_RESET = "Reset";
-  static const STR_EDITTARGET = "Edit target";
+  static const STR_EDIT_TARGET = "Edit target";
   static const STR_TURNOFF = "Turn off";
 
   static const ML_100 = 100;

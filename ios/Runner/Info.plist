@@ -2,9 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Run Tracker</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -29,6 +30,8 @@
 	<string>This app needs access to location when open.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>This application tracks your steps</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This App needs to use Photos.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>location</string>
@@ -54,7 +57,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>This App needs to use Photos.</string>
 </dict>
 </plist>

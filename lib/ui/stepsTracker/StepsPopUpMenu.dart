@@ -54,7 +54,7 @@ class StepsPopUpMenu extends ModalRoute<String>{
                      buildPopUpItem(
                        icon: "ic_edit.png",
                        text: Languages.of(context)!.txtEditTarget,
-                       onTap: () => Navigator.pop(context, Constant.STR_EDITTARGET)
+                       onTap: () => Navigator.pop(context, Constant.STR_EDIT_TARGET)
                      ),
                      buildPopUpItem(
                        icon: "ic_turn_off.png",

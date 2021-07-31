@@ -275,31 +275,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 fontSize: 25),
                             //maxLines: 1,
                           ),
-                          Container(
-                            margin: const EdgeInsets.only(left: 10.0),
-                            decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Colur.grad_yellow_light,
-                                      Colur.grad_yellow_dark,
-                                    ]),
-                                borderRadius: BorderRadius.circular(3.0)),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 2.5, horizontal: 5.0),
-                            child: Text(
-                              Languages.of(context)!.txtPro.toUpperCase(),
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                  color: Colur.txt_black,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 12),
-                              //maxLines: 1,
-                            ),
-                          ),
+                          // Container(
+                          //   margin: const EdgeInsets.only(left: 10.0),
+                          //   decoration: BoxDecoration(
+                          //       gradient: LinearGradient(
+                          //           begin: Alignment.topCenter,
+                          //           end: Alignment.bottomCenter,
+                          //           colors: [
+                          //             Colur.grad_yellow_light,
+                          //             Colur.grad_yellow_dark,
+                          //           ]),
+                          //       borderRadius: BorderRadius.circular(3.0)),
+                          //   padding: const EdgeInsets.symmetric(
+                          //       vertical: 2.5, horizontal: 5.0),
+                          //   child: Text(
+                          //     Languages.of(context)!.txtPro.toUpperCase(),
+                          //     textAlign: TextAlign.center,
+                          //     maxLines: 1,
+                          //     overflow: TextOverflow.ellipsis,
+                          //     style: TextStyle(
+                          //         color: Colur.txt_black,
+                          //         fontWeight: FontWeight.w700,
+                          //         fontSize: 12),
+                          //     //maxLines: 1,
+                          //   ),
+                          // ),
                         ],
                       ),
                       Container(
@@ -335,7 +335,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-            Container(
+
+           //This comment design is the in-app purchase
+           /* Container(
               margin: const EdgeInsets.only(top: 50.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -443,7 +445,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 isShadow: false,
                 onPressed: () {},
               ),
-            ),
+            ),*/
           ],
         ),
       ),

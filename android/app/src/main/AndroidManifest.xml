@@ -12,7 +12,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher"
-        android:label="run_tracker"
+        android:label="Run Tracker"
         android:requestLegacyExternalStorage="True">
         <meta-data
             android:name="com.google.android.geo.API_KEY"

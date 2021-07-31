@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -32,7 +33,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   bool reset = false;
 
-  int? targetSteps = 1500;
+  int? targetSteps;
   TextEditingController targetStepController = TextEditingController();
 
   int? totalSteps = 0;
@@ -476,8 +477,8 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                             Languages.of(context)!.txtSteps,
                             style: TextStyle(
                                 color: Colur.txt_black,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500),
+                                fontSize: 25,
+                                fontWeight: FontWeight.w600),
                           ),
                           Container(
                             height: 60,
@@ -492,6 +493,9 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                               textInputAction: TextInputAction.done,
                               keyboardType: TextInputType.number,
                               textAlign: TextAlign.center,
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
                               style: TextStyle(
                                   color: Colur.txt_white,
                                   fontSize: 30,
@@ -541,7 +545,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                             child: InkWell(
                                 onTap: () {
                                   FocusScope.of(context).unfocus();
-                                  targetStepController.clear();
+                                  // targetStepController.clear();
                                   Navigator.pop(context);
                                 },
                                 child: Center(
@@ -580,13 +584,11 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                             child: InkWell(
                                 onTap: () {
                                   setState(() {
-                                    targetSteps =
-                                        int.parse(targetStepController.text);
+                                    targetSteps = int.parse(targetStepController.text);
                                   });
-                                  Preference.shared.setInt(
-                                      Preference.TARGET_STEPS, targetSteps!);
+                                  Preference.shared.setInt(Preference.TARGET_STEPS, targetSteps!);
                                   FocusScope.of(context).unfocus();
-                                  targetStepController.clear();
+                                  // targetStepController.clear();
                                   Navigator.pop(context);
                                 },
                                 child: Center(
@@ -611,7 +613,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       },
     ).whenComplete(() {
       FocusScope.of(context).unfocus();
-      targetStepController.clear();
+      // targetStepController.clear();
     });
   }
 
@@ -723,8 +725,15 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   openPopUpMenu(fullHeight, fullWidth) async {
     final String? result = await Navigator.push(context, StepsPopUpMenu());
 
-    if (result == Constant.STR_EDITTARGET) {
+    if (result == Constant.STR_EDIT_TARGET) {
       setState(() {
+        var prefSteps = Preference.shared.getInt(Preference.TARGET_STEPS);
+
+        if(prefSteps != null){
+          targetStepController.text = prefSteps.toString();
+        }else{
+          targetStepController.text = 1500.toString();
+        }
         editTargetStepsBottomDialog(fullHeight, fullWidth);
       });
     }
@@ -755,7 +764,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   }
 
   getsteps() {
-    targetSteps = Preference.shared.getInt(Preference.TARGET_STEPS);
+    var prefTargetSteps = Preference.shared.getInt(Preference.TARGET_STEPS);
     var step = Preference.shared.getInt(Preference.CURRENT_STEPS);
     //Debug.printLog("current step: $step");
 
@@ -763,6 +772,12 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       currentStepCount = step;
     } else {
       currentStepCount = 0;
+    }
+
+    if(prefTargetSteps != null){
+      targetSteps = prefTargetSteps;
+    }else{
+      targetSteps = 1500;
     }
   }
 

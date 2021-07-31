@@ -192,6 +192,7 @@ class DataBaseHelper {
   }
 
   //<!----------------------------- Steps Table Operations ---------------------------------------------------!>
+
   Future<StepsData> insertSteps(StepsData data) async {
     final stepsDao = _database!.stepsDao;
     await stepsDao.insertAllStepsData(data);
