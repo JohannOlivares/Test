@@ -6,6 +6,7 @@ import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/ui/useLocation/UseLocationScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 
 class HomeWizardScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
 
   @override
   void initState() {
+    Preference.shared.remove(Preference.IS_PAUSE);
     super.initState();
     num = 0;
   }

@@ -37,6 +37,7 @@ class Preference {
   static const String OLD_CALORIES = "OLD_CALORIES";
   static const String CALORIES = "CALORIES";
   static const String DATE = "DATE";
+  static const String IS_PAUSE = "IS_PAUSE";
 
   // ------------------ SINGLETON -----------------------
   static final Preference _preference = Preference._internal();

@@ -361,4 +361,13 @@ abstract class Languages {
 
   String get txtPaused;
 
+  String get txtM;
+
+  String get txtT;
+
+  String get txtW;
+
+  String get txtF;
+
+  String get txtS;
 }

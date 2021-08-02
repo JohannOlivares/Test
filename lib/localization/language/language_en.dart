@@ -542,4 +542,19 @@ class LanguageEn extends Languages {
 
   @override
   String get txtPaused => "Paused";
+
+  @override
+  String get txtF => "F";
+
+  @override
+  String get txtM => "M";
+
+  @override
+  String get txtS => "S";
+
+  @override
+  String get txtT => "T";
+
+  @override
+  String get txtW => "M";
 }
