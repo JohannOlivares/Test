@@ -38,7 +38,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   TextEditingController targetStepController = TextEditingController();
 
   int? totalSteps = 0;
-  int? currentStepCount = 0;
+  int? currentStepCount;
   int? oldStepCount;
 
   double? distance;
@@ -63,13 +63,13 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   @override
   void initState() {
-    getisPauseFromPrefs();
+
 
     getDuration();
     getsteps();
     getDistance();
     getCalories();
-
+    getisPauseFromPrefs();
     setTime();
     DataBaseHelper().getAllStepsData();
     getStepsDataForCurrentWeek();
@@ -86,6 +86,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     }
     
     if (isPause == true) {
+      currentStepCount = currentStepCount! - 1;
       _stopWatchTimer.onExecute.add(StopWatchExecute.start);
       countStep();
     }
@@ -380,13 +381,16 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                 Preference.shared.setBool(Preference.IS_PAUSE, isPause!);
               });
 
-              if (isPause == true) {
-                _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-                countStep();
-              } else {
-                _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-                _stepCountStream!.cancel();
-              }
+              Future.delayed(Duration(milliseconds: 100) , () {
+                if (isPause == true) {
+                  currentStepCount = currentStepCount! - 1;
+                  _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                  countStep();
+                } else {
+                  _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                  _stepCountStream!.cancel();
+                }
+              });
             },
             child: Stack(
               alignment: Alignment.center,
@@ -741,17 +745,17 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         if (reset) {
           currentStepCount = totalSteps! - oldStepCount!;
           Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
+          reset = false;
           //Debug.printLog("--------current step count: $currentStepCount");
         } else {
           currentStepCount = currentStepCount! + 1;
           Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
           // Debug.printLog("--------current step count: $currentStepCount");
         }
-        calculateDistance();
-        calculateCalories();
-
-        getTodayStepsPercent();
       });
+      calculateDistance();
+      calculateCalories();
+      getTodayStepsPercent();
     }, onError: (error) {
       totalSteps = 0;
       Debug.printLog("Error: $error");
@@ -768,7 +772,9 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         setState(() {
           double value = currentStepCount!.toDouble() / targetSteps!.toDouble();
           if (value <= 1.0) {
-            stepsPercentValue![i] = value;
+            if(stepsPercentValue!.isNotEmpty) {
+              stepsPercentValue![i] = value;
+            }
           } else {
             stepsPercentValue![i] = 1.0;
           }
