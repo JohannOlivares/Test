@@ -319,25 +319,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                Container(
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    border: Border.all(
-                      color: Colur.gray_border,
-                      width: 1,
+                InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/profileSettingScreen');
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      border: Border.all(
+                        color: Colur.gray_border,
+                        width: 1,
+                      ),
                     ),
-                  ),
-                  child: Image.asset(
-                    "assets/icons/ic_setting_round.png",
-                    scale: 4,
+                    child: Image.asset(
+                      "assets/icons/ic_setting_round.png",
+                      scale: 4,
+                    ),
                   ),
                 ),
               ],
             ),
 
-           //This comment design is the in-app purchase
-           /* Container(
+            //This comment design is the in-app purchase
+            /* Container(
               margin: const EdgeInsets.only(top: 50.0),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,

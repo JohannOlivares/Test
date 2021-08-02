@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import 'package:run_tracker/ui/settings/SettingScreen.dart';
-import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
-import 'package:run_tracker/utils/Utils.dart';
 
 class CountdownTimerScreen extends StatefulWidget {
   bool isGreen = false;

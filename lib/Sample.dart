@@ -16,7 +16,7 @@ import 'package:run_tracker/interfaces/RunningStopListener.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/countdowntimer/CountdownTimerScreen.dart';
-import 'package:run_tracker/ui/settings/SettingScreen.dart';
+import 'package:run_tracker/ui/mapsettings/MapSettingScreen.dart';
 import 'package:run_tracker/ui/startRun/PausePopupScreen.dart';
 import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
@@ -373,7 +373,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     }
     if (name == Constant.STR_SETTING) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => SettingScreen()));
+          context, MaterialPageRoute(builder: (context) => MapSettingScreen()));
     }
   }
 

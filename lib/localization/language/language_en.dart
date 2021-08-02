@@ -448,7 +448,8 @@ class LanguageEn extends Languages {
   String get txtRunningApp => "RunningApp";
 
   @override
-  String get txtAlertForNoLocation => "There is no Location Found. Do you want to discard?";
+  String get txtAlertForNoLocation =>
+      "There is no Location Found. Do you want to discard?";
 
   @override
   String get txtDiscard => "Discard";
@@ -466,10 +467,12 @@ class LanguageEn extends Languages {
   String get txtAdd => "Add";
 
   @override
-  String get txtWarningForKg => "Please enter weight grater than 20 and less than 997";
+  String get txtWarningForKg =>
+      "Please enter weight grater than 20 and less than 997";
 
   @override
-  String get txtWarningForLbs => "Please enter lbs grater than 45 and less 2200";
+  String get txtWarningForLbs =>
+      "Please enter lbs grater than 45 and less 2200";
 
   @override
   String get txtDrinkWaterNotiMsg => "It's Time to drink water";
@@ -484,7 +487,8 @@ class LanguageEn extends Languages {
   String get txtSaveChanges => "Save Changes?";
 
   @override
-  String get txtDeleteConfirmationMessage => "Are You Sure Do You want to Delete this Data ?";
+  String get txtDeleteConfirmationMessage =>
+      "Are You Sure Do You want to Delete this Data ?";
 
   @override
   String get txtDeleteHitory => "Delete History";
@@ -557,4 +561,34 @@ class LanguageEn extends Languages {
 
   @override
   String get txtW => "M";
+
+  @override
+  String get txtUnitSettings => "Unit Settings";
+
+  @override
+  String get txtGeneralSettings => "General Settings";
+
+  @override
+  String get txtLanguageOptions => "Language Options";
+
+  @override
+  String get txtFirstDayOfWeek => "First day of week";
+
+  @override
+  String get txtSupportUs => "Support Us";
+
+  @override
+  String get txtFeedback => "Feedback";
+
+  @override
+  String get txtRateUs => "Rate us";
+
+  @override
+  String get txtPrivacyPolicy => "Privacy policy";
+
+  @override
+  String get txtRunningReminder => "Running reminder";
+
+  @override
+  String get txtRepeat => "Repeat";
 }

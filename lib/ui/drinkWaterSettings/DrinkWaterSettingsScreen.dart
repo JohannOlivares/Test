@@ -13,12 +13,13 @@ import '../../localization/language/languages.dart';
 import '../../utils/Constant.dart';
 
 class DrinkWaterSettingsScreen extends StatefulWidget {
-
   @override
-  _DrinkWaterSettingsScreenState createState() => _DrinkWaterSettingsScreenState();
+  _DrinkWaterSettingsScreenState createState() =>
+      _DrinkWaterSettingsScreenState();
 }
 
-class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> implements TopBarClickListener{
+class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen>
+    implements TopBarClickListener {
   String? targetValue;
   bool isReminder = false;
   late List<String> targetList;
@@ -26,23 +27,38 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
   var fullWidth;
   var prefTargetValue;
 
-
   @override
   void initState() {
+    targetList = [
+      '500',
+      '1000',
+      '1500',
+      '2000',
+      '2500',
+      '3000',
+      '3500',
+      '4000',
+      '4500',
+      '5000'
+    ];
     _getPreferences();
-    isReminder = true;
-    targetList = ['500','1000','1500','2000','2500','3000','3500','4000','4500','5000'];
-
-    if (targetValue == null && prefTargetValue == null){
-      targetValue = targetList[3];
-    }else{
-      targetValue = prefTargetValue;
-    }
     super.initState();
   }
 
-  _getPreferences(){
-    prefTargetValue = Preference.shared.getString(Preference.TARGET_DRINK_WATER);
+  _getPreferences() {
+    prefTargetValue =
+        Preference.shared.getString(Preference.TARGET_DRINK_WATER);
+    if (targetValue == null && prefTargetValue == null) {
+      targetValue = targetList[3];
+    } else {
+      targetValue = prefTargetValue;
+    }
+    isReminder = Preference.shared.getBool(Preference.IS_REMINDER_ON) ?? false;
+  }
+
+  _onRefresh() {
+    setState(() {});
+    _getPreferences();
   }
 
   @override
@@ -58,21 +74,24 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
             children: [
               //Top Bar
               Container(
-                child: CommonTopBar(Languages.of(context)!.txtSettings, this, isShowBack: true,),
+                child: CommonTopBar(
+                  Languages.of(context)!.txtSettings,
+                  this,
+                  isShowBack: true,
+                ),
               ),
 
               buildListView(context),
             ],
           ),
         ),
-
       ),
     );
   }
 
   buildListView(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 20),
+        margin: EdgeInsets.only(top: 20),
         child: Container(
           child: Column(
             children: [
@@ -82,25 +101,25 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
                   style: TextStyle(
                       color: Colur.txt_white,
                       fontSize: 18,
-                      fontWeight: FontWeight.w500
-                  ),
+                      fontWeight: FontWeight.w500),
                 ),
                 subtitle: Text(
                   Languages.of(context)!.txtTargetDesc,
                   style: TextStyle(
                       color: Colur.txt_grey,
                       fontSize: 14,
-                      fontWeight: FontWeight.w400
-                  ),
+                      fontWeight: FontWeight.w400),
                 ),
                 trailing: DropdownButton(
                   dropdownColor: Colur.progress_background_color,
                   underline: Container(
                     color: Colur.transparent,
                   ),
-                  value: targetValue,//targetValue,
+                  value: targetValue,
+                  //targetValue,
                   iconEnabledColor: Colur.white,
-                  items: targetList.map<DropdownMenuItem<String>>((String value) {
+                  items:
+                      targetList.map<DropdownMenuItem<String>>((String value) {
                     return DropdownMenuItem<String>(
                       value: value,
                       child: Text(
@@ -117,30 +136,33 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
                     setState(() {
                       Preference.clearTargetDrinkWater();
                       targetValue = value;
-                      Preference.shared.setString(Preference.TARGET_DRINK_WATER, targetValue.toString());
+                      Preference.shared.setString(Preference.TARGET_DRINK_WATER,
+                          targetValue.toString());
                     });
                   },
                 ),
               ),
               Divider(
                 color: Colur.txt_grey,
-                indent: fullWidth*0.04,
-                endIndent: fullWidth*0.04,
+                indent: fullWidth * 0.04,
+                endIndent: fullWidth * 0.04,
               ),
               InkWell(
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => DrinkWaterReminderScreen())),
+                onTap: () => Navigator.of(context)
+                    .push(MaterialPageRoute(
+                        builder: (context) => DrinkWaterReminderScreen()))
+                    .then((value) => _onRefresh()),
                 child: ListTile(
                   title: Text(
                     Languages.of(context)!.txtReminder,
                     style: TextStyle(
                         color: Colur.txt_white,
                         fontSize: 18,
-                        fontWeight: FontWeight.w500
-                    ),
+                        fontWeight: FontWeight.w500),
                   ),
                   trailing: Switch(
                     onChanged: (bool value) {
-                      if(isReminder == false) {
+                      if (isReminder == false) {
                         setState(() {
                           isReminder = true;
                         });
@@ -149,23 +171,23 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen> imp
                           isReminder = false;
                         });
                       }
-                      },
+                      Preference.shared
+                          .setBool(Preference.IS_REMINDER_ON, isReminder);
+                    },
                     value: isReminder,
                     activeColor: Colur.purple_gradient_color2,
                     inactiveTrackColor: Colur.txt_grey,
-
                   ),
                 ),
               ),
             ],
           ),
-        )
-    );
+        ));
   }
 
   @override
   void onTopBarClick(String name, {bool value = true}) {
-    if(name == Constant.STR_BACK) {
+    if (name == Constant.STR_BACK) {
       Navigator.of(context).pop();
     }
   }

@@ -3,15 +3,16 @@ import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
+import 'package:run_tracker/utils/Constant.dart';
 
-class SettingScreen extends StatefulWidget {
-  const SettingScreen({Key? key}) : super(key: key);
+class MapSettingScreen extends StatefulWidget {
+  const MapSettingScreen({Key? key}) : super(key: key);
 
   @override
-  _SettingScreenState createState() => _SettingScreenState();
+  _MapSettingScreenState createState() => _MapSettingScreenState();
 }
 
-class _SettingScreenState extends State<SettingScreen>
+class _MapSettingScreenState extends State<MapSettingScreen>
     implements TopBarClickListener {
 
   late List<String> units;
@@ -116,6 +117,8 @@ class _SettingScreenState extends State<SettingScreen>
 
   @override
   void onTopBarClick(String name, {bool value = true}) {
-    Navigator.of(context).pop();
+    if(name == Constant.STR_BACK){
+      Navigator.pop(context);
+    }
   }
 }

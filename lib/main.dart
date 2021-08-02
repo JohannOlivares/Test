@@ -6,8 +6,10 @@ import 'package:run_tracker/dbhelper/database.dart';
 import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/home/HomeScreen.dart';
 import 'package:run_tracker/ui/home/HomeWizardScreen.dart';
+import 'package:run_tracker/ui/mapsettings/MapSettingScreen.dart';
 import 'package:run_tracker/ui/profile/ProfileScreen.dart';
-import 'package:run_tracker/ui/settings/SettingScreen.dart';
+import 'package:run_tracker/ui/profilesettings/ProfileSettingScreen.dart';
+import 'package:run_tracker/ui/reminder/ReminderScreen.dart';
 import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/ui/useLocation/UseLocationScreen.dart';
 import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
@@ -188,7 +190,7 @@ class _MyAppState extends State<MyApp> {
           //child: RegistrationScreen(),
         ),
         routes: <String, WidgetBuilder>{
-          '/settingScreen': (BuildContext context) => SettingScreen(),
+          '/settingScreen': (BuildContext context) => MapSettingScreen(),
           '/startrunScreen': (BuildContext context) => StartRunScreen(),
           '/wellDoneScreen': (BuildContext context) => WellDoneScreen(),
           '/profileScreen': (BuildContext context) => ProfileScreen(),
@@ -196,6 +198,10 @@ class _MyAppState extends State<MyApp> {
           '/uselocationScreen': (BuildContext context) => UseLocationScreen(),
           '/drinkWaterLevelScreen': (BuildContext context) =>
               DrinkWaterLevelScreen(),
+          '/profileSettingScreen': (BuildContext context) =>
+              ProfileSettingScreen(),
+          '/reminder': (BuildContext context) =>
+              ReminderScreen(),
           /*'/changeusername': (BuildContext context) =>
           ChangeUsernameScreen(),
       '/changepassword': (BuildContext context) =>

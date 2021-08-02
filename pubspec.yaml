@@ -137,6 +137,13 @@ flutter:
    - assets/icons/ic_red_gradient_circle.png
    - assets/icons/ic_add.png
    - assets/icons/ic_minus.png
+   - assets/icons/ic_notification_white.webp
+   - assets/icons/ic_units.webp
+   - assets/icons/ic_calender.webp
+   - assets/icons/ic_email.webp
+   - assets/icons/ic_languages.webp
+   - assets/icons/ic_privacy_policy.webp
+   - assets/icons/ic_star_white.webp
    - assets/images/
    - assets/images/dummy_girl.png
    - assets/images/finish_image.png

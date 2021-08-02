@@ -370,4 +370,23 @@ abstract class Languages {
   String get txtF;
 
   String get txtS;
+  String get txtUnitSettings;
+
+  String get txtGeneralSettings;
+
+  String get txtLanguageOptions;
+
+  String get txtFirstDayOfWeek;
+
+  String get txtSupportUs;
+
+  String get txtFeedback;
+
+  String get txtRateUs;
+
+  String get txtPrivacyPolicy;
+
+  String get txtRunningReminder;
+
+  String get txtRepeat;
 }

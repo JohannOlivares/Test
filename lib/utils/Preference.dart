@@ -23,7 +23,12 @@ class Preference {
   static const String IS_REMINDER_ON = "IS_REMINDER_ON";
   static const String START_TIME_REMINDER = "START_TIME_REMINDER";
   static const String END_TIME_REMINDER = "END_TIME_REMINDER";
-  static const String DRINK_WATER_NOTIFICATION_MESSAGE = "DRINK_WATER_NOTIFICATION_MESSAGE";
+  static const String DRINK_WATER_NOTIFICATION_MESSAGE =
+      "DRINK_WATER_NOTIFICATION_MESSAGE";
+
+  static const String METRIC_IMPERIAL_UNITS = "METRIC_IMPERIAL_UNITS";
+  static const String LANGUAGE = "LANGUAGE";
+  static const String FIRST_DAY_OF_WEEK = "FIRST_DAY_OF_WEEK";
 
   static const String GENDER = "GENDER";
   static const String DISTANCE = "DISTANCE";
@@ -145,7 +150,6 @@ class Preference {
     return Future.value(true);
   }
 
-
   static Future<bool> clearStartTimeReminder() async {
     _pref!.getKeys().forEach((key) async {
       if (key == START_TIME_REMINDER) {
@@ -154,7 +158,6 @@ class Preference {
     });
     return Future.value(true);
   }
-
 
   static Future<bool> clearEndTimeReminder() async {
     _pref!.getKeys().forEach((key) async {
@@ -168,6 +171,33 @@ class Preference {
   static Future<bool> clearSelectedDrinkWaterML() async {
     _pref!.getKeys().forEach((key) async {
       if (key == SELECTED_DRINK_WATER_ML) {
+        await _pref!.remove(key);
+      }
+    });
+    return Future.value(true);
+  }
+
+  static Future<bool> clearMetricAndImperialUnits() async {
+    _pref!.getKeys().forEach((key) async {
+      if (key == METRIC_IMPERIAL_UNITS) {
+        await _pref!.remove(key);
+      }
+    });
+    return Future.value(true);
+  }
+
+  static Future<bool> clearLanguage() async {
+    _pref!.getKeys().forEach((key) async {
+      if (key == LANGUAGE) {
+        await _pref!.remove(key);
+      }
+    });
+    return Future.value(true);
+  }
+
+  static Future<bool> clearFirstDayOfWeek() async {
+    _pref!.getKeys().forEach((key) async {
+      if (key == FIRST_DAY_OF_WEEK) {
         await _pref!.remove(key);
       }
     });
