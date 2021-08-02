@@ -389,4 +389,6 @@ abstract class Languages {
   String get txtRunningReminder;
 
   String get txtRepeat;
+
+  String get txtLast7daysReport;
 }

@@ -591,4 +591,7 @@ class LanguageEn extends Languages {
 
   @override
   String get txtRepeat => "Repeat";
+
+  @override
+  String get txtLast7daysReport => "Last 7 Days Report";
 }

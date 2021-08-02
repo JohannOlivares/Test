@@ -8,6 +8,7 @@ import 'package:flutter/painting.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/StepsData.dart';
+import 'package:run_tracker/ui/last7daysStepsStatistics/Last7DaysStepsScreen.dart';
 import 'package:run_tracker/ui/stepsTracker/StepsPopUpMenu.dart';
 import 'package:run_tracker/ui/stepsTrackerStatistics/StepsStatisticsScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
@@ -228,7 +229,9 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                 Visibility(
                   visible: true,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Last7DaysStepsScreen()));
+                    },
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -1007,7 +1010,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   }
 
   getLast7DaysSteps() async {
-    last7DaysSteps = await DataBaseHelper().getStepsForLast7Days();
+    last7DaysSteps = await DataBaseHelper().getTotalStepsForLast7Days();
     setState(() {});
     //Debug.printLog("Steps from last 7 days: $last7DaysSteps");
   }

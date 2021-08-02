@@ -253,9 +253,9 @@ class DataBaseHelper {
     return steps;
   }
 
-  Future<int?> getStepsForLast7Days() async {
+  Future<int?> getTotalStepsForLast7Days() async {
     final stepsDao = _database!.stepsDao;
-    final totalSteps = await stepsDao.getStepsForLast7Days();
+    final totalSteps = await stepsDao.getTotalStepsForLast7Days();
     Debug.printLog("Steps from last 7 days =====> ${totalSteps!.steps}");
     return totalSteps.steps;
   }
@@ -290,5 +290,31 @@ class DataBaseHelper {
     final totalSteps = await stepsDao.getTotalStepsForCurrentWeek();
     Debug.printLog("Total Steps from current week =====> ${totalSteps!.steps}");
     return totalSteps.steps;
+  }
+
+  Future<List<StepsData>> getLast7DaysStepsData() async {
+    final stepsDao = _database!.stepsDao;
+    final List<StepsData> result = await stepsDao.getLast7DaysStepsData();
+    result.forEach((element) {
+      Debug.printLog("Select Steps Data Successfully  ==> Id=>" +
+          element.id.toString() +
+          " Steps=>" +
+          element.steps.toString() +
+          " Target Steps=>" +
+          element.targetSteps.toString() +
+          " Date=>" +
+          element.stepDate.toString() +
+          " Time=>" +
+          element.time.toString() +
+          " DateTime=>" +
+          element.dateTime.toString() +
+          " Kcal=>" +
+          element.cal.toString() +
+          " Duration=>" +
+          element.duration.toString() +
+          " Distance=>" +
+          element.distance.toString());
+    });
+    return result;
   }
 }
