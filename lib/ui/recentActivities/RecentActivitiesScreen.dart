@@ -9,6 +9,7 @@ import 'package:run_tracker/ui/runhistorydetails/RunHistoryDetailScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:intl/intl.dart';
+import 'package:run_tracker/utils/Utils.dart';
 
 class RecentActivitiesScreen extends StatefulWidget {
   @override
@@ -175,7 +176,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              activityList[index].duration!.toString(),
+                              Utils.secToString(activityList[index].duration!),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,

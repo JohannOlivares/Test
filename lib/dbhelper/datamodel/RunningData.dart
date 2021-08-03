@@ -20,6 +20,9 @@ class RunningData {
   String? image;
   String? polyLine;
   String? date;
+  int? lowIntenseTime;
+  int? moderateIntenseTime;
+  int? highIntenseTime;
 
   @ignore
   File? imageFile;
@@ -34,7 +37,8 @@ class RunningData {
       this.eLong,
       this.eLat,
       this.sLong,
-      this.image,this.polyLine,this.date});
+      this.image,this.polyLine,this.date,
+      this.lowIntenseTime,this.moderateIntenseTime,this.highIntenseTime});
 
 
   File? getImage(){

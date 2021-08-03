@@ -9,6 +9,8 @@ import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
+import 'package:run_tracker/utils/Utils.dart';
 
 class GoalSettingScreen extends StatefulWidget {
   @override
@@ -18,19 +20,39 @@ class GoalSettingScreen extends StatefulWidget {
 class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBarClickListener{
 
   bool KmSelected = true;
-  bool MileSelected = false;
+  bool distanceSelected = false;
 
-  late String unit;
-  var weightKM = 1;
-  var weightMILE = 1;
+  //late String unit;
+  int targetDistanceInKm = 0;
 
   double _sliderValue = 1;
   int walkTime = 150;
   int runTime = 75;
 
+  Gradient grad = LinearGradient(colors: [Color(0XFF8A3CFF), Color(0XFFC040FF)]);
+
+
+  @override
+  void initState() {
+    _getPreference();
+    super.initState();
+  }
+
+  _getPreference(){
+    distanceSelected =
+        Preference.shared.getBool(Preference.IS_DISTANCE_INDICATOR_ON) ?? false;
+    KmSelected =  Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+    double prefDistance = Preference.shared.getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM)??35.0;
+    if(KmSelected){
+     targetDistanceInKm =  prefDistance.round()-1;
+    }else{
+      targetDistanceInKm =  Utils.kmToMile(prefDistance).round()-1;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    unit = Languages.of(context)!.txtKM;
+    //unit = Languages.of(context)!.txtKM;
     var fullHeight = MediaQuery.of(context).size.height;
     var fullWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -51,11 +73,12 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(top: fullHeight * 0.07),
-                child: CustomTabBar(
+                child: _CustomTabBarView(fullHeight,fullWidth),/*CustomTabBar(
                     tab1: Languages.of(context)!.txtHeartHealth,
                     tab2: Languages.of(context)!.txtDistance,
                     forHeart: _forHeart(fullHeight, fullWidth),
-                    forDistance: _forDistance(fullHeight)),
+                    forDistance: _forDistance(fullHeight),
+                ),*/
               ),
             ),
             //Next Step Button
@@ -64,6 +87,102 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
           ],
         ),
       ),
+    );
+  }
+
+  _CustomTabBarView(double fullHeight, double fullWidth) {
+    return  Column(
+      children: [
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              InkWell(
+                onTap: () {
+                  setState(() {
+                      distanceSelected = false;
+
+
+                    print(distanceSelected);
+                  });
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width/2,
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            Languages.of(context)!.txtHeartHealth,
+                            style: TextStyle(
+                                color: !distanceSelected ? Colors.white : Color(0xFF9195B6),
+                                fontSize: !distanceSelected ? 20 : 16.0,
+                                fontWeight: !distanceSelected ? FontWeight.bold : FontWeight.w500
+                            ),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: !distanceSelected,
+                        child: Container(
+                          height: 3,
+                          width: 30,
+                          decoration: BoxDecoration(
+                              gradient: grad,
+                              borderRadius: BorderRadius.circular(2)
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  setState(() {
+                    distanceSelected = true;
+                    print(distanceSelected);
+
+                  });
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width/2,
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            Languages.of(context)!.txtDistance,
+                            style: TextStyle(
+                                color: distanceSelected ? Colors.white : Color(0xFF9195B6),
+                                fontSize: distanceSelected ? 20 : 16.0,
+                                fontWeight: distanceSelected ? FontWeight.bold : FontWeight.w500
+                            ),
+                          ),
+                        ),
+                      ),
+                      Visibility(
+                        visible: distanceSelected,
+                        child: Container(
+                          height: 3,
+                          width: 30,
+                          decoration: BoxDecoration(
+                              gradient: grad,
+                              borderRadius: BorderRadius.circular(2)
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        Container(child: distanceSelected ? _forDistance(fullHeight) : _forHeart(fullHeight,fullWidth),),
+      ],
     );
   }
 
@@ -321,7 +440,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
     }
   }
 
-  _forDistance(double fullHeight)     {
+  _forDistance(double fullHeight){
     return Container(
       child: Column(
         children: [
@@ -352,10 +471,8 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
             onTap: () {
               setState(() {
                 KmSelected = true;
-                MileSelected = false;
-                unit = Languages.of(context)!.txtKM;
               });
-              Debug.printLog("$unit selected");
+              Debug.printLog("KM selected");
             },
             child: Container(
               width: 100,
@@ -382,9 +499,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
             onTap: () {
               setState(() {
                 KmSelected = false;
-                MileSelected = true;
-                unit = Languages.of(context)!.txtMILE;
-                Debug.printLog("$unit selected");
+                Debug.printLog("Mile selected");
               });
             },
             child: Container(
@@ -393,7 +508,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
                 child: Text(
                   Languages.of(context)!.txtMILE,
                   style: TextStyle(
-                      color: MileSelected ? Colur.white : Color(0xFF9195B6),
+                      color: !KmSelected ? Colur.white : Color(0xFF9195B6),
                       fontWeight: FontWeight.w500,
                       fontSize: 18),
                 ),
@@ -430,6 +545,23 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
           ],
         ),
         onPressed: () {
+          Preference.shared
+              .setBool(Preference.IS_DISTANCE_INDICATOR_ON, distanceSelected);
+          Preference.shared
+              .setBool(Preference.IS_KM_SELECTED, KmSelected);
+          //Utils.showToast(context, "Unit IS KM?:"+KmSelected.toString());
+          if(KmSelected){
+            Preference.shared
+                .setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, targetDistanceInKm.toDouble()+1);
+            Debug.printLog("${targetDistanceInKm.toDouble()+1}");
+            Utils.showToast(context, "${targetDistanceInKm.toDouble()+1} Confirmed In Kilometer");
+          }
+          else{
+            Preference.shared
+                .setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, Utils.mileToKm(targetDistanceInKm.toDouble()+1));
+            Utils.showToast(context, "${Utils.mileToKm(targetDistanceInKm.toDouble()+1)} Confirmed In Mile");
+
+          }
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
         },
@@ -458,22 +590,24 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
               useMagnifier: true,
               magnification: 1.05,
               selectionOverlay: CupertinoPickerDefaultSelectionOverlay(background: Colur.transparent,),
+              scrollController: FixedExtentScrollController(initialItem: targetDistanceInKm),
               onSelectedItemChanged: (value) {
                 setState(() {
-                  if (unit == Languages.of(context)!.txtMILE) {
-                    value += 1;
-                    weightMILE = value;
-                    Debug.printLog("$weightMILE $unit selected");
+                  if (!KmSelected) {
+                    //value += 1;
+                    targetDistanceInKm = Utils.mileToKm(value.toDouble()).round();
+                    //Debug.printLog("$targetDistanceInMile Mile selected");
                   } else {
-                    value += 1;
-                    weightKM = value;
-                    Debug.printLog("$weightKM $unit selected");
+                    //value += 1;
+                    targetDistanceInKm = value;
+                    //Debug.printLog("$targetDistanceInKm Km selected");
                   }
                 });
               },
-              itemExtent: 75.0,
-              children: unit == Languages.of(context)!.txtMILE
-                  ? List.generate(2155, (index) {
+              itemExtent: 75,
+              looping: true,
+              children: !KmSelected
+                  ? List.generate(300, (index) {
                 index += 1;
                 return Text(
                   "$index",
@@ -483,7 +617,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
                       fontWeight: FontWeight.bold),
                 );
               })
-                  : List.generate(978, (index) {
+                  : List.generate(500, (index) {
                 index += 1;
                 return Text(
                   "$index",
@@ -495,27 +629,17 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
               }),
             ),
           ),
-          (KmSelected == true)
-              ? Container(
+          Container(
             margin: EdgeInsets.only(left: 5),
             child: Text(
-              Languages.of(context)!.txtKM,
+    (KmSelected == true)?Languages.of(context)!.txtKM:Languages.of(context)!.txtMILE,
               style: TextStyle(
                   color: Colur.txt_white,
                   fontSize: 20,
                   fontWeight: FontWeight.w500),
             ),
           )
-              : Container(
-            margin: EdgeInsets.only(left: 5),
-            child: Text(
-              Languages.of(context)!.txtMILE,
-              style: TextStyle(
-                  color: Colur.txt_white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
+
         ],
       ),
     );
@@ -527,4 +651,6 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
       Navigator.pop(context);
     }
   }
+
+
 }

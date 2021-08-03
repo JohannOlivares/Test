@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/localization/language/languages.dart';
-import 'package:run_tracker/ui/weeklygoalSetScreen/WeeklyGoalSetScreen.dart';
+import 'package:run_tracker/ui/weeklygoalSetScreen/WeeklyGoalSetScreenIntro.dart';
 import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';

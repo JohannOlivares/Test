@@ -12,8 +12,11 @@ import 'package:run_tracker/ui/stepsTracker/StepsTrackerScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:lottie/lottie.dart'as lottie;
+
 
 import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
@@ -31,14 +34,27 @@ class _HomeScreenState extends State<HomeScreen>
   bool recentActivityShow = false;
   List<RunningData> recentActivitiesData = [];
   int totalrecentActivity = 0;
+  double  targetValueForDistance = 0.0;
+  bool IsDistanceIndicatorSelected = false;
+  bool IsKmSelected = false;
 
   @override
   void initState() {
     _checkMapData();
+    _getPreference();
     _getBestRecordsDataForDistance();
     _getBestRecordsDataForBestPace();
     _getBestRecordsDataForLongestDuration();
     super.initState();
+  }
+
+  _getPreference(){
+    IsDistanceIndicatorSelected =
+        Preference.shared.getBool(Preference.IS_DISTANCE_INDICATOR_ON) ?? false;
+    IsKmSelected =
+        Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? false;
+    targetValueForDistance = Preference.shared.getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM)??0.0;
+
   }
 
   RunningData? longestDistance;
@@ -96,25 +112,22 @@ class _HomeScreenState extends State<HomeScreen>
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
+            Container(
+              margin: EdgeInsets.only(left: fullWidth * 0.05),
+              child: CommonTopBar(
+                Languages.of(context)!.txtRunTracker,
+                this,
+                isShowSubheader: true,
+                subHeader: Languages.of(context)!.txtGoFasterSmarter,
+                isInfo: true,
+              ),
+            ),
             Expanded(
               child: SingleChildScrollView(
                 child: SafeArea(
                   child: Container(
                     child: Column(
                       children: [
-                        //Topbar
-                        Container(
-                          margin: EdgeInsets.only(left: fullWidth * 0.05),
-                          child: CommonTopBar(
-                            Languages.of(context)!.txtRunTracker,
-                            this,
-                            isShowSubheader: true,
-                            subHeader:
-                                Languages.of(context)!.txtGoFasterSmarter,
-                            isInfo: true,
-                          ),
-                        ),
-
                         //Circular percent Indicator
                         Container(
                           child: Stack(
@@ -123,12 +136,17 @@ class _HomeScreenState extends State<HomeScreen>
                               Padding(
                                 padding:
                                     EdgeInsets.only(top: fullHeight * 0.04),
-                                child: percentIndicator(),
+                                child: IsDistanceIndicatorSelected
+                                    ? percentIndicatorForDistance()
+                                    : percentIndicatorForIntensity(),
                               ),
-                              walkOrRunCount()
+                              IsDistanceIndicatorSelected
+                                  ? weeklyGoalsDisplay()
+                                  : walkOrRunCount(),
                             ],
                           ),
                         ),
+
                         stepsAndWaterButtons(fullHeight, fullWidth),
                         recentActivities(fullHeight, fullWidth),
                         bestRecords(fullHeight, fullWidth),
@@ -141,6 +159,34 @@ class _HomeScreenState extends State<HomeScreen>
           ],
         ),
       ),
+    );
+  }
+
+  weeklyGoalsDisplay() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(Languages.of(context)!.txtWeekGoal+" ",
+            style: TextStyle(
+                color: Colur.txt_grey,
+                fontWeight: FontWeight.w400,
+                fontSize: 18 //12
+                ),
+        ),
+        IsKmSelected?Text(targetValueForDistance.toInt().toString()+" "+Languages.of(context)!.txtKM,
+          style: TextStyle(
+              color: Colur.txt_grey,
+              fontWeight: FontWeight.w400,
+              fontSize: 18 //12
+          ),
+        ):Text("${Utils.kmToMile(targetValueForDistance).round()}  "+Languages.of(context)!.txtMile,
+          style: TextStyle(
+              color: Colur.txt_grey,
+              fontWeight: FontWeight.w400,
+              fontSize: 18 //12
+          ),
+        ),
+      ],
     );
   }
 
@@ -211,7 +257,7 @@ class _HomeScreenState extends State<HomeScreen>
     );
   }
 
-  percentIndicator() {
+  percentIndicatorForIntensity() {
     return SfRadialGauge(
         title: GaugeTitle(
             text: Languages.of(context)!.txtHeartHealth,
@@ -226,7 +272,7 @@ class _HomeScreenState extends State<HomeScreen>
               minimum: 0,
               maximum: 100,
               axisLineStyle: AxisLineStyle(
-                thickness: 0.13,
+                thickness: 0.19,
                 cornerStyle: CornerStyle.bothCurve,
                 color: Colur.progress_background_color,
                 thicknessUnit: GaugeSizeUnit.factor,
@@ -237,9 +283,9 @@ class _HomeScreenState extends State<HomeScreen>
                   gradient: SweepGradient(colors: [
                     Colur.purple_gradient_color1,
                     Colur.purple_gradient_color2
-                  ]),
+                  ],startAngle: 23,endAngle: 50),
                   cornerStyle: CornerStyle.bothCurve,
-                  width: 0.13,
+                  width: 0.19,
                   sizeUnit: GaugeSizeUnit.factor,
                 )
               ],
@@ -272,12 +318,82 @@ class _HomeScreenState extends State<HomeScreen>
         ]);
   }
 
+  percentIndicatorForDistance() {
+    return SfRadialGauge(
+        title: GaugeTitle(
+            text: Languages.of(context)!.txtDistance,
+            textStyle: const TextStyle(
+                fontSize: 22.0,
+                fontWeight: FontWeight.w500,
+                color: Colur.white)),
+        axes: <RadialAxis>[
+          RadialAxis(
+              showTicks: false,
+              showLabels: false,
+              minimum: 0,
+              maximum: 100,
+              axisLineStyle: AxisLineStyle(
+                thickness: 0.19,
+                cornerStyle: CornerStyle.bothCurve,
+                color: Colur.progress_background_color,
+                thicknessUnit: GaugeSizeUnit.factor,
+              ),
+              pointers: <GaugePointer>[
+                RangePointer(
+                  value: 75,
+                  gradient: SweepGradient(
+                      colors: [Colur.blue_gredient_1, Colur.blue_gredient_2]),
+                  cornerStyle: CornerStyle.bothCurve,
+                  width: 0.19,
+                  sizeUnit: GaugeSizeUnit.factor,
+                )
+              ],
+              annotations: <GaugeAnnotation>[
+                GaugeAnnotation(
+                    positionFactor: 0.1,
+                    angle: 90,
+                    widget: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Container(
+                                alignment: Alignment.bottomCenter,
+                                child: Text(
+                                  "1.2",
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                      fontSize: 54,
+                                      fontWeight: FontWeight.w700,
+                                      color: Colur.txt_white),
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(bottom: 9),
+                                child: Text(
+                                  IsKmSelected?Languages.of(context)!.txtKM:Languages.of(context)!.txtMile,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colur.txt_white),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ))
+              ])
+        ]);
+  }
+
   bestRecords(double fullHeight, double fullWidth) {
     return Padding(
       padding: EdgeInsets.only(
-          top: 30,
-          left: fullWidth * 0.05,
-          right: fullWidth * 0.05),
+          top: 30, left: fullWidth * 0.05, right: fullWidth * 0.05),
       child: Container(
         child: Column(
           children: [
@@ -417,9 +533,7 @@ class _HomeScreenState extends State<HomeScreen>
       visible: recentActivityShow,
       child: Container(
         margin: EdgeInsets.only(
-            top: 30,
-            left: fullWidth * 0.05,
-            right: fullWidth * 0.05),
+            top: 30, left: fullWidth * 0.05, right: fullWidth * 0.05),
         child: Column(
           children: [
             Row(

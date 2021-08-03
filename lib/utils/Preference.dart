@@ -21,6 +21,9 @@ class Preference {
   static const String TARGET_DRINK_WATER = "TARGET_DRINK_WATER";
   static const String SELECTED_DRINK_WATER_ML = "SELECTED_DRINK_WATER_ML";
   static const String IS_REMINDER_ON = "IS_REMINDER_ON";
+  static const String IS_DISTANCE_INDICATOR_ON = "IS_DISTANCE_INDICATOR_ON";
+  static const String TARGETVALUE_FOR_DISTANCE_IN_KM = "TARGETVALUE_FOR_DISTANCE_IN_KM";
+  static const String IS_KM_SELECTED = "IS_KM_SELECTED";
   static const String START_TIME_REMINDER = "START_TIME_REMINDER";
   static const String END_TIME_REMINDER = "END_TIME_REMINDER";
   static const String DRINK_WATER_NOTIFICATION_MESSAGE =

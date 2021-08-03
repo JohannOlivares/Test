@@ -104,7 +104,7 @@ class LanguageEn extends Languages {
   String get txtSetAsMyGoal => "SET AS MY GOAL";
 
   @override
-  String get txtKM => "KM";
+  String get txtKM => "Km";
 
   @override
   String get txtMILE => "MILE";
@@ -184,7 +184,7 @@ class LanguageEn extends Languages {
   String get txtKCAL => "KCAL";
 
   @override
-  String get txtMin => "MIN";
+  String get txtMin => "Min";
 
   @override
   String get txtStart => "Start";
@@ -594,4 +594,19 @@ class LanguageEn extends Languages {
 
   @override
   String get txtLast7daysReport => "Last 7 Days Report";
+
+  @override
+  String get txtLow => "Low";
+
+  @override
+  String get txtHigh => "High";
+
+  @override
+  String get txtModerate => "Moderate";
+
+  @override
+  String get txtIntensity => "Intensity";
+
+  @override
+  String get txtWeekGoal => "Weekly Goal";
 }

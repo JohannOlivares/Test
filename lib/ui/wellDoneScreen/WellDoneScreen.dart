@@ -63,6 +63,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                       ),
                       _mapScreenShot(fullheight, fullwidth),
                       _InformationViewOfDistance(fullheight, fullwidth),
+                      _intensityViewOfWalking(fullheight,fullwidth),
                       _detailsAndShareButtonView(fullheight, fullwidth),
                       _satisfyListTile(fullheight, fullwidth),
                     ],
@@ -114,6 +115,9 @@ class _WellDoneScreenState extends State<WellDoneScreen>
           eLong: data.eLong,
           image: data.image,
           polyLine: data.polyLine,
+      lowIntenseTime: data.lowIntenseTime,
+      moderateIntenseTime: data.moderateIntenseTime,
+      highIntenseTime: data.highIntenseTime,
       date: data.date));
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
@@ -264,63 +268,97 @@ class _WellDoneScreenState extends State<WellDoneScreen>
     );
   }
 
-  _detailsAndShareButtonView(double fullheight, double fullwidth) {
+  _intensityViewOfWalking(double fullheight, double fullwidth) {
     return Container(
-      margin: EdgeInsets.only(top: 30, bottom: 30),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      margin: EdgeInsets.only(top: 20),
+      child: Column(
         children: [
-          GradientButtonSmall(
-            width: 160,
-            height: 60,
-            radius: 13.0,
-            child: Text(
-              Languages.of(context)!.txtDetails,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colur.txt_white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18.0),
-            ),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: <Color>[
-                Colur.progress_background_color,
-                Colur.progress_background_color,
+          Padding(
+            padding: const EdgeInsets.only(bottom:8.0),
+            child: Row(
+              children: [
+                Container(
+                  height: 28,
+                  width: 28,
+                  margin: EdgeInsets.only(right: 15),
+                  child: Image.asset('assets/icons/low_intensity_icon.png',),
+                ),
+                Expanded(child: Text(Languages.of(context)!.txtLow.toUpperCase()+" "+Languages.of(context)!.txtIntensity.toUpperCase(),style: TextStyle(color: Colur.txt_white,fontSize: 18,fontWeight: FontWeight.w500),)),
+                Container(
+                  child: Text(Utils.secToString(widget.runningData!.lowIntenseTime!)+" "+Languages.of(context)!.txtMin,style: TextStyle(color: Colur.txt_white,fontSize: 18,fontWeight: FontWeight.w500),),
+                )
               ],
             ),
-            isShadow: false,
-            onPressed: () {},
           ),
-          GradientButtonSmall(
-            width: 160,
-            height: 60,
-            radius: 13.0,
-            child: Text(
-              Languages.of(context)!.txtShare,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colur.txt_white,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 18.0),
-            ),
-            isShadow: false,
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: <Color>[
-                Colur.purple_gradient_color1,
-                Colur.purple_gradient_color2,
+          Padding(
+            padding: const EdgeInsets.only(bottom:8.0),
+            child: Row(
+              children: [
+                Container(
+                  height: 28,
+                  width: 28,
+                  margin: EdgeInsets.only(right: 15),
+                  child: Image.asset('assets/icons/modrate_intensity_icon.png',),
+                ),
+                Expanded(child: Text(Languages.of(context)!.txtModerate.toUpperCase()+" "+Languages.of(context)!.txtIntensity.toUpperCase(),style: TextStyle(color: Colur.txt_white,fontSize: 18,fontWeight: FontWeight.w500),)),
+                Container(
+                  child: Text(Utils.secToString(widget.runningData!.moderateIntenseTime!)+" "+Languages.of(context)!.txtMin,style: TextStyle(color: Colur.txt_white,fontSize: 18,fontWeight: FontWeight.w500),),
+                )
               ],
             ),
-            onPressed: () {},
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom:8.0),
+            child: Row(
+              children: [
+                Container(
+                  height: 28,
+                  width: 28,
+                  margin: EdgeInsets.only(right: 15),
+                  child: Image.asset('assets/icons/high_intensity_icon.png',),
+                ),
+                Expanded(child: Text(Languages.of(context)!.txtHigh.toUpperCase()+" "+Languages.of(context)!.txtIntensity.toUpperCase(),style: TextStyle(color: Colur.txt_white,fontSize: 18,fontWeight: FontWeight.w500),)),
+                Container(
+                  child: Text(Utils.secToString(widget.runningData!.highIntenseTime!)+" "+Languages.of(context)!.txtMin,style: TextStyle(color: Colur.txt_white,fontSize: 18,fontWeight: FontWeight.w500),),
+                )
+              ],
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  _detailsAndShareButtonView(double fullheight, double fullwidth) {
+    return InkWell(
+      onTap: (){},
+      child: Container(
+        height: 60,
+        width: fullwidth,
+        margin: EdgeInsets.only(top: 30, bottom: 30,left: 20,right: 20),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(13),
+          gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: <Color>[
+            Colur.purple_gradient_color1,
+            Colur.purple_gradient_color2,
+          ],
+        ),),
+        child: Center(
+          child: Text(
+            Languages.of(context)!.txtShare,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+                color: Colur.txt_white,
+                fontWeight: FontWeight.w500,
+                fontSize: 18.0),
+          ),
+        ),
+
       ),
     );
   }
@@ -441,6 +479,8 @@ class _WellDoneScreenState extends State<WellDoneScreen>
       ]),
     );
   }
+
+
 
 
 

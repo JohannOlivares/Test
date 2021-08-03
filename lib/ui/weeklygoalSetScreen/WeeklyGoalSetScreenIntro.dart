@@ -5,6 +5,7 @@ import 'package:run_tracker/custom/custom_tabbarview.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
 
 import '../../utils/Preference.dart';
 

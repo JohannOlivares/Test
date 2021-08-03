@@ -316,7 +316,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
         draggableBody: true,
         canUserSwipe: true,
         toggleVisibilityOnTap: true,
-        maxHeight: MediaQuery.of(context).size.height * 0.25,
+        maxHeight: MediaQuery.of(context).size.height * 0.30,
         headerBar: Container(
           padding: EdgeInsets.only(top: 20.0, right: 25.0, left: 25.0),
           width: double.infinity,
@@ -347,7 +347,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                         children: [
                           Container(
                             child: Text(
-                              widget.recentActivitiesData.duration.toString(),
+                              Utils.secToString(widget.recentActivitiesData.duration!),
                               //widget.runningData!.duration.toString(),
                               style: TextStyle(
                                   color: Colur.txt_white,
@@ -427,9 +427,9 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
         // Your header here
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 10),
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.25,
+            height: MediaQuery.of(context).size.height * 0.35,
             color: Colur.common_bg_dark,
             child: Column(
               children: [
@@ -450,6 +450,80 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                         color: Colur.txt_grey,
                         fontWeight: FontWeight.w500,
                         fontSize: 14),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: 20,right: 20,bottom: 20),
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: Text(Languages.of(context)!.txtIntensity+"("+Languages.of(context)!.txtMin.toUpperCase()+")"+":",style: TextStyle(color: Colur.txt_white,fontSize: 18,fontWeight: FontWeight.w500),),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 15),
+
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 28,
+                                    width: 28,
+                                    child: Center(child: Image.asset('assets/icons/low_intensity_icon.png',)),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Text((widget.recentActivitiesData.lowIntenseTime != null)? Utils.secToString(widget.recentActivitiesData.lowIntenseTime!):"0:0",style: TextStyle(color: Colur.txt_white,fontSize: 22,fontWeight: FontWeight.w500),),
+                                  ),
+                                  Text(Languages.of(context)!.txtLow.toUpperCase(),style: TextStyle(color: Colur.txt_grey,fontSize: 14,fontWeight: FontWeight.w500),),
+
+                                ],
+                              ),
+                            ),
+                            Column(
+                              children: [
+                                Container(
+                                  height: 28,
+                                  width: 28,
+                                  child: Image.asset('assets/icons/modrate_intensity_icon.png',),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 10,bottom: 10),
+                                  child: Text((widget.recentActivitiesData.moderateIntenseTime != null)? Utils.secToString(widget.recentActivitiesData.moderateIntenseTime!):"0:0",style: TextStyle(color: Colur.txt_white,fontSize: 22,fontWeight: FontWeight.w500),),
+                                ),
+                                Text(Languages.of(context)!.txtModerate.toUpperCase(),style: TextStyle(color: Colur.txt_grey,fontSize: 14,fontWeight: FontWeight.w500),),
+
+                              ],
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(right: 10),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height: 28,
+                                    width: 28,
+                                    child: Image.asset('assets/icons/high_intensity_icon.png',),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 10,bottom: 10),
+                                    child: Text((widget.recentActivitiesData.highIntenseTime != null)? Utils.secToString(widget.recentActivitiesData.highIntenseTime!):"0:0",style: TextStyle(color: Colur.txt_white,fontSize: 22,fontWeight: FontWeight.w500),),
+                                  ),
+                                  Text(Languages.of(context)!.txtHigh.toUpperCase(),style: TextStyle(color: Colur.txt_grey,fontSize: 14,fontWeight: FontWeight.w500),),
+
+                                ],
+                              ),
+                            ),
+
+
+                          ],
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ],

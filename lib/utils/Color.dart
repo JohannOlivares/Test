@@ -4,6 +4,8 @@ class Colur {
 
   static const purple_gradient_color1 = const Color(0xff8A3CFF);
   static const purple_gradient_color2 = const Color(0xffC040FF);
+  static const blue_gredient_1 = const Color(0xff0A71FE);
+  static const blue_gredient_2 = const Color(0xff0AEFFE);
 
   static const purple_gradient_shadow = const Color(0x908C3CFF);
 

@@ -137,6 +137,9 @@ flutter:
    - assets/icons/ic_red_gradient_circle.png
    - assets/icons/ic_add.png
    - assets/icons/ic_minus.png
+   - assets/icons/low_intensity_icon.png
+   - assets/icons/modrate_intensity_icon.png
+   - assets/icons/high_intensity_icon.png
    - assets/icons/ic_notification_white.webp
    - assets/icons/ic_units.webp
    - assets/icons/ic_calender.webp

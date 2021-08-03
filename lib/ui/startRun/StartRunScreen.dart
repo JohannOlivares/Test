@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'dart:io' show Directory, File, Platform;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:geolocator/geolocator.dart' as geoLocator;
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart'hide PermissionStatus;
+import 'package:location/location.dart' hide PermissionStatus;
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:math' show acos, asin, cos, sin, sqrt;
@@ -36,9 +37,9 @@ class StartRunScreen extends StatefulWidget {
   _StartRunScreenState createState() => _StartRunScreenState();
 }
 
-class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStateMixin
+class _StartRunScreenState extends State<StartRunScreen>
+    with TickerProviderStateMixin
     implements TopBarClickListener, RunningStopListener {
-
   RunningData? runningData;
 
   //For Google Map
@@ -47,11 +48,13 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
   StreamSubscription<LocationData>? _locationSubscription;
   LocationData? _currentPosition;
   LatLng _initialcameraposition = LatLng(0.5937, 0.9629);
+
   //For Markers And PolyLines
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinatesList = [];
   BitmapDescriptor? pinLocationIcon;
   Set<Marker> markers = {};
+
   //For SnapShots
   Uint8List? imageBytesVar;
 
@@ -71,26 +74,54 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
 
   //THis Variables For Weight and Kcal Calculation
   double weight = 50;
-  double durationInsec = 120;
+
+  double currentSpeed = 0.0; // speed in km/h
+
+  int totalLowIntenseTime = 0; // in second
+  int totalModerateIntenseTime = 0; // in second
+  int totalHighIntenseTime = 0; // in second
 
   //For Timer
-  final StopWatchTimer stopWatchTimer = StopWatchTimer(
-      mode: StopWatchMode.countUp,
-      onChange: (value) {
-        //print('onChange $value');
-      });
+  late StopWatchTimer stopWatchTimer;
+
   @override
   void initState() {
     StartRunScreen.runningStopListener = this;
     runningData = RunningData();
+
+    stopWatchTimer = StopWatchTimer(
+        mode: StopWatchMode.countUp,
+        onChangeRawSecond: (value) {
+          Debug.printLog("OnTime Update ::::==> ${value}");
+
+          if(currentSpeed >=1) {
+            if (currentSpeed < 4.34) {
+              totalLowIntenseTime += 1;
+              Debug.printLog("Intensity ::::==> Low");
+            } else if (currentSpeed < 7.56) {
+              totalModerateIntenseTime += 1;
+              Debug.printLog("Intensity ::::==> Moderate");
+            } else {
+              totalHighIntenseTime += 1;
+              Debug.printLog("Intensity ::::==> High");
+            }
+          }
+        },
+        onChange: (value) {
+          //print('onChange $value');
+        });
+
     super.initState();
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 
   @override
@@ -135,8 +166,14 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
               ),
             ),
             _timerAndDistance(fullwidth),
+            Row(children: [
+              Text("Speed => $currentSpeed Km/h\n"
+                "High => $totalHighIntenseTime"
+                  "\nModrate ==> $totalModerateIntenseTime"
+                  "\nLow ==> $totalLowIntenseTime",style: TextStyle(color: Colors.white,fontSize: 16),)
+            ],),
             Expanded(
-              child: _mapView(fulheight,context),
+              child: _mapView(fulheight, context),
             ),
           ],
         ),
@@ -178,10 +215,10 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                         final value = snap.data;
                         final displayTime = value != null
                             ? StopWatchTimer.getDisplayTime(value,
-                            hours: true,
-                            minute: true,
-                            second: true,
-                            milliSecond: false)
+                                hours: true,
+                                minute: true,
+                                second: true,
+                                milliSecond: false)
                             : null;
                         timeValue = displayTime;
                         return Text(
@@ -265,15 +302,15 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     );
   }
 
-  _mapView(double fullheight,BuildContext context) {
+  _mapView(double fullheight, BuildContext context) {
     return Container(
       child: Stack(
         children: [
           GoogleMap(
             initialCameraPosition:
-            CameraPosition(target: _initialcameraposition, zoom: 18),
+                CameraPosition(target: _initialcameraposition, zoom: 18),
             mapType:
-            setaliteEnable == true ? MapType.satellite : MapType.normal,
+                setaliteEnable == true ? MapType.satellite : MapType.normal,
             onMapCreated: _onMapCreated,
             buildingsEnabled: false,
             markers: markers,
@@ -285,7 +322,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
           ),
           Container(
             margin:
-            EdgeInsets.only(left: 20, right: 20, bottom: fullheight * 0.03),
+                EdgeInsets.only(left: 20, right: 20, bottom: fullheight * 0.03),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
@@ -299,12 +336,12 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                         shape: BoxShape.circle, color: Colors.white),
                     child: Center(
                         child: Image.asset(
-                          'assets/icons/ic_setalite.png',
-                          scale: 4.0,
-                          color: setaliteEnable
-                              ? Colur.purple_gradient_color2
-                              : Colur.txt_grey,
-                        )),
+                      'assets/icons/ic_setalite.png',
+                      scale: 4.0,
+                      color: setaliteEnable
+                          ? Colur.purple_gradient_color2
+                          : Colur.txt_grey,
+                    )),
                   ),
                   onTap: () {
                     setState(() {
@@ -319,8 +356,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: () async{
-                        },
+                        onTap: () async {},
                         child: Container(
                           height: 60,
                           width: 60,
@@ -345,42 +381,54 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                                             CountdownTimerScreen(
                                                 isGreen: false)));
                                 Future.delayed(Duration(milliseconds: 3900),
-                                        () {
-                                      setState(() {
-                                        isBack = false;
-                                        startTrack = true;
-                                        if(_locationSubscription != null && _locationSubscription!.isPaused)
-                                          _locationSubscription!.resume();
-                                        else
-                                          getLoc();
-                                        stopWatchTimer.onExecute
-                                            .add(StopWatchExecute.start);
-                                      });
-                                    });
+                                    () {
+                                  setState(() {
+                                    isBack = false;
+                                    startTrack = true;
+                                    if (_locationSubscription != null &&
+                                        _locationSubscription!.isPaused)
+                                      _locationSubscription!.resume();
+                                    else
+                                      getLoc();
+                                    stopWatchTimer.onExecute
+                                        .add(StopWatchExecute.start);
+                                  });
+                                });
                               } else {
                                 //IF User Pressed Pause Button then This part Will Do actions>>>>>>>>>
                                 _locationSubscription!.pause();
                                 stopWatchTimer.onExecute.add(StopWatchExecute
                                     .stop); //It will pause the timer
-                                setState(() { startTrack = false;});
-                                if(polylineCoordinatesList.length >= 1) {
-                                  runningData!.eLat =
-                                      polylineCoordinatesList.last.latitude
-                                          .toString();
-                                  runningData!.eLong = polylineCoordinatesList.last.longitude.toString();
-                                }
-                                else{
+                                setState(() {
+                                  startTrack = false;
+                                });
+                                if (polylineCoordinatesList.length >= 1) {
+                                  runningData!.eLat = polylineCoordinatesList
+                                      .last.latitude
+                                      .toString();
+                                  runningData!.eLong = polylineCoordinatesList
+                                      .last.longitude
+                                      .toString();
+                                } else {
                                   Utils.showToast(context, "Discard");
-                                  return  showDiscardDialog();
+                                  return showDiscardDialog();
                                 }
 
                                 await _animateToCenterofMap();
 
                                 await calculationsForAllValues()
                                     .then((value) async {
-                                  final String result = (await Navigator.push(context, PausePopupScreen(stopWatchTimer, startTrack,runningData,_controller,markers)))!;
+                                  final String result = (await Navigator.push(
+                                      context,
+                                      PausePopupScreen(
+                                          stopWatchTimer,
+                                          startTrack,
+                                          runningData,
+                                          _controller,
+                                          markers)))!;
                                   setState(() {
-                                    if(_locationSubscription != null && _locationSubscription!.isPaused)
+                                    if (_locationSubscription != null &&
+                                        _locationSubscription!.isPaused)
                                       _locationSubscription!.resume();
                                     //if User Pressed Restart then below function called
                                     if (result == "false") {
@@ -390,7 +438,6 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                                     }
                                     //if User Pressed RESUME then below function called
                                     if (result == "true") {
-
                                       setState(() {
                                         startTrack = true;
                                         isBack = false;
@@ -420,7 +467,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                                     ],
                                   ),
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(30))),
+                                      BorderRadius.all(Radius.circular(30))),
                               child: Center(
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -428,8 +475,12 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                                     Text(
                                       //TODO TExtADded to Language file addd
                                       !startTrack
-                                          ? Languages.of(context)!.txtStart.toUpperCase()
-                                          : Languages.of(context)!.txtPause.toUpperCase(),
+                                          ? Languages.of(context)!
+                                              .txtStart
+                                              .toUpperCase()
+                                          : Languages.of(context)!
+                                              .txtPause
+                                              .toUpperCase(),
                                       style: TextStyle(
                                           fontSize: 20,
                                           color: Colur.white,
@@ -471,7 +522,6 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                               duration: const Duration(milliseconds: 400),
                               vsync: this);
 
-
                           showDialog(
                             barrierDismissible: false,
                             context: context,
@@ -494,14 +544,14 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
 
   void showDiscardDialog() {
     showDialog(
-      barrierDismissible: false,
+        barrierDismissible: false,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(Languages.of(context)!.txtDiscard+" ?"),
-            content:  Text(Languages.of(context)!.txtAlertForNoLocation),
+            title: Text(Languages.of(context)!.txtDiscard + " ?"),
+            content: Text(Languages.of(context)!.txtAlertForNoLocation),
             actions: [
-             /* TextButton(
+              /* TextButton(
                 child: Text(Languages.of(context)!.txtCancel),
                 onPressed: () {
 
@@ -511,42 +561,46 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
               TextButton(
                 child: Text(Languages.of(context)!.txtDiscard),
                 onPressed: () async {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
+                  Navigator.of(context).pushNamedAndRemoveUntil(
+                      '/homeWizardScreen', (Route<dynamic> route) => false);
                 },
               ),
             ],
           );
         });
   }
+
   _addPolyLine() {
     print("add red polyline");
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
-      polylineId: id, color: Colors.black, points: polylineCoordinatesList,width: 4,);
+      polylineId: id,
+      color: Colors.black,
+      points: polylineCoordinatesList,
+      width: 4,
+    );
     polylines[id] = polyline;
   }
 
   @override
   void setState(fn) {
-    if(mounted) {
+    if (mounted) {
       super.setState(fn);
     }
   }
 
   @override
   Future<void> onFinish({bool value = true}) async {
-    if(_locationSubscription != null && _locationSubscription!.isPaused)
+    if (_locationSubscription != null && _locationSubscription!.isPaused)
       _locationSubscription!.cancel();
     await _addEndMarker();
     Navigator.pop(context);
     runningData!.polyLine = jsonEncode(polylineCoordinatesList);
 
-    Future.delayed(const Duration(milliseconds: 50), () async{
+    Future.delayed(const Duration(milliseconds: 50), () async {
       //1
       final imageBytes = await _controller!.takeSnapshot();
-      await saveFile(imageBytes!,"${DateTime.now().millisecond}");
-
+      await saveFile(imageBytes!, "${DateTime.now().millisecond}");
     });
   }
 
@@ -562,11 +616,11 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     return directory?.path;
   }
 
-
-  Future<bool> saveFile(Uint8List imageBytes,String filename)async{
-    try{
+  Future<bool> saveFile(Uint8List imageBytes, String filename) async {
+    try {
       late String _localPath;
-      _localPath = (await _findLocalPath())! + Platform.pathSeparator + 'Download';
+      _localPath =
+          (await _findLocalPath())! + Platform.pathSeparator + 'Download';
 
       final savedDir = Directory(_localPath);
       bool hasExisted = await savedDir.exists();
@@ -575,11 +629,12 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
         Debug.printLog(savedDir.toString());
       }
 
-      var newFile = await File(savedDir.path+ Platform.pathSeparator+filename+".png").create(recursive: true);
+      var newFile =
+          await File(savedDir.path + Platform.pathSeparator + filename + ".png")
+              .create(recursive: true);
       await newFile.writeAsBytes(imageBytes);
       runningData!.imageFile = newFile;
       runningData!.image = newFile.path;
-
 
       Navigator.pushAndRemoveUntil(
           context,
@@ -588,15 +643,14 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
           ModalRoute.withName("/homeWizardScreen"));
 
       return true;
-    }catch(e){
+    } catch (e) {
       Debug.printLog(e.toString());
       Utils.showToast(context, e.toString());
     }
     return false;
   }
 
-
-  Future<void> _addEndMarker()async{
+  Future<void> _addEndMarker() async {
     double? endpinlat;
     double? endpinlon;
 
@@ -610,7 +664,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     LatLng endPinPosition = LatLng(endpinlat, endpinlon);
 
     final Uint8List markerIcon =
-    await getBytesFromAsset('assets/icons/ic_map_pin_red.png', 50);
+        await getBytesFromAsset('assets/icons/ic_map_pin_red.png', 50);
     setState(() {
       final Marker marker = Marker(
           icon: BitmapDescriptor.fromBytes(markerIcon),
@@ -629,14 +683,30 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     //_location.changeSettings(interval: 2000, distanceFilter: 0.1);
 
     //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    _location.changeSettings(accuracy: LocationAccuracy.low,);
+    _location.changeSettings(
+      accuracy: LocationAccuracy.low,
+    );
+
+    geoLocator.Geolocator.getPositionStream(
+            desiredAccuracy: geoLocator.LocationAccuracy.high)
+        .listen((position) {
+      if (polylineCoordinatesList.length >= 2) {
+        var speedInMps = position.speed;
+        var speedKmpm = speedInMps * 0.06;
+        currentSpeed = speedKmpm*60;
+        pace = 1 / speedKmpm;
+      }
+      //Utils.showToast(context, speedKmpm.toString()+"/kmp");
+      // this is your speed
+    });
 
     _currentPosition = await _location.getLocation();
     _initialcameraposition =
         LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
 
     // IF Button IS in Play Position
-    _locationSubscription = _location.onLocationChanged.listen((LocationData currentLocation) async {
+    _locationSubscription = _location.onLocationChanged
+        .listen((LocationData currentLocation) async {
       print("${currentLocation.latitude} : ${currentLocation.longitude}");
       if (startTrack) {
         if (currentLocation.latitude != null &&
@@ -647,13 +717,17 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                 LatLng(currentLocation.latitude!, currentLocation.longitude!));
             runningData!.sLat = currentLocation.latitude!.toString();
             runningData!.sLong = currentLocation.longitude!.toString();
-            LatLng startPinPosition = LatLng(double.parse(runningData!.sLat!), double.parse(runningData!.sLong!));
-            final Uint8List markerIcon = await getBytesFromAsset('assets/icons/ic_map_pin_purple.png', 50);
+            LatLng startPinPosition = LatLng(double.parse(runningData!.sLat!),
+                double.parse(runningData!.sLong!));
+            final Uint8List markerIcon = await getBytesFromAsset(
+                'assets/icons/ic_map_pin_purple.png', 50);
             setState(() {
-              final Marker marker = Marker(icon: BitmapDescriptor.fromBytes(markerIcon), markerId: MarkerId('1'),position: startPinPosition);
+              final Marker marker = Marker(
+                  icon: BitmapDescriptor.fromBytes(markerIcon),
+                  markerId: MarkerId('1'),
+                  position: startPinPosition);
               markers.add(marker);
             });
-
           }
 
           //After that This Part only Execute
@@ -662,13 +736,16 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
               polylineCoordinatesList.last.longitude,
               currentLocation.latitude,
               currentLocation.longitude);
-          pace = _countSpeed(
+          /*pace = _countSpeed(
               polylineCoordinatesList.last.latitude,
               polylineCoordinatesList.last.longitude,
               currentLocation.latitude!,
-              currentLocation.longitude!);
+              currentLocation.longitude!);*/
 
-          calorisvalue = _countCalories(durationInsec, weight);
+          //if(pace > )
+
+          calorisvalue = _countCalories(weight);
+
           double conditionDistance;
           if (Platform.isIOS) {
             conditionDistance = 0.06;
@@ -699,8 +776,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     });
   }
 
-  Future<void> _animateToCenterofMap()async {
-
+  Future<void> _animateToCenterofMap() async {
     //This IS Method For Calculation NorthEast And South West
     LatLngBounds boundsFromLatLngList(List<LatLng> list) {
       assert(list.isNotEmpty);
@@ -719,46 +795,46 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
           if (latLng.longitude < y0!) y0 = latLng.longitude;
         }
       }
-      return LatLngBounds(northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
+      return LatLngBounds(
+          northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
     }
 
     //After adding polylines list for Calculate NorthEast And South West Positions and Animate Camera
     jsonEncode(polylineCoordinatesList);
     LatLngBounds latLngBounds = boundsFromLatLngList(polylineCoordinatesList);
-    _controller!.animateCamera(CameraUpdate.newLatLngBounds(
-        latLngBounds,
-        100
-    ));
+    _controller!.animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 100));
   }
-
 
   Future<void> calculationsForAllValues() async {
     avaragePace = 0;
     finaldistance = 0;
     finalspeed = 0;
-    if (polylineCoordinatesList.isNotEmpty) {
+    /*if (polylineCoordinatesList.isNotEmpty) {
       avaragePace = _countSpeed(
           polylineCoordinatesList.first.latitude,
           polylineCoordinatesList.first.longitude,
           polylineCoordinatesList.last.latitude,
           polylineCoordinatesList.last.longitude);
-    }
+    }*/
     finaldistance = double.parse(totalDistance.toStringAsFixed(2));
     finalspeed = double.parse(avaragePace!.toStringAsFixed(2));
     runningData!.date = DateFormat.yMMMd().format(DateTime.now()).toString();
     int hr = int.parse(timeValue!.split(":")[0]);
     int min = int.parse(timeValue!.split(":")[1]);
     int sec = int.parse(timeValue!.split(":")[2]);
-    int TotalTimeInSec = (hr*3600)+(min*60)+(sec);
+    int TotalTimeInSec = (hr * 3600) + (min * 60) + (sec);
+    avaragePace = TotalTimeInSec / (finaldistance! * 60);
 
-    runningData!.duration =TotalTimeInSec;
-    runningData!.speed =finalspeed;
-    runningData!.distance =finaldistance;
-    runningData!.cal =calorisvalue;
-   /* Utils.showToast(context, "Hours: $hr||||Min: $min ||| Sec: $sec||durationInSec:$TotalTimeInSec");
+    runningData!.duration = TotalTimeInSec;
+    runningData!.speed = double.parse(avaragePace!.toStringAsFixed(2));
+    runningData!.distance = finaldistance;
+    runningData!.cal = double.parse(calorisvalue.toStringAsFixed(2));
+    runningData!.lowIntenseTime = totalLowIntenseTime;
+    runningData!.moderateIntenseTime = totalModerateIntenseTime;
+    runningData!.highIntenseTime = totalHighIntenseTime;
+    /* Utils.showToast(context, "Hours: $hr||||Min: $min ||| Sec: $sec||durationInSec:$TotalTimeInSec");
     Debug.printLog( "Hours: $hr||||Min: $min");*/
   }
-
 
   double _countSpeed(double lat1, double lon1, double lat2, double lon2) {
     // Convert degrees to radians
@@ -789,9 +865,13 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
     return r * theta;
   }
 
-  double _countCalories(double durationInsec, double weight) {
+  double _countCalories(double weight) {
+    int hr = int.parse(timeValue!.split(":")[0]);
+    int min = int.parse(timeValue!.split(":")[1]);
+    int sec = int.parse(timeValue!.split(":")[2]);
+    int sec2 = (hr * 3600) + (min * 60) + (sec);
     double METConstant = 2;
-    double caloriesValue = (durationInsec * METConstant * 3.5 * weight) / 6000;
+    double caloriesValue = (sec2 * METConstant * 3.5 * weight) / 6000;
     return caloriesValue;
   }
 
@@ -803,8 +883,6 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
         c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
     return 12742 * asin(sqrt(a));
   }
-
-
 
   @override
   void onTopBarClick(String name, {bool value = true}) {
@@ -939,8 +1017,6 @@ class PopUpState extends State<PopUp> {
       ),
     );
   }
-
-
 
   void checkCompleted() {
     if (widget.controller?.status == AnimationStatus.forward) {

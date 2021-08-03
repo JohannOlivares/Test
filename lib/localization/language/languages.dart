@@ -127,6 +127,8 @@ abstract class Languages {
 
   String get txtMin;
 
+  String get txtIntensity;
+
   String get txtStop;
 
   String get txtResume;
@@ -371,6 +373,14 @@ abstract class Languages {
 
   String get txtS;
   String get txtUnitSettings;
+  String get txtModerate;
+
+  String get txtLow;
+
+  String get txtHigh;
+
+  String get txtWeekGoal;
+
 
   String get txtGeneralSettings;
 

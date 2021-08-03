@@ -12,6 +12,7 @@ class CustomTabBar extends StatefulWidget {
     required this.tab2,
     required this.forHeart,
     required this.forDistance,
+
   }):super(key: key);
   @override
   _CustomTabBarState createState() => _CustomTabBarState();
@@ -19,8 +20,14 @@ class CustomTabBar extends StatefulWidget {
 
 class _CustomTabBarState extends State<CustomTabBar> {
   Gradient grad = LinearGradient(colors: [Color(0XFF8A3CFF), Color(0XFFC040FF)]);
-  bool heartSelected = true;
-  bool distanceSelected = false;
+
+  bool distanceSelected= false;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,8 +40,8 @@ class _CustomTabBarState extends State<CustomTabBar> {
               InkWell(
                 onTap: () {
                   setState(() {
-                    heartSelected = true;
                     distanceSelected = false;
+                    print(distanceSelected);
                   });
                 },
                 child: Container(
@@ -47,15 +54,15 @@ class _CustomTabBarState extends State<CustomTabBar> {
                           child: Text(
                             widget.tab1,
                             style: TextStyle(
-                                color: heartSelected ? Colors.white : Color(0xFF9195B6),
-                                fontSize: heartSelected ? 20 : 16.0,
-                                fontWeight: heartSelected ? FontWeight.bold : FontWeight.w500
+                                color: !distanceSelected ? Colors.white : Color(0xFF9195B6),
+                                fontSize: !distanceSelected ? 20 : 16.0,
+                                fontWeight: !distanceSelected ? FontWeight.bold : FontWeight.w500
                             ),
                           ),
                         ),
                       ),
                       Visibility(
-                        visible: heartSelected,
+                        visible: !distanceSelected,
                         child: Container(
                           height: 3,
                           width: 30,
@@ -72,8 +79,9 @@ class _CustomTabBarState extends State<CustomTabBar> {
               InkWell(
                 onTap: () {
                   setState(() {
-                    heartSelected = false;
                     distanceSelected = true;
+                    print(distanceSelected);
+
                   });
                 },
                 child: Container(

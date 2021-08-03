@@ -83,7 +83,7 @@ class Utils {
     var formatter = NumberFormat("00");
     var p1 = sec % 60;
     var p2 = sec / 60;
-    var p3 = p2 % 60;
+    var p3 = p2 % 60;             
     p2 /= 60;
 
     return formatter.format(p2) +
@@ -91,5 +91,19 @@ class Utils {
         formatter.format(p3) +
         ":" +
         formatter.format(p1);
+  }
+
+  static double mileToKm(double Mile){
+
+  double km = Mile*1.60;
+
+    return km;
+  }
+
+  static double kmToMile(double km){
+
+    double mile = km/1.609;
+
+    return mile;
   }
 }
