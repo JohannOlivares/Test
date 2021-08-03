@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Preference.dart';
 import 'package:intl/intl.dart';
@@ -105,5 +106,31 @@ class Utils {
     double mile = km/1.609;
 
     return mile;
+  }
+
+  static String getIntervalString(BuildContext context,int min)
+  {
+
+    switch (min) {
+      case 30:
+        return Languages.of(context)!.txtEveryHalfHour;
+      case 60:
+        return Languages.of(context)!.txtEveryOneHour;
+      case 90:
+        return Languages.of(context)!.txtEveryOneNHalfHour;
+      case 120:
+        return Languages.of(context)!.txtEveryTwoHour;
+      case 150:
+        return Languages.of(context)!.txtEveryTwoNHalfHour;
+      case 180:
+        return Languages.of(context)!.txtEveryThreeHour;
+      case 210:
+        return Languages.of(context)!.txtEveryThreeNHalfHour;
+      case 240:
+        return Languages.of(context)!.txtEveryFourHour;
+      default :
+        return "";
+    }
+
   }
 }

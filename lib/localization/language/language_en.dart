@@ -2,7 +2,7 @@ import 'languages.dart';
 
 class LanguageEn extends Languages {
   @override
-  String get appName => "Multi-languages";
+  String get appName => "Runner App";
 
   @override
   String get labelWelcome => "Welcome";
@@ -21,7 +21,7 @@ class LanguageEn extends Languages {
       "Before we get started, please\n let us know you better to help you set your\n personal fitness goal.";
 
   @override
-  String get txtImKateYourCoach => "I’m kate, your personal fitness coatch.";
+  String get txtImKateYourCoach => "I’m kate, your personal fitness coach.";
 
   @override
   String get txtOk => "OK";
@@ -548,6 +548,12 @@ class LanguageEn extends Languages {
   String get txtPaused => "Paused";
 
   @override
+  String get txtRepeat => "Repeat";
+
+  @override
+  String get txtRunningReminderMsg => "It's time for Running,Let's get started!";
+
+  @override
   String get txtF => "F";
 
   @override
@@ -590,10 +596,36 @@ class LanguageEn extends Languages {
   String get txtRunningReminder => "Running reminder";
 
   @override
-  String get txtRepeat => "Repeat";
+  String get txtLast7daysReport => "Last 7 Days Report";
 
   @override
-  String get txtLast7daysReport => "Last 7 Days Report";
+  String get txtEveryHalfHour => "Every 0.5 hours";
+
+  @override
+  String get txtEveryOneHour => "Every 1 hours";
+
+  @override
+  String get txtEveryOneNHalfHour => "Every 1.5 hours";
+
+  @override
+  String get txtEveryTwoHour => "Every 2 hours";
+
+  @override
+  String get txtEveryTwoNHalfHour => "Every 2.5 hours";
+
+  @override
+  String get txtEveryThreeHour => "Every 3 hours";
+
+  @override
+  String get txtEveryThreeNHalfHour => "Every 3.5 hours";
+
+  @override
+  String get txtEveryFourHour => "Every 4 hours";
+
+  @override
+  String get txtDailyReminder => "Daily Reminder";
+
+
 
   @override
   String get txtLow => "Low";

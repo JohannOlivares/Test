@@ -363,6 +363,10 @@ abstract class Languages {
 
   String get txtPaused;
 
+  String get txtRepeat;
+
+  String get txtRunningReminderMsg;
+
   String get txtM;
 
   String get txtT;
@@ -372,6 +376,7 @@ abstract class Languages {
   String get txtF;
 
   String get txtS;
+
   String get txtUnitSettings;
   String get txtModerate;
 
@@ -398,7 +403,23 @@ abstract class Languages {
 
   String get txtRunningReminder;
 
-  String get txtRepeat;
-
   String get txtLast7daysReport;
+
+  String get txtEveryHalfHour;
+
+  String get txtEveryOneHour;
+
+  String get txtEveryOneNHalfHour;
+
+  String get txtEveryTwoHour;
+
+  String get txtEveryTwoNHalfHour;
+
+  String get txtEveryThreeHour;
+
+  String get txtEveryThreeNHalfHour;
+
+  String get txtEveryFourHour;
+
+  String get txtDailyReminder;
 }

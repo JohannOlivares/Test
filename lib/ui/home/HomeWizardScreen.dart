@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:run_tracker/common/bottombar/BottomBar.dart';
 import 'package:run_tracker/ui/home/HomeScreen.dart';
 import 'package:run_tracker/ui/profile/ProfileScreen.dart';
@@ -19,6 +20,7 @@ class HomeWizardScreen extends StatefulWidget {
 class _HomeWizardScreenState extends State<HomeWizardScreen> {
   PageController _myPage = PageController(initialPage: 0);
   int? num;
+  Location _location = Location();
 
   @override
   void initState() {
@@ -89,9 +91,7 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
         onTap: (){
 
 
-
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/uselocationScreen', (Route<dynamic> route) => false);
+          _permissionCheck();
 
 
         },
@@ -148,6 +148,40 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _permissionCheck() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await _location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await _location.requestService();
+      if (!_serviceEnabled) {
+        Utils.showToast(context, "not enabled Service");
+        return;
+      }
+    }
+    _permissionGranted = await _location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await _location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => UseLocationScreen()));
+      }
+    }else if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited)
+      {
+        Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => StartRunScreen()));
+      }
+    else{
+      Navigator.of(context)
+          .pushNamed('/uselocationScreen');
+    }
+
+
   }
 //Extra MEthod Which we have to REMOVE
   _BottomBar() {

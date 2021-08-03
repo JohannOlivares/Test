@@ -1,6 +1,7 @@
 
 
 
+import 'package:run_tracker/common/multiselectdialog/MultiSelectDialog.dart';
 import 'package:run_tracker/utils/Debug.dart';
 
 class Constant {
@@ -43,6 +44,16 @@ class Constant {
 
   static const MIN_LBS = 45.00;
   static const MAX_LBS = 2200.00;
+
+  static List<MultiSelectDialogItem> daysList = [
+    MultiSelectDialogItem("1", "Monday"),
+    MultiSelectDialogItem("2", "Tuesday"),
+    MultiSelectDialogItem("3", "Wednesday"),
+    MultiSelectDialogItem("4", "Thursday"),
+    MultiSelectDialogItem("5", "Friday"),
+    MultiSelectDialogItem("6", "Saturday"),
+    MultiSelectDialogItem("7", "Sunday"),
+  ];
 
   static getMainURL() {
     if (Debug.SANDBOX_API_URL)

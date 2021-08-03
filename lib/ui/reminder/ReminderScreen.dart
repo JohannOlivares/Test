@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/drinkWaterReminder/DrinkWaterReminderScreen.dart';
+import 'package:run_tracker/ui/runningReminder/RunningReminderScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
+import 'package:run_tracker/utils/Preference.dart';
+import 'package:intl/intl.dart';
+import 'package:run_tracker/utils/Utils.dart';
 
 class ReminderScreen extends StatefulWidget {
   @override
@@ -14,6 +19,18 @@ class _ReminderScreenState extends State<ReminderScreen>
     implements TopBarClickListener {
   bool isRunningReminder = false;
   bool isDrinkWaterReminder = false;
+
+  String txtReminderTime = "";
+  String txtRepeatDay = "";
+
+  String txtWaterReminder = "";
+  late int drinkWaterInterval;
+
+  @override
+  void initState() {
+    super.initState();
+    fillData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,13 +60,13 @@ class _ReminderScreenState extends State<ReminderScreen>
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               color: Colur.txt_white,
-                              fontSize: 14,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500),
                         ),
                       ),
                       InkWell(
                         onTap: (){
-
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> RunningReminder())).then((value) => fillData());
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(
@@ -63,7 +80,7 @@ class _ReminderScreenState extends State<ReminderScreen>
                             children: [
                               ListTile(
                                 title: Text(
-                                  "6:30 pm",
+                                  txtReminderTime,
                                   style: TextStyle(
                                       color: Colur.txt_white,
                                       fontSize: 25,
@@ -74,7 +91,9 @@ class _ReminderScreenState extends State<ReminderScreen>
                                   value: isRunningReminder,
                                   activeColor: Colur.purple_gradient_color2,
                                   inactiveTrackColor: Colur.txt_grey,
-                                  onChanged: (bool value) {},
+                                  onChanged: (bool value) {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> RunningReminder())).then((value) => fillData());
+                                  },
                                 ),
                               ),
                               Container(
@@ -91,7 +110,7 @@ class _ReminderScreenState extends State<ReminderScreen>
                                 margin: EdgeInsets.only(top: 5.0),
                                 width: double.infinity,
                                 child: Text(
-                                  "Sun, Mon, Sat",
+                                  txtRepeatDay,
                                   style: TextStyle(
                                       color: Colur.txt_purple,
                                       fontSize: 14,
@@ -111,13 +130,13 @@ class _ReminderScreenState extends State<ReminderScreen>
                           textAlign: TextAlign.left,
                           style: TextStyle(
                               color: Colur.txt_white,
-                              fontSize: 14,
+                              fontSize: 18,
                               fontWeight: FontWeight.w500),
                         ),
                       ),
                       InkWell(
                         onTap: (){
-
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> DrinkWaterReminderScreen())).then((value) => fillData());
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(
@@ -131,7 +150,7 @@ class _ReminderScreenState extends State<ReminderScreen>
                             children: [
                               ListTile(
                                 title: Text(
-                                  "6:30 pm",
+                                  txtWaterReminder,
                                   style: TextStyle(
                                       color: Colur.txt_white,
                                       fontSize: 25,
@@ -139,10 +158,12 @@ class _ReminderScreenState extends State<ReminderScreen>
                                 ),
                                 contentPadding: EdgeInsets.all(0.0),
                                 trailing: Switch(
-                                  value: isRunningReminder,
+                                  value: isDrinkWaterReminder,
                                   activeColor: Colur.purple_gradient_color2,
                                   inactiveTrackColor: Colur.txt_grey,
-                                  onChanged: (bool value) {},
+                                  onChanged: (bool value) {
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=> DrinkWaterReminderScreen())).then((value) => fillData());
+                                  },
                                 ),
                               ),
                               Container(
@@ -159,7 +180,7 @@ class _ReminderScreenState extends State<ReminderScreen>
                                 margin: EdgeInsets.only(top: 5.0),
                                 width: double.infinity,
                                 child: Text(
-                                  "Every day",
+                                  Utils.getIntervalString(context, drinkWaterInterval),
                                   style: TextStyle(
                                       color: Colur.txt_purple,
                                       fontSize: 14,
@@ -186,5 +207,55 @@ class _ReminderScreenState extends State<ReminderScreen>
     if(name == Constant.STR_BACK){
       Navigator.pop(context);
     }
+  }
+
+  void fillData() {
+
+    //::::::::: *For Running Reminder*:::::::::::::
+    String reminderTime =
+        Preference.shared.getString(Preference.DAILY_REMINDER_TIME) ?? "6:30";
+    isRunningReminder =
+        Preference.shared.getBool(Preference.IS_DAILY_REMINDER_ON) ?? false;
+    String? repeatDay =
+    Preference.shared.getString(Preference.DAILY_REMINDER_REPEAT_DAY);
+    List<dynamic> selectedDays = [];
+    if (repeatDay != null && repeatDay.isNotEmpty) {
+      selectedDays.clear();
+      selectedDays = repeatDay.split(",");
+    }
+
+    List<String> temp = [];
+    selectedDays.forEach((element) {
+      temp.add(Constant.daysList[int.parse(element as String) - 1].label!.substring(0, 3));
+    });
+
+    txtRepeatDay = temp.join(", ");
+
+    var hr = int.parse(reminderTime.split(":")[0]);
+    var min = int.parse(reminderTime.split(":")[1]);
+    txtReminderTime =
+        DateFormat.jm().format(DateTime(2021, 08, 1, hr, min));
+
+    //::::::::: *For Water Reminder*:::::::::::::
+
+    String prefStartTimeValue = Preference.shared.getString(Preference.START_TIME_REMINDER)??"08:00";
+    String prefEndTimeValue = Preference.shared.getString(Preference.END_TIME_REMINDER)??"23:00";
+
+    isDrinkWaterReminder = Preference.shared.getBool(Preference.IS_REMINDER_ON) ?? false;
+
+    var hrs = int.parse(prefStartTimeValue.split(":")[0]);
+    var mins = int.parse(prefStartTimeValue.split(":")[1]);
+    var txtStart =
+        DateFormat.jm().format(DateTime(2021, 08, 1, hrs, mins));
+
+    var hre = int.parse(prefEndTimeValue.split(":")[0]);
+    var mine = int.parse(prefEndTimeValue.split(":")[1]);
+    var txtEnd =
+    DateFormat.jm().format(DateTime(2021, 08, 1, hre, mine));
+
+    txtWaterReminder = txtStart+" - "+txtEnd;
+    drinkWaterInterval = Preference.shared.getInt(Preference.DRINK_WATER_INTERVAL) ?? 30;
+    setState(() {
+    });
   }
 }

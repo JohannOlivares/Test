@@ -10,6 +10,7 @@ import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
+import 'package:run_tracker/utils/Utils.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -48,14 +49,16 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
   }
 
   _getPreference() {
-    prefStartTimeValue =
-        Preference.shared.getString(Preference.START_TIME_REMINDER);
+    prefStartTimeValue = Preference.shared.getString(Preference.START_TIME_REMINDER);
     prefEndTimeValue =
         Preference.shared.getString(Preference.END_TIME_REMINDER);
     prefNotiMsg = Preference.shared
         .getString(Preference.DRINK_WATER_NOTIFICATION_MESSAGE);
     isNotification =
         Preference.shared.getBool(Preference.IS_REMINDER_ON) ?? false;
+
+    dropdownIntervalValue =
+        Preference.shared.getInt(Preference.DRINK_WATER_INTERVAL) ?? 30;
     setState(() {
       if (prefStartTimeValue == null) {
         _STARTtimeController.text = "08:00 AM";
@@ -439,33 +442,33 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
         dropdownColor: Colur.common_bg_dark,
         items: [
           DropdownMenuItem(
-            child: Text("Every 0.5 hours", style: _commonTextStyle()),
+            child: Text(Utils.getIntervalString(context,30), style: _commonTextStyle()),
             value: 30,
           ),
           DropdownMenuItem(
-            child: Text("Every 1 hours", style: _commonTextStyle()),
+            child: Text(Utils.getIntervalString(context,60), style: _commonTextStyle()),
             value: 60,
           ),
           DropdownMenuItem(
-            child: Text("Every 1.5 hours", style: _commonTextStyle()),
+            child: Text(Utils.getIntervalString(context,90), style: _commonTextStyle()),
             value: 90,
           ),
           DropdownMenuItem(
-            child: Text("Every 2 hours", style: _commonTextStyle()),
+            child: Text(Utils.getIntervalString(context,120), style: _commonTextStyle()),
             value: 120,
           ),
           DropdownMenuItem(
-            child: Text("Every 2.5 hours", style: _commonTextStyle()),
+            child: Text(Utils.getIntervalString(context,150), style: _commonTextStyle()),
             value: 150,
           ),
           DropdownMenuItem(
-              child: Text("Every 3 hours", style: _commonTextStyle()),
+              child: Text(Utils.getIntervalString(context,180), style: _commonTextStyle()),
               value: 180),
           DropdownMenuItem(
-              child: Text("Every 3.5 hours", style: _commonTextStyle()),
+              child: Text(Utils.getIntervalString(context,210), style: _commonTextStyle()),
               value: 210),
           DropdownMenuItem(
-              child: Text("Every 4 hours", style: _commonTextStyle()),
+              child: Text(Utils.getIntervalString(context,240), style: _commonTextStyle()),
               value: 240),
         ],
         onChanged: (val) {
@@ -566,8 +569,8 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
                   Preference.shared.setString(
                       Preference.DRINK_WATER_NOTIFICATION_MESSAGE,
                       _notificationMSgController.text);
-                  Preference.shared
-                      .setBool(Preference.IS_REMINDER_ON, isNotification);
+                  Preference.shared.setBool(Preference.IS_REMINDER_ON, isNotification);
+                  Preference.shared.setInt(Preference.DRINK_WATER_INTERVAL, dropdownIntervalValue);
                   //_repeatNotificationDaily();
                  if (isNotification)
                     setWaterReminder();
