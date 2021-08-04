@@ -118,7 +118,8 @@ class _WellDoneScreenState extends State<WellDoneScreen>
       lowIntenseTime: data.lowIntenseTime,
       moderateIntenseTime: data.moderateIntenseTime,
       highIntenseTime: data.highIntenseTime,
-      date: data.date));
+      date: data.date,
+      total: null));
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
     }

@@ -178,6 +178,11 @@ class DataBaseHelper {
     final maxDistance = await runningDao.findLongestDistance();
     return maxDistance!;
   }
+  static Future<RunningData?> getSumOfTotalDistance() async {
+    final runningDao = _database!.runningDao;
+    final SumofDistance = await runningDao.findSumOfDistance();
+    return SumofDistance!;
+  }
 
   static Future<RunningData?> getMaxPace() async {
     final runningDao = _database!.runningDao;

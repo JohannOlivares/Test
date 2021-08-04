@@ -43,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen>
     _checkMapData();
     _getPreference();
     _getBestRecordsDataForDistance();
+    _getSumOfTotalDistance();
     _getBestRecordsDataForBestPace();
     _getBestRecordsDataForLongestDuration();
     super.initState();
@@ -53,7 +54,6 @@ class _HomeScreenState extends State<HomeScreen>
         Preference.shared.getBool(Preference.IS_DISTANCE_INDICATOR_ON) ?? false;
     IsKmSelected =
         Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? false;
-    double distance;
     targetValueForDistance = Preference.shared.getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM)??0.0;
 
   }
@@ -66,6 +66,15 @@ class _HomeScreenState extends State<HomeScreen>
         "Longest Distance =====>" + longestDistance!.distance.toString());
     setState(() {});
     return longestDistance!;
+  }
+  RunningData? SumOfDistance;
+
+  _getSumOfTotalDistance() async {
+    SumOfDistance = await DataBaseHelper.getSumOfTotalDistance();
+    Debug.printLog(
+        "Total Distance =====>" + SumOfDistance!.total.toString());
+    setState(() {});
+    return SumOfDistance!.total!.toStringAsFixed(2);
   }
 
   RunningData? bestPace;
@@ -310,7 +319,7 @@ class _HomeScreenState extends State<HomeScreen>
   percentIndicatorForDistance() {
     return SfRadialGauge(
         title: GaugeTitle(
-            text: Languages.of(context)!.txtDistance+":$targetValueForDistance :",
+            text: Languages.of(context)!.txtDistance,
             textStyle: const TextStyle(
                 fontSize: 22.0,
                 fontWeight: FontWeight.w500,
@@ -329,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
               pointers: <GaugePointer>[
                 RangePointer(
-                  value: 1.5,
+                  value:  (SumOfDistance != null&&SumOfDistance!.total != null)?SumOfDistance!.total!:0.0,
                   gradient: SweepGradient(
                       colors: [Colur.blue_gredient_1, Colur.blue_gredient_2]),
                   cornerStyle: CornerStyle.bothCurve,
@@ -352,7 +361,7 @@ class _HomeScreenState extends State<HomeScreen>
                               Container(
                                 alignment: Alignment.bottomCenter,
                                 child: Text(
-                                  "1.2",
+                                  (SumOfDistance != null&&SumOfDistance!.total != null)?SumOfDistance!.total!.toString():"0.0",
                                   textAlign: TextAlign.end,
                                   style: TextStyle(
                                       fontSize: 54,

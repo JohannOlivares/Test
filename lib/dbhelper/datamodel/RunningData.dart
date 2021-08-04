@@ -23,9 +23,11 @@ class RunningData {
   int? lowIntenseTime;
   int? moderateIntenseTime;
   int? highIntenseTime;
+  double? total;
 
   @ignore
   File? imageFile;
+
 
   RunningData(
       {this.id,
@@ -38,7 +40,9 @@ class RunningData {
       this.eLat,
       this.sLong,
       this.image,this.polyLine,this.date,
-      this.lowIntenseTime,this.moderateIntenseTime,this.highIntenseTime});
+      this.lowIntenseTime,this.moderateIntenseTime,this.highIntenseTime,this.total});
+
+
 
 
   File? getImage(){
