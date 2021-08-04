@@ -55,6 +55,8 @@ class Colur {
   static const graph_water = const Color(0xff00A3FF);
   static const graph_health = const Color(0xff8C3CFF);
 
+  static const red_turn_off = const Color(0xffEB5757);
+
   static const gradient_for_weight_colors = [
   const Color(0xff8A3CFF),
   const Color(0xffC040FF),

@@ -49,17 +49,20 @@ class StepsPopUpMenu extends ModalRoute<String>{
                      buildPopUpItem(
                        icon: "ic_reset.png",
                        text: Languages.of(context)!.txtReset,
-                       onTap: () => Navigator.pop(context, Constant.STR_RESET)
+                       onTap: () => Navigator.pop(context, Constant.STR_RESET),
+                       color: Colur.txt_grey
                      ),
                      buildPopUpItem(
                        icon: "ic_edit.png",
                        text: Languages.of(context)!.txtEditTarget,
-                       onTap: () => Navigator.pop(context, Constant.STR_EDIT_TARGET)
+                       onTap: () => Navigator.pop(context, Constant.STR_EDIT_TARGET),
+                       color: Colur.txt_grey
                      ),
                      buildPopUpItem(
                        icon: "ic_turn_off.png",
                        text: Languages.of(context)!.txtTurnoff,
-                       onTap: () => Navigator.pop(context, Constant.STR_TURNOFF)
+                       onTap: () => Navigator.pop(context, Constant.STR_TURNOFF),
+                       color: Colur.red_turn_off,
                      ),
                    ],
                  ),
@@ -87,7 +90,7 @@ class StepsPopUpMenu extends ModalRoute<String>{
     );
   }
 
-  buildPopUpItem({String? icon, required String text, Function? onTap}) {
+  buildPopUpItem({String? icon, required String text, Function? onTap, Color? color}) {
     return InkWell(
       onTap: onTap as void Function()?,
       child: Container(
@@ -99,6 +102,7 @@ class StepsPopUpMenu extends ModalRoute<String>{
               "assets/icons/$icon",
               height: 18,
               width: 14,
+              color: color,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 20),
@@ -108,7 +112,6 @@ class StepsPopUpMenu extends ModalRoute<String>{
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: Colur.txt_black,
-                    //color: Colur.txt_white
                 ),
               ),
             ),

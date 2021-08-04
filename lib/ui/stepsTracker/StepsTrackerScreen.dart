@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -348,6 +347,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     return Column(
       children: [
         CircularProgressIndicator(
+          strokeWidth: 5,
           value: value,
           valueColor: AlwaysStoppedAnimation(Colur.txt_green),
           backgroundColor: Colur.progress_background_color,
@@ -370,6 +370,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   buildStepIndiactorRow(
       BuildContext context, double fullHeight, double fullWidth) {
     return Container(
+      margin: EdgeInsets.only(left: fullWidth * 0.02, right: fullWidth * 0.02,),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -413,14 +414,15 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
               ],
             ),
           ),
-
           //Step Indicator
           Stack(
             alignment: Alignment.bottomCenter,
             children: [
               Container(
-                height: 200,
-                width: 200,
+                margin: EdgeInsets.only(top: fullHeight*0.02),
+                width: fullWidth * 0.7 ,
+                height: fullHeight * 0.3,
+
                 child: stepsIndicator(),
               ),
               isPause!
@@ -688,7 +690,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
           minimum: 0,
           maximum: targetSteps == null ? 1500 : targetSteps!.toDouble(),
           axisLineStyle: AxisLineStyle(
-            thickness: 0.13,
+            thickness: 0.19,
             cornerStyle: CornerStyle.bothCurve,
             color: Colur.progress_background_color,
             thicknessUnit: GaugeSizeUnit.factor,
@@ -702,7 +704,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                 Colur.green_gradient_color2
               ]),
               cornerStyle: CornerStyle.bothCurve,
-              width: 0.13,
+              width: 0.19,
               sizeUnit: GaugeSizeUnit.factor,
             ),
           ],
@@ -742,7 +744,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         Preference.shared.setInt(Preference.TOTAL_STEPS, totalSteps!);
         //Debug.printLog("total step count: $totalSteps");
 
-        if (reset) {
+        /*if (reset) {
           currentStepCount = totalSteps! - oldStepCount!;
           Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
           reset = false;
@@ -751,7 +753,9 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
           currentStepCount = currentStepCount! + 1;
           Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
           // Debug.printLog("--------current step count: $currentStepCount");
-        }
+        }*/
+        currentStepCount = currentStepCount! + 1;
+        Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
       });
       calculateDistance();
       calculateCalories();
@@ -781,6 +785,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
           /*Debug.printLog(
               "value: $value  & dates[$i]: ${weekDates[i]}");*/
         });
+
       }
     }
   }
@@ -803,13 +808,13 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
     if (result == Constant.STR_RESET) {
       /*DataBaseHelper().insertSteps(StepsData(
-          steps: 400,
+          steps: 15000,
           targetSteps: 5000,
           cal: 200,
           distance: 2.48,
           duration: "00h 35",
           time: Utils.getCurrentDayTime(),
-          stepDate: "2021-07-28 00:00:00.000",
+          stepDate: "2021-08-01 00:00:00.000",
           dateTime: Utils.getCurrentDateTime()
       ));*/
       resetData();
@@ -847,7 +852,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   resetData() {
     setState(() {
-      reset = true;
+      //reset = true;
       //Reset steps
       totalSteps = Preference.shared.getInt(Preference.TOTAL_STEPS);
       oldStepCount = Preference.shared.getInt(Preference.TOTAL_STEPS);
@@ -867,6 +872,16 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       oldTime = 0;
       _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
     });
+
+    var todayDate = getDate(DateTime.now()).toString();
+    for (int i = 0; i < weekDates.length; i++) {
+      if (todayDate == weekDates[i]) {
+        setState(() {
+          stepsPercentValue![i] = 0;
+        });
+
+      }
+    }
   }
 
   calculateDistance() {
