@@ -378,6 +378,7 @@ abstract class Languages {
   String get txtS;
 
   String get txtUnitSettings;
+
   String get txtModerate;
 
   String get txtLow;
@@ -385,7 +386,6 @@ abstract class Languages {
   String get txtHigh;
 
   String get txtWeekGoal;
-
 
   String get txtGeneralSettings;
 
@@ -422,4 +422,12 @@ abstract class Languages {
   String get txtEveryFourHour;
 
   String get txtDailyReminder;
+
+  String get txtRatingOnGooglePlay;
+
+  String get txtRunTrackerFeedback;
+
+  String get txtSubmit;
+
+  String get txtFeedbackOrSuggestion;
 }

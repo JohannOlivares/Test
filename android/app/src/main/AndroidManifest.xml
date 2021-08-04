@@ -10,10 +10,19 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
 
+    <queries>
+        <!-- If your app emails -->
+        <intent>
+            <action android:name="android.intent.action.SEND" />
+            <category android:name="android.intent.category.APP_EMAIL" />
+            <data android:mimeType="*/*" />
+        </intent>
+    </queries>
+
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="Run Tracker"
-        android:requestLegacyExternalStorage="True">
+        android:requestLegacyExternalStorage="true">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCQ13O5S6xWRNv5LUWceCXFunPgbJCpTG8" />

@@ -26,6 +26,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
   @override
   void initState() {
     _checkData();
+    super.initState();
   }
 
   _checkData() async {

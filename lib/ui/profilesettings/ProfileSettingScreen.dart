@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
+import 'package:run_tracker/custom/bottomsheetdialogs/RatingDialog.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
+import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 class ProfileSettingScreen extends StatefulWidget {
   @override
@@ -20,6 +26,8 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
   List<String>? days;
   String? _daysChosenValue;
   String? prefDays, prefLanguage, prefUnits;
+  Future<void>? _launched;
+  TextEditingController _textFeedback = TextEditingController();
 
   _getPreference() {
     prefUnits = Preference.shared.getString(Preference.METRIC_IMPERIAL_UNITS);
@@ -48,10 +56,11 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
     if (_unitsChosenValue == null) _unitsChosenValue = units![0];
     languages = [Languages.of(context)!.txtKM, Languages.of(context)!.txtMILE];
     if (_languagesChosenValue == null) _languagesChosenValue = languages![0];
+    List<String> allDays = DateFormat.EEEE().dateSymbols.WEEKDAYS;
     days = [
-      Languages.of(context)!.txtSunday,
-      Languages.of(context)!.txtMonday,
-      Languages.of(context)!.txtSaturday
+      allDays[0],
+      allDays[1],
+      allDays[6]
     ];
     if (_daysChosenValue == null) _daysChosenValue = days![0];
     _getPreference();
@@ -314,10 +323,21 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                     onChanged: (String? value) {
                                       setState(() {
                                         _daysChosenValue = value;
-                                        Preference.clearFirstDayOfWeek();
                                         Preference.shared.setString(
                                             Preference.FIRST_DAY_OF_WEEK,
                                             _daysChosenValue.toString());
+                                        if(_daysChosenValue == "Sunday") {
+                                          Preference.shared.setInt(
+                                              Preference.FIRST_DAY_OF_WEEK_IN_NUM,0);
+                                        }
+                                        if(_daysChosenValue == "Monday") {
+                                          Preference.shared.setInt(
+                                              Preference.FIRST_DAY_OF_WEEK_IN_NUM,1);
+                                        }
+                                        if(_daysChosenValue == "Saturday") {
+                                          Preference.shared.setInt(
+                                              Preference.FIRST_DAY_OF_WEEK_IN_NUM,-1);
+                                        }
                                       });
                                     },
                                   ),
@@ -346,58 +366,151 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                               fontWeight: FontWeight.w500),
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 15.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "assets/icons/ic_email.webp",
-                              scale: 4,
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 25.0),
-                                child: Text(
-                                  Languages.of(context)!.txtFeedback,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Colur.txt_white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
+                      InkWell(
+                        onTap: () {
+                          _textFeedback.text = "";
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: TextField(
+                                    controller: _textFeedback,
+                                    textInputAction: TextInputAction.done,
+                                    minLines: 1,
+                                    maxLines: 10,
+                                    style: TextStyle(
+                                        color: Colur.txt_black,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18),
+                                    keyboardType: TextInputType.text,
+                                    maxLength: 500,
+                                    decoration: InputDecoration(
+                                      hintText: Languages.of(context)!
+                                          .txtFeedbackOrSuggestion,
+                                      hintStyle: TextStyle(
+                                          color: Colur.txt_grey,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text(
+                                        Languages.of(context)!
+                                            .txtCancel
+                                            .toUpperCase(),
+                                        style: TextStyle(
+                                            color: Colur.txt_purple,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                    TextButton(
+                                      child: Text(
+                                        Languages.of(context)!
+                                            .txtSubmit
+                                            .toUpperCase(),
+                                        style: TextStyle(
+                                            color: Colur.txt_purple,
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w500),
+                                      ),
+                                      onPressed: () {
+                                        final Uri emailLaunchUri = Uri(
+                                          scheme: 'mailto',
+                                          path: '${Constant.EMAIL_PATH}',
+                                          query: encodeQueryParameters(<String,
+                                              String>{
+                                            'subject': Languages.of(context)!
+                                                .txtRunTrackerFeedback,
+                                            'body': '${_textFeedback.text}'
+                                          }),
+                                        );
+                                        _launched = launch(
+                                                emailLaunchUri.toString())
+                                            .then((value) =>
+                                                Navigator.of(context).pop());
+
+                                        setState(() {});
+                                      },
+                                    ),
+                                  ],
+                                );
+                              });
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 15.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/icons/ic_email.webp",
+                                scale: 4,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 25.0),
+                                  child: Text(
+                                    Languages.of(context)!.txtFeedback,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colur.txt_white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 15.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "assets/icons/ic_star_white.webp",
-                              scale: 4,
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 25.0),
-                                child: Text(
-                                  Languages.of(context)!.txtRateUs,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Colur.txt_white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
+                      InkWell(
+                        onTap: () {
+                          showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              isDismissible: false,
+                              enableDrag: false,
+                              builder: (context) {
+                                return Wrap(
+                                  children: [
+                                    RatingDialog(),
+                                  ],
+                                );
+                              });
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 15.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/icons/ic_star_white.webp",
+                                scale: 4,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 25.0),
+                                  child: Text(
+                                    Languages.of(context)!.txtRateUs,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colur.txt_white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                       Container(
@@ -436,6 +549,13 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
         ),
       ),
     );
+  }
+
+  String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map((e) =>
+            '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
   }
 
   @override

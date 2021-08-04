@@ -39,6 +39,7 @@ class Preference {
   static const String METRIC_IMPERIAL_UNITS = "METRIC_IMPERIAL_UNITS";
   static const String LANGUAGE = "LANGUAGE";
   static const String FIRST_DAY_OF_WEEK = "FIRST_DAY_OF_WEEK";
+  static const String FIRST_DAY_OF_WEEK_IN_NUM = "FIRST_DAY_OF_WEEK_IN_NUM";
 
   static const String GENDER = "GENDER";
   static const String DISTANCE = "DISTANCE";

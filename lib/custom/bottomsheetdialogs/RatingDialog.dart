@@ -1,13 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:run_tracker/utils/Utils.dart';
-
-import '../../custom/GradientButtonSmall.dart';
+import 'package:rate_my_app/rate_my_app.dart';
 import '../../localization/language/languages.dart';
 import '../../utils/Color.dart';
-import '../../utils/Color.dart';
-import '../../utils/Color.dart';
 import '../../utils/Debug.dart';
+import '../GradientButtonSmall.dart';
 
 class RatingDialog extends StatefulWidget {
   @override
@@ -18,34 +17,99 @@ class _RatingDialogState extends State<RatingDialog> {
   late double rating;
   String? emoji;
   late String emojiTitle;
+  String? btnTitle;
+  RateMyApp? rateMyApp;
 
   @override
   void initState() {
     rating = 4.0;
+    _ratingDialog();
     emoji = 'assets/icons/ic_emoji_good.webp';
     super.initState();
   }
 
-  //Use this code for show dialog
-  /*showModalBottomSheet(
-  context: context,
-  isScrollControlled: true,
-  backgroundColor: Colors.transparent,
-  isDismissible: false,
-  enableDrag: false,
-  builder: (context) {
-  return Wrap(
-  children: [
-  RatingDialog(),
-  ],
-  );
-  });
-  */
+  _ratingDialog() {
+    rateMyApp = RateMyApp(
+      preferencesPrefix: 'rateMyApp_',
+      minDays: 7,
+      minLaunches: 10,
+      remindDays: 7,
+      remindLaunches: 10,
+      googlePlayIdentifier: 'com.lawquizgame',
+      appStoreIdentifier: '1563681531',
+    );
+
+    rateMyApp!.init().then((_) {
+      if (rateMyApp!.shouldOpenDialog) {
+        rateMyApp!.showRateDialog(
+          context,
+          title: 'Rate this app',
+          message:
+              'If you like this app, please take a little bit of your time to review it !\nIt really helps us and it shouldn\'t take you more than one minute.',
+          rateButton: 'RATE',
+          noButton: 'NO THANKS',
+          laterButton: 'MAYBE LATER',
+          listener: (button) {
+            switch (button) {
+              case RateMyAppDialogButton.rate:
+                print('Clicked on "Rate".');
+                break;
+              case RateMyAppDialogButton.later:
+                print('Clicked on "Later".');
+                break;
+              case RateMyAppDialogButton.no:
+                print('Clicked on "No".');
+                break;
+            }
+            return true;
+          },
+          ignoreNativeDialog: Platform.isAndroid,
+          dialogStyle: const DialogStyle(),
+          onDismissed: () =>
+              rateMyApp!.callEvent(RateMyAppEventType.laterButtonPressed),
+        );
+
+        rateMyApp!.showStarRateDialog(
+          context,
+          title: 'Rate this app',
+          message:
+              'You like this app ? Then take a little bit of your time to leave a rating :',
+          actionsBuilder: (context, stars) {
+            return [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () async {
+                  Debug.printLog('Thanks for the ' +
+                      (stars == null ? '0' : stars.round().toString()) +
+                      ' star(s) !');
+                  await rateMyApp!
+                      .callEvent(RateMyAppEventType.rateButtonPressed);
+                  Navigator.pop<RateMyAppDialogButton>(
+                      context, RateMyAppDialogButton.rate);
+                },
+              ),
+            ];
+          },
+          ignoreNativeDialog: Platform.isAndroid,
+          dialogStyle: const DialogStyle(
+            titleAlign: TextAlign.center,
+            messageAlign: TextAlign.center,
+            messagePadding: EdgeInsets.only(bottom: 20),
+          ),
+          starRatingOptions: const StarRatingOptions(),
+          onDismissed: () =>
+              rateMyApp!.callEvent(RateMyAppEventType.laterButtonPressed),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     if (emoji == 'assets/icons/ic_emoji_good.webp')
       emojiTitle = Languages.of(context)!.txtGood;
+    if (btnTitle == null)
+      btnTitle = Languages.of(context)!.txtRate.toUpperCase();
     return Container(
       color: Colur.transparent,
       child: Stack(
@@ -91,10 +155,6 @@ class _RatingDialogState extends State<RatingDialog> {
                       glowColor: Colur.txt_grey,
                       itemPadding: EdgeInsets.symmetric(horizontal: 5.0),
                       unratedColor: Colur.unselected_star,
-                      /*itemBuilder: (context, _) => Icon(
-                        Icons.star_border,
-                        color: Color(0xffFFC804),
-                      ),*/
                       itemBuilder: (context, _) => Image.asset(
                         "assets/icons/ic_star.webp",
                         color: Colur.selected_star,
@@ -105,18 +165,29 @@ class _RatingDialogState extends State<RatingDialog> {
                           if (rating <= 1.0) {
                             emoji = 'assets/icons/ic_emoji_terrible.webp';
                             emojiTitle = Languages.of(context)!.txtTerrible;
+                            btnTitle =
+                                Languages.of(context)!.txtRate.toUpperCase();
                           } else if (rating <= 2.0) {
                             emoji = 'assets/icons/ic_emoji_bad.webp';
                             emojiTitle = Languages.of(context)!.txtBad;
+                            btnTitle =
+                                Languages.of(context)!.txtRate.toUpperCase();
                           } else if (rating <= 3.0) {
                             emoji = 'assets/icons/ic_emoji_okay.webp';
                             emojiTitle = Languages.of(context)!.txtOkay;
+                            btnTitle =
+                                Languages.of(context)!.txtRate.toUpperCase();
                           } else if (rating <= 4.0) {
                             emoji = 'assets/icons/ic_emoji_good.webp';
                             emojiTitle = Languages.of(context)!.txtGood;
+                            btnTitle =
+                                Languages.of(context)!.txtRate.toUpperCase();
                           } else if (rating <= 5.0) {
                             emoji = 'assets/icons/ic_emoji_great.webp';
                             emojiTitle = Languages.of(context)!.txtGreat;
+                            btnTitle = Languages.of(context)!
+                                .txtRatingOnGooglePlay
+                                .toUpperCase();
                           }
                         });
                       },
@@ -144,7 +215,7 @@ class _RatingDialogState extends State<RatingDialog> {
                       height: 55,
                       radius: 50.0,
                       child: Text(
-                        Languages.of(context)!.txtRate.toUpperCase(),
+                        btnTitle!,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.center,
@@ -162,8 +233,9 @@ class _RatingDialogState extends State<RatingDialog> {
                         ],
                       ),
                       onPressed: () {
-                        Utils.showToast(context, "Rating Completed");
-                        Navigator.pop(context);
+                        rateMyApp!
+                            .showRateDialog(context)
+                            .then((value) => Navigator.pop(context));
                       },
                     ),
                   ),

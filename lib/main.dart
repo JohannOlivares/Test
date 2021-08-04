@@ -23,6 +23,7 @@ import 'package:rxdart/subjects.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -126,9 +127,16 @@ class _MyAppState extends State<MyApp> {
     getLocale().then((locale) {
       setState(() {
         _locale = locale;
+        initializeDateFormatting(_locale!.languageCode);
       });
     });
     super.didChangeDependencies();
+  }
+
+  @override
+  void initState() {
+
+    super.initState();
   }
 
   @override
@@ -200,8 +208,7 @@ class _MyAppState extends State<MyApp> {
               DrinkWaterLevelScreen(),
           '/profileSettingScreen': (BuildContext context) =>
               ProfileSettingScreen(),
-          '/reminder': (BuildContext context) =>
-              ReminderScreen(),
+          '/reminder': (BuildContext context) => ReminderScreen(),
           /*'/changeusername': (BuildContext context) =>
           ChangeUsernameScreen(),
       '/changepassword': (BuildContext context) =>

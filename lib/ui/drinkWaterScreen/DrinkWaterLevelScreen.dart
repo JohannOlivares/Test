@@ -43,9 +43,12 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
 
   var prefTargetValue;
   var prefSelectedML;
+  int? prefSelectedDay;
 
   List<WaterData> drinkWaterHistory = [];
   DateTime? nextDrinkTime;
+
+  List<String> allDays = DateFormat.EEEE().dateSymbols.SHORTWEEKDAYS;
 
   @override
   void initState() {
@@ -53,13 +56,21 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
     _getDataFromDataBase();
 
     startDateOfCurrentWeek =
-        getDate(currentDate.subtract(Duration(days: currentDate.weekday - 1)));
-    endDateOfCurrentWeek = getDate(currentDate
-        .add(Duration(days: DateTime.daysPerWeek - currentDate.weekday)));
+        getDate(currentDate.subtract(Duration(days: currentDate.weekday - prefSelectedDay!)));
+    if(prefSelectedDay == 0){
+      endDateOfCurrentWeek = getDate(currentDate.add(Duration(
+          days: DateTime.daysPerWeek - 4)));
+    }else if(prefSelectedDay == 1){
+      endDateOfCurrentWeek = getDate(currentDate.add(Duration(
+          days: DateTime.daysPerWeek - currentDate.weekday)));
+    }else if(prefSelectedDay == -1){
+      endDateOfCurrentWeek = getDate(currentDate.add(Duration(
+          days: DateTime.daysPerWeek - 5)));
+    }
     formatStartDateOfCurrentWeek =
-        DateFormat.MMMd('en_US').format(startDateOfCurrentWeek);
+        DateFormat.MMMd().format(startDateOfCurrentWeek);
     formatEndDateOfCurrentWeek =
-        DateFormat.MMMd('en_US').format(endDateOfCurrentWeek);
+        DateFormat.MMMd().format(endDateOfCurrentWeek);
     super.initState();
   }
 
@@ -70,7 +81,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
         Preference.shared.getString(Preference.TARGET_DRINK_WATER);
     prefSelectedML =
         Preference.shared.getInt(Preference.SELECTED_DRINK_WATER_ML);
-
+    prefSelectedDay =
+        Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM) ?? 1;
     setState(() {
       if (prefTargetValue == null) {
         maxLimitOfDrinkWater = 2000;
@@ -120,8 +132,6 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
       Debug.printLog(
           "nextDrinkTime Notification Time" + nextDrinkTime!.toIso8601String());
     }
-    Debug.printLog(
-        "Pending Notification" + notificationList[0].payload.toString());
     setState(() {});
   }
 
@@ -130,11 +140,13 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
 
   _getChartDataForDrinkWater() async {
     List<String> dates = [];
+    allDays.clear();
     for (int i = 0; i <= 6; i++) {
       var currentWeekDates = getDate(DateTime.now()
-          .subtract(Duration(days: currentDate.weekday - 1))
+          .subtract(Duration(days: currentDate.weekday - prefSelectedDay!))
           .add(Duration(days: i)));
       String formatCurrentWeekDates = DateFormat.yMd().format(currentWeekDates);
+      allDays.add(DateFormat('EEEE').format(currentWeekDates));
       dates.add(formatCurrentWeekDates);
     }
     total = await DataBaseHelper.getTotalDrinkWaterAllDays(dates);
@@ -473,30 +485,10 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                       tooltipBgColor: Colur.txt_grey,
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
                         String weekDay;
-                        switch (group.x.toInt()) {
-                          case 0:
-                            weekDay = Languages.of(context)!.txtMonday;
-                            break;
-                          case 1:
-                            weekDay = Languages.of(context)!.txtTuesday;
-                            break;
-                          case 2:
-                            weekDay = Languages.of(context)!.txtWednesday;
-                            break;
-                          case 3:
-                            weekDay = Languages.of(context)!.txtThursday;
-                            break;
-                          case 4:
-                            weekDay = Languages.of(context)!.txtFriday;
-                            break;
-                          case 5:
-                            weekDay = Languages.of(context)!.txtSaturday;
-                            break;
-                          case 6:
-                            weekDay = Languages.of(context)!.txtSunday;
-                            break;
-                          default:
-                            throw Error();
+                        if (allDays.isNotEmpty) {
+                          weekDay = allDays[groupIndex.toInt()];
+                        }else{
+                          weekDay = "";
                         }
                         return BarTooltipItem(
                           weekDay + '\n',
@@ -535,78 +527,26 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                   bottomTitles: SideTitles(
                     showTitles: true,
                     getTextStyles: (value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return currentDay == Languages.of(context)!.txtMonday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 1:
-                          return currentDay == Languages.of(context)!.txtTuesday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 2:
-                          return currentDay ==
-                                  Languages.of(context)!.txtWednesday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 3:
-                          return currentDay ==
-                                  Languages.of(context)!.txtThursday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 4:
-                          return currentDay == Languages.of(context)!.txtFriday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 5:
-                          return currentDay ==
-                                  Languages.of(context)!.txtSaturday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 6:
-                          return currentDay == Languages.of(context)!.txtSunday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        default:
+                      if (allDays.isNotEmpty) {
+                        if (allDays[value.toInt()] == currentDay) {
+                          return _selectedTextStyle();
+                        } else {
                           return _unSelectedTextStyle();
+                        }
+                      } else {
+                        return _unSelectedTextStyle();
                       }
                     },
                     margin: 10,
                     getTitles: (double value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return currentDay == Languages.of(context)!.txtMonday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtMon;
-                        case 1:
-                          return currentDay == Languages.of(context)!.txtTuesday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtTue;
-                        case 2:
-                          return currentDay ==
-                                  Languages.of(context)!.txtWednesday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtWed;
-                        case 3:
-                          return currentDay ==
-                                  Languages.of(context)!.txtThursday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtThu;
-                        case 4:
-                          return currentDay == Languages.of(context)!.txtFriday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtFri;
-                        case 5:
-                          return currentDay ==
-                                  Languages.of(context)!.txtSaturday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtSat;
-                        case 6:
-                          return currentDay == Languages.of(context)!.txtSunday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtSun;
-                        default:
-                          return '';
+                      if (allDays.isNotEmpty) {
+                        if (allDays[value.toInt()] == currentDay) {
+                          return Languages.of(context)!.txtToday;
+                        } else {
+                          return allDays[value.toInt()].substring(0,3);
+                        }
+                      } else {
+                        return "";
                       }
                     },
                   ),

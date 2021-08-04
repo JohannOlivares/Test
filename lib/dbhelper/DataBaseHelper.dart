@@ -146,6 +146,13 @@ class DataBaseHelper {
     return result;
   }
 
+  static Future<double?> getLast30DaysWeightAverage() async {
+    final weightDao = _database!.weightDao;
+    final avgWeight = await weightDao.selectLast30DaysWeightAverage();
+    Debug.printLog("Last 30 Days Average of Weight ==> " + avgWeight!.average.toString());
+    return avgWeight.average;
+  }
+
   //<!----------------------------- Running Table Operations ---------------------------------------------------!>
 
   Future<List<RunningData>> selectMapHistory() async {

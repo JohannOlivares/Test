@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart'as lottie;
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
-import 'package:run_tracker/common/ratingbottomsheetdialog/RatingDialog.dart';
+import 'package:run_tracker/custom/bottomsheetdialogs/RatingDialog.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';

@@ -551,7 +551,8 @@ class LanguageEn extends Languages {
   String get txtRepeat => "Repeat";
 
   @override
-  String get txtRunningReminderMsg => "It's time for Running,Let's get started!";
+  String get txtRunningReminderMsg =>
+      "It's time for Running,Let's get started!";
 
   @override
   String get txtF => "F";
@@ -625,8 +626,6 @@ class LanguageEn extends Languages {
   @override
   String get txtDailyReminder => "Daily Reminder";
 
-
-
   @override
   String get txtLow => "Low";
 
@@ -634,6 +633,17 @@ class LanguageEn extends Languages {
   String get txtHigh => "High";
 
   @override
+  String get txtRatingOnGooglePlay => "Rating on google play";
+
+  @override
+  String get txtRunTrackerFeedback => "Run Tracker Feedback";
+
+  @override
+  String get txtSubmit => "Submit";
+
+  @override
+  String get txtFeedbackOrSuggestion => "Feedback or suggestion";
+
   String get txtModerate => "Moderate";
 
   @override

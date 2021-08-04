@@ -17,9 +17,12 @@ class WeightData {
   @ColumnInfo(name: 'date')
   final String? date;
 
+  @ColumnInfo(name: "average")
+  final double? average;
+
   WeightData(
       {this.id,
       required this.weightKg,
       required this.weightLbs,
-      required this.date});
+      required this.date,this.average = 0.0});
 }

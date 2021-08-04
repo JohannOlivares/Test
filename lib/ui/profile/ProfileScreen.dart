@@ -1,8 +1,9 @@
+
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/custom/chart/CustomCircleSymbolRenderer.dart';
 import 'package:run_tracker/custom/dialogs/AddWeightDialog.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
@@ -12,7 +13,6 @@ import 'package:run_tracker/dbhelper/datamodel/WeightData.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:run_tracker/utils/Utils.dart';
 
 import '../../localization/language/languages.dart';
@@ -38,8 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var formatStartDateOfPreviousWeek;
   var formatEndDateOfPreviousWeek;
 
-  List<String> daysText = [];
-  List<String> daysYearText = [];
+  List<String> allDays = DateFormat.EEEE().dateSymbols.SHORTWEEKDAYS;
 
   bool isNextWeek = false;
   bool isPreviousWeek = false;
@@ -52,29 +51,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    _getPreference();
-    _getChartDataForDrinkWater();
-    _getDailyDrinkWaterAverage();
-    _getBestRecordsDataForDistance();
-    _getBestRecordsDataForBestPace();
-    _getBestRecordsDataForLongestDuration();
-    startDateOfCurrentWeek =
-        getDate(currentDate.subtract(Duration(days: currentDate.weekday - 1)));
-    endDateOfCurrentWeek = getDate(currentDate
-        .add(Duration(days: DateTime.daysPerWeek - currentDate.weekday)));
-    formatStartDateOfCurrentWeek =
-        DateFormat.MMMd('en_US').format(startDateOfCurrentWeek);
-    formatEndDateOfCurrentWeek =
-        DateFormat.MMMd('en_US').format(endDateOfCurrentWeek);
-
-    startDateOfPreviousWeek = getDate(
-        currentDate.subtract(Duration(days: (currentDate.weekday - 1) + 7)));
-    endDateOfPreviousWeek = getDate(currentDate
-        .add(Duration(days: (DateTime.daysPerWeek - currentDate.weekday) - 7)));
-    formatStartDateOfPreviousWeek =
-        DateFormat.MMMd('en_US').format(startDateOfPreviousWeek);
-    formatEndDateOfPreviousWeek =
-        DateFormat.MMMd('en_US').format(endDateOfPreviousWeek);
+    _fillData();
 
     isPreviousWeek = true;
     isNextWeek = false;
@@ -84,8 +61,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .inDays;
     DateTime start = DateTime(DateTime.now().year, 1, 1);
     for (int i = 0; i < totalDaysInYear; i++) {
-      daysText.add(DateFormat("dd/MM").format(start));
-      daysYearText.add(DateFormat("yyyy-MM-dd").format(start));
       data.add(LinearSales(start, null));
       start = start.add(Duration(days: 1));
     }
@@ -93,14 +68,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
+  _fillData() {
+    _getPreference();
+    _getDates();
+    _getChartDataForDrinkWater();
+    _getDailyDrinkWaterAverage();
+    _getBestRecordsDataForDistance();
+    _getBestRecordsDataForBestPace();
+    _getBestRecordsDataForLongestDuration();
+    _getLast30DaysWeightAverage();
+  }
+
   DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
 
   var prefTargetValue;
+  int? prefSelectedDay;
   int? maxLimitOfDrinkWater;
 
   _getPreference() {
     prefTargetValue =
         Preference.shared.getString(Preference.TARGET_DRINK_WATER);
+    prefSelectedDay =
+        Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM) ?? 1;
     setState(() {
       if (prefTargetValue == null) {
         maxLimitOfDrinkWater = 2000;
@@ -115,11 +104,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _getChartDataForDrinkWater() async {
     List<String> dates = [];
+    allDays.clear();
     for (int i = 0; i <= 6; i++) {
       var currentWeekDates = getDate(DateTime.now()
-          .subtract(Duration(days: currentDate.weekday - 1))
+          .subtract(Duration(days: currentDate.weekday - prefSelectedDay!))
           .add(Duration(days: i)));
       String formatCurrentWeekDates = DateFormat.yMd().format(currentWeekDates);
+
+      allDays.add(DateFormat('EEEE').format(currentWeekDates));
+
       dates.add(formatCurrentWeekDates);
     }
     total = await DataBaseHelper.getTotalDrinkWaterAllDays(dates);
@@ -210,6 +203,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {});
 
     return weightDataList;
+  }
+
+  _getDates(){
+    startDateOfCurrentWeek =
+        getDate(currentDate.subtract(Duration(days: currentDate.weekday - prefSelectedDay!)));
+    if(prefSelectedDay == 0){
+      endDateOfCurrentWeek = getDate(currentDate.add(Duration(
+          days: DateTime.daysPerWeek - 4)));
+    }else if(prefSelectedDay == 1){
+      endDateOfCurrentWeek = getDate(currentDate.add(Duration(
+          days: DateTime.daysPerWeek - currentDate.weekday)));
+    }else if(prefSelectedDay == -1){
+      endDateOfCurrentWeek = getDate(currentDate.add(Duration(
+          days: DateTime.daysPerWeek - 5)));
+    }
+    formatStartDateOfCurrentWeek =
+        DateFormat.MMMd().format(startDateOfCurrentWeek);
+    formatEndDateOfCurrentWeek =
+        DateFormat.MMMd().format(endDateOfCurrentWeek);
+
+    startDateOfPreviousWeek = getDate(
+        currentDate.subtract(Duration(days: (currentDate.weekday - prefSelectedDay!) + 7)));
+    if(prefSelectedDay == 0){ endDateOfPreviousWeek = getDate(currentDate
+        .add(Duration(days: (DateTime.daysPerWeek - currentDate.weekday) - 8)));
+    }else if(prefSelectedDay == 1){ endDateOfPreviousWeek = getDate(currentDate
+        .add(Duration(days: (DateTime.daysPerWeek - currentDate.weekday) - 7)));
+    }else if(prefSelectedDay == -1){ endDateOfPreviousWeek = getDate(currentDate
+        .add(Duration(days: (DateTime.daysPerWeek - currentDate.weekday) - 9)));
+    }
+
+    formatStartDateOfPreviousWeek =
+        DateFormat.MMMd().format(startDateOfPreviousWeek);
+    formatEndDateOfPreviousWeek =
+        DateFormat.MMMd().format(endDateOfPreviousWeek);
+  }
+
+  String? weightAverage;
+
+  _getLast30DaysWeightAverage() async {
+    double? average = await DataBaseHelper.getLast30DaysWeightAverage();
+    weightAverage = average!.toStringAsFixed(2);
+    setState(() {});
+    Debug.printLog("weightAverage =====>" + weightAverage!);
   }
 
   @override
@@ -321,7 +357,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, '/profileSettingScreen');
+                    Navigator.pushNamed(context, '/profileSettingScreen')
+                        .then((value) => _fillData());
                   },
                   child: Container(
                     padding: const EdgeInsets.all(8.0),
@@ -721,30 +758,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       tooltipBgColor: Colur.txt_grey,
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
                         String weekDay;
-                        switch (group.x.toInt()) {
-                          case 0:
-                            weekDay = Languages.of(context)!.txtMonday;
-                            break;
-                          case 1:
-                            weekDay = Languages.of(context)!.txtTuesday;
-                            break;
-                          case 2:
-                            weekDay = Languages.of(context)!.txtWednesday;
-                            break;
-                          case 3:
-                            weekDay = Languages.of(context)!.txtThursday;
-                            break;
-                          case 4:
-                            weekDay = Languages.of(context)!.txtFriday;
-                            break;
-                          case 5:
-                            weekDay = Languages.of(context)!.txtSaturday;
-                            break;
-                          case 6:
-                            weekDay = Languages.of(context)!.txtSunday;
-                            break;
-                          default:
-                            throw Error();
+                        if (allDays.isNotEmpty) {
+                          weekDay = allDays[groupIndex.toInt()];
+                        }else{
+                          weekDay = "";
                         }
                         return BarTooltipItem(
                           weekDay + '\n',
@@ -783,78 +800,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   bottomTitles: SideTitles(
                     showTitles: true,
                     getTextStyles: (value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return currentDay == Languages.of(context)!.txtMonday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 1:
-                          return currentDay == Languages.of(context)!.txtTuesday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 2:
-                          return currentDay ==
-                                  Languages.of(context)!.txtWednesday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 3:
-                          return currentDay ==
-                                  Languages.of(context)!.txtThursday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 4:
-                          return currentDay == Languages.of(context)!.txtFriday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 5:
-                          return currentDay ==
-                                  Languages.of(context)!.txtSaturday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 6:
-                          return currentDay == Languages.of(context)!.txtSunday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        default:
+                      if (allDays.isNotEmpty) {
+                        if (allDays[value.toInt()] == currentDay) {
+                          return _selectedTextStyle();
+                        } else {
                           return _unSelectedTextStyle();
+                        }
+                      } else {
+                        return _unSelectedTextStyle();
                       }
                     },
                     margin: 10,
                     getTitles: (double value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return currentDay == Languages.of(context)!.txtMonday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtMon;
-                        case 1:
-                          return currentDay == Languages.of(context)!.txtTuesday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtTue;
-                        case 2:
-                          return currentDay ==
-                                  Languages.of(context)!.txtWednesday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtWed;
-                        case 3:
-                          return currentDay ==
-                                  Languages.of(context)!.txtThursday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtThu;
-                        case 4:
-                          return currentDay == Languages.of(context)!.txtFriday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtFri;
-                        case 5:
-                          return currentDay ==
-                                  Languages.of(context)!.txtSaturday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtSat;
-                        case 6:
-                          return currentDay == Languages.of(context)!.txtSunday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtSun;
-                        default:
-                          return '';
+                      if (allDays.isNotEmpty) {
+                        if (allDays[value.toInt()] == currentDay) {
+                          return Languages.of(context)!.txtToday;
+                        } else {
+                          return allDays[value.toInt()].substring(0,3);
+                        }
+                      } else {
+                        return "";
                       }
                     },
                   ),
@@ -1025,7 +990,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             width: double.infinity,
             margin: EdgeInsets.only(top: 20.0),
             child: Text(
-              0.0.toString() + Languages.of(context)!.txtKG.toLowerCase(),
+              (weightAverage != null)
+                  ? weightAverage! + Languages.of(context)!.txtKG.toLowerCase()
+                  : "0.0" + Languages.of(context)!.txtKG.toLowerCase(),
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -1160,30 +1127,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       tooltipBgColor: Colur.txt_grey,
                       getTooltipItem: (group, groupIndex, rod, rodIndex) {
                         String weekDay;
-                        switch (group.x.toInt()) {
-                          case 0:
-                            weekDay = Languages.of(context)!.txtMonday;
-                            break;
-                          case 1:
-                            weekDay = Languages.of(context)!.txtTuesday;
-                            break;
-                          case 2:
-                            weekDay = Languages.of(context)!.txtWednesday;
-                            break;
-                          case 3:
-                            weekDay = Languages.of(context)!.txtThursday;
-                            break;
-                          case 4:
-                            weekDay = Languages.of(context)!.txtFriday;
-                            break;
-                          case 5:
-                            weekDay = Languages.of(context)!.txtSaturday;
-                            break;
-                          case 6:
-                            weekDay = Languages.of(context)!.txtSunday;
-                            break;
-                          default:
-                            throw Error();
+                        if (allDays.isNotEmpty) {
+                          weekDay = allDays[groupIndex.toInt()];
+                        }else{
+                          weekDay = "";
                         }
                         return BarTooltipItem(
                           weekDay + '\n',
@@ -1222,78 +1169,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   bottomTitles: SideTitles(
                     showTitles: true,
                     getTextStyles: (value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return currentDay == Languages.of(context)!.txtMonday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 1:
-                          return currentDay == Languages.of(context)!.txtTuesday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 2:
-                          return currentDay ==
-                                  Languages.of(context)!.txtWednesday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 3:
-                          return currentDay ==
-                                  Languages.of(context)!.txtThursday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 4:
-                          return currentDay == Languages.of(context)!.txtFriday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 5:
-                          return currentDay ==
-                                  Languages.of(context)!.txtSaturday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        case 6:
-                          return currentDay == Languages.of(context)!.txtSunday
-                              ? _selectedTextStyle()
-                              : _unSelectedTextStyle();
-                        default:
+                      if (allDays.isNotEmpty) {
+                        if (allDays[value.toInt()] == currentDay) {
+                          return _selectedTextStyle();
+                        } else {
                           return _unSelectedTextStyle();
+                        }
+                      } else {
+                        return _unSelectedTextStyle();
                       }
                     },
                     margin: 10,
                     getTitles: (double value) {
-                      switch (value.toInt()) {
-                        case 0:
-                          return currentDay == Languages.of(context)!.txtMonday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtMon;
-                        case 1:
-                          return currentDay == Languages.of(context)!.txtTuesday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtTue;
-                        case 2:
-                          return currentDay ==
-                                  Languages.of(context)!.txtWednesday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtWed;
-                        case 3:
-                          return currentDay ==
-                                  Languages.of(context)!.txtThursday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtThu;
-                        case 4:
-                          return currentDay == Languages.of(context)!.txtFriday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtFri;
-                        case 5:
-                          return currentDay ==
-                                  Languages.of(context)!.txtSaturday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtSat;
-                        case 6:
-                          return currentDay == Languages.of(context)!.txtSunday
-                              ? Languages.of(context)!.txtToday
-                              : Languages.of(context)!.txtSun;
-                        default:
-                          return '';
+                      if (allDays.isNotEmpty) {
+                        if (allDays[value.toInt()] == currentDay) {
+                          return Languages.of(context)!.txtToday;
+                        } else {
+                          return allDays[value.toInt()].substring(0,3);
+                        }
+                      } else {
+                        return "";
                       }
                     },
                   ),
