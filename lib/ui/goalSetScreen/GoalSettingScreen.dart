@@ -24,13 +24,14 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
 
   //late String unit;
   int targetDistanceInKm = 0;
+  int selectedMile = 0;
 
   double _sliderValue = 1;
   int walkTime = 150;
   int runTime = 75;
 
   Gradient grad = LinearGradient(colors: [Color(0XFF8A3CFF), Color(0XFFC040FF)]);
-
+  FixedExtentScrollController scrollContoller = FixedExtentScrollController();
 
   @override
   void initState() {
@@ -43,11 +44,15 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
         Preference.shared.getBool(Preference.IS_DISTANCE_INDICATOR_ON) ?? false;
     KmSelected =  Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
     double prefDistance = Preference.shared.getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM)??35.0;
-    if(KmSelected){
-     targetDistanceInKm =  prefDistance.round()-1;
-    }else{
-      targetDistanceInKm =  Utils.kmToMile(prefDistance).round()-1;
-    }
+    targetDistanceInKm =  prefDistance.round()-1;
+
+    if(!KmSelected)
+      selectedMile = Utils.kmToMile(prefDistance).ceil()-1;
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      scrollContoller.animateToItem((KmSelected)?targetDistanceInKm:selectedMile, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    });
+
   }
 
   @override
@@ -73,12 +78,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(top: fullHeight * 0.07),
-                child: _CustomTabBarView(fullHeight,fullWidth),/*CustomTabBar(
-                    tab1: Languages.of(context)!.txtHeartHealth,
-                    tab2: Languages.of(context)!.txtDistance,
-                    forHeart: _forHeart(fullHeight, fullWidth),
-                    forDistance: _forDistance(fullHeight),
-                ),*/
+                child: _CustomTabBarView(fullHeight,fullWidth),
               ),
             ),
             //Next Step Button
@@ -471,8 +471,11 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
             onTap: () {
               setState(() {
                 KmSelected = true;
+                targetDistanceInKm = Utils.mileToKm(selectedMile.toDouble()).round();
+                scrollContoller.animateToItem((KmSelected)?targetDistanceInKm:selectedMile, duration: Duration(milliseconds: 500), curve: Curves.ease);
               });
-              Debug.printLog("KM selected");
+              Debug.printLog("Mile  $selectedMile");
+              Debug.printLog("KM selected  $targetDistanceInKm");
             },
             child: Container(
               width: 100,
@@ -499,7 +502,10 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
             onTap: () {
               setState(() {
                 KmSelected = false;
-                Debug.printLog("Mile selected");
+                selectedMile = Utils.kmToMile(targetDistanceInKm.toDouble()).round();
+                scrollContoller.animateToItem((KmSelected)?targetDistanceInKm:selectedMile, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                Debug.printLog("Kilometer  $targetDistanceInKm");
+                Debug.printLog("Mile selected $selectedMile");
               });
             },
             child: Container(
@@ -558,8 +564,8 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
           }
           else{
             Preference.shared
-                .setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, Utils.mileToKm(targetDistanceInKm.toDouble()+1));
-            Utils.showToast(context, "${Utils.mileToKm(targetDistanceInKm.toDouble()+1)} Confirmed In Mile");
+                .setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, targetDistanceInKm.ceil().toDouble()+1);
+            Utils.showToast(context, "${Utils.kmToMile(targetDistanceInKm.toDouble()+1)} Confirmed In Mile");
 
           }
           Navigator.of(context)
@@ -590,11 +596,12 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
               useMagnifier: true,
               magnification: 1.05,
               selectionOverlay: CupertinoPickerDefaultSelectionOverlay(background: Colur.transparent,),
-              scrollController: FixedExtentScrollController(initialItem: targetDistanceInKm),
+              scrollController: scrollContoller,
               onSelectedItemChanged: (value) {
                 setState(() {
                   if (!KmSelected) {
                     //value += 1;
+                    selectedMile = value;
                     targetDistanceInKm = Utils.mileToKm(value.toDouble()).round();
                     //Debug.printLog("$targetDistanceInMile Mile selected");
                   } else {

@@ -53,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen>
         Preference.shared.getBool(Preference.IS_DISTANCE_INDICATOR_ON) ?? false;
     IsKmSelected =
         Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? false;
+    double distance;
     targetValueForDistance = Preference.shared.getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM)??0.0;
 
   }
@@ -163,23 +164,11 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   weeklyGoalsDisplay() {
+    Debug.printLog("targetValueForDistance :::=> $targetValueForDistance");
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(Languages.of(context)!.txtWeekGoal+" ",
-            style: TextStyle(
-                color: Colur.txt_grey,
-                fontWeight: FontWeight.w400,
-                fontSize: 18 //12
-                ),
-        ),
-        IsKmSelected?Text(targetValueForDistance.toInt().toString()+" "+Languages.of(context)!.txtKM,
-          style: TextStyle(
-              color: Colur.txt_grey,
-              fontWeight: FontWeight.w400,
-              fontSize: 18 //12
-          ),
-        ):Text("${Utils.kmToMile(targetValueForDistance).round()}  "+Languages.of(context)!.txtMile,
+        Text(Languages.of(context)!.txtWeekGoal+" "+(IsKmSelected?targetValueForDistance.toInt().toString()+" "+Languages.of(context)!.txtKM:"${Utils.kmToMile(targetValueForDistance).ceil()}  "+Languages.of(context)!.txtMile),
           style: TextStyle(
               color: Colur.txt_grey,
               fontWeight: FontWeight.w400,
@@ -321,7 +310,7 @@ class _HomeScreenState extends State<HomeScreen>
   percentIndicatorForDistance() {
     return SfRadialGauge(
         title: GaugeTitle(
-            text: Languages.of(context)!.txtDistance,
+            text: Languages.of(context)!.txtDistance+":$targetValueForDistance :",
             textStyle: const TextStyle(
                 fontSize: 22.0,
                 fontWeight: FontWeight.w500,
@@ -331,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen>
               showTicks: false,
               showLabels: false,
               minimum: 0,
-              maximum: 100,
+              maximum: targetValueForDistance,
               axisLineStyle: AxisLineStyle(
                 thickness: 0.19,
                 cornerStyle: CornerStyle.bothCurve,
@@ -340,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
               pointers: <GaugePointer>[
                 RangePointer(
-                  value: 75,
+                  value: 1.5,
                   gradient: SweepGradient(
                       colors: [Colur.blue_gredient_1, Colur.blue_gredient_2]),
                   cornerStyle: CornerStyle.bothCurve,
