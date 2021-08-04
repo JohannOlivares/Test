@@ -9,6 +9,7 @@ import 'package:location/location.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/shareScreen/ShareScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Utils.dart';
@@ -235,6 +236,28 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(12.0),
                           child: Image.asset('assets/icons/ic_delete.png'),
+                        ),
+                      ),
+                    ),
+
+                    InkWell(
+                      onTap: () {
+                        //Share
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ShareScreen(widget.recentActivitiesData)));
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(right: 15.0,bottom: 5),
+                        width: 44,
+                        height: 44,
+                        decoration: BoxDecoration(
+                            color: Colur.txt_white,
+
+                            borderRadius:
+                            BorderRadius.all(Radius.circular(15))),
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Icon(Icons.share),
                         ),
                       ),
                     ),

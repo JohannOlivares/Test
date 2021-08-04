@@ -10,6 +10,7 @@ import 'package:run_tracker/ui/mapsettings/MapSettingScreen.dart';
 import 'package:run_tracker/ui/profile/ProfileScreen.dart';
 import 'package:run_tracker/ui/profilesettings/ProfileSettingScreen.dart';
 import 'package:run_tracker/ui/reminder/ReminderScreen.dart';
+import 'package:run_tracker/ui/shareScreen/ShareScreen.dart';
 import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/ui/useLocation/UseLocationScreen.dart';
 import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';

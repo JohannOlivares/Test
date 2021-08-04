@@ -7,6 +7,7 @@ import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/shareScreen/ShareScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Utils.dart';
@@ -332,7 +333,9 @@ class _WellDoneScreenState extends State<WellDoneScreen>
 
   _detailsAndShareButtonView(double fullheight, double fullwidth) {
     return InkWell(
-      onTap: (){},
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> ShareScreen(widget.runningData)));
+      },
       child: Container(
         height: 60,
         width: fullwidth,
