@@ -44,6 +44,8 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
         Preference.shared.getBool(Preference.IS_DISTANCE_INDICATOR_ON) ?? false;
     KmSelected =  Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
     double prefDistance = Preference.shared.getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM)??35.0;
+    walkTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_WALKTIME)??150;
+    runTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_RUNTIME)??75;
     targetDistanceInKm =  prefDistance.round()-1;
 
     if(!KmSelected)
@@ -370,7 +372,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
                         tickMarkShape: RoundSliderTickMarkShape(tickMarkRadius: 1.5)
                         ),
                       child: Slider(
-                        value: _sliderValue,
+                        value: _sliderValue.roundToDouble(),
                         onChanged: (value) {
                           setState(() {
                             _sliderValue = value;
@@ -553,19 +555,26 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
         onPressed: () {
           Preference.shared
               .setBool(Preference.IS_DISTANCE_INDICATOR_ON, distanceSelected);
-          Preference.shared
-              .setBool(Preference.IS_KM_SELECTED, KmSelected);
-          //Utils.showToast(context, "Unit IS KM?:"+KmSelected.toString());
-          if(KmSelected){
-            Preference.shared
-                .setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, targetDistanceInKm.toDouble()+1);
-            Debug.printLog("${targetDistanceInKm.toDouble()+1}");
-            Utils.showToast(context, "${targetDistanceInKm.toDouble()+1} Confirmed In Kilometer");
-          }
-          else{
-            Preference.shared
-                .setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, targetDistanceInKm.ceil().toDouble()+1);
-            Utils.showToast(context, "${Utils.kmToMile(targetDistanceInKm.toDouble()+1)} Confirmed In Mile");
+          //Check Distance Selected or Not?
+          if(distanceSelected){
+            //When Distance Selected This Code will Execute......
+            Preference.shared.setBool(Preference.IS_KM_SELECTED, KmSelected);
+            //Utils.showToast(context, "Unit IS KM?:"+KmSelected.toString());
+            if(KmSelected){
+              Preference.shared.setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, targetDistanceInKm.toDouble()+1);
+              Debug.printLog("${targetDistanceInKm.toDouble()+1}");
+              Utils.showToast(context, "${targetDistanceInKm.toDouble()+1} Confirmed In Kilometer");
+            }else{
+              Preference.shared
+                  .setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, targetDistanceInKm.ceil().toDouble()+1);
+              Utils.showToast(context, "${Utils.kmToMile(targetDistanceInKm.toDouble()+1)} Confirmed In Mile");
+
+            }
+          }else{
+            Preference.shared.setInt(Preference.TARGETVALUE_FOR_WALKTIME, walkTime);
+            Preference.shared.setInt(Preference.TARGETVALUE_FOR_RUNTIME, runTime);
+            Preference.shared.setDouble(Preference.SLIDER_VALUE, _sliderValue);
+            Utils.showToast(context, "Walk:${walkTime} || Run:${runTime}");
 
           }
           Navigator.of(context)

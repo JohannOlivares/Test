@@ -103,7 +103,6 @@ class Utils {
 
   static double kmToMile(double km){
 
-    km = km.ceilToDouble();
     double mile = km/1.609;
 
     return mile;

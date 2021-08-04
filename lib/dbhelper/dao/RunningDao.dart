@@ -18,7 +18,7 @@ abstract class RunningDao {
   @Query('SELECT *,IFNULL(MAX(distance),0) FROM RunningData')
   Future<RunningData?> findLongestDistance();
 
-  @Query('SELECT IFNULL(SUM(distance),0) as total FROM RunningData')
+  @Query('SELECT IFNULL(SUM(distance),0.0) as total FROM RunningData')
   Future<RunningData?> findSumOfDistance();
 
   @Query('SELECT *,IFNULL(MAX(speed),0) FROM RunningData')
