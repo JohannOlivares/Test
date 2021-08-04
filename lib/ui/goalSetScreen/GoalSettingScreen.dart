@@ -46,7 +46,9 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
     double prefDistance = Preference.shared.getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM)??35.0;
     walkTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_WALKTIME)??150;
     runTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_RUNTIME)??75;
+    _sliderValue= Preference.shared.getDouble(Preference.SLIDER_VALUE)??1.0;
     targetDistanceInKm =  prefDistance.round()-1;
+
 
     if(!KmSelected)
       selectedMile = Utils.kmToMile(prefDistance).ceil()-1;
