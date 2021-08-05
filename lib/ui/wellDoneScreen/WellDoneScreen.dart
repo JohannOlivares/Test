@@ -29,101 +29,108 @@ class _WellDoneScreenState extends State<WellDoneScreen>
   Widget build(BuildContext context) {
     var fullheight = MediaQuery.of(context).size.height;
     var fullwidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-        backgroundColor: Colur.common_bg_dark,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                child: CommonTopBar(
-                  "",
-                  this,
-                  isClose: true,
-                  isDelete: true,
-                ),
-              ),
-              Stack(
-                alignment: Alignment.topCenter,
-                children: [
-                  Container(
-                  margin: EdgeInsets.only(
-                    left: 20,
-                    right: 20,
+    return WillPopScope(
+      onWillPop: () => saveDataAndExit(),
+      child: Scaffold(
+          backgroundColor: Colur.common_bg_dark,
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  child: CommonTopBar(
+                    "",
+                    this,
+                    isClose: true,
+                    isDelete: true,
                   ),
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: fullheight * 0.19,bottom: 25),
-                        child: Text(
-                          Languages.of(context)!.txtWellDone.toUpperCase(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.w700,
-                              color: Colur.txt_white,
-                              fontSize: 30),
+                ),
+                Stack(
+                  alignment: Alignment.topCenter,
+                  children: [
+                    Container(
+                    margin: EdgeInsets.only(
+                      left: 20,
+                      right: 20,
+                    ),
+                    child: Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: fullheight * 0.19,bottom: 25),
+                          child: Text(
+                            Languages.of(context)!.txtWellDone.toUpperCase(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                color: Colur.txt_white,
+                                fontSize: 30),
+                          ),
                         ),
+                        _mapScreenShot(fullheight, fullwidth),
+                        _InformationViewOfDistance(fullheight, fullwidth),
+                        _intensityViewOfWalking(fullheight,fullwidth),
+                        _detailsAndShareButtonView(fullheight, fullwidth),
+                        _satisfyListTile(fullheight, fullwidth),
+                      ],
+                    ),
+                  ),
+                    Container(
+                      width: fullwidth,
+                      height: fullheight,
+                      child: lottie.Lottie.asset(
+                        'assets/animation/congratulation.json',
+                        repeat: false,
+                        alignment: Alignment.topCenter
                       ),
-                      _mapScreenShot(fullheight, fullwidth),
-                      _InformationViewOfDistance(fullheight, fullwidth),
-                      _intensityViewOfWalking(fullheight,fullwidth),
-                      _detailsAndShareButtonView(fullheight, fullwidth),
-                      _satisfyListTile(fullheight, fullwidth),
-                    ],
-                  ),
-                ),
-                  Container(
-                    width: fullwidth,
-                    height: fullheight,
-                    child: lottie.Lottie.asset(
-                      'assets/animation/congratulation.json',
-                      repeat: false,
-                      alignment: Alignment.topCenter
                     ),
-                  ),
-                  Container(
-                    child: lottie.Lottie.asset(
-                      'assets/animation/thumbs_up.json',
-                      width: 200,
-                      height: 200,
-                      repeat: true,
+                    Container(
+                      child: lottie.Lottie.asset(
+                        'assets/animation/thumbs_up.json',
+                        width: 200,
+                        height: 200,
+                        repeat: true,
+                      ),
                     ),
-                  ),
 
-                ]
-              ),
-            ],
-          ),
-        ));
+                  ]
+                ),
+              ],
+            ),
+          )),
+    );
   }
 
   @override
   Future<void> onTopBarClick(String name, {bool value = true}) async {
     if (name == Constant.STR_DELETE) {
-      Utils.showToast(context, "THis Data is not Stored In History");
+      //Utils.showToast(context, "THis Data is not Stored In History");
       Navigator.of(context)
           .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
     }
     if (name == Constant.STR_CLOSE) {
-      var data = widget.runningData!;
-
-      await DataBaseHelper.insertRunningData(RunningData(id: null,
-          duration: data.duration,
-          distance: data.distance,
-          speed: data.speed,
-          cal: data.cal,
-          sLat: data.sLat,
-          sLong: data.sLong,
-          eLat: data.eLat,
-          eLong: data.eLong,
-          image: data.image,
-          polyLine: data.polyLine,
-      lowIntenseTime: data.lowIntenseTime,
-      moderateIntenseTime: data.moderateIntenseTime,
-      highIntenseTime: data.highIntenseTime,
-      date: data.date,
-      total: null));
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
+      saveDataAndExit();
     }
+  }
+
+  saveDataAndExit() async {
+    var data = widget.runningData!;
+
+    await DataBaseHelper.insertRunningData(RunningData(id: null,
+        duration: data.duration,
+        distance: data.distance,
+        speed: data.speed,
+        cal: data.cal,
+        sLat: data.sLat,
+        sLong: data.sLong,
+        eLat: data.eLat,
+        eLong: data.eLong,
+        image: data.image,
+        polyLine: data.polyLine,
+        lowIntenseTime: data.lowIntenseTime,
+        moderateIntenseTime: data.moderateIntenseTime,
+        highIntenseTime: data.highIntenseTime,
+        date: data.date,
+        total: null));
+    Navigator.of(context)
+        .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
   }
 
   _mapScreenShot(double fullheight, double fullwidth) {

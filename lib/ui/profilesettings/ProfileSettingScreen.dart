@@ -5,6 +5,8 @@ import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/custom/bottomsheetdialogs/RatingDialog.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/localization/language_data.dart';
+import 'package:run_tracker/localization/locale_constant.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
@@ -21,8 +23,8 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
     implements TopBarClickListener {
   List<String>? units;
   String? _unitsChosenValue;
-  List<String>? languages;
-  String? _languagesChosenValue;
+  LanguageData? _languagesChosenValue = LanguageData.languageList()[0];
+  List<LanguageData> languages =LanguageData.languageList();
   List<String>? days;
   String? _daysChosenValue;
   String? prefDays, prefLanguage, prefUnits;
@@ -38,9 +40,9 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
     }
     prefLanguage = Preference.shared.getString(Preference.LANGUAGE);
     if (prefLanguage == null) {
-      _languagesChosenValue = languages![0];
+      _languagesChosenValue = languages[0];
     } else {
-      _languagesChosenValue = prefLanguage;
+      _languagesChosenValue = languages.where((element) => (element.languageCode == prefLanguage)).toList()[0];
     }
     prefDays = Preference.shared.getString(Preference.FIRST_DAY_OF_WEEK);
     if (prefDays == null) {
@@ -54,14 +56,8 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
   Widget build(BuildContext context) {
     units = [Languages.of(context)!.txtKM, Languages.of(context)!.txtMILE];
     if (_unitsChosenValue == null) _unitsChosenValue = units![0];
-    languages = [Languages.of(context)!.txtKM, Languages.of(context)!.txtMILE];
-    if (_languagesChosenValue == null) _languagesChosenValue = languages![0];
     List<String> allDays = DateFormat.EEEE().dateSymbols.WEEKDAYS;
-    days = [
-      allDays[0],
-      allDays[1],
-      allDays[6]
-    ];
+    days = [allDays[0], allDays[1], allDays[6]];
     if (_daysChosenValue == null) _daysChosenValue = days![0];
     _getPreference();
 
@@ -239,7 +235,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                     ),
                                   ),
                                 ),
-                                DropdownButton<String>(
+                                DropdownButton<LanguageData>(
                                   value: _languagesChosenValue,
                                   elevation: 2,
                                   style: TextStyle(
@@ -254,22 +250,33 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                     color: Colur.transparent,
                                   ),
                                   isDense: true,
-                                  items: languages!
-                                      .map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
-                                  onChanged: (String? value) {
-                                    setState(() {
-                                      _languagesChosenValue = value;
-                                      Preference.clearLanguage();
-                                      Preference.shared.setString(
-                                          Preference.LANGUAGE,
-                                          _languagesChosenValue.toString());
-                                    });
+                                  items: languages
+                                      .map<DropdownMenuItem<LanguageData>>(
+                                        (e) => DropdownMenuItem<LanguageData>(
+                                          value: e,
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                e.flag,
+                                                style: TextStyle(fontSize: 20),
+                                              ),
+                                              Text(" "+e.name,style: TextStyle(fontSize: 20),)
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                  onChanged: (LanguageData? value) {
+                                    if (value != null)
+                                      setState(() {
+                                        _languagesChosenValue = value;
+                                        Preference.shared.setString(
+                                            Preference.LANGUAGE,
+                                            _languagesChosenValue!
+                                                .languageCode);
+                                        changeLanguage(context, _languagesChosenValue!.languageCode);
+                                      });
                                   },
                                 ),
                               ],
@@ -326,17 +333,23 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                         Preference.shared.setString(
                                             Preference.FIRST_DAY_OF_WEEK,
                                             _daysChosenValue.toString());
-                                        if(_daysChosenValue == "Sunday") {
+                                        if (_daysChosenValue == "Sunday") {
                                           Preference.shared.setInt(
-                                              Preference.FIRST_DAY_OF_WEEK_IN_NUM,0);
+                                              Preference
+                                                  .FIRST_DAY_OF_WEEK_IN_NUM,
+                                              0);
                                         }
-                                        if(_daysChosenValue == "Monday") {
+                                        if (_daysChosenValue == "Monday") {
                                           Preference.shared.setInt(
-                                              Preference.FIRST_DAY_OF_WEEK_IN_NUM,1);
+                                              Preference
+                                                  .FIRST_DAY_OF_WEEK_IN_NUM,
+                                              1);
                                         }
-                                        if(_daysChosenValue == "Saturday") {
+                                        if (_daysChosenValue == "Saturday") {
                                           Preference.shared.setInt(
-                                              Preference.FIRST_DAY_OF_WEEK_IN_NUM,-1);
+                                              Preference
+                                                  .FIRST_DAY_OF_WEEK_IN_NUM,
+                                              -1);
                                         }
                                       });
                                     },

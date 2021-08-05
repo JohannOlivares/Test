@@ -1,22 +1,24 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:run_tracker/utils/Constant.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
 
-const String prefSelectedLanguageCode = "SelectedLanguageCode";
+
 
 Future<Locale> setLocale(String languageCode) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
-  await _prefs.setString(prefSelectedLanguageCode, languageCode);
+  await _prefs.setString(Preference.LANGUAGE, languageCode);
   return _locale(languageCode);
 }
 
 Future<Locale> getLocale() async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
-  String languageCode = _prefs.getString(prefSelectedLanguageCode) ?? "en";
+  String languageCode = _prefs.getString(Preference.LANGUAGE) ?? "en";
   return _locale(languageCode);
 }
 

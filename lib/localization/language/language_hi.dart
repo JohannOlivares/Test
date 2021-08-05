@@ -1,6 +1,6 @@
 import 'languages.dart';
 
-class LanguageEn extends Languages {
+class LanguageHi extends Languages {
   @override
   String get appName => "Runner App";
 
@@ -142,7 +142,7 @@ class LanguageEn extends Languages {
   String get txtTarget => "Target";
 
   @override
-  String get txtReminder => "Reminder";
+  String get txtReminder => "अनुस्मारक";
 
   @override
   String get txtTargetDesc => "Most people need 2000 ml a day.";

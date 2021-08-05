@@ -736,13 +736,6 @@ class _StartRunScreenState extends State<StartRunScreen>
               polylineCoordinatesList.last.longitude,
               currentLocation.latitude,
               currentLocation.longitude);
-          /*pace = _countSpeed(
-              polylineCoordinatesList.last.latitude,
-              polylineCoordinatesList.last.longitude,
-              currentLocation.latitude!,
-              currentLocation.longitude!);*/
-
-          //if(pace > )
 
           calorisvalue = _countCalories(weight);
 
@@ -766,6 +759,11 @@ class _StartRunScreenState extends State<StartRunScreen>
               polylineCoordinatesList.add(LatLng(
                   currentLocation.latitude!, currentLocation.longitude!));
               _addPolyLine();
+              _controller?.moveCamera(
+                CameraUpdate.newCameraPosition(
+                  CameraPosition(target: LatLng(currentLocation.latitude!, currentLocation.longitude!), zoom: 20),
+                ),
+              );
             } else {
               Debug.printLog("Less Than 0.1: $lastDistance");
               return;

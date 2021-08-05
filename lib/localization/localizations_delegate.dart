@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:run_tracker/localization/language/language_en.dart';
 
+import 'language/language_ar.dart';
+import 'language/language_hi.dart';
 import 'language/languages.dart';
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<Languages> {
@@ -19,10 +21,10 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<Languages> {
     switch (locale.languageCode) {
       case 'en':
         return LanguageEn();
-      /*case 'ar':
-        return LanguageAr();*/
-      /*case 'hi':
-        return LanguageHi();*/
+      case 'ar':
+        return LanguageAr();
+      case 'hi':
+        return LanguageHi();
       default:
         return LanguageEn();
     }

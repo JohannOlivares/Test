@@ -1,8 +1,6 @@
-
-
-
 import 'package:run_tracker/common/multiselectdialog/MultiSelectDialog.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:intl/intl.dart';
 
 class Constant {
   static const STR_BACK = "Back";
@@ -31,13 +29,13 @@ class Constant {
   static const MAX_LBS = 2200.00;
 
   static List<MultiSelectDialogItem> daysList = [
-    MultiSelectDialogItem("1", "Monday"),
-    MultiSelectDialogItem("2", "Tuesday"),
-    MultiSelectDialogItem("3", "Wednesday"),
-    MultiSelectDialogItem("4", "Thursday"),
-    MultiSelectDialogItem("5", "Friday"),
-    MultiSelectDialogItem("6", "Saturday"),
-    MultiSelectDialogItem("7", "Sunday"),
+    MultiSelectDialogItem("1", DateFormat.EEEE().dateSymbols.WEEKDAYS[0]),
+    MultiSelectDialogItem("2", DateFormat.EEEE().dateSymbols.WEEKDAYS[1]),
+    MultiSelectDialogItem("3", DateFormat.EEEE().dateSymbols.WEEKDAYS[2]),
+    MultiSelectDialogItem("4", DateFormat.EEEE().dateSymbols.WEEKDAYS[3]),
+    MultiSelectDialogItem("5", DateFormat.EEEE().dateSymbols.WEEKDAYS[4]),
+    MultiSelectDialogItem("6", DateFormat.EEEE().dateSymbols.WEEKDAYS[5]),
+    MultiSelectDialogItem("7", DateFormat.EEEE().dateSymbols.WEEKDAYS[6]),
   ];
 
   static const String EMAIL_PATH = 'vivek@benzatine.com';

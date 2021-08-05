@@ -1,6 +1,6 @@
 import 'languages.dart';
 
-class LanguageEn extends Languages {
+class LanguageAr extends Languages {
   @override
   String get appName => "Runner App";
 

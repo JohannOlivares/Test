@@ -193,10 +193,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
 
     try {
       RenderRepaintBoundary boundary = previewContainer.currentContext!.findRenderObject() as RenderRepaintBoundary;
-      if (boundary.debugNeedsPaint) {
-        Timer(Duration(seconds: 1), () => screenShotAndShare());
-        return null;
-      }
+
       ui.Image image = await boundary.toImage(pixelRatio: 2.0);
       final directory = (await getExternalStorageDirectory())!.path;
       ByteData byteData = (await image.toByteData(format: ui.ImageByteFormat.png))!;
@@ -206,8 +203,8 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
       // print('Screenshot Path:' + imgFile.path);
       final RenderBox box = context.findRenderObject() as RenderBox;
       Share.shareFiles(['$directory/screenshot.png'],
-          subject: 'Screenshot + Share',
-          text: 'Hey, check it out the sharefiles repo!',
+          subject: Languages.of(context)!.appName,
+          text: Languages.of(context)!.txtShareMapMsg,
           sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size
       );
     } on PlatformException catch (e) {

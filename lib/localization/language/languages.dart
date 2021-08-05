@@ -430,4 +430,6 @@ abstract class Languages {
   String get txtSubmit;
 
   String get txtFeedbackOrSuggestion;
+
+  String get txtShareMapMsg;
 }
