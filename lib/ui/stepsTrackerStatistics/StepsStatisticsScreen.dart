@@ -11,6 +11,7 @@ import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:intl/intl.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Utils.dart';
 
 class StepsStatisticsScreen extends StatefulWidget {
   int? currentStepCount;
@@ -24,6 +25,7 @@ class _stepsTrackerStatisticsScreenState
     extends State<StepsStatisticsScreen> implements TopBarClickListener {
   DateTime currentDate = DateTime.now();
   var currentMonth = DateFormat('MM').format(DateTime.now());
+  var currentYear = DateFormat.y().format(DateTime.now());
 
   int? daysInMonth;
   List<StepsData>? stepsDataMonth;
@@ -54,7 +56,7 @@ class _stepsTrackerStatisticsScreenState
   void initState() {
     //Debug.printLog("current month: $currentMonth");
     //Debug.printLog("current step count: ${widget.currentStepCount}");
-    getDaysInMonth();
+    daysInMonth = Utils.daysInMonth(int.parse(currentMonth), int.parse(currentYear));
     getChartDataOfStepsForMonth();
     getTotalStepsMonth();
 
@@ -541,42 +543,6 @@ class _stepsTrackerStatisticsScreenState
         margin: 15.0,
         interval: 5000
     );
-  }
-
-  getDaysInMonth() {
-    if (currentMonth == "01" ||
-        currentMonth == "03" ||
-        currentMonth == "05" ||
-        currentMonth == "07" ||
-        currentMonth == "08" ||
-        currentMonth == "10" ||
-        currentMonth == "12") {
-      daysInMonth = 31;
-    } else if (currentMonth == "04" ||
-        currentMonth == "06" ||
-        currentMonth == "09" ||
-        currentMonth == "11" ) {
-      daysInMonth = 30;
-    } else {
-      //var year = 2024;
-      var year = int.parse(DateFormat.y().format(currentDate));
-      Debug.printLog("Year: $year");
-      if(year%4 == 0) {
-        if(year%100==0) {
-          if(year%400==0) {
-            daysInMonth = 29;
-          } else {
-            daysInMonth = 28;
-          }
-        } else {
-          daysInMonth = 29;
-        }
-      } else {
-        daysInMonth = 28;
-      }
-    }
-    
-    //Debug.printLog("days in month: $daysInMonth");
   }
 
   displayMonth () {

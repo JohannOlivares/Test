@@ -10,6 +10,7 @@ import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WeightData.dart';
+import 'package:run_tracker/ui/recentActivities/RecentActivitiesScreen.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
@@ -77,6 +78,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _getBestRecordsDataForBestPace();
     _getBestRecordsDataForLongestDuration();
     _getLast30DaysWeightAverage();
+    _getTotalDistanceForProgress();
+    _getTotaCaloriesForProgress();
+    _getAveragePaceForProgress();
+    _getTotalHoursForProgress();
   }
 
   DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
@@ -246,6 +251,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
     weightAverage = average!.toStringAsFixed(2);
     setState(() {});
     Debug.printLog("weightAverage =====>" + weightAverage!);
+  }
+
+  RunningData? totalDistance;
+
+  _getTotalDistanceForProgress() async{
+    totalDistance = await DataBaseHelper.getSumOfTotalDistance();
+    Debug.printLog("total distance: ${totalDistance!.total}");
+    setState(() {
+
+    });
+  }
+
+  RunningData? totalHours;
+
+  _getTotalHoursForProgress() async{
+    totalHours = await DataBaseHelper.getSumOfTotalDuration();
+    Debug.printLog("total duration: ${totalHours!.duration}");
+
+
+    setState(() {
+
+    });
+    return totalHours!;
+  }
+
+  RunningData? totalKcal;
+
+  _getTotaCaloriesForProgress() async{
+    totalKcal = await DataBaseHelper.getSumOfTotalCalories();
+    Debug.printLog("total calories: ${totalKcal!.total}");
+    setState(() {
+
+    });
+  }
+
+  RunningData? avgPace;
+
+  _getAveragePaceForProgress() async{
+    avgPace = await DataBaseHelper.getAverageOfSpeed();
+    Debug.printLog("average pace: ${avgPace!.total}");
+    setState(() {
+
+    });
   }
 
   @override
@@ -518,23 +566,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   //maxLines: 1,
                 ),
               ),
-              Text(
-                Languages.of(context)!.txtMore.toUpperCase(),
-                textAlign: TextAlign.left,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    color: Colur.txt_purple,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16),
-                //maxLines: 1,
+              InkWell(
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RecentActivitiesScreen())),
+                child: Text(
+                  Languages.of(context)!.txtMore.toUpperCase(),
+                  textAlign: TextAlign.left,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colur.txt_purple,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16),
+                  //maxLines: 1,
+                ),
               ),
             ],
           ),
           Container(
             margin: const EdgeInsets.only(top: 15.0),
             child: Text(
-              "0.00",
+              (totalDistance != null && totalDistance!.total != null)
+                  ? totalDistance!.total!.toStringAsFixed(2)
+                  :"0.00",
               textAlign: TextAlign.left,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -563,7 +616,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
-                        "0.01",
+                        (totalHours != null && totalHours!.duration! != null) ? Utils.secToHour(totalHours!.duration!).toStringAsFixed(2) : "0.00",
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -598,7 +651,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
-                        "4.9",
+                        (totalKcal != null && totalKcal!.total! != null) ? totalKcal!.total!.toStringAsFixed(1) : "0.0",
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -633,7 +686,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
-                        "0:00",
+                        (avgPace != null && avgPace!.total != null) ? avgPace!.total!.toStringAsFixed(2) : "0.00",
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

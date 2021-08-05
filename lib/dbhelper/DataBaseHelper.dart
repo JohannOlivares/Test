@@ -203,6 +203,24 @@ class DataBaseHelper {
     return longestDuration!;
   }
 
+  static Future<RunningData?> getSumOfTotalCalories() async {
+    final runningDao = _database!.runningDao;
+    final SumofCalories = await runningDao.findSumOfCalories();
+    return SumofCalories!;
+  }
+
+  static Future<RunningData?> getAverageOfSpeed() async {
+    final runningDao = _database!.runningDao;
+    final avgOfSpeed = await runningDao.findAverageOfSpeed();
+    return avgOfSpeed!;
+  }
+
+  static Future<RunningData?> getSumOfTotalDuration() async {
+    final runningDao = _database!.runningDao;
+    final SumofDuration = await runningDao.findSumOfDuration();
+    return SumofDuration!;
+  }
+
   //<!----------------------------- Steps Table Operations ---------------------------------------------------!>
 
   Future<StepsData> insertSteps(StepsData data) async {

@@ -857,7 +857,11 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       totalSteps = Preference.shared.getInt(Preference.TOTAL_STEPS);
       oldStepCount = Preference.shared.getInt(Preference.TOTAL_STEPS);
       //Debug.printLog("steps: $oldStepCount");
-      currentStepCount = totalSteps! - oldStepCount!;
+      if (totalSteps != null) {
+        currentStepCount = totalSteps! - oldStepCount!;
+      } else {
+        currentStepCount = 0;
+      }
       Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
 
       //Reset distance

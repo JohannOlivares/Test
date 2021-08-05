@@ -108,6 +108,16 @@ class Utils {
     return mile;
   }
 
+  static double secToHour(int sec) {
+    double hrs= sec/3600;
+    return hrs;
+  }
+
+  static double secToMin(int sec) {
+    double mins= sec/60;
+    return mins;
+  }
+
   static String getIntervalString(BuildContext context,int min)
   {
 
