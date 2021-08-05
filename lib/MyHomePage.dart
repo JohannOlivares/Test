@@ -587,7 +587,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                                 fontWeight: FontWeight.w400),
                           ),
                         ),
-                        _textContainer(Languages.of(context)!.txtPaceMinPerKM),
+                        _textContainer(Languages.of(context)!.txtPaceMinPer),
                       ],
                     ),
                   ),

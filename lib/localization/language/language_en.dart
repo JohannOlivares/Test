@@ -107,7 +107,7 @@ class LanguageEn extends Languages {
   String get txtKM => "Km";
 
   @override
-  String get txtMILE => "MILE";
+  String get txtMILE => "Mile";
 
   @override
   String get txtUseYourLocation => "USE YOUR LOCATION";
@@ -178,7 +178,7 @@ class LanguageEn extends Languages {
   String get txtPM => "PM";
 
   @override
-  String get txtPaceMinPerKM => "PACE (MIN/KM)";
+  String get txtPaceMinPer => "PACE (Min/";
 
   @override
   String get txtKCAL => "KCAL";
@@ -318,6 +318,9 @@ class LanguageEn extends Languages {
 
   @override
   String get txtMinMi => "Min/mi";
+
+  @override
+  String get txtMinKm => "Min/Km";
 
   @override
   String get txtKcal => "Kcal";
@@ -644,6 +647,9 @@ class LanguageEn extends Languages {
   @override
   String get txtFeedbackOrSuggestion => "Feedback or suggestion";
 
+  @override
+  String get txtWriteSuggestionsHere => "Share Valuable suggestions with Us";
+
   String get txtModerate => "Moderate";
 
   @override
@@ -654,4 +660,7 @@ class LanguageEn extends Languages {
 
   @override
   String get txtShareMapMsg => "Hey I have completed my goal.";
+
+  @override
+  String get txtNoDataFound => "No Data Found";
 }

@@ -654,4 +654,17 @@ class LanguageAr extends Languages {
 
   @override
   String get txtShareMapMsg => "Hey I have completed my goal.";
+
+  @override
+  String get txtMinKm => "Min/Km";
+
+  @override
+
+  String get txtPaceMinPer => "PACE (Min/";
+
+  @override
+  String get txtWriteSuggestionsHere => "Share Valuable suggestions with Us";
+
+  @override
+  String get txtNoDataFound => "No Data Found";
 }

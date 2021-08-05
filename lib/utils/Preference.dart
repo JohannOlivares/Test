@@ -18,6 +18,9 @@ class Preference {
   static const String PERCENTAGE = "PERCENTAGE";
   static const String NEED_TO_SYNC = "NEED_TO_SYNC";
 
+
+
+  static const String IS_USER_FIRSTTIME = "IS_USER_FIRSTTIME";
   static const String TARGET_DRINK_WATER = "TARGET_DRINK_WATER";
   static const String SELECTED_DRINK_WATER_ML = "SELECTED_DRINK_WATER_ML";
   static const String IS_REMINDER_ON = "IS_REMINDER_ON";

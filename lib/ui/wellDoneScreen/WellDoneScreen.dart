@@ -10,7 +10,9 @@ import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/shareScreen/ShareScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../custom/GradientButtonSmall.dart';
 import '../../localization/language/languages.dart';
@@ -25,6 +27,23 @@ class WellDoneScreen extends StatefulWidget {
 
 class _WellDoneScreenState extends State<WellDoneScreen>
     implements TopBarClickListener {
+
+  bool kmSelected = true;
+  TextEditingController _textFeedback = TextEditingController();
+  Future<void>? _launched2;
+
+  @override
+  void initState() {
+    _getPreferences();
+
+  }
+  _getPreferences(){
+    setState(() {
+      kmSelected =
+          Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     var fullheight = MediaQuery.of(context).size.height;
@@ -227,7 +246,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                     Container(
                       padding: EdgeInsets.only(left: 2, bottom: 7),
                       child: Text(
-                        Languages.of(context)!.txtPaceMinPerKM,
+                          (kmSelected)?Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtMile.toUpperCase()+")",
                         style: TextStyle(
                             color: Colur.txt_grey,
                             fontWeight: FontWeight.w500,
@@ -236,7 +255,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                     ),
                     Container(
                       child: Text(
-                        widget.runningData!.speed.toString(),
+                        (kmSelected)? widget.runningData!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(widget.runningData!.speed!).toStringAsFixed(2),
                         style: TextStyle(
                             color: Colur.txt_white,
                             fontWeight: FontWeight.w600,
@@ -428,7 +447,80 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                               Colur.green_For_NotReally,
                             ],
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            _textFeedback.text = "";
+                            showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: TextField(
+                                      controller: _textFeedback,
+                                      textInputAction: TextInputAction.done,
+                                      minLines: 1,
+                                      maxLines: 10,
+                                      style: TextStyle(
+                                          color: Colur.txt_black,
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 18),
+                                      keyboardType: TextInputType.text,
+                                      maxLength: 500,
+                                      decoration: InputDecoration(
+                                        hintText: Languages.of(context)!
+                                            .txtWriteSuggestionsHere,
+                                        hintStyle: TextStyle(
+                                            color: Colur.txt_grey,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 16),
+                                      ),
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text(
+                                          Languages.of(context)!
+                                              .txtCancel
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                              color: Colur.txt_purple,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text(
+                                          Languages.of(context)!
+                                              .txtSubmit
+                                              .toUpperCase(),
+                                          style: TextStyle(
+                                              color: Colur.txt_purple,
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                        onPressed: () {
+                                          final Uri emailLaunchUri = Uri(
+                                            scheme: 'mailto',
+                                            path: '${Constant.EMAIL_PATH}',
+                                            query: encodeQueryParameters(<String,
+                                                String>{
+                                              'subject': Languages.of(context)!
+                                                  .txtRunTrackerFeedback,
+                                              'body': '${_textFeedback.text}'
+                                            }),
+                                          );
+                                          _launched2 = launch(
+                                              emailLaunchUri.toString())
+                                              .then((value) =>
+                                              Navigator.of(context).pop());
+
+                                          setState(() {});
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                });
+                          },
                         ),
                         GradientButtonSmall(
                           width: 160,
@@ -491,6 +583,10 @@ class _WellDoneScreenState extends State<WellDoneScreen>
     );
   }
 
-
-
+  String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map((e) =>
+    '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
+  }
 }

@@ -12,6 +12,7 @@ import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'dart:ui' as ui;
 
@@ -30,6 +31,21 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
 
   GlobalKey previewContainer = new GlobalKey();
   int originalSize = 800;
+  bool kmSelected = true;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _getPreferences();
+  }
+
+  _getPreferences(){
+    setState(() {
+      kmSelected =
+          Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +127,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                                   children: [
                                     Container(
                                       child: Text(
-                                        widget.runningData!.speed.toString(), //widget.runningData!.speed.toString(),
+                                    (kmSelected)? widget.runningData!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(widget.runningData!.speed!).toStringAsFixed(2), //widget.runningData!.speed.toString(),
                                         style: TextStyle(
                                             color: Colur.txt_white,
                                             fontWeight: FontWeight.w600,
@@ -120,7 +136,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                                     ),
                                     Container(
                                       child: Text(
-                                        Languages.of(context)!.txtPaceMinPerKM,
+                                        (kmSelected)?Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtMile.toUpperCase()+")",
                                         style: TextStyle(
                                             color: Colur.txt_white,
                                             fontWeight: FontWeight.w500,

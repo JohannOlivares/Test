@@ -27,17 +27,19 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
   List<LanguageData> languages =LanguageData.languageList();
   List<String>? days;
   String? _daysChosenValue = DateFormat.EEEE().dateSymbols.WEEKDAYS[1];
-  String? prefDays, prefLanguage, prefUnits;
+  String? prefDays, prefLanguage;
   Future<void>? _launched;
   TextEditingController _textFeedback = TextEditingController();
 
+  bool KmSelected = true;
+
   _getPreference() {
-    prefUnits = Preference.shared.getString(Preference.METRIC_IMPERIAL_UNITS);
+    /*prefUnits = Preference.shared.getString(Preference.METRIC_IMPERIAL_UNITS);
     if (prefUnits == null) {
       _unitsChosenValue = units![0];
     } else {
       _unitsChosenValue = prefUnits;
-    }
+    }*/
     prefLanguage = Preference.shared.getString(Preference.LANGUAGE);
     if (prefLanguage == null) {
       _languagesChosenValue = languages[0];
@@ -50,11 +52,20 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
     } else {
       _daysChosenValue = prefDays;
     }
+    KmSelected =
+        Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+    if(KmSelected == true){
+      _unitsChosenValue = units![0];
+    }
+    else{
+      _unitsChosenValue = units![1];
+    }
+
   }
 
   @override
   Widget build(BuildContext context) {
-    units = [Languages.of(context)!.txtKM, Languages.of(context)!.txtMILE];
+    units = [Languages.of(context)!.txtKM.toUpperCase(), Languages.of(context)!.txtMILE.toUpperCase()];
     if (_unitsChosenValue == null) _unitsChosenValue = units![0];
     if (_languagesChosenValue == null) _languagesChosenValue = languages[0];
     List<String> allDays = DateFormat.EEEE().dateSymbols.STANDALONEWEEKDAYS;
@@ -64,6 +75,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
       allDays[6],
     ];
     if (_daysChosenValue == null) _daysChosenValue = days![0];
+
     _getPreference();
 
     return Scaffold(
@@ -184,9 +196,17 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                 setState(() {
                                   _unitsChosenValue = value;
                                   Preference.clearMetricAndImperialUnits();
-                                  Preference.shared.setString(
+                                  /*Preference.shared.setString(
                                       Preference.METRIC_IMPERIAL_UNITS,
-                                      _unitsChosenValue.toString());
+                                      _unitsChosenValue.toString());*/
+                                  if(_unitsChosenValue == Languages.of(context)!.txtKM.toUpperCase()){
+                                    KmSelected = true;
+                                    Preference.shared.setBool(Preference.IS_KM_SELECTED, KmSelected);
+                                  }else{
+                                    KmSelected = false;
+                                    Preference.shared.setBool(Preference.IS_KM_SELECTED, KmSelected);
+                                  }
+
                                 });
                               },
                             ),

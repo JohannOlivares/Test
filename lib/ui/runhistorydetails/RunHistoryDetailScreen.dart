@@ -12,6 +12,7 @@ import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/shareScreen/ShareScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 
@@ -38,12 +39,20 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
   List<LatLng> _polylineList = [];
   BitmapDescriptor? pinLocationIcon;
   Set<Marker> markers = {};
+  bool kmSelected = true;
 
 
   @override
   void initState() {
     super.initState();
     _getPointsAndDrawPolyLines();
+    _getPreferences();
+  }
+  _getPreferences(){
+   setState(() {
+     kmSelected =
+         Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+   });
   }
   _getPointsAndDrawPolyLines() async {
     _startLatLong = LatLng(double.parse(widget.recentActivitiesData.sLat!),double.parse(widget.recentActivitiesData.sLong!));
@@ -397,7 +406,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                         children: [
                           Container(
                             child: Text(
-                              widget.recentActivitiesData.speed.toString(), //widget.runningData!.speed.toString(),
+                              (kmSelected)? widget.recentActivitiesData.speed.toString():Utils.minPerKmToMinPerMile(widget.recentActivitiesData.speed!).toStringAsFixed(2), //widget.runningData!.speed.toString(),
                               style: TextStyle(
                                   color: Colur.txt_white,
                                   fontWeight: FontWeight.w600,
@@ -406,7 +415,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                           ),
                           Container(
                             child: Text(
-                              Languages.of(context)!.txtPaceMinPerKM,
+                                (kmSelected)?Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtMile.toUpperCase()+")",
                               style: TextStyle(
                                   color: Colur.txt_grey,
                                   fontWeight: FontWeight.w500,

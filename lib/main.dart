@@ -14,7 +14,9 @@ import 'package:run_tracker/ui/shareScreen/ShareScreen.dart';
 import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/ui/useLocation/UseLocationScreen.dart';
 import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
+import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
+import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
 
 import 'localization/locale_constant.dart';
@@ -116,6 +118,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Locale? _locale;
+  bool isFirstTimeUser = true;
 
   void setLocale(Locale locale) {
     setState(() {
@@ -137,7 +140,13 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
 
+    isFirstTime();
     super.initState();
+
+  }
+   isFirstTime() async {
+    isFirstTimeUser = Preference.shared.getBool(Preference.IS_USER_FIRSTTIME)??true;
+    Debug.printLog(isFirstTimeUser.toString());
   }
 
   @override
@@ -193,10 +202,8 @@ class _MyAppState extends State<MyApp> {
             systemNavigationBarIconBrightness: Brightness.light,
             systemNavigationBarColor: Colur.common_bg_dark,
           ),
-          // child: WeeklyGoalSetScreen(),
-          // child: CountdownTimerScreen(isGreen: false),
-          child: HomeWizardScreen(),
-          //child: RegistrationScreen(),
+
+          child:(isFirstTimeUser)?WizardScreen():HomeWizardScreen(),
         ),
         routes: <String, WidgetBuilder>{
           '/settingScreen': (BuildContext context) => MapSettingScreen(),

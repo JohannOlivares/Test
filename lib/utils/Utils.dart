@@ -107,6 +107,12 @@ class Utils {
 
     return mile;
   }
+  static double minPerKmToMinPerMile(double speedInKm){
+
+    double speedInmMile = speedInKm*1.609;
+
+    return speedInmMile;
+  }
 
   static double secToHour(int sec) {
     double hrs= sec/3600;

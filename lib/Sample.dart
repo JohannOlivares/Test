@@ -467,7 +467,7 @@ class _StartRunScreenState extends State<StartRunScreen> with TickerProviderStat
                                 fontWeight: FontWeight.w400),
                           ),
                         ),
-                        _textContainer(Languages.of(context)!.txtPaceMinPerKM),
+                        _textContainer(Languages.of(context)!.txtPaceMinPer),
                       ],
                     ),
                   ),

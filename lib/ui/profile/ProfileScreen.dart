@@ -50,9 +50,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int minWeight = Constant.MIN_KG.toInt();
   int maxWeight = Constant.MAX_KG.toInt();
 
+  bool kmSelected = true;
+
   @override
   void initState() {
     _fillData();
+
 
     isPreviousWeek = true;
     isNextWeek = false;
@@ -102,6 +105,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         maxLimitOfDrinkWater = int.parse(prefTargetValue);
       }
     });
+      setState(() {
+        kmSelected =
+            Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+      });
   }
 
   List<WaterData>? total;
@@ -284,6 +291,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
 
     });
+    return totalKcal!.total;
   }
 
   RunningData? avgPace;
@@ -294,6 +302,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
 
     });
+    return avgPace!.total;
+
   }
 
   @override
@@ -1394,7 +1404,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Text(
                                 (longestDistance != null &&
                                         longestDistance!.date != null)
-                                    ? longestDistance!.distance.toString()
+                                    ? (kmSelected)?longestDistance!.distance!.toStringAsFixed(2):Utils.kmToMile(longestDistance!.distance!).toStringAsFixed(2)
                                     : "0.0",
                                 textAlign: TextAlign.left,
                                 maxLines: 1,
@@ -1410,9 +1420,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   padding: const EdgeInsets.only(
                                       left: 5.0, bottom: 3.0),
                                   child: Text(
-                                    Languages.of(context)!
-                                        .txtMILE
-                                        .toLowerCase(),
+                                    (kmSelected)?Languages.of(context)!.txtKM.toUpperCase():Languages.of(context)!.txtMILE.toUpperCase(),
                                     textAlign: TextAlign.left,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -1487,7 +1495,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               Text(
                                 (bestPace != null && bestPace!.speed != null)
-                                    ? bestPace!.speed!.toString()
+                                    ? (kmSelected)?bestPace!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(bestPace!.speed!).toStringAsFixed(2)
                                     : "0.0",
                                 textAlign: TextAlign.left,
                                 maxLines: 1,
@@ -1502,7 +1510,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: const EdgeInsets.only(
                                     left: 5.0, bottom: 3.0),
                                 child: Text(
-                                  Languages.of(context)!.txtMinMi.toLowerCase(),
+                                    (kmSelected)?Languages.of(context)!.txtMinKm.toUpperCase():Languages.of(context)!.txtMinMi.toUpperCase(),
                                   textAlign: TextAlign.left,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

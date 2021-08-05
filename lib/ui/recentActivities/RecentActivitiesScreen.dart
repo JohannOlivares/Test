@@ -71,7 +71,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                   margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.4),
                   child: Text(
-                    "No Data Found",
+                    Languages.of(context)!.txtNoDataFound,
                     style: TextStyle(
                         color: Colur.purple_gradient_color2,
                         fontSize: 20,

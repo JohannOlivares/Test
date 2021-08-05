@@ -27,10 +27,10 @@ abstract class RunningDao {
   @Query('SELECT *,IFNULL(MAX(duration),0) FROM RunningData')
   Future<RunningData?> findMaxDuration();
 
-  @Query('SELECT IFNULL(SUM(cal),0) as total FROM RunningData')
+  @Query('SELECT IFNULL(SUM(cal),0.0) as total FROM RunningData')
   Future<RunningData?> findSumOfCalories();
 
-  @Query('SELECT IFNULL(AVG(speed),0) as total FROM RunningData')
+  @Query('SELECT IFNULL(AVG(speed),0.0) as total FROM RunningData')
   Future<RunningData?> findAverageOfSpeed();
 
   @Query('SELECT IFNULL(SUM(duration),0) as duration FROM RunningData')

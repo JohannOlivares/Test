@@ -25,6 +25,7 @@ import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
@@ -83,17 +84,17 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   //For Timer
   late StopWatchTimer stopWatchTimer;
+  //For Unit Changes
+  bool kmSelected = true;
 
   @override
   void initState() {
     StartRunScreen.runningStopListener = this;
     runningData = RunningData();
-
     stopWatchTimer = StopWatchTimer(
         mode: StopWatchMode.countUp,
         onChangeRawSecond: (value) {
-          Debug.printLog("OnTime Update ::::==> ${value}");
-
+          //Debug.printLog("OnTime Update ::::==> ${value}");
           if(currentSpeed >=1) {
             if (currentSpeed < 4.34) {
               totalLowIntenseTime += 1;
@@ -111,8 +112,18 @@ class _StartRunScreenState extends State<StartRunScreen>
           //print('onChange $value');
         });
 
+    _getPreferences();
+
     super.initState();
   }
+
+  _getPreferences() {
+    setState(() {
+      kmSelected =
+          Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+    });
+  }
+
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -166,12 +177,6 @@ class _StartRunScreenState extends State<StartRunScreen>
               ),
             ),
             _timerAndDistance(fullwidth),
-            Row(children: [
-              Text("Speed => $currentSpeed Km/h\n"
-                "High => $totalHighIntenseTime"
-                  "\nModrate ==> $totalModerateIntenseTime"
-                  "\nLow ==> $totalLowIntenseTime",style: TextStyle(color: Colors.white,fontSize: 16),)
-            ],),
             Expanded(
               child: _mapView(fulheight, context),
             ),
@@ -246,15 +251,14 @@ class _StartRunScreenState extends State<StartRunScreen>
                     children: [
                       Container(
                         child: Text(
-                          double.parse(totalDistance.toStringAsFixed(2))
-                              .toString(),
+                      (kmSelected)?totalDistance.toStringAsFixed(2):Utils.kmToMile(totalDistance).toStringAsFixed(2),
                           style: TextStyle(
                               fontSize: 32,
                               color: Colur.txt_white,
                               fontWeight: FontWeight.w400),
                         ),
                       ),
-                      _textContainer(Languages.of(context)!.txtKM),
+                      _textContainer((kmSelected)?Languages.of(context)!.txtKM.toUpperCase():Languages.of(context)!.txtMile.toUpperCase()),
                     ],
                   ),
                 ),
@@ -264,14 +268,14 @@ class _StartRunScreenState extends State<StartRunScreen>
                       children: [
                         Container(
                           child: Text(
-                            double.parse(pace.toStringAsFixed(2)).toString(),
+                            (kmSelected)?pace.toStringAsFixed(2):Utils.minPerKmToMinPerMile(pace).toStringAsFixed(2),
                             style: TextStyle(
                                 fontSize: 32,
                                 color: Colur.txt_white,
                                 fontWeight: FontWeight.w400),
                           ),
                         ),
-                        _textContainer(Languages.of(context)!.txtPaceMinPerKM),
+                        _textContainer((kmSelected)?Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtMile.toUpperCase()+")"),
                       ],
                     ),
                   ),
@@ -285,7 +289,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                           double.parse(calorisvalue.toStringAsFixed(2))
                               .toString(),
                           style: TextStyle(
-                              fontSize: 24,
+                              fontSize: 32,
                               color: Colur.txt_white,
                               fontWeight: FontWeight.w400),
                         ),
@@ -890,7 +894,10 @@ class _StartRunScreenState extends State<StartRunScreen>
     }
     if (name == Constant.STR_SETTING) {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MapSettingScreen()));
+          context, MaterialPageRoute(builder: (context) => MapSettingScreen())).then((value){
+
+        _getPreferences();
+      });
     }
   }
 //End Class

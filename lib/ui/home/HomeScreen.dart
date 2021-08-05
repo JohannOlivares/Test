@@ -184,11 +184,9 @@ class _HomeScreenState extends State<HomeScreen>
           Languages.of(context)!.txtWeekGoal +
               " " +
               (IsKmSelected
-                  ? targetValueForDistance.toInt().toString() +
-                      " " +
-                      Languages.of(context)!.txtKM
+                  ? targetValueForDistance.toInt().toString()+" " +Languages.of(context)!.txtKM.toUpperCase()
                   : "${Utils.kmToMile(targetValueForDistance).ceil()}  " +
-                      Languages.of(context)!.txtMile),
+                      Languages.of(context)!.txtMile.toUpperCase()),
           style: TextStyle(
               color: Colur.txt_grey,
               fontWeight: FontWeight.w400,
@@ -377,7 +375,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   (SumOfDistance != null &&
                                           SumOfDistance!.total != null)
                                       ? (IsKmSelected)
-                                          ? SumOfDistance!.total!.toString()
+                                          ? SumOfDistance!.total!.toStringAsFixed(2)
                                           : Utils.kmToMile(
                                                   SumOfDistance!.total!)
                                               .toStringAsFixed(2)
@@ -450,15 +448,15 @@ class _HomeScreenState extends State<HomeScreen>
                   (longestDistance != null && longestDistance!.distance != null)
                       ? (IsKmSelected)?longestDistance!.distance.toString():Utils.kmToMile(longestDistance!.distance!).toStringAsFixed(2)
                       : "0.0",
-              unit: (IsKmSelected)?Languages.of(context)!.txtKM:Languages.of(context)!.txtMile,
+              unit: (IsKmSelected)?Languages.of(context)!.txtKM.toUpperCase():Languages.of(context)!.txtMile.toUpperCase(),
               isNotDuration: true),
           bestRecordListTile(
               img: "ic_best_pace.png",
               text: Languages.of(context)!.txtBestPace,
               value: (bestPace != null && bestPace!.speed != null)
-                  ? bestPace!.speed!.toString()
+                  ? (IsKmSelected)?bestPace!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(bestPace!.speed!).toStringAsFixed(2)
                   : "0.0",
-              unit: "min/mi",
+              unit:(IsKmSelected)?Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtMile.toUpperCase()+")",
               isNotDuration: true),
           bestRecordListTile(
               img: "ic_duration.webp",
@@ -698,7 +696,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   color: Colur.txt_grey),
                             ),
                             Text(
-                              recentActivitiesData[index].speed!.toString(),
+                                (IsKmSelected)?recentActivitiesData[index].speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(recentActivitiesData[index].speed!).toStringAsFixed(2),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,

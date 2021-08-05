@@ -4,6 +4,7 @@ import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
+import 'package:run_tracker/utils/Preference.dart';
 
 class MapSettingScreen extends StatefulWidget {
   const MapSettingScreen({Key? key}) : super(key: key);
@@ -15,14 +16,28 @@ class MapSettingScreen extends StatefulWidget {
 class _MapSettingScreenState extends State<MapSettingScreen>
     implements TopBarClickListener {
 
-  late List<String> units;
+  List<String>? units;
   String? _chosenValue;
+  bool kmSelected= true;
+
+
+  _getPreferences(){
+    kmSelected =
+        Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+    if(kmSelected == true){
+      _chosenValue = units![0];
+    }
+    else{
+      _chosenValue = units![1];
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
-
-    units = [Languages.of(context)!.txtKM, Languages.of(context)!.txtMILE];
-    if (_chosenValue == null) _chosenValue = units[0];
+    units = [Languages.of(context)!.txtKM.toUpperCase(), Languages.of(context)!.txtMILE.toUpperCase()];
+    if (_chosenValue == null) _chosenValue = units![0];
+    _getPreferences();
 
     return Scaffold(
       backgroundColor: Colur.common_bg_dark,
@@ -93,7 +108,7 @@ class _MapSettingScreenState extends State<MapSettingScreen>
                       isDense: true,
 
                       items:
-                          units.map<DropdownMenuItem<String>>((String value) {
+                          units!.map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value),
@@ -102,7 +117,16 @@ class _MapSettingScreenState extends State<MapSettingScreen>
                       onChanged: (String? value) {
                         setState(() {
                           _chosenValue = value;
+
+                          if(_chosenValue == Languages.of(context)!.txtKM.toUpperCase()){
+                            kmSelected = true;
+                            Preference.shared.setBool(Preference.IS_KM_SELECTED, kmSelected);
+                          }else{
+                            kmSelected = false;
+                            Preference.shared.setBool(Preference.IS_KM_SELECTED, kmSelected);
+                          }
                         });
+
                       },
                     ),
                   ],

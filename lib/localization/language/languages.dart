@@ -121,7 +121,7 @@ abstract class Languages {
 
   String get txtPM;
 
-  String get txtPaceMinPerKM;
+  String get txtPaceMinPer;
 
   String get txtKCAL;
 
@@ -214,6 +214,8 @@ abstract class Languages {
   String get txtAvgPace;
 
   String get txtMinMi;
+
+  String get txtMinKm;
 
   String get txtKcal;
 
@@ -432,4 +434,8 @@ abstract class Languages {
   String get txtFeedbackOrSuggestion;
 
   String get txtShareMapMsg;
+
+  String get txtWriteSuggestionsHere;
+
+  String get txtNoDataFound;
 }

@@ -346,6 +346,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
         ),
         onPressed: () {
           convert();
+          Preference.shared.setBool(Preference.IS_USER_FIRSTTIME, false);
 
           setDataToPrefs();
 
