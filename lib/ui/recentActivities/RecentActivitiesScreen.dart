@@ -18,8 +18,6 @@ class RecentActivitiesScreen extends StatefulWidget {
 
 class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
     implements TopBarClickListener {
-
-
   List<RunningData> activityList = [];
   bool ActiivityShow = false;
 
@@ -32,7 +30,6 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
   _checkData() async {
     final result = await DataBaseHelper().selectMapHistory();
     activityList.addAll(result);
-
 
     //print(result[0].eLong);
 
@@ -47,17 +44,10 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
-    var fullHeight = MediaQuery
-        .of(context)
-        .size
-        .height;
-    var fullWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    var fullHeight = MediaQuery.of(context).size.height;
+    var fullWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colur.common_bg_dark,
       body: SingleChildScrollView(
@@ -75,10 +65,20 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                 visible: ActiivityShow,
                 child: recentActivitiesList(fullHeight),
               ),
-              Visibility(visible: !ActiivityShow,
+              Visibility(
+                visible: !ActiivityShow,
                 child: Container(
-                  child:Text("No Data Found",style: TextStyle(color: Colur.purple_gradient_color2,fontSize: 20,fontWeight: FontWeight.w500),),
-                ),)
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.4),
+                  child: Text(
+                    "No Data Found",
+                    style: TextStyle(
+                        color: Colur.purple_gradient_color2,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              )
             ],
           ),
         ),
@@ -90,12 +90,11 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
     return Container(
       child: ListView.builder(
           itemCount: activityList.length,
-          padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 15.0),
+          padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           reverse: true,
-          itemBuilder:
-              (BuildContext context, int index) {
+          itemBuilder: (BuildContext context, int index) {
             return _activitiesView(context, index, fullHeight);
           }),
     );
@@ -103,11 +102,12 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
 
   _activitiesView(BuildContext context, int index, double fullheight) {
     return InkWell(
-      onTap: (){
+      onTap: () {
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => RunHistoryDetailScreen(activityList[index])));
+                builder: (context) =>
+                    RunHistoryDetailScreen(activityList[index])));
       },
       child: Container(
         margin: EdgeInsets.only(top: 5, bottom: 5),
@@ -121,14 +121,19 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ClipRRect(
-                child: (activityList[index].getImage() == null) ? Image.asset(
-                  "assets/icons/ic_route_map.png",
-                  height: 90,
-                  width: 90,
-                  fit: BoxFit.cover,
-                ) : Image.file(activityList[index].getImage()!, height: 90,
-                  width: 90,
-                  fit: BoxFit.fill,),
+                child: (activityList[index].getImage() == null)
+                    ? Image.asset(
+                        "assets/icons/ic_route_map.png",
+                        height: 90,
+                        width: 90,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.file(
+                        activityList[index].getImage()!,
+                        height: 90,
+                        width: 90,
+                        fit: BoxFit.fill,
+                      ),
                 borderRadius: BorderRadius.circular(10),
               ),
               Expanded(
@@ -142,8 +147,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
-                            color: Colur.txt_white
-                        ),
+                            color: Colur.txt_white),
                       ),
                       Row(
                         children: [
@@ -153,8 +157,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 21,
-                                color: Colur.txt_white
-                            ),
+                                color: Colur.txt_white),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 10, top: 4),
@@ -164,8 +167,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 15,
-                                  color: Colur.txt_white
-                              ),
+                                  color: Colur.txt_white),
                             ),
                           ),
                         ],
@@ -181,16 +183,14 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,
-                                  color: Colur.txt_grey
-                              ),
+                                  color: Colur.txt_grey),
                             ),
                             Text(
                               activityList[index].speed!.toString(),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,
-                                  color: Colur.txt_grey
-                              ),
+                                  color: Colur.txt_grey),
                             ),
                             Row(
                               children: [
@@ -199,8 +199,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
                                       fontSize: 15,
-                                      color: Colur.txt_grey
-                                  ),
+                                      color: Colur.txt_grey),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 3.0),
@@ -209,8 +208,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
                                         fontSize: 11,
-                                        color: Colur.txt_grey
-                                    ),
+                                        color: Colur.txt_grey),
                                   ),
                                 ),
                               ],
@@ -229,13 +227,10 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
     );
   }
 
-
   @override
   void onTopBarClick(String name, {bool value = true}) {
     if (name == Constant.STR_BACK) {
       Navigator.pop(context);
     }
   }
-
-
 }

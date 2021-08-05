@@ -16,6 +16,7 @@ import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:intl/intl.dart';
 
 import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
@@ -29,7 +30,7 @@ class StepsTrackerScreen extends StatefulWidget {
 
 class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     implements TopBarClickListener {
-  bool? isPause ;//= false; //true: tracker on nd false: tracker off
+  bool? isPause; //= false; //true: tracker on nd false: tracker off
 
   bool reset = false;
 
@@ -60,6 +61,9 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   int? last7DaysSteps;
 
+  List<String> allDaysInSingleWord =
+      DateFormat.EEEE().dateSymbols.NARROWWEEKDAYS;
+
   @override
   void initState() {
     totalSteps = Preference.shared.getInt(Preference.TOTAL_STEPS);
@@ -77,12 +81,12 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   getisPauseFromPrefs() {
     var isPauseFromPrefs = Preference.shared.getBool(Preference.IS_PAUSE);
-    if(isPauseFromPrefs != null) {
+    if (isPauseFromPrefs != null) {
       isPause = isPauseFromPrefs;
     } else {
       isPause = false;
     }
-    
+
     if (isPause == true) {
       if (currentStepCount! > 0) {
         currentStepCount = currentStepCount! - 1;
@@ -136,43 +140,43 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                     children: [
                       buildWeekCircularIndicator(
                           fullHeight,
-                          Languages.of(context)!.txtM,
+                          allDaysInSingleWord[1],
                           stepsPercentValue!.isNotEmpty
                               ? stepsPercentValue![0]
                               : 0.0),
                       buildWeekCircularIndicator(
                           fullHeight,
-                          Languages.of(context)!.txtT,
+                          allDaysInSingleWord[2],
                           stepsPercentValue!.isNotEmpty
                               ? stepsPercentValue![1]
                               : 0.0),
                       buildWeekCircularIndicator(
                           fullHeight,
-                          Languages.of(context)!.txtW,
+                          allDaysInSingleWord[3],
                           stepsPercentValue!.isNotEmpty
                               ? stepsPercentValue![2]
                               : 0.0),
                       buildWeekCircularIndicator(
                           fullHeight,
-                          Languages.of(context)!.txtT,
+                          allDaysInSingleWord[4],
                           stepsPercentValue!.isNotEmpty
                               ? stepsPercentValue![3]
                               : 0.0),
                       buildWeekCircularIndicator(
                           fullHeight,
-                          Languages.of(context)!.txtF,
+                          allDaysInSingleWord[5],
                           stepsPercentValue!.isNotEmpty
                               ? stepsPercentValue![4]
                               : 0.0),
                       buildWeekCircularIndicator(
                           fullHeight,
-                          Languages.of(context)!.txtS,
+                          allDaysInSingleWord[6],
                           stepsPercentValue!.isNotEmpty
                               ? stepsPercentValue![5]
                               : 0.0),
                       buildWeekCircularIndicator(
                           fullHeight,
-                          Languages.of(context)!.txtS,
+                          allDaysInSingleWord[0],
                           stepsPercentValue!.isNotEmpty
                               ? stepsPercentValue![6]
                               : 0.0),
@@ -233,7 +237,10 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                   visible: true,
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Last7DaysStepsScreen()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Last7DaysStepsScreen()));
                     },
                     child: Stack(
                       alignment: Alignment.center,
@@ -373,7 +380,10 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   buildStepIndiactorRow(
       BuildContext context, double fullHeight, double fullWidth) {
     return Container(
-      margin: EdgeInsets.only(left: fullWidth * 0.02, right: fullWidth * 0.02,),
+      margin: EdgeInsets.only(
+        left: fullWidth * 0.02,
+        right: fullWidth * 0.02,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -385,7 +395,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                 Preference.shared.setBool(Preference.IS_PAUSE, isPause!);
               });
 
-              Future.delayed(Duration(milliseconds: 100) , () {
+              Future.delayed(Duration(milliseconds: 100), () {
                 if (isPause == true) {
                   if (currentStepCount! > 0) {
                     currentStepCount = currentStepCount! - 1;
@@ -426,10 +436,9 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
             alignment: Alignment.bottomCenter,
             children: [
               Container(
-                margin: EdgeInsets.only(top: fullHeight*0.02),
-                width: fullWidth * 0.7 ,
+                margin: EdgeInsets.only(top: fullHeight * 0.02),
+                width: fullWidth * 0.7,
                 height: fullHeight * 0.3,
-
                 child: stepsIndicator(),
               ),
               isPause!
@@ -783,7 +792,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         setState(() {
           double value = currentStepCount!.toDouble() / targetSteps!.toDouble();
           if (value <= 1.0) {
-            if(stepsPercentValue!.isNotEmpty) {
+            if (stepsPercentValue!.isNotEmpty) {
               stepsPercentValue![i] = value;
             }
           } else {
@@ -792,7 +801,6 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
           /*Debug.printLog(
               "value: $value  & dates[$i]: ${weekDates[i]}");*/
         });
-
       }
     }
   }
@@ -890,7 +898,6 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         setState(() {
           stepsPercentValue![i] = 0;
         });
-
       }
     }
   }
@@ -924,7 +931,8 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   }
 
   getDistance() {
-    var distanceFromPrefs = Preference.shared.getDouble(Preference.OLD_DISTANCE);
+    var distanceFromPrefs =
+        Preference.shared.getDouble(Preference.OLD_DISTANCE);
     //Debug.printLog("d: $dist");
 
     if (distanceFromPrefs != null) {
@@ -941,7 +949,8 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     weight = Preference.shared.getInt(Preference.WEIGHT);
     //Debug.printLog("Weight: $weight");
 
-    var caloriesFromPrefs = Preference.shared.getDouble(Preference.OLD_CALORIES);
+    var caloriesFromPrefs =
+        Preference.shared.getDouble(Preference.OLD_CALORIES);
     //Debug.printLog("calories: $cal");
 
     if (caloriesFromPrefs != null) {

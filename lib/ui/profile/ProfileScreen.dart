@@ -248,7 +248,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _getLast30DaysWeightAverage() async {
     double? average = await DataBaseHelper.getLast30DaysWeightAverage();
-    weightAverage = average!.toStringAsFixed(2);
+    weightAverage = (average != null) ?  average.toStringAsFixed(2) : 0.0.toString();
     setState(() {});
     Debug.printLog("weightAverage =====>" + weightAverage!);
   }

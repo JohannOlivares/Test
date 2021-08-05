@@ -4,6 +4,7 @@ import 'package:run_tracker/dbhelper/datamodel/StepsData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WeightData.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 
 class DataBaseHelper {
@@ -274,8 +275,18 @@ class DataBaseHelper {
 
   Future<List<StepsData>> getStepsForCurrentWeek() async {
     final stepsDao = _database!.stepsDao;
-    final steps = await stepsDao.getStepsForCurrentWeek();
-    steps.forEach((element) {
+    var prefDay = Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM) ?? 1;
+    List<StepsData>? steps;
+
+    if(prefDay == 0){
+      steps =  await stepsDao.getStepsForCurrentWeekSun();
+    }else if(prefDay == 1){
+      steps =  await stepsDao.getStepsForCurrentWeekMon();
+    }else if(prefDay == -1){
+      steps =  await stepsDao.getStepsForCurrentWeekSat();
+    }
+
+    steps!.forEach((element) {
       Debug.printLog("-----------Steps For Week Days ==> " +
           " Steps ==> " + element.steps.toString() + " Date ==> " +
           element.stepDate.toString() + "------------");

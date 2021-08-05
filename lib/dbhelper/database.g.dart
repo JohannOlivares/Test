@@ -392,6 +392,75 @@ class _$RunningDao extends RunningDao {
   }
 
   @override
+  Future<RunningData?> findSumOfCalories() async {
+    return _queryAdapter.query(
+        'SELECT IFNULL(SUM(cal),0) as total FROM RunningData',
+        mapper: (Map<String, Object?> row) => RunningData(
+            id: row['id'] as int?,
+            duration: row['duration'] as int?,
+            distance: row['distance'] as double?,
+            speed: row['speed'] as double?,
+            cal: row['cal'] as double?,
+            sLat: row['sLat'] as String?,
+            eLong: row['eLong'] as String?,
+            eLat: row['eLat'] as String?,
+            sLong: row['sLong'] as String?,
+            image: row['image'] as String?,
+            polyLine: row['polyLine'] as String?,
+            date: row['date'] as String?,
+            lowIntenseTime: row['lowIntenseTime'] as int?,
+            moderateIntenseTime: row['moderateIntenseTime'] as int?,
+            highIntenseTime: row['highIntenseTime'] as int?,
+            total: row['total'] as double?));
+  }
+
+  @override
+  Future<RunningData?> findAverageOfSpeed() async {
+    return _queryAdapter.query(
+        'SELECT IFNULL(AVG(speed),0) as total FROM RunningData',
+        mapper: (Map<String, Object?> row) => RunningData(
+            id: row['id'] as int?,
+            duration: row['duration'] as int?,
+            distance: row['distance'] as double?,
+            speed: row['speed'] as double?,
+            cal: row['cal'] as double?,
+            sLat: row['sLat'] as String?,
+            eLong: row['eLong'] as String?,
+            eLat: row['eLat'] as String?,
+            sLong: row['sLong'] as String?,
+            image: row['image'] as String?,
+            polyLine: row['polyLine'] as String?,
+            date: row['date'] as String?,
+            lowIntenseTime: row['lowIntenseTime'] as int?,
+            moderateIntenseTime: row['moderateIntenseTime'] as int?,
+            highIntenseTime: row['highIntenseTime'] as int?,
+            total: row['total'] as double?));
+  }
+
+  @override
+  Future<RunningData?> findSumOfDuration() async {
+    return _queryAdapter.query(
+        'SELECT IFNULL(SUM(duration),0) as duration FROM RunningData',
+        mapper: (Map<String, Object?> row) => RunningData(
+            id: row['id'] as int?,
+            duration: row['duration'] as int?,
+            distance: row['distance'] as double?,
+            speed: row['speed'] as double?,
+            cal: row['cal'] as double?,
+            sLat: row['sLat'] as String?,
+            eLong: row['eLong'] as String?,
+            eLat: row['eLat'] as String?,
+            sLong: row['sLong'] as String?,
+            image: row['image'] as String?,
+            polyLine: row['polyLine'] as String?,
+            date: row['date'] as String?,
+            lowIntenseTime: row['lowIntenseTime'] as int?,
+            moderateIntenseTime: row['moderateIntenseTime'] as int?,
+            highIntenseTime: row['highIntenseTime'] as int?,
+            total: row['total'] as double?));
+  }
+
+  @override
   Future<int> insertTask(RunningData task) {
     return _runningDataInsertionAdapter.insertAndReturnId(
         task, OnConflictStrategy.abort);
@@ -790,7 +859,39 @@ class _$StepsDao extends StepsDao {
   }
 
   @override
-  Future<List<StepsData>> getStepsForCurrentWeek() async {
+  Future<List<StepsData>> getStepsForCurrentWeekSun() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM steps_table WHERE (DATE(stepDate) >= DATE("now","weekday 0","-7 days"))',
+        mapper: (Map<String, Object?> row) => StepsData(
+            id: row['id'] as int?,
+            steps: row['steps'] as int?,
+            targetSteps: row['targetSteps'] as int?,
+            stepDate: row['stepDate'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            cal: row['cal'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as double?));
+  }
+
+  @override
+  Future<List<StepsData>> getStepsForCurrentWeekSat() async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM steps_table WHERE (DATE(stepDate) >= DATE("now","weekday 6","-7 days"))',
+        mapper: (Map<String, Object?> row) => StepsData(
+            id: row['id'] as int?,
+            steps: row['steps'] as int?,
+            targetSteps: row['targetSteps'] as int?,
+            stepDate: row['stepDate'] as String?,
+            time: row['time'] as String?,
+            dateTime: row['date_time'] as String?,
+            cal: row['cal'] as int?,
+            duration: row['duration'] as String?,
+            distance: row['distance'] as double?));
+  }
+
+  @override
+  Future<List<StepsData>> getStepsForCurrentWeekMon() async {
     return _queryAdapter.queryList(
         'SELECT * FROM steps_table WHERE (DATE(stepDate) >= DATE("now","weekday 1","-7 days"))',
         mapper: (Map<String, Object?> row) => StepsData(

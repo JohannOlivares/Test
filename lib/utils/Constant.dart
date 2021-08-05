@@ -38,5 +38,5 @@ class Constant {
     MultiSelectDialogItem("7", DateFormat.EEEE().dateSymbols.WEEKDAYS[6]),
   ];
 
-  static const String EMAIL_PATH = 'vivek@benzatine.com';
+  static const String EMAIL_PATH = 'fitnessentertainmentapps@gmail.com';
 }

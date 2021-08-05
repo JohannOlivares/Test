@@ -11,6 +11,7 @@ import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:intl/intl.dart';
 import 'package:run_tracker/utils/Debug.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 
 class StepsStatisticsScreen extends StatefulWidget {
@@ -52,8 +53,15 @@ class _stepsTrackerStatisticsScreenState
   bool isMonthSelected = false;
   bool isWeekSelected = true;
 
+  List<String> allDays = DateFormat.EEEE().dateSymbols.WEEKDAYS;
+  List<String> allMonths = DateFormat.EEEE().dateSymbols.MONTHS;
+
+  int? prefSelectedDay;
+
   @override
   void initState() {
+    prefSelectedDay =
+        Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM) ?? 1;
     //Debug.printLog("current month: $currentMonth");
     //Debug.printLog("current step count: ${widget.currentStepCount}");
     daysInMonth = Utils.daysInMonth(int.parse(currentMonth), int.parse(currentYear));
@@ -300,30 +308,10 @@ class _stepsTrackerStatisticsScreenState
                     tooltipBgColor: Colur.txt_grey,
                     getTooltipItem: (group, groupIndex, rod, rodIndex) {
                       String weekDay;
-                      switch (group.x.toInt()) {
-                        case 0:
-                          weekDay = Languages.of(context)!.txtMonday;
-                          break;
-                        case 1:
-                          weekDay = Languages.of(context)!.txtTuesday;
-                          break;
-                        case 2:
-                          weekDay = Languages.of(context)!.txtWednesday;
-                          break;
-                        case 3:
-                          weekDay = Languages.of(context)!.txtThursday;
-                          break;
-                        case 4:
-                          weekDay = Languages.of(context)!.txtFriday;
-                          break;
-                        case 5:
-                          weekDay = Languages.of(context)!.txtSaturday;
-                          break;
-                        case 6:
-                          weekDay = Languages.of(context)!.txtSunday;
-                          break;
-                        default:
-                          throw Error();
+                      if (allDays.isNotEmpty) {
+                        weekDay = allDays[groupIndex.toInt()];
+                      }else{
+                        weekDay = "";
                       }
                       return BarTooltipItem(
                         weekDay + '\n',
@@ -387,40 +375,14 @@ class _stepsTrackerStatisticsScreenState
       showTitles: true,
       margin: 20,
       getTextStyles: isMonthSelected ? (value) => _unSelectedTextStyle() : (value) {
-        switch (value.toInt()) {
-          case 0:
-            return currentDay == Languages.of(context)!.txtMonday
-                ? _selectedTextStyle()
-                : _unSelectedTextStyle();
-          case 1:
-            return currentDay == Languages.of(context)!.txtTuesday
-                ? _selectedTextStyle()
-                : _unSelectedTextStyle();
-          case 2:
-            return currentDay ==
-                Languages.of(context)!.txtWednesday
-                ? _selectedTextStyle()
-                : _unSelectedTextStyle();
-          case 3:
-            return currentDay ==
-                Languages.of(context)!.txtThursday
-                ? _selectedTextStyle()
-                : _unSelectedTextStyle();
-          case 4:
-            return currentDay == Languages.of(context)!.txtFriday
-                ? _selectedTextStyle()
-                : _unSelectedTextStyle();
-          case 5:
-            return currentDay ==
-                Languages.of(context)!.txtSaturday
-                ? _selectedTextStyle()
-                : _unSelectedTextStyle();
-          case 6:
-            return currentDay == Languages.of(context)!.txtSunday
-                ? _selectedTextStyle()
-                : _unSelectedTextStyle();
-          default:
+        if (allDays.isNotEmpty) {
+          if (allDays[value.toInt()] == currentDay) {
+            return _selectedTextStyle();
+          } else {
             return _unSelectedTextStyle();
+          }
+        } else {
+          return _unSelectedTextStyle();
         }
       },
       getTitles: isMonthSelected ? (value) {
@@ -490,42 +452,15 @@ class _stepsTrackerStatisticsScreenState
           default:
             return '';
         }
-        return '';
       } : (double value) {
-        switch (value.toInt()) {
-          case 0:
-            return currentDay == Languages.of(context)!.txtMonday
-                ? Languages.of(context)!.txtToday
-                : Languages.of(context)!.txtMon;
-          case 1:
-            return currentDay == Languages.of(context)!.txtTuesday
-                ? Languages.of(context)!.txtToday
-                : Languages.of(context)!.txtTue;
-          case 2:
-            return currentDay ==
-                Languages.of(context)!.txtWednesday
-                ? Languages.of(context)!.txtToday
-                : Languages.of(context)!.txtWed;
-          case 3:
-            return currentDay ==
-                Languages.of(context)!.txtThursday
-                ? Languages.of(context)!.txtToday
-                : Languages.of(context)!.txtThu;
-          case 4:
-            return currentDay == Languages.of(context)!.txtFriday
-                ? Languages.of(context)!.txtToday
-                : Languages.of(context)!.txtFri;
-          case 5:
-            return currentDay ==
-                Languages.of(context)!.txtSaturday
-                ? Languages.of(context)!.txtToday
-                : Languages.of(context)!.txtSat;
-          case 6:
-            return currentDay == Languages.of(context)!.txtSunday
-                ? Languages.of(context)!.txtToday
-                : Languages.of(context)!.txtSun;
-          default:
-            return '';
+        if (allDays.isNotEmpty) {
+          if (allDays[value.toInt()] == currentDay) {
+            return Languages.of(context)!.txtToday;
+          } else {
+            return allDays[value.toInt()].substring(0,3);
+          }
+        } else {
+          return "";
         }
       },
     );
@@ -548,29 +483,29 @@ class _stepsTrackerStatisticsScreenState
   displayMonth () {
     switch(currentMonth) {
       case "01":
-        return Languages.of(context)!.txtJanuary;
+        return allMonths[0];
       case "02":
-        return Languages.of(context)!.txtFebruary;
+        return allMonths[1];
       case "03":
-        return Languages.of(context)!.txtMarch;
+        return allMonths[2];
       case "04":
-        return Languages.of(context)!.txtApril;
+        return allMonths[3];
       case "05":
-        return Languages.of(context)!.txtMay;
+        return allMonths[4];
       case "06":
-        return Languages.of(context)!.txtJune;
+        return allMonths[5];
       case "07":
-        return Languages.of(context)!.txtJuly;
+        return allMonths[6];
       case "08":
-        return Languages.of(context)!.txtAugust;
+        return allMonths[7];
       case "09":
-        return Languages.of(context)!.txtSeptember;
+        return allMonths[8];
       case "10":
-        return Languages.of(context)!.txtNovember;
+        return allMonths[9];
       case "11":
-        return Languages.of(context)!.txtDecember;
+        return allMonths[10];
       case "12":
-        return Languages.of(context)!.txtJanuary;
+        return allMonths[11];
     }
   }
 
@@ -721,16 +656,16 @@ class _stepsTrackerStatisticsScreenState
   }
 
   getChartDataOfStepsForWeek() async{
+    allDays.clear();
     for (int i = 0; i <= 6; i++) {
       var currentWeekDates = getDate(DateTime.now()
-          .subtract(Duration(days: currentDate.weekday - 1))
+          .subtract(Duration(days: currentDate.weekday - prefSelectedDay!))
           .add(Duration(days: i)));
       weekDates.add(currentWeekDates.toString());
       // Debug.printLog("date[$i] : ${currentWeekDates.toString()}");
+      allDays.add(DateFormat('EEEE').format(currentWeekDates));
     }
     stepsDataWeek = await DataBaseHelper().getStepsForCurrentWeek();
-
-
     for (int i = 0; i < weekDates.length; i++) {
       bool isMatch = false;
       stepsDataWeek!.forEach((element) {
@@ -766,8 +701,6 @@ class _stepsTrackerStatisticsScreenState
     avgStepsWeek = (totalStepsWeek!+widget.currentStepCount!)/7;
     //Debug.printLog("Average Steps from current week: $avgStepsWeek");
   }
-
-
 
   @override
   void onTopBarClick(String name, {bool value = true}) {

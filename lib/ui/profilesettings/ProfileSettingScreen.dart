@@ -26,7 +26,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
   LanguageData? _languagesChosenValue = LanguageData.languageList()[0];
   List<LanguageData> languages =LanguageData.languageList();
   List<String>? days;
-  String? _daysChosenValue;
+  String? _daysChosenValue = DateFormat.EEEE().dateSymbols.WEEKDAYS[1];
   String? prefDays, prefLanguage, prefUnits;
   Future<void>? _launched;
   TextEditingController _textFeedback = TextEditingController();
@@ -56,8 +56,13 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
   Widget build(BuildContext context) {
     units = [Languages.of(context)!.txtKM, Languages.of(context)!.txtMILE];
     if (_unitsChosenValue == null) _unitsChosenValue = units![0];
-    List<String> allDays = DateFormat.EEEE().dateSymbols.WEEKDAYS;
-    days = [allDays[0], allDays[1], allDays[6]];
+    if (_languagesChosenValue == null) _languagesChosenValue = languages[0];
+    List<String> allDays = DateFormat.EEEE().dateSymbols.STANDALONEWEEKDAYS;
+    days = [
+      allDays[0],
+      allDays[1],
+      allDays[6],
+    ];
     if (_daysChosenValue == null) _daysChosenValue = days![0];
     _getPreference();
 
@@ -333,23 +338,17 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                         Preference.shared.setString(
                                             Preference.FIRST_DAY_OF_WEEK,
                                             _daysChosenValue.toString());
-                                        if (_daysChosenValue == "Sunday") {
+                                        if(_daysChosenValue == days![0]) {
                                           Preference.shared.setInt(
-                                              Preference
-                                                  .FIRST_DAY_OF_WEEK_IN_NUM,
-                                              0);
+                                              Preference.FIRST_DAY_OF_WEEK_IN_NUM,0);
                                         }
-                                        if (_daysChosenValue == "Monday") {
+                                        if(_daysChosenValue == days![1]) {
                                           Preference.shared.setInt(
-                                              Preference
-                                                  .FIRST_DAY_OF_WEEK_IN_NUM,
-                                              1);
+                                              Preference.FIRST_DAY_OF_WEEK_IN_NUM,1);
                                         }
-                                        if (_daysChosenValue == "Saturday") {
+                                        if(_daysChosenValue == days![2]) {
                                           Preference.shared.setInt(
-                                              Preference
-                                                  .FIRST_DAY_OF_WEEK_IN_NUM,
-                                              -1);
+                                              Preference.FIRST_DAY_OF_WEEK_IN_NUM,-1);
                                         }
                                       });
                                     },

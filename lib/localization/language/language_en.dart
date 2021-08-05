@@ -567,7 +567,7 @@ class LanguageEn extends Languages {
   String get txtT => "T";
 
   @override
-  String get txtW => "M";
+  String get txtW => "W";
 
   @override
   String get txtUnitSettings => "Unit Settings";
