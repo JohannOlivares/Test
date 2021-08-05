@@ -62,8 +62,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   @override
   void initState() {
-
-
+    totalSteps = Preference.shared.getInt(Preference.TOTAL_STEPS);
     getDuration();
     getsteps();
     getDistance();
@@ -85,7 +84,11 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     }
     
     if (isPause == true) {
-      currentStepCount = currentStepCount! - 1;
+      if (currentStepCount! > 0) {
+        currentStepCount = currentStepCount! - 1;
+      }else {
+        currentStepCount = 0;
+      }
       _stopWatchTimer.onExecute.add(StopWatchExecute.start);
       countStep();
     }
@@ -283,7 +286,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                       milliSecond: false,
                       hoursRightBreak: "h ",
                     );
-                    Preference.shared.setString("DURATION", duration!);
+                    Preference.shared.setString(Preference.DURATION, duration!);
                     return Text(
                       duration! + "m",
                       style: TextStyle(
@@ -384,7 +387,11 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
               Future.delayed(Duration(milliseconds: 100) , () {
                 if (isPause == true) {
-                  currentStepCount = currentStepCount! - 1;
+                  if (currentStepCount! > 0) {
+                    currentStepCount = currentStepCount! - 1;
+                  }else {
+                    currentStepCount = 0;
+                  }
                   _stopWatchTimer.onExecute.add(StopWatchExecute.start);
                   countStep();
                 } else {
@@ -906,7 +913,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       oldTime = 0;
     }
 
-    var durationFromPrefs = Preference.shared.getString("DURATION");
+    var durationFromPrefs = Preference.shared.getString(Preference.DURATION);
     //Debug.printLog("t: $d");
 
     if (durationFromPrefs != null) {
