@@ -36,6 +36,16 @@ abstract class RunningDao {
   @Query('SELECT IFNULL(SUM(duration),0) as duration FROM RunningData')
   Future<RunningData?> findSumOfDuration();
 
+  @Query('SELECT IFNULL(SUM(highIntenseTime),0) as highIntenseTime FROM RunningData WHERE date IN(:date)')
+  Future<RunningData?> getTotalOfHighIntensity(List<String> date);
+
+  @Query('SELECT IFNULL(SUM(lowIntenseTime),0) as lowIntenseTime FROM RunningData WHERE date IN(:date)')
+  Future<RunningData?> getTotalOfLowIntensity(List<String> date);
+
+  @Query('SELECT IFNULL(SUM(moderateIntenseTime),0) as moderateIntenseTime FROM RunningData WHERE date IN(:date)')
+  Future<RunningData?> getTotalOfModerateIntensity(List<String> date);
+
+
   @insert
   Future<int> insertTask(RunningData task);
 

@@ -222,6 +222,24 @@ class DataBaseHelper {
     return SumofDuration!;
   }
 
+  static Future<int?> getSumOfTotalHighIntensity(List<String> date) async{
+    final runningDao = _database!.runningDao;
+    final SumofHighIntensity = await runningDao.getTotalOfHighIntensity(date);
+    return SumofHighIntensity!.highIntenseTime;
+  }
+
+  static Future<int?> getSumOfTotalLowIntensity(List<String> date) async{
+    final runningDao = _database!.runningDao;
+    final SumofLowIntensity = await runningDao.getTotalOfLowIntensity(date);
+    return SumofLowIntensity!.lowIntenseTime;
+  }
+
+  static Future<int?> getSumOfTotalModerateIntensity(List<String> date) async{
+    final runningDao = _database!.runningDao;
+    final SumofModerateIntensity = await runningDao.getTotalOfModerateIntensity(date);
+    return SumofModerateIntensity!.moderateIntenseTime;
+  }
+
   //<!----------------------------- Steps Table Operations ---------------------------------------------------!>
 
   Future<StepsData> insertSteps(StepsData data) async {

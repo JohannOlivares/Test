@@ -209,17 +209,10 @@ class _CommonTopBarState extends State<CommonTopBar> {
                   child: Container(
                     alignment: Alignment.center,
                     margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5),
-                    width: 42,
-                    height: 42,
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colur.gray_border,
-                        ),
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(15))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Image.asset('assets/icons/ic_info_white.png'),
+                    child: Image.asset(
+                      'assets/icons/ic_info.png',
+                      width: 42,
+                      height: 42,
                     ),
                   ),
                 ),

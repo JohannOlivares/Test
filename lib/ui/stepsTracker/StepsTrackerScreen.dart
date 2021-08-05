@@ -66,7 +66,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   @override
   void initState() {
-    totalSteps = Preference.shared.getInt(Preference.TOTAL_STEPS);
+    //totalSteps = Preference.shared.getInt(Preference.TOTAL_STEPS);
     getDuration();
     getsteps();
     getDistance();

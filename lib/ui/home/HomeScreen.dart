@@ -14,6 +14,7 @@ import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:intl/intl.dart';
 
 import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
@@ -37,7 +38,10 @@ class _HomeScreenState extends State<HomeScreen>
   //Intensity Of Walking
   int walkTime = 150;
   int runTime = 75;
+  int? prefSelectedDay;
 
+  var currentDate = DateTime.now();
+  DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
 
   @override
   void initState() {
@@ -47,6 +51,8 @@ class _HomeScreenState extends State<HomeScreen>
     _getSumOfTotalDistance();
     _getBestRecordsDataForBestPace();
     _getBestRecordsDataForLongestDuration();
+    _getSumOfHighIntensity();
+    _getSumOfLowIntensity();
     super.initState();
   }
 
@@ -59,6 +65,7 @@ class _HomeScreenState extends State<HomeScreen>
             .getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM) ?? 0.0;
     walkTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_WALKTIME)??150;
     runTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_RUNTIME)??75;
+    prefSelectedDay = Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM);
   }
 
   RunningData? longestDistance;
@@ -97,6 +104,50 @@ class _HomeScreenState extends State<HomeScreen>
         "Longest Duration =====>" + longestDuration!.duration.toString());
     setState(() {});
     return longestDuration!;
+  }
+
+  int? highIntensityCount;
+  _getSumOfHighIntensity() async{
+    List<String> dates = [];
+    for (int i = 0; i <= 6; i++) {
+      var currentWeekDates = getDate(DateTime.now()
+          .subtract(Duration(days: currentDate.weekday - prefSelectedDay!))
+          .add(Duration(days: i)));
+      String formatCurrentWeekDates = DateFormat.yMMMd().format(currentWeekDates);
+      dates.add(formatCurrentWeekDates);
+    }
+    highIntensityCount = await DataBaseHelper.getSumOfTotalHighIntensity(dates);
+    //Debug.printLog("total high intensity: ${highIntensityCount!}");
+    setState(() {
+
+    });
+    return highIntensityCount!;
+  }
+
+  int? lowIntensityCount;
+  int? moderateIntensityCount;
+  int? walkIntensityCount;
+  _getSumOfLowIntensity() async{
+    List<String> dates = [];
+    for (int i = 0; i <= 6; i++) {
+      var currentWeekDates = getDate(DateTime.now()
+          .subtract(Duration(days: currentDate.weekday - prefSelectedDay!))
+          .add(Duration(days: i)));
+      String formatCurrentWeekDates = DateFormat.yMMMd().format(currentWeekDates);
+      dates.add(formatCurrentWeekDates);
+    }
+    lowIntensityCount = await DataBaseHelper.getSumOfTotalLowIntensity(dates);
+    //Debug.printLog("total low intensity: ${lowIntensityCount!}");
+
+    moderateIntensityCount = await DataBaseHelper.getSumOfTotalModerateIntensity(dates);
+    //Debug.printLog("total moderate intensity: ${moderateIntensityCount!}");
+
+    walkIntensityCount = lowIntensityCount! + moderateIntensityCount!;
+    //Debug.printLog("total walk intensity: ${walkIntensityCount!}");
+    setState(() {
+      
+    });
+    return walkIntensityCount!;
   }
 
   _checkMapData() async {
@@ -212,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen>
                 width: 12,
               ),
               Text(
-                "0"+"/",
+                walkIntensityCount != null ? Utils.secToMin(walkIntensityCount!).toStringAsFixed(0)+"/" : "0" +"/",
                 style: TextStyle(
                     color: Colur.txt_grey,
                     fontWeight: FontWeight.w400,
@@ -242,7 +293,7 @@ class _HomeScreenState extends State<HomeScreen>
                 width: 12,
               ),
               Text(
-                "0"+"/",
+                highIntensityCount != null ? Utils.secToMin(highIntensityCount!).toStringAsFixed(0)+"/" : "0"  +"/",
                 style: TextStyle(
                   color: Colur.txt_grey,
                   fontWeight: FontWeight.w400,

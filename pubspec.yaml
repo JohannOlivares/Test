@@ -150,6 +150,7 @@ flutter:
    - assets/icons/ic_languages.webp
    - assets/icons/ic_privacy_policy.webp
    - assets/icons/ic_star_white.webp
+   - assets/icons/ic_info.png
    - assets/images/
    - assets/images/dummy_girl.png
    - assets/images/finish_image.png
