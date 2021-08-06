@@ -33,8 +33,8 @@ class _HomeScreenState extends State<HomeScreen>
   List<RunningData> recentActivitiesData = [];
   int totalrecentActivity = 0;
   double targetValueForDistance = 0.0;
-  bool IsDistanceIndicatorSelected = false;
-  bool IsKmSelected = false;
+  bool isDistanceIndicatorSelected = false;
+  bool isKmSelected = false;
   //Intensity Of Walking
   int walkTime = 150;
   int runTime = 75;
@@ -57,9 +57,9 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   _getPreference() {
-    IsDistanceIndicatorSelected =
+    isDistanceIndicatorSelected =
         Preference.shared.getBool(Preference.IS_DISTANCE_INDICATOR_ON) ?? false;
-    IsKmSelected =
+    isKmSelected =
         Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? false;
     targetValueForDistance = Preference.shared
             .getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM) ?? 0.0;
@@ -78,13 +78,13 @@ class _HomeScreenState extends State<HomeScreen>
     return longestDistance!;
   }
 
-  RunningData? SumOfDistance;
+  RunningData? sumOfDistance;
 
   _getSumOfTotalDistance() async {
-    SumOfDistance = await DataBaseHelper.getSumOfTotalDistance();
-    Debug.printLog("Total Distance =====>" + SumOfDistance!.total.toString());
+    sumOfDistance = await DataBaseHelper.getSumOfTotalDistance();
+    Debug.printLog("Total Distance =====>" + sumOfDistance!.total.toString());
     setState(() {});
-    return SumOfDistance!.total!;
+    return sumOfDistance!.total!;
   }
 
   RunningData? bestPace;
@@ -200,11 +200,11 @@ class _HomeScreenState extends State<HomeScreen>
                               Padding(
                                 padding:
                                     EdgeInsets.only(top: fullHeight * 0.04),
-                                child: IsDistanceIndicatorSelected
+                                child: isDistanceIndicatorSelected
                                     ? percentIndicatorForDistance()
                                     : percentIndicatorForIntensity(),
                               ),
-                              IsDistanceIndicatorSelected
+                              isDistanceIndicatorSelected
                                   ? weeklyGoalsDisplay()
                                   : walkOrRunCount(),
                             ],
@@ -213,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen>
 
                         stepsAndWaterButtons(fullHeight, fullWidth),
                         recentActivities(fullHeight, fullWidth),
-                        bestRecords(fullHeight, fullWidth,IsKmSelected),
+                        bestRecords(fullHeight, fullWidth,isKmSelected),
                       ],
                     ),
                   ),
@@ -234,7 +234,7 @@ class _HomeScreenState extends State<HomeScreen>
         Text(
           Languages.of(context)!.txtWeekGoal +
               " " +
-              (IsKmSelected
+              (isKmSelected
                   ? targetValueForDistance.toInt().toString()+" " +Languages.of(context)!.txtKM.toUpperCase()
                   : "${Utils.kmToMile(targetValueForDistance).ceil()}  " +
                       Languages.of(context)!.txtMile.toUpperCase()),
@@ -398,8 +398,8 @@ class _HomeScreenState extends State<HomeScreen>
               ),
               pointers: <GaugePointer>[
                 RangePointer(
-                  value: (SumOfDistance != null && SumOfDistance!.total != null)
-                      ? SumOfDistance!.total!
+                  value: (sumOfDistance != null && sumOfDistance!.total != null)
+                      ? sumOfDistance!.total!
                       : 0.0,
                   gradient: SweepGradient(
                       colors: [Colur.blue_gredient_1, Colur.blue_gredient_2]),
@@ -423,12 +423,12 @@ class _HomeScreenState extends State<HomeScreen>
                               Container(
                                 alignment: Alignment.bottomCenter,
                                 child: Text(
-                                  (SumOfDistance != null &&
-                                          SumOfDistance!.total != null)
-                                      ? (IsKmSelected)
-                                          ? SumOfDistance!.total!.toStringAsFixed(2)
+                                  (sumOfDistance != null &&
+                                      sumOfDistance!.total != null)
+                                      ? (isKmSelected)
+                                          ? sumOfDistance!.total!.toStringAsFixed(2)
                                           : Utils.kmToMile(
-                                                  SumOfDistance!.total!)
+                                      sumOfDistance!.total!)
                                               .toStringAsFixed(2)
                                       : "0.0",
                                   textAlign: TextAlign.end,
@@ -441,7 +441,7 @@ class _HomeScreenState extends State<HomeScreen>
                               Container(
                                 padding: EdgeInsets.only(bottom: 9),
                                 child: Text(
-                                  IsKmSelected
+                                  isKmSelected
                                       ? Languages.of(context)!.txtKM
                                       : Languages.of(context)!.txtMile,
                                   style: TextStyle(
@@ -459,7 +459,7 @@ class _HomeScreenState extends State<HomeScreen>
         ]);
   }
 
-  bestRecords(double fullHeight, double fullWidth,bool IsKmSelected) {
+  bestRecords(double fullHeight, double fullWidth,bool isKmSelected) {
     return Padding(
       padding: EdgeInsets.only(
           top: 30, left: fullWidth * 0.05, right: fullWidth * 0.05),
@@ -481,14 +481,14 @@ class _HomeScreenState extends State<HomeScreen>
             SizedBox(
               height: 21,
             ),
-            bestRecordList(IsKmSelected)
+            bestRecordList(isKmSelected)
           ],
         ),
       ),
     );
   }
 
-  bestRecordList(bool IsKmSelected) {
+  bestRecordList(bool isKmSelected) {
     return Container(
       child: Column(
         children: [
@@ -497,17 +497,17 @@ class _HomeScreenState extends State<HomeScreen>
               text: Languages.of(context)!.txtLongestDistance,
               value:
                   (longestDistance != null && longestDistance!.distance != null)
-                      ? (IsKmSelected)?longestDistance!.distance.toString():Utils.kmToMile(longestDistance!.distance!).toStringAsFixed(2)
+                      ? (isKmSelected)?longestDistance!.distance.toString():Utils.kmToMile(longestDistance!.distance!).toStringAsFixed(2)
                       : "0.0",
-              unit: (IsKmSelected)?Languages.of(context)!.txtKM.toUpperCase():Languages.of(context)!.txtMile.toUpperCase(),
+              unit: (isKmSelected)?Languages.of(context)!.txtKM.toUpperCase():Languages.of(context)!.txtMile.toUpperCase(),
               isNotDuration: true),
           bestRecordListTile(
               img: "ic_best_pace.png",
               text: Languages.of(context)!.txtBestPace,
               value: (bestPace != null && bestPace!.speed != null)
-                  ? (IsKmSelected)?bestPace!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(bestPace!.speed!).toStringAsFixed(2)
+                  ? (isKmSelected)?bestPace!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(bestPace!.speed!).toStringAsFixed(2)
                   : "0.0",
-              unit:(IsKmSelected)?Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtMile.toUpperCase()+")",
+              unit:(isKmSelected)?Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtMile.toUpperCase()+")",
               isNotDuration: true),
           bestRecordListTile(
               img: "ic_duration.webp",
@@ -635,26 +635,26 @@ class _HomeScreenState extends State<HomeScreen>
             SizedBox(
               height: 21,
             ),
-            recentActivitiesList(fullHeight,IsKmSelected)
+            recentActivitiesList(fullHeight,isKmSelected)
           ],
         ),
       ),
     );
   }
 
-  recentActivitiesList(double fullHeight,bool IsKmSelected) {
+  recentActivitiesList(double fullHeight,bool isKmSelected) {
     return Container(
       child: ListView.builder(
           itemCount: recentActivitiesData.length,
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
-            return _activitiesView(context, index, fullHeight,IsKmSelected);
+            return _activitiesView(context, index, fullHeight);
           }),
     );
   }
 
-  _activitiesView(BuildContext context, int index, double fullheight,bool IsKmSelected) {
+  _activitiesView(BuildContext context, int index, double fullheight) {
     return InkWell(
       onTap: () {
         Navigator.push(
@@ -712,7 +712,7 @@ class _HomeScreenState extends State<HomeScreen>
                       Row(
                         children: [
                           Text(
-                          (IsKmSelected)?recentActivitiesData[index].distance!.toString():Utils.kmToMile(recentActivitiesData[index].distance!).toStringAsFixed(2),
+                          (isKmSelected)?recentActivitiesData[index].distance!.toString():Utils.kmToMile(recentActivitiesData[index].distance!).toStringAsFixed(2),
                             textAlign: TextAlign.end,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -722,7 +722,7 @@ class _HomeScreenState extends State<HomeScreen>
                           Padding(
                             padding: const EdgeInsets.only(left: 10, top: 4),
                             child: Text(
-                              (IsKmSelected)?Languages.of(context)!.txtKM:Languages.of(context)!.txtMile,
+                              (isKmSelected)?Languages.of(context)!.txtKM:Languages.of(context)!.txtMile,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
@@ -747,7 +747,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   color: Colur.txt_grey),
                             ),
                             Text(
-                                (IsKmSelected)?recentActivitiesData[index].speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(recentActivitiesData[index].speed!).toStringAsFixed(2),
+                                (isKmSelected)?recentActivitiesData[index].speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(recentActivitiesData[index].speed!).toStringAsFixed(2),
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,

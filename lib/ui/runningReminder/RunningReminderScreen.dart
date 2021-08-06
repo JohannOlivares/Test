@@ -322,7 +322,7 @@ class _RunningReminderState extends State<RunningReminder>
           await scheduledNotification(scheduledDate, notificationId);
         } else {
           var tempTime = scheduledDate.add(const Duration(days: 1));
-          while (tempTime.weekday != int.parse(element as String)) {
+          while (tempTime.weekday != int.parse(element)) {
             tempTime = tempTime.add(const Duration(days: 1));
           }
           await scheduledNotification(tempTime, notificationId);
@@ -337,7 +337,7 @@ class _RunningReminderState extends State<RunningReminder>
     Debug.printLog(
         "Schedule Notification at ::::::==> ${scheduledDate.toIso8601String()}");
     Debug.printLog(
-        "Schedule Notification at scheduledDate.millisecond::::::==> ${notificationId}");
+        "Schedule Notification at scheduledDate.millisecond::::::==> $notificationId");
 
     var titleText = Languages.of(context)!.appName;
     var msg = Languages.of(context)!.txtRunningReminderMsg;

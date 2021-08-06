@@ -674,7 +674,6 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
         return 'assets/icons/water/ic_fill_plus_500.webp';
       default:
         return Utils.showToast(context, "Something Went Wrong in Switch");
-        break;
     }
   }
 

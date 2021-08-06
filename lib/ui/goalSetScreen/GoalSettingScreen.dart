@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
-import 'package:run_tracker/custom/custom_tabbarview.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
@@ -19,7 +18,7 @@ class GoalSettingScreen extends StatefulWidget {
 
 class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBarClickListener{
 
-  bool KmSelected = true;
+  bool kmSelected = true;
   bool distanceSelected = false;
 
   //late String unit;
@@ -42,7 +41,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
   _getPreference(){
     distanceSelected =
         Preference.shared.getBool(Preference.IS_DISTANCE_INDICATOR_ON) ?? false;
-    KmSelected =  Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+    kmSelected =  Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
     double prefDistance = Preference.shared.getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM)??35.0;
     walkTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_WALKTIME)??150;
     runTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_RUNTIME)??75;
@@ -50,11 +49,11 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
     targetDistanceInKm =  prefDistance.round()-1;
 
 
-    if(!KmSelected)
+    if(!kmSelected)
       selectedMile = Utils.kmToMile(prefDistance).ceil()-1;
 
     Future.delayed(const Duration(milliseconds: 100), () {
-      scrollContoller.animateToItem((KmSelected)?targetDistanceInKm:selectedMile, duration: Duration(milliseconds: 500), curve: Curves.ease);
+      scrollContoller.animateToItem((kmSelected)?targetDistanceInKm:selectedMile, duration: Duration(milliseconds: 500), curve: Curves.ease);
     });
 
   }
@@ -82,7 +81,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(top: fullHeight * 0.07),
-                child: _CustomTabBarView(fullHeight,fullWidth),
+                child: _customTabBarView(fullHeight,fullWidth),
               ),
             ),
             //Next Step Button
@@ -94,7 +93,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
     );
   }
 
-  _CustomTabBarView(double fullHeight, double fullWidth) {
+  _customTabBarView(double fullHeight, double fullWidth) {
     return  Column(
       children: [
         Container(
@@ -474,9 +473,9 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
           InkWell(
             onTap: () {
               setState(() {
-                KmSelected = true;
+                kmSelected = true;
                 targetDistanceInKm = Utils.mileToKm(selectedMile.toDouble()).round();
-                scrollContoller.animateToItem((KmSelected)?targetDistanceInKm:selectedMile, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                scrollContoller.animateToItem((kmSelected)?targetDistanceInKm:selectedMile, duration: Duration(milliseconds: 500), curve: Curves.ease);
               });
               Debug.printLog("Mile  $selectedMile");
               Debug.printLog("KM selected  $targetDistanceInKm");
@@ -487,7 +486,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
                 child: Text(
                   Languages.of(context)!.txtKM,
                   style: TextStyle(
-                      color: KmSelected ? Colors.white : Color(0xFF9195B6),
+                      color: kmSelected ? Colors.white : Color(0xFF9195B6),
                       fontWeight: FontWeight.w500,
                       fontSize: 18),
                 ),
@@ -505,9 +504,9 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
           InkWell(
             onTap: () {
               setState(() {
-                KmSelected = false;
+                kmSelected = false;
                 selectedMile = Utils.kmToMile(targetDistanceInKm.toDouble()).round();
-                scrollContoller.animateToItem((KmSelected)?targetDistanceInKm:selectedMile, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                scrollContoller.animateToItem((kmSelected)?targetDistanceInKm:selectedMile, duration: Duration(milliseconds: 500), curve: Curves.ease);
                 Debug.printLog("Kilometer  $targetDistanceInKm");
                 Debug.printLog("Mile selected $selectedMile");
               });
@@ -518,7 +517,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
                 child: Text(
                   Languages.of(context)!.txtMILE,
                   style: TextStyle(
-                      color: !KmSelected ? Colur.white : Color(0xFF9195B6),
+                      color: !kmSelected ? Colur.white : Color(0xFF9195B6),
                       fontWeight: FontWeight.w500,
                       fontSize: 18),
                 ),
@@ -560,9 +559,9 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
           //Check Distance Selected or Not?
           if(distanceSelected){
             //When Distance Selected This Code will Execute......
-            Preference.shared.setBool(Preference.IS_KM_SELECTED, KmSelected);
+            Preference.shared.setBool(Preference.IS_KM_SELECTED, kmSelected);
             //Utils.showToast(context, "Unit IS KM?:"+KmSelected.toString());
-            if(KmSelected){
+            if(kmSelected){
               Preference.shared.setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, targetDistanceInKm.toDouble()+1);
               Debug.printLog("${targetDistanceInKm.toDouble()+1}");
               Utils.showToast(context, "${targetDistanceInKm.toDouble()+1} Confirmed In Kilometer");
@@ -576,7 +575,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
             Preference.shared.setInt(Preference.TARGETVALUE_FOR_WALKTIME, walkTime);
             Preference.shared.setInt(Preference.TARGETVALUE_FOR_RUNTIME, runTime);
             Preference.shared.setDouble(Preference.SLIDER_VALUE, _sliderValue);
-            Utils.showToast(context, "Walk:${walkTime} || Run:${runTime}");
+            Utils.showToast(context, "Walk:$walkTime || Run:$runTime");
 
           }
           Navigator.of(context)
@@ -610,7 +609,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
               scrollController: scrollContoller,
               onSelectedItemChanged: (value) {
                 setState(() {
-                  if (!KmSelected) {
+                  if (!kmSelected) {
                     //value += 1;
                     selectedMile = value;
                     targetDistanceInKm = Utils.mileToKm(value.toDouble()).round();
@@ -624,7 +623,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
               },
               itemExtent: 75,
               looping: true,
-              children: !KmSelected
+              children: !kmSelected
                   ? List.generate(300, (index) {
                 index += 1;
                 return Text(
@@ -650,7 +649,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
           Container(
             margin: EdgeInsets.only(left: 5),
             child: Text(
-    (KmSelected == true)?Languages.of(context)!.txtKM:Languages.of(context)!.txtMILE,
+    (kmSelected == true)?Languages.of(context)!.txtKM:Languages.of(context)!.txtMILE,
               style: TextStyle(
                   color: Colur.txt_white,
                   fontSize: 20,

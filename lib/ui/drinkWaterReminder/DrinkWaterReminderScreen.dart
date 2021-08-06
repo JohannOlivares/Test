@@ -11,7 +11,6 @@ import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
-import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 import '../../main.dart';
@@ -33,8 +32,8 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
   //For Time Selection Variables
   String? _hour, _minute, _time;
   TextEditingController _timeController = TextEditingController();
-  TextEditingController _ENDtimeController = TextEditingController();
-  TextEditingController _STARTtimeController = TextEditingController();
+  TextEditingController _endTimeController = TextEditingController();
+  TextEditingController _startTimeController = TextEditingController();
   TextEditingController _notificationMSgController = TextEditingController();
 
   //Preference Values Variables
@@ -61,21 +60,21 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
         Preference.shared.getInt(Preference.DRINK_WATER_INTERVAL) ?? 30;
     setState(() {
       if (prefStartTimeValue == null) {
-        _STARTtimeController.text = "08:00 AM";
+        _startTimeController.text = "08:00 AM";
         prefStartTimeValue = "08:00";
       } else {
         var hr = int.parse(prefStartTimeValue!.split(":")[0]);
         var min = int.parse(prefStartTimeValue!.split(":")[1]);
-        _STARTtimeController.text =
+        _startTimeController.text =
             DateFormat.jm().format(DateTime(2021, 08, 1, hr, min));
       }
       if (prefEndTimeValue == null) {
-        _ENDtimeController.text = "11:00 PM";
+        _endTimeController.text = "11:00 PM";
         prefEndTimeValue = "23:00";
       } else {
         var hr = int.parse(prefEndTimeValue!.split(":")[0]);
         var min = int.parse(prefEndTimeValue!.split(":")[1]);
-        _ENDtimeController.text =
+        _endTimeController.text =
             DateFormat.jm().format(DateTime(2021, 08, 1, hr, min));
       }
     });
@@ -173,7 +172,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
                   ),
                   Expanded(child: Container()),
                   Text(
-                    _STARTtimeController.text,
+                    _startTimeController.text,
                     style: TextStyle(
                         color: Colur.txt_white,
                         fontSize: 18,
@@ -213,7 +212,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
                   ),
                   Expanded(child: Container()),
                   Text(
-                    _ENDtimeController.text,
+                    _endTimeController.text,
                     style: TextStyle(
                         color: Colur.txt_white,
                         fontSize: 18,
@@ -285,7 +284,6 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
       context: context,
       initialTime: selectedTime,
     ))!;
-    if (picked != null)
       setState(() {
         selectedTime = picked;
         _hour = selectedTime.hour.toString();
@@ -293,11 +291,11 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
         _time = _hour! + ' : ' + _minute!;
         _timeController.text = _time!;
         if (s == "START") {
-          _STARTtimeController.text = DateFormat.jm().format(
+          _startTimeController.text = DateFormat.jm().format(
               DateTime(2021, 08, 1, selectedTime.hour, selectedTime.minute));
 
           if (selectedTime.hour > int.parse(prefEndTimeValue!.split(":")[0])) {
-            _ENDtimeController.text = DateFormat.jm().format(DateTime(
+            _endTimeController.text = DateFormat.jm().format(DateTime(
                 2021, 08, 1, selectedTime.hour + 1, selectedTime.minute));
             var newtime = (selectedTime.hour + 1).toString() +
                 ' : ' +
@@ -310,11 +308,11 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
           Preference.shared.setString(Preference.START_TIME_REMINDER, _time!);*/
           prefStartTimeValue = _time!;
         } else {
-          _ENDtimeController.text = DateFormat.jm().format(
+          _endTimeController.text = DateFormat.jm().format(
               DateTime(2021, 08, 1, selectedTime.hour, selectedTime.minute));
           if (int.parse(prefStartTimeValue!.split(":")[0]) >
               selectedTime.hour) {
-            _STARTtimeController.text = DateFormat.jm().format(DateTime(
+            _startTimeController.text = DateFormat.jm().format(DateTime(
                 2021, 08, 1, selectedTime.hour - 1, selectedTime.minute));
             print(
                 "${int.parse(prefStartTimeValue!.split(":")[0])}::::::${selectedTime.hour}");
@@ -513,7 +511,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
       Debug.printLog(
           "Schedule Notification at ::::::==> ${scheduledDate.toIso8601String()}");
       Debug.printLog(
-          "Schedule Notification at scheduledDate.millisecond::::::==> ${notificationId}");
+          "Schedule Notification at scheduledDate.millisecond::::::==> $notificationId");
       await flutterLocalNotificationsPlugin.zonedSchedule(
           notificationId,
           titleText,

@@ -4,31 +4,27 @@ import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
-import 'package:run_tracker/utils/Debug.dart';
-import 'package:run_tracker/utils/Preference.dart';
 
 
 class WeightScreen extends StatefulWidget {
-  PageController? pageController;
-  Function? updatevalue;
-  bool? isBack;
-  Function? pageNum;
+  final PageController? pageController;
+  final Function? updatevalue;
+  final bool? isBack;
+  final Function? pageNum;
 
-  WizardScreenState wizardScreenState;
-  int? weight;
-  Function onWeight;
+  final WizardScreenState wizardScreenState;
+  final int? weight;
+  final Function onWeight;
 
   WeightScreen({
     this.pageController,
     this.updatevalue,
-    this.isBack,
+    this.isBack = true,
     this.pageNum,
     required this.wizardScreenState,
     required this.weight,
     required this.onWeight
-  }){
-    isBack = true;
-  }
+  });
 
   @override
   _WeightScreenState createState() => _WeightScreenState();
@@ -46,7 +42,6 @@ class _WeightScreenState extends State<WeightScreen> {
 
   @override
   void initState() {
-    getWeight();
     super.initState();
   }
 
@@ -331,10 +326,5 @@ class _WeightScreenState extends State<WeightScreen> {
       weightKG = w.toInt();
       //print("w in kg: "+weightKG.toString());
     }
-  }
-
-  getWeight() {
-    var w = Preference.shared.getInt(Preference.WEIGHT);
-   //Debug.printLog("Weight from prefs: $w kg");
   }
 }

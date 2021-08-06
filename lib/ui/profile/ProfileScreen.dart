@@ -661,7 +661,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
-                        (totalHours != null && totalHours!.duration! != null)
+                        (totalHours != null && totalHours!.duration! != 0)
                             ? Utils.secToHour(totalHours!.duration!).toStringAsFixed(2)
                             : "0.00",
                         textAlign: TextAlign.left,
@@ -698,7 +698,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
-                        (totalKcal != null && totalKcal!.total! != null)
+                        (totalKcal != null && totalKcal!.total! != 0)
                             ? totalKcal!.total!.toStringAsFixed(1)
                             : "0.0",
                         textAlign: TextAlign.left,
@@ -1660,7 +1660,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  _fastestTimeWidget(BuildContext context) {
+/*  _fastestTimeWidget(BuildContext context) {
     return Container(
       margin:
           const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 50, top: 20),
@@ -1735,7 +1735,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
     );
-  }
+  }*/
 }
 
 class LinearSales {

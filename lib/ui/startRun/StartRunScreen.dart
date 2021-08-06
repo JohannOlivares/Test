@@ -10,10 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' hide PermissionStatus;
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:path_provider/path_provider.dart';
-import 'dart:math' show acos, asin, cos, sin, sqrt;
-import 'package:pedometer/pedometer.dart';
+import 'dart:math' show asin, cos, sqrt;
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/interfaces/RunningStopListener.dart';
@@ -827,10 +825,10 @@ class _StartRunScreenState extends State<StartRunScreen>
     int hr = int.parse(timeValue!.split(":")[0]);
     int min = int.parse(timeValue!.split(":")[1]);
     int sec = int.parse(timeValue!.split(":")[2]);
-    int TotalTimeInSec = (hr * 3600) + (min * 60) + (sec);
-    avaragePace = TotalTimeInSec / (finaldistance! * 60);
+    int totalTimeInSec = (hr * 3600) + (min * 60) + (sec);
+    avaragePace = totalTimeInSec / (finaldistance! * 60);
 
-    runningData!.duration = TotalTimeInSec;
+    runningData!.duration = totalTimeInSec;
     runningData!.speed = double.parse(avaragePace!.toStringAsFixed(2));
     runningData!.distance = finaldistance;
     runningData!.cal = double.parse(calorisvalue.toStringAsFixed(2));
@@ -841,13 +839,13 @@ class _StartRunScreenState extends State<StartRunScreen>
     Debug.printLog( "Hours: $hr||||Min: $min");*/
   }
 
-  double _countSpeed(double lat1, double lon1, double lat2, double lon2) {
+/*  double _countSpeed(double lat1, double lon1, double lat2, double lon2) {
     // Convert degrees to radians
-    double M_PI = 3.141592;
-    lat1 = lat1 * M_PI / 180.0;
-    lon1 = lon1 * M_PI / 180.0;
-    lat2 = lat2 * M_PI / 180.0;
-    lon2 = lon2 * M_PI / 180.0;
+    double mPI = 3.141592;
+    lat1 = lat1 * mPI / 180.0;
+    lon1 = lon1 * mPI / 180.0;
+    lat2 = lat2 * mPI / 180.0;
+    lon2 = lon2 * mPI / 180.0;
 
     // radius of earth in metres
     double r = 6378100;
@@ -863,20 +861,20 @@ class _StartRunScreenState extends State<StartRunScreen>
     double y2 = rho2 * sin(lon2);
     // Dot product
     double dot = (x1 * x2 + y1 * y2 + z1 * z2);
-    double cos_theta = dot / (r * r);
+    double cosTheta = dot / (r * r);
 
-    double theta = acos(cos_theta);
+    double theta = acos(cosTheta);
 
     return r * theta;
-  }
+  }*/
 
   double _countCalories(double weight) {
     int hr = int.parse(timeValue!.split(":")[0]);
     int min = int.parse(timeValue!.split(":")[1]);
     int sec = int.parse(timeValue!.split(":")[2]);
     int sec2 = (hr * 3600) + (min * 60) + (sec);
-    double METConstant = 2;
-    double caloriesValue = (sec2 * METConstant * 3.5 * weight) / 6000;
+    double mETConstant = 2;
+    double caloriesValue = (sec2 * mETConstant * 3.5 * weight) / 6000;
     return caloriesValue;
   }
 
@@ -910,9 +908,9 @@ class _StartRunScreenState extends State<StartRunScreen>
 
 class PopUp extends StatefulWidget {
   final AnimationController? controller;
-  bool lockmode = false;
+  final bool lockMode;
 
-  PopUp({this.controller, this.lockmode = false});
+  PopUp({this.controller, this.lockMode = false});
 
   @override
   State<StatefulWidget> createState() => PopUpState();

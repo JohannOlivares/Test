@@ -94,9 +94,9 @@ class Utils {
         formatter.format(p1);
   }
 
-  static double mileToKm(double Mile){
+  static double mileToKm(double mile){
 
-  double km = Mile*1.609;
+  double km = mile*1.609;
 
     return km;
   }

@@ -1,6 +1,5 @@
 import 'package:floor/floor.dart';
 import 'package:run_tracker/dbhelper/datamodel/StepsData.dart';
-import 'package:run_tracker/utils/Preference.dart';
 
 @dao
 abstract class StepsDao {

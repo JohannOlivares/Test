@@ -178,9 +178,6 @@ class LanguageAr extends Languages {
   String get txtPM => "PM";
 
   @override
-  String get txtPaceMinPerKM => "PACE (MIN/KM)";
-
-  @override
   String get txtKCAL => "KCAL";
 
   @override

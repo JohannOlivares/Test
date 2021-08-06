@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:run_tracker/utils/Color.dart';
 
 class BottomBar extends StatefulWidget {
-  bool? isProfile = false;
-  bool? isHome = false;
+  final bool? isProfile;
+  final bool? isHome;
 
-  BottomBar({this.isHome, this.isProfile});
+  BottomBar({this.isHome= false, this.isProfile= false});
   @override
   _BottomBarState createState() => _BottomBarState();
 }

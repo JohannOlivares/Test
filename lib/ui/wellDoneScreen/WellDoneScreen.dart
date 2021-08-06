@@ -18,7 +18,7 @@ import '../../custom/GradientButtonSmall.dart';
 import '../../localization/language/languages.dart';
 
 class WellDoneScreen extends StatefulWidget {
-  RunningData? runningData;
+  final RunningData? runningData;
   WellDoneScreen({this.runningData});
 
   @override
@@ -30,11 +30,11 @@ class _WellDoneScreenState extends State<WellDoneScreen>
 
   bool kmSelected = true;
   TextEditingController _textFeedback = TextEditingController();
-  Future<void>? _launched2;
 
   @override
   void initState() {
     _getPreferences();
+    super.initState();
 
   }
   _getPreferences(){
@@ -84,7 +84,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                           ),
                         ),
                         _mapScreenShot(fullheight, fullwidth),
-                        _InformationViewOfDistance(fullheight, fullwidth),
+                        _informationViewOfDistance(fullheight, fullwidth),
                         _intensityViewOfWalking(fullheight,fullwidth),
                         _detailsAndShareButtonView(fullheight, fullwidth),
                         _satisfyListTile(fullheight, fullwidth),
@@ -176,7 +176,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
     );
   }
 
-  _InformationViewOfDistance(double fullheight, double fullwidth) {
+  _informationViewOfDistance(double fullheight, double fullwidth) {
     return Container(
       child: Column(
         children: [
@@ -509,7 +509,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                                               'body': '${_textFeedback.text}'
                                             }),
                                           );
-                                          _launched2 = launch(
+                                         launch(
                                               emailLaunchUri.toString())
                                               .then((value) =>
                                               Navigator.of(context).pop());

@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/drinkWaterReminder/DrinkWaterReminderScreen.dart';
-import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Preference.dart';
 

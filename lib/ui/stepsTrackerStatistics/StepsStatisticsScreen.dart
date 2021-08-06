@@ -10,19 +10,18 @@ import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:intl/intl.dart';
-import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 
 class StepsStatisticsScreen extends StatefulWidget {
-  int? currentStepCount;
+  final int? currentStepCount;
   StepsStatisticsScreen({this.currentStepCount});
   @override
-  _stepsTrackerStatisticsScreenState createState() =>
-      _stepsTrackerStatisticsScreenState();
+  _StepsTrackerStatisticsScreenState createState() =>
+      _StepsTrackerStatisticsScreenState();
 }
 
-class _stepsTrackerStatisticsScreenState
+class _StepsTrackerStatisticsScreenState
     extends State<StepsStatisticsScreen> implements TopBarClickListener {
   DateTime currentDate = DateTime.now();
   var currentMonth = DateFormat('MM').format(DateTime.now());

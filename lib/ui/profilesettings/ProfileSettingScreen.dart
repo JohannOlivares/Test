@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/custom/bottomsheetdialogs/RatingDialog.dart';
@@ -9,7 +7,6 @@ import 'package:run_tracker/localization/language_data.dart';
 import 'package:run_tracker/localization/locale_constant.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
-import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
@@ -28,10 +25,9 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
   List<String>? days;
   String? _daysChosenValue = DateFormat.EEEE().dateSymbols.WEEKDAYS[1];
   String? prefDays, prefLanguage;
-  Future<void>? _launched;
   TextEditingController _textFeedback = TextEditingController();
 
-  bool KmSelected = true;
+  bool kmSelected = true;
 
   _getPreference() {
     /*prefUnits = Preference.shared.getString(Preference.METRIC_IMPERIAL_UNITS);
@@ -52,9 +48,9 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
     } else {
       _daysChosenValue = prefDays;
     }
-    KmSelected =
+    kmSelected =
         Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
-    if(KmSelected == true){
+    if(kmSelected == true){
       _unitsChosenValue = units![0];
     }
     else{
@@ -200,11 +196,11 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                       Preference.METRIC_IMPERIAL_UNITS,
                                       _unitsChosenValue.toString());*/
                                   if(_unitsChosenValue == Languages.of(context)!.txtKM.toUpperCase()){
-                                    KmSelected = true;
-                                    Preference.shared.setBool(Preference.IS_KM_SELECTED, KmSelected);
+                                    kmSelected = true;
+                                    Preference.shared.setBool(Preference.IS_KM_SELECTED, kmSelected);
                                   }else{
-                                    KmSelected = false;
-                                    Preference.shared.setBool(Preference.IS_KM_SELECTED, KmSelected);
+                                    kmSelected = false;
+                                    Preference.shared.setBool(Preference.IS_KM_SELECTED, kmSelected);
                                   }
 
                                 });
@@ -461,7 +457,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                             'body': '${_textFeedback.text}'
                                           }),
                                         );
-                                        _launched = launch(
+                                        launch(
                                                 emailLaunchUri.toString())
                                             .then((value) =>
                                                 Navigator.of(context).pop());

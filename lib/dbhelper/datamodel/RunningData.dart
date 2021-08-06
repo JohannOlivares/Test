@@ -62,8 +62,8 @@ class RunningData {
     List<dynamic> list = jsonDecode(polyLine!);
 
     list.forEach((element) {
-      var lat = double.parse((element as List<dynamic>)[0].toString());
-      var long = double.parse((element as List<dynamic>)[1].toString());
+      var lat = double.parse((element)[0].toString());
+      var long = double.parse((element)[1].toString());
 
       polylineData.add(LatLng(lat, long));
     });

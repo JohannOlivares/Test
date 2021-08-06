@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 
 import 'Wave_man.dart';
@@ -57,25 +56,6 @@ class LiquidCircularProgressIndicator extends ProgressIndicator {
 
 class _LiquidCircularProgressIndicatorState
     extends State<LiquidCircularProgressIndicator> {
-
-  MaskFilter? _blur;
-  final List<MaskFilter?> _blurs = [
-    null,
-    MaskFilter.blur(BlurStyle.normal, 10.0),
-    MaskFilter.blur(BlurStyle.inner, 10.0),
-    MaskFilter.blur(BlurStyle.outer, 10.0),
-    MaskFilter.blur(BlurStyle.solid, 16.0),
-  ];
-  int _blurIndex = 0;
-  MaskFilter? _nextBlur() {
-    if (_blurIndex == _blurs.length - 1) {
-      _blurIndex = 0;
-    } else {
-      _blurIndex = _blurIndex + 1;
-    }
-    _blur = _blurs[_blurIndex];
-    return _blurs[_blurIndex];
-  }
 
 
   @override

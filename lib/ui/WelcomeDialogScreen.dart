@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/localization/language/languages.dart';
@@ -11,7 +9,6 @@ class WelcomeDialogScreen extends StatefulWidget {
 }
 
 class _WelcomeDialogScreenState extends State<WelcomeDialogScreen> {
-  final _email = TextEditingController();
 
   @override
   void initState() {

@@ -5,9 +5,7 @@ import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/weeklygoalSetScreen/WeeklyGoalSetScreenIntro.dart';
 import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
-import 'package:run_tracker/utils/Debug.dart';
-import 'package:run_tracker/utils/Preference.dart';
-import 'package:run_tracker/utils/Utils.dart';
+
 
 
 class HeightScreen extends StatefulWidget {
@@ -35,7 +33,6 @@ class _HeightScreenState extends State<HeightScreen> {
 
   @override
   void initState() {
-    getHeight();
     super.initState();
   }
 
@@ -337,14 +334,6 @@ class _HeightScreenState extends State<HeightScreen> {
       var h = (ftHeight*30.48) + (inchHeight*2.59);
       cmHeight = h.toInt();
     }
-  }
-
-  getHeight() {
-    ////Height is stored in cm only.
-    var h = Preference.shared.getInt(Preference.HEIGHT);
-    //Debug.printLog("Height from prefs: $h cm");
-
-
   }
 
 }

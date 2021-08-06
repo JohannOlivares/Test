@@ -3,14 +3,11 @@ import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
-import 'package:run_tracker/utils/Debug.dart';
-import 'package:run_tracker/utils/Preference.dart';
-import 'package:run_tracker/utils/Utils.dart';
 
 enum Gender { Male, Female }
 
 class GenderScreen extends StatefulWidget {
-  PageController? pageController;
+  final PageController? pageController;
   Function? updatevalue;
   bool? isBack;
   Function? pageNum;
@@ -34,7 +31,6 @@ class _GenderScreenState extends State<GenderScreen> {
 
   @override
   void initState() {
-    getGender();
     super.initState();
   }
 
@@ -255,11 +251,6 @@ class _GenderScreenState extends State<GenderScreen> {
         ),
       ),
     );
-  }
-
-  getGender() {
-    String? gen = Preference.shared.getString(Preference.GENDER);
-    //Debug.printLog("Gender from prefs: $gen");
   }
 
 

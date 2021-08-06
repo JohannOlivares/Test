@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:charts_flutter/flutter.dart';
-import 'package:charts_flutter/src/text_style.dart' as style;
+import 'package:charts_flutter/src/text_style.dart' as style2;
 
 class CustomCircleSymbolRenderer extends CircleSymbolRenderer {
   static String? value;
@@ -31,7 +31,7 @@ class CustomCircleSymbolRenderer extends CircleSymbolRenderer {
       roundBottomLeft: true,
       roundBottomRight: true,
     );
-    var textStyle = style.TextStyle();
+    var textStyle = style2.TextStyle();
     textStyle.color = Color.black;
     textStyle.fontSize = 15;
 

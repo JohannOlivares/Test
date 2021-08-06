@@ -45,7 +45,6 @@ class _CustomRadioSelectionState extends State<CustomRadioSelection> {
         children: [
           InkWell(
             onTap:() {
-              widget.onPressed1;
               setState(() {
                 unit1 = true;
                 unit2 = false;

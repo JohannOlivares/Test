@@ -60,7 +60,6 @@ class MultiSelectFormField extends FormField<dynamic> {
     onSaved: onSaved,
     validator: validator,
     initialValue: initialValue,
-    autovalidate: autovalidate,
     builder: (FormFieldState<dynamic> state) {
       List<Widget> _buildSelectedOptions(state) {
         List<Widget> selectedOptions = [];

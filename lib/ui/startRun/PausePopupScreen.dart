@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/localization/language/languages.dart';
-import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
-import 'package:run_tracker/utils/Constant.dart';
-import 'package:run_tracker/utils/Utils.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import 'StartRunScreen.dart';
 
@@ -100,7 +97,7 @@ class PausePopupScreen extends ModalRoute<String> {
                   showDialog(
                       context: context,
                       builder: (BuildContext context) =>
-                          CustomDialog(context,runningData,controller2,markers));
+                          customDialog(context,runningData,controller2,markers));
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -195,7 +192,7 @@ class PausePopupScreen extends ModalRoute<String> {
     );
   }
 
-  Widget CustomDialog(BuildContext context,RunningData? runningData,GoogleMapController? controller2, Set<Marker> markers) {
+  Widget customDialog(BuildContext context,RunningData? runningData,GoogleMapController? controller2, Set<Marker> markers) {
     return Dialog(
       elevation: 30,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

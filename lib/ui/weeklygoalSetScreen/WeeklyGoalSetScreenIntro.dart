@@ -11,9 +11,9 @@ import '../../utils/Preference.dart';
 
 
 class WeeklyGoalSetScreen extends StatefulWidget {
-  String? gender;
-  int? height;
-  int? weight;
+  final String? gender;
+  final int? height;
+  final int? weight;
 
   WeeklyGoalSetScreen({
     Key? key,
@@ -27,8 +27,8 @@ class WeeklyGoalSetScreen extends StatefulWidget {
 }
 
 class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
-  bool KmSelected = true;
-  bool MileSelected = false;
+  bool kmSelected = true;
+  bool mileSelected = false;
 
   bool unit = true; //true for km and false for mile.
   var distanceKM = 1;
@@ -38,7 +38,6 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
 
   @override
   void initState() {
-    getDistance();
     super.initState();
   }
 
@@ -266,8 +265,8 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
           InkWell(
             onTap: () {
               setState(() {
-                KmSelected = true;
-                MileSelected = false;
+                kmSelected = true;
+                mileSelected = false;
                 unit = true;
               });
               //Debug.printLog("km selected");
@@ -278,7 +277,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                 child: Text(
                   Languages.of(context)!.txtKM,
                   style: TextStyle(
-                      color: KmSelected ? Colors.white : Colur.txt_grey,
+                      color: kmSelected ? Colors.white : Colur.txt_grey,
                       fontWeight: FontWeight.w500,
                       fontSize: 18),
                 ),
@@ -296,8 +295,8 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
           InkWell(
             onTap: () {
               setState(() {
-                KmSelected = false;
-                MileSelected = true;
+                kmSelected = false;
+                mileSelected = true;
                 unit = false;
                 //Debug.printLog("mile selected");
               });
@@ -308,7 +307,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                 child: Text(
                   Languages.of(context)!.txtMILE,
                   style: TextStyle(
-                      color: MileSelected ? Colur.white :Colur.txt_grey,
+                      color: mileSelected ? Colur.white :Colur.txt_grey,
                       fontWeight: FontWeight.w500,
                       fontSize: 18),
                 ),
@@ -415,7 +414,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               }),
             ),
           ),
-          (KmSelected == true)
+          (kmSelected == true)
               ? Container(
             margin: EdgeInsets.only(left: 5),
             child: Text(
@@ -442,10 +441,6 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
   }
 
 
-  getDistance() {
-    var d = Preference.shared.getInt(Preference.DISTANCE);
-    //Debug.printLog("Distance from prefs: $d km");
-  }
 
   setDataToPrefs() {
     if(Debug.STORE_RES_IN_PREF) {

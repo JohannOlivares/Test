@@ -8,7 +8,6 @@ import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
-import 'package:run_tracker/utils/Debug.dart';
 import 'package:intl/intl.dart';
 
 

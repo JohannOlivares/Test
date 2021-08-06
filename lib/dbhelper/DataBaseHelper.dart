@@ -5,7 +5,6 @@ import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WeightData.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
-import 'package:run_tracker/utils/Utils.dart';
 
 class DataBaseHelper {
   static final DataBaseHelper _dataBaseHelper = DataBaseHelper._internal();
@@ -212,8 +211,8 @@ class DataBaseHelper {
   }
   static Future<RunningData?> getSumOfTotalDistance() async {
     final runningDao = _database!.runningDao;
-    final SumofDistance = await runningDao.findSumOfDistance();
-    return SumofDistance!;
+    final sumofDistance = await runningDao.findSumOfDistance();
+    return sumofDistance!;
   }
 
   static Future<RunningData?> getMaxPace() async {
@@ -230,8 +229,8 @@ class DataBaseHelper {
 
   static Future<RunningData?> getSumOfTotalCalories() async {
     final runningDao = _database!.runningDao;
-    final SumofCalories = await runningDao.findSumOfCalories();
-    return SumofCalories!;
+    final sumofCalories = await runningDao.findSumOfCalories();
+    return sumofCalories!;
   }
 
   static Future<RunningData?> getAverageOfSpeed() async {
@@ -242,26 +241,26 @@ class DataBaseHelper {
 
   static Future<RunningData?> getSumOfTotalDuration() async {
     final runningDao = _database!.runningDao;
-    final SumofDuration = await runningDao.findSumOfDuration();
-    return SumofDuration!;
+    final sumofDuration = await runningDao.findSumOfDuration();
+    return sumofDuration!;
   }
 
   static Future<int?> getSumOfTotalHighIntensity(List<String> date) async{
     final runningDao = _database!.runningDao;
-    final SumofHighIntensity = await runningDao.getTotalOfHighIntensity(date);
-    return SumofHighIntensity!.highIntenseTime;
+    final sumofHighIntensity = await runningDao.getTotalOfHighIntensity(date);
+    return sumofHighIntensity!.highIntenseTime;
   }
 
   static Future<int?> getSumOfTotalLowIntensity(List<String> date) async{
     final runningDao = _database!.runningDao;
-    final SumofLowIntensity = await runningDao.getTotalOfLowIntensity(date);
-    return SumofLowIntensity!.lowIntenseTime;
+    final sumofLowIntensity = await runningDao.getTotalOfLowIntensity(date);
+    return sumofLowIntensity!.lowIntenseTime;
   }
 
   static Future<int?> getSumOfTotalModerateIntensity(List<String> date) async{
     final runningDao = _database!.runningDao;
-    final SumofModerateIntensity = await runningDao.getTotalOfModerateIntensity(date);
-    return SumofModerateIntensity!.moderateIntenseTime;
+    final sumofModerateIntensity = await runningDao.getTotalOfModerateIntensity(date);
+    return sumofModerateIntensity!.moderateIntenseTime;
   }
 
   static Future<List<RunningData>> getHeartHealth(

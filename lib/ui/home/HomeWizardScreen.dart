@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
-import 'package:run_tracker/common/bottombar/BottomBar.dart';
 import 'package:run_tracker/ui/home/HomeScreen.dart';
 import 'package:run_tracker/ui/profile/ProfileScreen.dart';
 import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
@@ -177,75 +176,5 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
         context,
         MaterialPageRoute(builder: (context) => StartRunScreen()));
 
-  }
-//Extra MEthod Which we have to REMOVE
-  _BottomBar() {
-    return Container(
-      child: Stack(
-        alignment: new FractionalOffset(.5, -8.0),
-        children: [
-          Container(
-            alignment: Alignment.topCenter,
-            height: 80.0,
-            color: Colur.green_For_NotReally,
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        num = 1;
-                      });
-                    },
-                    child: Container(
-                      color: Colors.lightBlue,
-                      padding: const EdgeInsets.only(right: 30.0),
-                      child: Image.asset(
-                        (num == 1)
-                            ? "assets/icons/ic_selected_home_bottombar.webp"
-                            : "assets/icons/ic_unselected_home_bottombar.webp",
-                        scale: 3.5,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      setState(() {
-                        num = 2;
-                      });
-                    },
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 30.0),
-                      color: Colors.grey,
-                      child: Image.asset(
-                        (num == 2)
-                            ? "assets/icons/ic_selected_profile_bottombar.webp"
-                            : "assets/icons/ic_unselected_profile_bottombar.webp",
-                        scale: 3.5,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          InkWell(
-            onTap: () {
-              Utils.showToast(context, "mapClicked");
-            },
-            child: Container(
-              alignment: Alignment.topCenter,
-              child: Image.asset(
-                "assets/icons/ic_person_bottombar.webp",
-                scale: 3.8,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

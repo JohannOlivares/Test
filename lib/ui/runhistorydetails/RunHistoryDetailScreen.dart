@@ -16,7 +16,7 @@ import 'package:run_tracker/utils/Utils.dart';
 import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 
 class RunHistoryDetailScreen extends StatefulWidget {
-  RunningData recentActivitiesData;
+  final RunningData recentActivitiesData;
 
  RunHistoryDetailScreen(this.recentActivitiesData, {Key? key}) : super(key: key);
 
@@ -31,7 +31,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
   bool setaliteEnable = false;
   GoogleMapController? _controller;
   LatLng? _startLatLong;
-  LatLng? _EndLatLong;
+  LatLng? _endLatLong;
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> _polylineList = [];
   BitmapDescriptor? pinLocationIcon;
@@ -53,7 +53,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
   }
   _getPointsAndDrawPolyLines() async {
     _startLatLong = LatLng(double.parse(widget.recentActivitiesData.sLat!),double.parse(widget.recentActivitiesData.sLong!));
-    _EndLatLong = LatLng(double.parse(widget.recentActivitiesData.eLat!),double.parse(widget.recentActivitiesData.eLong!));
+    _endLatLong = LatLng(double.parse(widget.recentActivitiesData.eLat!),double.parse(widget.recentActivitiesData.eLong!));
 
     //this is For add Markers in Map
     final Uint8List markerIcon1 =
@@ -68,7 +68,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
       final Marker marker2 = Marker(
           icon: BitmapDescriptor.fromBytes(markerIcon2),
           markerId: MarkerId('2'),
-          position: _EndLatLong!);
+          position: _endLatLong!);
       markers.add(marker1);
       markers.add(marker2);
     });
@@ -317,14 +317,14 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
           title: Text(Languages.of(context)!.txtDeleteHitory),
           content: Text(Languages.of(context)!.txtDeleteConfirmationMessage),
           actions: [
-            FlatButton(
+            TextButton(
               child: Text(Languages.of(context)!.txtCancel),
               onPressed: () async {
                 Navigator.pop(context);
 
               },
             ),
-        FlatButton(
+        TextButton(
         child: Text(Languages.of(context)!.txtDelete.toUpperCase()),
         onPressed: () async {
           await DataBaseHelper.deleteRunningData(widget.recentActivitiesData).then((value) => Navigator.of(context)

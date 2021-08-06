@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Preference.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,7 +22,7 @@ Future<Locale> getLocale() async {
 }
 
 Locale _locale(String languageCode) {
-  return languageCode != null && languageCode.isNotEmpty
+  return languageCode.isNotEmpty
       ? Locale(languageCode, '')
       : Locale('en', '');
 }

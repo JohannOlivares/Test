@@ -155,7 +155,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
         return showDialog(
             context: context,
             builder: (BuildContext context) =>
-                CustomOpenLocationSettingDialog(context));
+                customOpenLocationSettingDialog(context));
       }
     }
 
@@ -165,7 +165,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
         ModalRoute.withName("/homeWizardScreen"));
   }
 
-  Widget CustomOpenLocationSettingDialog(BuildContext context) {
+  Widget customOpenLocationSettingDialog(BuildContext context) {
     return Dialog(
       elevation: 30,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
