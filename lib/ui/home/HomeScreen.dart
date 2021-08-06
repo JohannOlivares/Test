@@ -271,7 +271,7 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
               ),
               Text(
-                walkTime.toString()+Languages.of(context)!.txtMin,
+                walkTime.toString()+Languages.of(context)!.txtMin.toLowerCase(),
                 style: TextStyle(
                     color: Colur.txt_grey,
                     fontWeight: FontWeight.w400,
@@ -301,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ),
               Text(
-                runTime.toString()+Languages.of(context)!.txtMin,
+                runTime.toString()+Languages.of(context)!.txtMin.toLowerCase(),
                 style: TextStyle(
                   color: Colur.txt_grey,
                   fontWeight: FontWeight.w400,
@@ -500,7 +500,7 @@ class _HomeScreenState extends State<HomeScreen>
                   (longestDistance != null && longestDistance!.distance != null)
                       ? (isKmSelected)?longestDistance!.distance.toString():Utils.kmToMile(longestDistance!.distance!).toStringAsFixed(2)
                       : "0.0",
-              unit: (isKmSelected)?Languages.of(context)!.txtKM.toUpperCase():Languages.of(context)!.txtMile.toUpperCase(),
+              unit: (isKmSelected)?Languages.of(context)!.txtKM.toLowerCase():Languages.of(context)!.txtMile.toLowerCase(),
               isNotDuration: true),
           bestRecordListTile(
               img: "ic_best_pace.png",
@@ -508,7 +508,7 @@ class _HomeScreenState extends State<HomeScreen>
               value: (bestPace != null && bestPace!.speed != null)
                   ? (isKmSelected)?bestPace!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(bestPace!.speed!).toStringAsFixed(2)
                   : "0.0",
-              unit:(isKmSelected)?Languages.of(context)!.txtMinKm:Languages.of(context)!.txtMinMi,
+              unit:(isKmSelected)?Languages.of(context)!.txtMinKm.toLowerCase():Languages.of(context)!.txtMinMi.toLowerCase(),
               isNotDuration: true),
           bestRecordListTile(
               img: "ic_duration.webp",

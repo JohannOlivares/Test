@@ -1470,10 +1470,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     (kmSelected)
                                         ? Languages.of(context)!
                                             .txtKM
-                                            .toUpperCase()
+                                            .toLowerCase()
                                         : Languages.of(context)!
                                             .txtMILE
-                                            .toUpperCase(),
+                                            .toLowerCase(),
                                     textAlign: TextAlign.left,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -1570,10 +1570,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   (kmSelected)
                                       ? Languages.of(context)!
                                           .txtMinKm
-                                          .toUpperCase()
+                                          .toLowerCase()
                                       : Languages.of(context)!
                                           .txtMinMi
-                                          .toUpperCase(),
+                                          .toLowerCase(),
                                   textAlign: TextAlign.left,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

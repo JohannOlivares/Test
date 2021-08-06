@@ -8,13 +8,13 @@ import 'StartRunScreen.dart';
 
 class PausePopupScreen extends ModalRoute<String> {
 
-  StopWatchTimer stopWatchTimer;
-  bool startTrack;
+  StopWatchTimer? stopWatchTimer;
+  bool? startTrack;
   RunningData? runningData;
   GoogleMapController? controller2;
-  Set<Marker> markers;
+  Set<Marker>? markers;
 
-   PausePopupScreen(this.stopWatchTimer, this.startTrack,this.runningData,this.controller2,this.markers);
+   PausePopupScreen(this.stopWatchTimer, this.startTrack, this.runningData, this.controller2, this.markers);
 
   @override
   Duration get transitionDuration => Duration(milliseconds: 300);
@@ -47,7 +47,7 @@ class PausePopupScreen extends ModalRoute<String> {
     return Material(
       type: MaterialType.transparency,
       // make sure that the overlay content is not cut off
-      child: _buildOverlayContent(context, fullheight,runningData,controller2,markers),
+      child: _buildOverlayContent(context, fullheight,runningData,controller2,markers!),
     );
   }
 
@@ -139,7 +139,7 @@ class PausePopupScreen extends ModalRoute<String> {
               InkWell(
                 onTap: () {
                   //Utils.showToast(context, "Back");
-                  stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                  stopWatchTimer!.onExecute.add(StopWatchExecute.start);
                   Navigator.pop(context,'true');
 
 
