@@ -48,6 +48,7 @@ class _StartRunScreenState extends State<StartRunScreen>
   LocationData? _currentPosition;
   LatLng _initialcameraposition = LatLng(0.5937, 0.9629);
 
+
   //For Markers And PolyLines
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinatesList = [];
@@ -120,7 +121,7 @@ class _StartRunScreenState extends State<StartRunScreen>
       kmSelected =
           Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
       weight =(Preference.shared.getInt(Preference.WEIGHT)??50).toDouble();
-      Utils.showToast(context, "Weight in Kg: "+weight.toString());
+      //Utils.showToast(context, "Weight in Kg: "+weight.toString());
 
     });
   }
@@ -247,7 +248,7 @@ class _StartRunScreenState extends State<StartRunScreen>
             child: Row(
               children: [
                 Container(
-                  width: 80,
+                  width: 90,
                   child: Column(
                     children: [
                       Container(
@@ -282,7 +283,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                   ),
                 ),
                 Container(
-                  width: 80,
+                  width: 90,
                   child: Column(
                     children: [
                       Container(
@@ -361,7 +362,10 @@ class _StartRunScreenState extends State<StartRunScreen>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: () async {},
+                        onTap: () async {
+                          
+                          moveCameraToUserLocation();
+                        },
                         child: Container(
                           height: 60,
                           width: 60,
@@ -689,11 +693,11 @@ class _StartRunScreenState extends State<StartRunScreen>
 
     //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     _location.changeSettings(
-      accuracy: LocationAccuracy.low,
+      accuracy: LocationAccuracy.balanced,
     );
 
     geoLocator.Geolocator.getPositionStream(
-            desiredAccuracy: geoLocator.LocationAccuracy.high)
+            desiredAccuracy: geoLocator.LocationAccuracy.medium)
         .listen((position) {
       if (polylineCoordinatesList.length >= 2) {
         var speedInMps = position.speed;
@@ -900,6 +904,12 @@ class _StartRunScreenState extends State<StartRunScreen>
         _getPreferences();
       });
     }
+  }
+
+  Future<void> moveCameraToUserLocation() async {
+    LatLng newcurrentlatLong =
+        LatLng(polylineCoordinatesList.last.latitude, polylineCoordinatesList.last.longitude);
+    _controller!.moveCamera(CameraUpdate.newLatLng(newcurrentlatLong));
   }
 //End Class
 }
