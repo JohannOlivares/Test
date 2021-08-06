@@ -630,7 +630,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             margin: const EdgeInsets.only(top: 15.0),
             child: Text(
               (totalDistance != null && totalDistance!.total != null)
-                  ? totalDistance!.total!.toStringAsFixed(2)
+                  ?(kmSelected) ?totalDistance!.total!.toStringAsFixed(2):Utils.kmToMile(totalDistance!.total!).toStringAsFixed(2)
                   : "0.00",
               textAlign: TextAlign.left,
               maxLines: 1,
@@ -643,7 +643,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Text(
-            Languages.of(context)!.txtTotalKM.toUpperCase(),
+            (kmSelected) ?Languages.of(context)!.txtTotalKM.toUpperCase():Languages.of(context)!.txtTotalMile.toUpperCase().toUpperCase(),
             textAlign: TextAlign.left,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -735,9 +735,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
-                        (avgPace != null && avgPace!.total != null)
-                            ? avgPace!.total!.toStringAsFixed(2)
-                            : "0.00",
+                        (avgPace != null && avgPace!.total != null) ? (kmSelected)?avgPace!.total!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(avgPace!.total!).toStringAsFixed(2) : "0.00",
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

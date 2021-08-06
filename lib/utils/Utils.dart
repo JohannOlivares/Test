@@ -114,6 +114,16 @@ class Utils {
     return speedInmMile;
   }
 
+  static double calculationForHeartHealthGraph(int walkTime,int runTime,int targetWalkTime,int targetRunTime){
+    double walkTimeInMin = Utils.secToMin(walkTime);
+    double runTimeInMin = Utils.secToMin(runTime);
+    double avgWalk = (100*walkTimeInMin)/targetWalkTime;
+    double avgRun = (100*runTimeInMin)/targetRunTime;
+    double total = (avgWalk+avgRun)/2;
+
+    return total;
+  }
+
   static double secToHour(int sec) {
     double hrs= sec/3600;
     return hrs;

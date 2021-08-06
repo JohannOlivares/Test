@@ -207,6 +207,8 @@ abstract class Languages {
 
   String get txtTotalKM;
 
+  String get txtTotalMile;
+
   String get txtTotalHours;
 
   String get txtTotalKCAL;

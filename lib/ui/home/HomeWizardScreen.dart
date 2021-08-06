@@ -162,6 +162,7 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
         return;
       }
     }
+
     _permissionGranted = await _location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await _location.requestPermission();
@@ -169,18 +170,12 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
         Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => UseLocationScreen()));
+        return;
       }
-    }else if(_permissionGranted == PermissionStatus.granted || _permissionGranted == PermissionStatus.grantedLimited)
-      {
-        Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => StartRunScreen()));
-      }
-    else{
-      Navigator.of(context)
-          .pushNamed('/uselocationScreen');
     }
-
+    Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => StartRunScreen()));
 
   }
 //Extra MEthod Which we have to REMOVE

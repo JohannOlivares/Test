@@ -667,6 +667,9 @@ class LanguageHi extends Languages {
   String get txtWriteSuggestionsHere =>"Share Valuable suggestions with Us" ;
 
   @override
-
   String get txtNoDataFound => "No Data Found";
+
+  @override
+  String get txtTotalMile => "Total Mile";
+
 }

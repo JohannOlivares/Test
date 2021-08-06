@@ -121,6 +121,9 @@ class _StartRunScreenState extends State<StartRunScreen>
     setState(() {
       kmSelected =
           Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+      weight =(Preference.shared.getInt(Preference.WEIGHT)??50).toDouble();
+      Utils.showToast(context, "Weight in Kg: "+weight.toString());
+
     });
   }
 

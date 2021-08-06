@@ -663,4 +663,8 @@ class LanguageEn extends Languages {
 
   @override
   String get txtNoDataFound => "No Data Found";
+
+  @override
+  String get txtTotalMile => "Total Mile";
+
 }

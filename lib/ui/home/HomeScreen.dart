@@ -337,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
               pointers: <GaugePointer>[
                 RangePointer(
-                  value: 75,
+                  value:Utils.calculationForHeartHealthGraph(lowIntensityCount??0, highIntensityCount??0, walkTime, runTime),
                   gradient: SweepGradient(colors: [
                     Colur.purple_gradient_color1,
                     Colur.purple_gradient_color2
@@ -356,7 +356,7 @@ class _HomeScreenState extends State<HomeScreen>
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "78" + '%',
+                            Utils.calculationForHeartHealthGraph(lowIntensityCount??0, highIntensityCount??0, walkTime, runTime).round().toString() + '%',
                             style: TextStyle(
                                 fontSize: 48,
                                 fontWeight: FontWeight.w700,
