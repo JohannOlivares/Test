@@ -159,30 +159,33 @@ class _StartRunScreenState extends State<StartRunScreen>
   Widget build(BuildContext context) {
     var fulheight = MediaQuery.of(context).size.height;
     var fullwidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-      backgroundColor: Colur.common_bg_dark,
-      body: SafeArea(
-        bottom: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Container(
-              padding: !isBack
-                  ? EdgeInsets.only(left: 15)
-                  : EdgeInsets.only(left: 0),
-              child: CommonTopBar(
-                Languages.of(context)!.txtRunTracker.toUpperCase(),
-                this,
-                isShowBack: isBack,
-                isShowSetting: true,
+    return WillPopScope(
+      onWillPop: ()=> customDialog(),
+      child: Scaffold(
+        backgroundColor: Colur.common_bg_dark,
+        body: SafeArea(
+          bottom: false,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                padding: !isBack
+                    ? EdgeInsets.only(left: 15)
+                    : EdgeInsets.only(left: 0),
+                child: CommonTopBar(
+                  Languages.of(context)!.txtRunTracker.toUpperCase(),
+                  this,
+                  isShowBack: isBack,
+                  isShowSetting: true,
+                ),
               ),
-            ),
-            _timerAndDistance(fullwidth),
-            Expanded(
-              child: _mapView(fulheight, context),
-            ),
-          ],
+              _timerAndDistance(fullwidth),
+              Expanded(
+                child: _mapView(fulheight, context),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -333,48 +336,54 @@ class _StartRunScreenState extends State<StartRunScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                InkWell(
-                  child: Container(
-                    height: 60,
-                    width: 60,
-                    margin: EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: Colors.white),
-                    child: Center(
-                        child: Image.asset(
-                      'assets/icons/ic_setalite.png',
-                      scale: 4.0,
-                      color: setaliteEnable
-                          ? Colur.purple_gradient_color2
-                          : Colur.txt_grey,
-                    )),
+                Visibility(
+                  visible: !isBack,
+                  child: InkWell(
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      margin: EdgeInsets.only(bottom: 10),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle, color: Colors.white),
+                      child: Center(
+                          child: Image.asset(
+                        'assets/icons/ic_setalite.png',
+                        scale: 4.0,
+                        color: setaliteEnable
+                            ? Colur.purple_gradient_color2
+                            : Colur.txt_grey,
+                      )),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        setaliteEnable = !setaliteEnable;
+                      });
+                      Debug.printLog(
+                          (setaliteEnable == true) ? "Started" : "Disabled");
+                    },
                   ),
-                  onTap: () {
-                    setState(() {
-                      setaliteEnable = !setaliteEnable;
-                    });
-                    Debug.printLog(
-                        (setaliteEnable == true) ? "Started" : "Disabled");
-                  },
                 ),
                 Container(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      InkWell(
-                        onTap: () async {
-                          
-                          moveCameraToUserLocation();
-                        },
-                        child: Container(
-                          height: 60,
-                          width: 60,
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Colors.white),
-                          child: Center(
-                              child: Image.asset('assets/icons/ic_location.png',
-                                  scale: 4.0,
-                                  color: Colur.purple_gradient_color2)),
+                      Visibility(
+                        visible: !isBack,
+                        child: InkWell(
+                          onTap: () async {
+
+                            moveCameraToUserLocation();
+                          },
+                          child: Container(
+                            height: 60,
+                            width: 60,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.white),
+                            child: Center(
+                                child: Image.asset('assets/icons/ic_location.png',
+                                    scale: 4.0,
+                                    color: Colur.purple_gradient_color2)),
+                          ),
                         ),
                       ),
                       //Start Button Code
@@ -482,7 +491,6 @@ class _StartRunScreenState extends State<StartRunScreen>
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      //TODO TExtADded to Language file addd
                                       !startTrack
                                           ? Languages.of(context)!
                                               .txtStart
@@ -503,7 +511,8 @@ class _StartRunScreenState extends State<StartRunScreen>
                                               : Icons.play_arrow_rounded,
                                           color: Colur.white,
                                           size: 30,
-                                        ))
+                                        ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -511,34 +520,37 @@ class _StartRunScreenState extends State<StartRunScreen>
                           ),
                         ),
                       ),
-                      InkWell(
-                        child: Container(
-                          height: 60,
-                          width: 60,
-                          margin: EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
-                              shape: BoxShape.circle, color: Colur.txt_black),
-                          child: Center(
-                            child: Image.asset(
-                              'assets/icons/ic_lock.png',
-                              scale: 4.0,
-                              color: Colur.white,
+                      Visibility(
+                        visible: !isBack,
+                        child: InkWell(
+                          child: Container(
+                            height: 60,
+                            width: 60,
+                            margin: EdgeInsets.only(bottom: 10),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: Colur.txt_black),
+                            child: Center(
+                              child: Image.asset(
+                                'assets/icons/ic_lock.png',
+                                scale: 4.0,
+                                color: Colur.white,
+                              ),
                             ),
                           ),
-                        ),
-                        onTap: () async {
-                          AnimationController controller = AnimationController(
-                              duration: const Duration(milliseconds: 400),
-                              vsync: this);
+                          onTap: () async {
+                            AnimationController controller = AnimationController(
+                                duration: const Duration(milliseconds: 400),
+                                vsync: this);
 
-                          showDialog(
-                            barrierDismissible: false,
-                            context: context,
-                            builder: (_) => PopUp(
-                              controller: controller,
-                            ),
-                          );
-                        },
+                            showDialog(
+                              barrierDismissible: false,
+                              context: context,
+                              builder: (_) => PopUp(
+                                controller: controller,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
@@ -910,6 +922,61 @@ class _StartRunScreenState extends State<StartRunScreen>
     LatLng newcurrentlatLong =
         LatLng(polylineCoordinatesList.last.latitude, polylineCoordinatesList.last.longitude);
     _controller!.moveCamera(CameraUpdate.newLatLng(newcurrentlatLong));
+  }
+
+  customDialog() async {
+    //IF User Pressed Pause Button then This part Will Do actions>>>>>>>>>
+    _locationSubscription!.pause();
+    stopWatchTimer.onExecute.add(StopWatchExecute
+        .stop); //It will pause the timer
+    setState(() {
+      startTrack = false;
+    });
+    if (polylineCoordinatesList.length >= 1) {
+      runningData!.eLat = polylineCoordinatesList
+          .last.latitude
+          .toString();
+      runningData!.eLong = polylineCoordinatesList
+          .last.longitude
+          .toString();
+    } else {
+      Utils.showToast(context, "Discard");
+      return showDiscardDialog();
+    }
+
+    await _animateToCenterofMap();
+
+    await calculationsForAllValues()
+        .then((value) async {
+      final String result = (await Navigator.push(
+          context,
+          PausePopupScreen(
+              stopWatchTimer,
+              startTrack,
+              runningData,
+              _controller,
+              markers)))!;
+      setState(() {
+        if (_locationSubscription != null &&
+            _locationSubscription!.isPaused)
+          _locationSubscription!.resume();
+        //if User Pressed Restart then below function called
+        if (result == "false") {
+          stopWatchTimer.onExecute
+              .add(StopWatchExecute.reset);
+          isBack = true;
+        }
+        //if User Pressed RESUME then below function called
+        if (result == "true") {
+          setState(() {
+            startTrack = true;
+            isBack = false;
+          });
+        }
+      });
+    });
+
+
   }
 //End Class
 }
