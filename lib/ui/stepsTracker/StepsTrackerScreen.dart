@@ -51,6 +51,8 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   int? height;
   int? weight;
 
+  bool? isKmSelected;
+
   StreamSubscription<StepCount>? _stepCountStream;
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(
@@ -66,13 +68,10 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   @override
   void initState() {
-    //totalSteps = Preference.shared.getInt(Preference.TOTAL_STEPS);
-    getDuration();
-    getsteps();
-    getDistance();
-    getCalories();
+    getPreference();
     getisPauseFromPrefs();
     setTime();
+    calculateDistance();
     DataBaseHelper().getAllStepsData();
     getStepsDataForCurrentWeek();
     getLast7DaysSteps();
@@ -80,12 +79,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   }
 
   getisPauseFromPrefs() {
-    var isPauseFromPrefs = Preference.shared.getBool(Preference.IS_PAUSE);
-    if (isPauseFromPrefs != null) {
-      isPause = isPauseFromPrefs;
-    } else {
-      isPause = false;
-    }
+    isPause = Preference.shared.getBool(Preference.IS_PAUSE) ?? false;
 
     if (isPause == true) {
       if (currentStepCount! > 0) {
@@ -339,7 +333,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                     color: Colur.txt_white),
               ),
               Text(
-                Languages.of(context)!.txtMile,
+                isKmSelected! ? Languages.of(context)!.txtKM : Languages.of(context)!.txtMile,
                 style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
@@ -760,16 +754,6 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         Preference.shared.setInt(Preference.TOTAL_STEPS, totalSteps!);
         //Debug.printLog("total step count: $totalSteps");
 
-        /*if (reset) {
-          currentStepCount = totalSteps! - oldStepCount!;
-          Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
-          reset = false;
-          //Debug.printLog("--------current step count: $currentStepCount");
-        } else {
-          currentStepCount = currentStepCount! + 1;
-          Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
-          // Debug.printLog("--------current step count: $currentStepCount");
-        }*/
         currentStepCount = currentStepCount! + 1;
         Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
       });
@@ -847,22 +831,16 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     }
   }
 
-  getsteps() {
-    var prefTargetSteps = Preference.shared.getInt(Preference.TARGET_STEPS);
-    var prefStep = Preference.shared.getInt(Preference.CURRENT_STEPS);
-    //Debug.printLog("current step: $step");
-
-    if (prefStep != null) {
-      currentStepCount = prefStep;
-    } else {
-      currentStepCount = 0;
-    }
-
-    if (prefTargetSteps != null) {
-      targetSteps = prefTargetSteps;
-    } else {
-      targetSteps = 1500;
-    }
+  getPreference() {
+     targetSteps = Preference.shared.getInt(Preference.TARGET_STEPS) ?? 1500;
+     currentStepCount = Preference.shared.getInt(Preference.CURRENT_STEPS) ?? 0;
+     oldTime = Preference.shared.getInt(Preference.OLD_TIME) ?? 0;
+     duration = Preference.shared.getString(Preference.DURATION) ?? "00h 0";
+     distance = Preference.shared.getDouble(Preference.OLD_DISTANCE) ?? 0;
+     calories = Preference.shared.getDouble(Preference.OLD_CALORIES) ?? 0;
+     height = Preference.shared.getInt(Preference.HEIGHT) ?? 164;
+     weight = Preference.shared.getInt(Preference.WEIGHT) ?? 50;
+     isKmSelected = Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
   }
 
   resetData() {
@@ -904,42 +882,35 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   calculateDistance() {
     setState(() {
-      distance = currentStepCount! * 0.0008 * 0.6214;
-      Preference.shared.setDouble(Preference.OLD_DISTANCE, distance!);
+      if (isKmSelected!) {
+        distance = currentStepCount! * 0.0008;
+        Preference.shared.setDouble(Preference.OLD_DISTANCE, distance!);
+      } else {
+        distance = currentStepCount! * 0.0008 * 0.6214;
+        Preference.shared.setDouble(Preference.OLD_DISTANCE, distance!);
+      }
       //Debug.printLog("Distance: $distance");
     });
   }
 
-  getDuration() {
-    var oldTimeFromPrefs = Preference.shared.getInt(Preference.OLD_TIME);
+  /*getDuration() {
+     oldTime = Preference.shared.getInt(Preference.OLD_TIME) ?? 0;
     //Debug.printLog("t: $t");
 
-    if (oldTimeFromPrefs != null) {
-      oldTime = oldTimeFromPrefs;
-    } else {
-      oldTime = 0;
-    }
+    
 
-    var durationFromPrefs = Preference.shared.getString(Preference.DURATION);
+    
     //Debug.printLog("t: $d");
 
-    if (durationFromPrefs != null) {
-      duration = durationFromPrefs;
-    } else {
-      duration = "00h 00";
-    }
+    
   }
 
   getDistance() {
-    var distanceFromPrefs =
-        Preference.shared.getDouble(Preference.OLD_DISTANCE);
+    var distance =
+        Preference.shared.getDouble(Preference.OLD_DISTANCE) ?? 0;
     //Debug.printLog("d: $dist");
 
-    if (distanceFromPrefs != null) {
-      distance = distanceFromPrefs;
-    } else {
-      distance = 0;
-    }
+    
   }
 
   getCalories() {
@@ -949,16 +920,11 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     weight = Preference.shared.getInt(Preference.WEIGHT);
     //Debug.printLog("Weight: $weight");
 
-    var caloriesFromPrefs =
-        Preference.shared.getDouble(Preference.OLD_CALORIES);
+    var calories = Preference.shared.getDouble(Preference.OLD_CALORIES) ?? 0;
     //Debug.printLog("calories: $cal");
 
-    if (caloriesFromPrefs != null) {
-      calories = caloriesFromPrefs;
-    } else {
-      calories = 0;
-    }
-  }
+    
+  }*/
 
   calculateCalories() {
     setState(() {

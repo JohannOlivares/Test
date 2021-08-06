@@ -507,7 +507,7 @@ class _HomeScreenState extends State<HomeScreen>
               value: (bestPace != null && bestPace!.speed != null)
                   ? (isKmSelected)?bestPace!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(bestPace!.speed!).toStringAsFixed(2)
                   : "0.0",
-              unit:(isKmSelected)?Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtMile.toUpperCase()+")",
+              unit:(isKmSelected)?Languages.of(context)!.txtMinKm:Languages.of(context)!.txtMinMi,
               isNotDuration: true),
           bestRecordListTile(
               img: "ic_duration.webp",
