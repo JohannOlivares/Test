@@ -652,8 +652,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             //maxLines: 1,
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Expanded(
+              Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -661,8 +662,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
                         (totalHours != null && totalHours!.duration! != null)
-                            ? Utils.secToHour(totalHours!.duration!)
-                                .toStringAsFixed(2)
+                            ? Utils.secToHour(totalHours!.duration!).toStringAsFixed(2)
                             : "0.00",
                         textAlign: TextAlign.left,
                         maxLines: 1,
@@ -693,7 +693,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
@@ -728,7 +728,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
-              Expanded(
+              Container(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

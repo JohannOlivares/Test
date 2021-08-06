@@ -5,7 +5,6 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/localization/language/languages.dart';
@@ -31,8 +30,6 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
   //For Google Map
   bool setaliteEnable = false;
   GoogleMapController? _controller;
-  Location _location = Location();
-  StreamSubscription<LocationData>? _locationSubscription;
   LatLng? _startLatLong;
   LatLng? _EndLatLong;
   Map<PolylineId, Polyline> polylines = {};

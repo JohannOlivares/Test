@@ -12,7 +12,6 @@ import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:math' show acos, asin, cos, sin, sqrt;
 import 'package:pedometer/pedometer.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/interfaces/RunningStopListener.dart';
@@ -59,8 +58,6 @@ class _StartRunScreenState extends State<StartRunScreen>
   double lastDistance = 0;
   double pace = 0;
   double calorisvalue = 0;
-  int _steps = 0;
-  String _status = "";
   bool reset = false;
   bool setaliteEnable = false;
   bool startTrack = false;
@@ -99,7 +96,6 @@ class _StartRunScreenState extends State<StartRunScreen>
 
 /*    stopWatchTimer.rawTime.listen((value) =>
         print('rawTime $value ${StopWatchTimer.getDisplayTime(value)}'));*/
-    countStep();
   }
 
 
@@ -168,36 +164,6 @@ class _StartRunScreenState extends State<StartRunScreen>
     Polyline polyline = Polyline(
       polylineId: id, color: Colors.black, points: polylineCoordinatesList,width: 4,);
     polylines[id] = polyline;
-  }
-
-  void countStep() {
-    reset = true;
-    _stepCountStream = Pedometer.stepCountStream
-        .listen(_onData, onError: _onError, cancelOnError: false);
-
-    _pedestrianStatusStream = Pedometer.pedestrianStatusStream.listen((event) {
-      setState(() {
-        _status = event.status;
-      });
-    }, onError: (error) {
-      print("Pedestrian Status Error: $error");
-      setState(() {
-        _status = "Status not available.";
-      });
-    });
-  }
-
-  void _onError(error) {
-    _steps = 0;
-    Utils.showToast(context, "Error giving in Count Steps");
-    print("Error: $error");
-  }
-
-  void _onData(StepCount stepCountValue) {
-    setState(() {
-      /*(reset == true)?_steps = 0:*/
-      _steps = stepCountValue.steps;
-    });
   }
 
   @override

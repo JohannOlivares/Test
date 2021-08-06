@@ -19,7 +19,7 @@ class RecentActivitiesScreen extends StatefulWidget {
 class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
     implements TopBarClickListener {
   List<RunningData> activityList = [];
-  bool ActiivityShow = false;
+  bool activityShow = false;
 
   @override
   void initState() {
@@ -35,11 +35,11 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
 
     if (result.isEmpty || result.length == 0) {
       setState(() {
-        ActiivityShow = false;
+        activityShow = false;
       });
     } else {
       setState(() {
-        ActiivityShow = true;
+        activityShow = true;
       });
     }
   }
@@ -47,7 +47,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
   @override
   Widget build(BuildContext context) {
     var fullHeight = MediaQuery.of(context).size.height;
-    var fullWidth = MediaQuery.of(context).size.width;
+    //var fullWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colur.common_bg_dark,
       body: SingleChildScrollView(
@@ -62,11 +62,11 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                 ),
               ),
               Visibility(
-                visible: ActiivityShow,
+                visible: activityShow,
                 child: recentActivitiesList(fullHeight),
               ),
               Visibility(
-                visible: !ActiivityShow,
+                visible: !activityShow,
                 child: Container(
                   margin: EdgeInsets.only(
                       top: MediaQuery.of(context).size.height * 0.4),
