@@ -65,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen>
             .getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM) ?? 0.0;
     walkTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_WALKTIME)??150;
     runTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_RUNTIME)??75;
-    prefSelectedDay = Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM);
+    prefSelectedDay = Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM) ?? 1;
   }
 
   RunningData? longestDistance;
