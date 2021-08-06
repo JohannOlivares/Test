@@ -28,7 +28,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
   }
 
   _checkData() async {
-    final result = await DataBaseHelper().selectMapHistory();
+    final result = await DataBaseHelper.selectMapHistory();
     activityList.addAll(result);
 
     //print(result[0].eLong);

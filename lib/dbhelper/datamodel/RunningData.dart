@@ -9,7 +9,7 @@ class RunningData {
   @PrimaryKey(autoGenerate: true)
   int? id;
 
-   int? duration;
+  int? duration;
   double? distance;
   double? speed;
   double? cal;
@@ -24,38 +24,39 @@ class RunningData {
   int? moderateIntenseTime;
   int? highIntenseTime;
   double? total;
+  int? allTotal;
 
   @ignore
   File? imageFile;
 
-
   RunningData(
       {this.id,
-        this.duration,
+      this.duration,
       this.distance,
-        this.speed,
-        this.cal,
+      this.speed,
+      this.cal,
       this.sLat,
       this.eLong,
       this.eLat,
       this.sLong,
-      this.image,this.polyLine,this.date,
-      this.lowIntenseTime,this.moderateIntenseTime,this.highIntenseTime,this.total});
+      this.image,
+      this.polyLine,
+      this.date,
+      this.lowIntenseTime,
+      this.moderateIntenseTime,
+      this.highIntenseTime,
+      this.total,this.allTotal = 0});
 
-
-
-
-  File? getImage(){
+  File? getImage() {
     File? file;
-    if(image != null) {
+    if (image != null) {
       file = File(image!);
     }
 
     return file;
   }
 
-  List<LatLng>? getPolyLineData()
-  {
+  List<LatLng>? getPolyLineData() {
     List<LatLng> polylineData = [];
 
     List<dynamic> list = jsonDecode(polyLine!);
@@ -85,6 +86,5 @@ class RunningData {
   String toString() {
     return 'Task{id: $id, message: $message}';
   }*/
-
 
 }

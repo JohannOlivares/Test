@@ -156,9 +156,33 @@ class DataBaseHelper {
 
   //<!----------------------------- Running Table Operations ---------------------------------------------------!>
 
-  Future<List<RunningData>> selectMapHistory() async {
+  static Future<List<RunningData>> selectMapHistory() async {
     final runningDao = _database!.runningDao;
     final result = await runningDao.getAllHistory();
+    result.forEach((element) {
+      Debug.printLog("Health For Week Days ==> id :==" +
+          element.id.toString() +
+          " allTotal :==" +
+          element.allTotal.toString() +
+          " total :==" +
+          element.total.toString() +
+          " date :==" +
+          element.date.toString() +
+          " cal :==" +
+          element.cal.toString() +
+          " distance :==" +
+          element.distance.toString() +
+          " duration :==" +
+          element.duration.toString() +
+          " highIntenseTime :==" +
+          element.highIntenseTime.toString() +
+          " lowIntenseTime :==" +
+          element.lowIntenseTime.toString() +
+          " moderateIntenseTime :==" +
+          element.moderateIntenseTime.toString()+
+          " speed :==" +
+          element.speed.toString());
+    });
     return result;
   }
 
@@ -238,6 +262,18 @@ class DataBaseHelper {
     final runningDao = _database!.runningDao;
     final SumofModerateIntensity = await runningDao.getTotalOfModerateIntensity(date);
     return SumofModerateIntensity!.moderateIntenseTime;
+  }
+
+  static Future<List<RunningData>> getHeartHealth(
+      List<String> date) async {
+    final runningDao = _database!.runningDao;
+    final heartHealth = await runningDao.getHeartHealth(date);
+    await DataBaseHelper.selectMapHistory();
+    heartHealth.forEach((element) {
+      Debug.printLog("Health For Week Days ==> allTotal ==>" +
+          element.allTotal.toString());
+    });
+    return heartHealth;
   }
 
   //<!----------------------------- Steps Table Operations ---------------------------------------------------!>

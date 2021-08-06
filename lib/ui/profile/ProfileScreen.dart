@@ -1,4 +1,3 @@
-
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
@@ -56,7 +55,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     _fillData();
 
-
     isPreviousWeek = true;
     isNextWeek = false;
 
@@ -85,6 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _getTotaCaloriesForProgress();
     _getAveragePaceForProgress();
     _getTotalHoursForProgress();
+    _getChartDataForHeartHealth(isCurrent: true);
   }
 
   DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
@@ -92,23 +91,62 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var prefTargetValue;
   int? prefSelectedDay;
   int? maxLimitOfDrinkWater;
+  int? maxHeartHealth;
+  int? prefMaxHeartHealth;
 
   _getPreference() {
     prefTargetValue =
         Preference.shared.getString(Preference.TARGET_DRINK_WATER);
     prefSelectedDay =
         Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM) ?? 1;
+    prefMaxHeartHealth = (Preference.shared.getInt(Preference.TARGETVALUE_FOR_WALKTIME) ?? 150) + (Preference.shared.getInt(Preference.TARGETVALUE_FOR_RUNTIME) ?? 75);
     setState(() {
       if (prefTargetValue == null) {
         maxLimitOfDrinkWater = 2000;
       } else {
         maxLimitOfDrinkWater = int.parse(prefTargetValue);
       }
+      maxHeartHealth = prefMaxHeartHealth;
+      kmSelected = Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
     });
-      setState(() {
-        kmSelected =
-            Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+  }
+
+  List<RunningData>? totalRunningData;
+  Map<String, int> mapRunning = {};
+
+  _getChartDataForHeartHealth({bool isCurrent = false}) async {
+    List<String> dates = [];
+    allDays.clear();
+    for (int i = 0; i <= 6; i++) {
+      var currentWeekDates = (isCurrent)
+          ? getDate(DateTime.now()
+              .subtract(Duration(days: currentDate.weekday - prefSelectedDay!))
+              .add(Duration(days: i)))
+          : getDate(DateTime.now()
+              .subtract(
+                  Duration(days: (currentDate.weekday - prefSelectedDay!) + 7))
+              .add(Duration(days: i)));
+      String formatCurrentWeekDates =
+          DateFormat.yMMMd().format(currentWeekDates);
+
+      allDays.add(DateFormat('EEEE').format(currentWeekDates));
+
+      dates.add(formatCurrentWeekDates);
+    }
+    totalRunningData = await DataBaseHelper.getHeartHealth(dates);
+    mapRunning.clear();
+    for (int i = 0; i < dates.length; i++) {
+      bool isMatch = false;
+      totalRunningData!.forEach((element) {
+        if (element.date == dates[i]) {
+          if (element.allTotal != null)
+            mapRunning.putIfAbsent(element.date!, () => (element.allTotal!));
+          isMatch = true;
+        }
       });
+      if (!isMatch) mapRunning.putIfAbsent(dates[i], () => 0);
+    }
+    setState(() {});
   }
 
   List<WaterData>? total;
@@ -217,32 +255,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return weightDataList;
   }
 
-  _getDates(){
-    startDateOfCurrentWeek =
-        getDate(currentDate.subtract(Duration(days: currentDate.weekday - prefSelectedDay!)));
-    if(prefSelectedDay == 0){
-      endDateOfCurrentWeek = getDate(currentDate.add(Duration(
-          days: DateTime.daysPerWeek - 4)));
-    }else if(prefSelectedDay == 1){
-      endDateOfCurrentWeek = getDate(currentDate.add(Duration(
-          days: DateTime.daysPerWeek - currentDate.weekday)));
-    }else if(prefSelectedDay == -1){
-      endDateOfCurrentWeek = getDate(currentDate.add(Duration(
-          days: DateTime.daysPerWeek - 5)));
+  _getDates() {
+    startDateOfCurrentWeek = getDate(currentDate
+        .subtract(Duration(days: currentDate.weekday - prefSelectedDay!)));
+    if (prefSelectedDay == 0) {
+      endDateOfCurrentWeek =
+          getDate(currentDate.add(Duration(days: DateTime.daysPerWeek - 4)));
+    } else if (prefSelectedDay == 1) {
+      endDateOfCurrentWeek = getDate(currentDate
+          .add(Duration(days: DateTime.daysPerWeek - currentDate.weekday)));
+    } else if (prefSelectedDay == -1) {
+      endDateOfCurrentWeek =
+          getDate(currentDate.add(Duration(days: DateTime.daysPerWeek - 5)));
     }
     formatStartDateOfCurrentWeek =
         DateFormat.MMMd().format(startDateOfCurrentWeek);
-    formatEndDateOfCurrentWeek =
-        DateFormat.MMMd().format(endDateOfCurrentWeek);
+    formatEndDateOfCurrentWeek = DateFormat.MMMd().format(endDateOfCurrentWeek);
 
-    startDateOfPreviousWeek = getDate(
-        currentDate.subtract(Duration(days: (currentDate.weekday - prefSelectedDay!) + 7)));
-    if(prefSelectedDay == 0){ endDateOfPreviousWeek = getDate(currentDate
-        .add(Duration(days: (DateTime.daysPerWeek - currentDate.weekday) - 8)));
-    }else if(prefSelectedDay == 1){ endDateOfPreviousWeek = getDate(currentDate
-        .add(Duration(days: (DateTime.daysPerWeek - currentDate.weekday) - 7)));
-    }else if(prefSelectedDay == -1){ endDateOfPreviousWeek = getDate(currentDate
-        .add(Duration(days: (DateTime.daysPerWeek - currentDate.weekday) - 9)));
+    startDateOfPreviousWeek = getDate(currentDate.subtract(
+        Duration(days: (currentDate.weekday - prefSelectedDay!) + 7)));
+    if (prefSelectedDay == 0) {
+      endDateOfPreviousWeek = getDate(currentDate.add(
+          Duration(days: (DateTime.daysPerWeek - currentDate.weekday) - 8)));
+    } else if (prefSelectedDay == 1) {
+      endDateOfPreviousWeek = getDate(currentDate.add(
+          Duration(days: (DateTime.daysPerWeek - currentDate.weekday) - 7)));
+    } else if (prefSelectedDay == -1) {
+      endDateOfPreviousWeek = getDate(currentDate.add(
+          Duration(days: (DateTime.daysPerWeek - currentDate.weekday) - 9)));
     }
 
     formatStartDateOfPreviousWeek =
@@ -255,55 +295,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _getLast30DaysWeightAverage() async {
     double? average = await DataBaseHelper.getLast30DaysWeightAverage();
-    weightAverage = (average != null) ?  average.toStringAsFixed(2) : 0.0.toString();
+    weightAverage =
+        (average != null) ? average.toStringAsFixed(2) : 0.0.toString();
     setState(() {});
     Debug.printLog("weightAverage =====>" + weightAverage!);
   }
 
   RunningData? totalDistance;
 
-  _getTotalDistanceForProgress() async{
+  _getTotalDistanceForProgress() async {
     totalDistance = await DataBaseHelper.getSumOfTotalDistance();
     Debug.printLog("total distance: ${totalDistance!.total}");
-    setState(() {
-
-    });
+    setState(() {});
   }
 
   RunningData? totalHours;
 
-  _getTotalHoursForProgress() async{
+  _getTotalHoursForProgress() async {
     totalHours = await DataBaseHelper.getSumOfTotalDuration();
     Debug.printLog("total duration: ${totalHours!.duration}");
 
-
-    setState(() {
-
-    });
+    setState(() {});
     return totalHours!;
   }
 
   RunningData? totalKcal;
 
-  _getTotaCaloriesForProgress() async{
+  _getTotaCaloriesForProgress() async {
     totalKcal = await DataBaseHelper.getSumOfTotalCalories();
     Debug.printLog("total calories: ${totalKcal!.total}");
-    setState(() {
-
-    });
+    setState(() {});
     return totalKcal!.total;
   }
 
   RunningData? avgPace;
 
-  _getAveragePaceForProgress() async{
+  _getAveragePaceForProgress() async {
     avgPace = await DataBaseHelper.getAverageOfSpeed();
     Debug.printLog("average pace: ${avgPace!.total}");
-    setState(() {
-
-    });
+    setState(() {});
     return avgPace!.total;
-
   }
 
   @override
@@ -577,7 +608,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               InkWell(
-                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RecentActivitiesScreen())),
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => RecentActivitiesScreen())),
                 child: Text(
                   Languages.of(context)!.txtMore.toUpperCase(),
                   textAlign: TextAlign.left,
@@ -597,7 +631,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text(
               (totalDistance != null && totalDistance!.total != null)
                   ? totalDistance!.total!.toStringAsFixed(2)
-                  :"0.00",
+                  : "0.00",
               textAlign: TextAlign.left,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -626,7 +660,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
-                        (totalHours != null && totalHours!.duration! != null) ? Utils.secToHour(totalHours!.duration!).toStringAsFixed(2) : "0.00",
+                        (totalHours != null && totalHours!.duration! != null)
+                            ? Utils.secToHour(totalHours!.duration!)
+                                .toStringAsFixed(2)
+                            : "0.00",
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -661,7 +698,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
-                        (totalKcal != null && totalKcal!.total! != null) ? totalKcal!.total!.toStringAsFixed(1) : "0.0",
+                        (totalKcal != null && totalKcal!.total! != null)
+                            ? totalKcal!.total!.toStringAsFixed(1)
+                            : "0.0",
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -696,7 +735,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
-                        (avgPace != null && avgPace!.total != null) ? avgPace!.total!.toStringAsFixed(2) : "0.00",
+                        (avgPace != null && avgPace!.total != null)
+                            ? avgPace!.total!.toStringAsFixed(2)
+                            : "0.00",
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -763,6 +804,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         isPreviousWeek = false;
                         isNextWeek = true;
                       });
+                      _getChartDataForHeartHealth(isCurrent: false);
                     },
                     child: Container(
                       padding: const EdgeInsets.only(right: 25.0),
@@ -797,6 +839,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         isPreviousWeek = true;
                         isNextWeek = false;
                       });
+                      _getChartDataForHeartHealth(isCurrent: true);
                     },
                     child: Container(
                       padding: const EdgeInsets.only(left: 25.0),
@@ -823,7 +866,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         String weekDay;
                         if (allDays.isNotEmpty) {
                           weekDay = allDays[groupIndex.toInt()];
-                        }else{
+                        } else {
                           weekDay = "";
                         }
                         return BarTooltipItem(
@@ -879,7 +922,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         if (allDays[value.toInt()] == currentDay) {
                           return Languages.of(context)!.txtToday;
                         } else {
-                          return allDays[value.toInt()].substring(0,3);
+                          return allDays[value.toInt()].substring(0, 3);
                         }
                       } else {
                         return "";
@@ -946,7 +989,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           borderRadius: BorderRadius.all(Radius.zero),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: 200.0,
+            y: maxHeartHealth!.toDouble(),
             colors: [Colur.common_bg_dark],
           ),
         ),
@@ -954,33 +997,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  List<BarChartGroupData> showingHeartHealthGroups() => List.generate(7, (i) {
-        switch (i) {
-          case 0:
-            return makeHeartHealthGroupData(0, 100.0,
-                isTouched: i == touchedIndexForHartHealthChart);
-          case 1:
-            return makeHeartHealthGroupData(1, 50.5,
-                isTouched: i == touchedIndexForHartHealthChart);
-          case 2:
-            return makeHeartHealthGroupData(2, 80.0,
-                isTouched: i == touchedIndexForHartHealthChart);
-          case 3:
-            return makeHeartHealthGroupData(3, 70.5,
-                isTouched: i == touchedIndexForHartHealthChart);
-          case 4:
-            return makeHeartHealthGroupData(4, 90.0,
-                isTouched: i == touchedIndexForHartHealthChart);
-          case 5:
-            return makeHeartHealthGroupData(5, 20.5,
-                isTouched: i == touchedIndexForHartHealthChart);
-          case 6:
-            return makeHeartHealthGroupData(6, 60.5,
-                isTouched: i == touchedIndexForHartHealthChart);
-          default:
-            return throw Error();
-        }
-      });
+  List<BarChartGroupData> showingHeartHealthGroups() {
+    List<BarChartGroupData> list = [];
+
+    for (int i = 0; i < mapRunning.length; i++) {
+      list.add(makeHeartHealthGroupData(
+          i, mapRunning.entries.toList()[i].value.toDouble(),
+          isTouched: i == touchedIndexForHartHealthChart));
+    }
+
+    return list;
+  }
 
   _selectedTextStyle() {
     return const TextStyle(
@@ -1192,7 +1219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         String weekDay;
                         if (allDays.isNotEmpty) {
                           weekDay = allDays[groupIndex.toInt()];
-                        }else{
+                        } else {
                           weekDay = "";
                         }
                         return BarTooltipItem(
@@ -1248,7 +1275,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         if (allDays[value.toInt()] == currentDay) {
                           return Languages.of(context)!.txtToday;
                         } else {
-                          return allDays[value.toInt()].substring(0,3);
+                          return allDays[value.toInt()].substring(0, 3);
                         }
                       } else {
                         return "";
@@ -1404,7 +1431,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Text(
                                 (longestDistance != null &&
                                         longestDistance!.date != null)
-                                    ? (kmSelected)?longestDistance!.distance!.toStringAsFixed(2):Utils.kmToMile(longestDistance!.distance!).toStringAsFixed(2)
+                                    ? (kmSelected)
+                                        ? longestDistance!.distance!
+                                            .toStringAsFixed(2)
+                                        : Utils.kmToMile(
+                                                longestDistance!.distance!)
+                                            .toStringAsFixed(2)
                                     : "0.0",
                                 textAlign: TextAlign.left,
                                 maxLines: 1,
@@ -1420,7 +1452,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   padding: const EdgeInsets.only(
                                       left: 5.0, bottom: 3.0),
                                   child: Text(
-                                    (kmSelected)?Languages.of(context)!.txtKM.toUpperCase():Languages.of(context)!.txtMILE.toUpperCase(),
+                                    (kmSelected)
+                                        ? Languages.of(context)!
+                                            .txtKM
+                                            .toUpperCase()
+                                        : Languages.of(context)!
+                                            .txtMILE
+                                            .toUpperCase(),
                                     textAlign: TextAlign.left,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
@@ -1495,7 +1533,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             children: [
                               Text(
                                 (bestPace != null && bestPace!.speed != null)
-                                    ? (kmSelected)?bestPace!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(bestPace!.speed!).toStringAsFixed(2)
+                                    ? (kmSelected)
+                                        ? bestPace!.speed!.toStringAsFixed(2)
+                                        : Utils.minPerKmToMinPerMile(
+                                                bestPace!.speed!)
+                                            .toStringAsFixed(2)
                                     : "0.0",
                                 textAlign: TextAlign.left,
                                 maxLines: 1,
@@ -1510,7 +1552,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 padding: const EdgeInsets.only(
                                     left: 5.0, bottom: 3.0),
                                 child: Text(
-                                    (kmSelected)?Languages.of(context)!.txtMinKm.toUpperCase():Languages.of(context)!.txtMinMi.toUpperCase(),
+                                  (kmSelected)
+                                      ? Languages.of(context)!
+                                          .txtMinKm
+                                          .toUpperCase()
+                                      : Languages.of(context)!
+                                          .txtMinMi
+                                          .toUpperCase(),
                                   textAlign: TextAlign.left,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,

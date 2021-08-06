@@ -46,6 +46,15 @@ abstract class RunningDao {
   Future<RunningData?> getTotalOfModerateIntensity(List<String> date);
 
 
+  /*@Query('SELECT *, (SELECT IFNULL(SUM(lowIntenseTime),0) FROM RunningData WHERE date = wt2.date) as allTotal FROM RunningData as wt2 WHERE date IN(:date) GROUP BY date')
+  Future<List<RunningData>> getHeartHealthLowIntenseTime(List<String> date);
+
+  @Query('SELECT *, (SELECT IFNULL(SUM(moderateIntenseTime),0) FROM RunningData WHERE date = wt2.date) as allTotal FROM RunningData as wt2 WHERE date IN(:date) GROUP BY date')
+  Future<List<RunningData>> getHeartHealthModerateIntenseTime(List<String> date);*/
+
+  @Query('SELECT *, (SELECT IFNULL(SUM(lowIntenseTime + moderateIntenseTime),0) FROM RunningData WHERE date = wt2.date) as allTotal FROM RunningData as wt2 WHERE date IN(:date) GROUP BY date')
+  Future<List<RunningData>> getHeartHealth(List<String> date);
+
   @insert
   Future<int> insertTask(RunningData task);
 
