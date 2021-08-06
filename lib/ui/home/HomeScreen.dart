@@ -490,6 +490,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   bestRecordList(bool isKmSelected) {
     return Container(
+      margin: EdgeInsets.only(bottom: 30.0),
       child: Column(
         children: [
           bestRecordListTile(
