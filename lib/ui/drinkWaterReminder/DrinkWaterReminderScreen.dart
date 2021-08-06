@@ -519,7 +519,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
           scheduledDate,
           const NotificationDetails(
             android: AndroidNotificationDetails('drink_water_reminder',
-                'Drink Water', 'This is reminder for drinking water on time'),
+                'Drink Water', 'This is reminder for drinking water on time',icon: 'ic_notification'),
             iOS: IOSNotificationDetails(),
           ),
           androidAllowWhileIdle: true,
@@ -584,11 +584,4 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
         });
   }
 
-}
-
-class ListItem {
-  int value;
-  String name;
-
-  ListItem(this.value, this.name);
 }

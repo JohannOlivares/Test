@@ -66,7 +66,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       data.add(LinearSales(start, null));
       start = start.add(Duration(days: 1));
     }
-    _getChartDataForWeight();
     super.initState();
   }
 
@@ -84,6 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _getAveragePaceForProgress();
     _getTotalHoursForProgress();
     _getChartDataForHeartHealth(isCurrent: true);
+    _getChartDataForWeight();
   }
 
   DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
@@ -99,7 +99,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Preference.shared.getString(Preference.TARGET_DRINK_WATER);
     prefSelectedDay =
         Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM) ?? 1;
-    prefMaxHeartHealth = (Preference.shared.getInt(Preference.TARGETVALUE_FOR_WALKTIME) ?? 150) + (Preference.shared.getInt(Preference.TARGETVALUE_FOR_RUNTIME) ?? 75);
+    prefMaxHeartHealth =
+        (Preference.shared.getInt(Preference.TARGETVALUE_FOR_WALKTIME) ?? 150) +
+            (Preference.shared.getInt(Preference.TARGETVALUE_FOR_RUNTIME) ??
+                75);
     setState(() {
       if (prefTargetValue == null) {
         maxLimitOfDrinkWater = 2000;
@@ -630,7 +633,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             margin: const EdgeInsets.only(top: 15.0),
             child: Text(
               (totalDistance != null && totalDistance!.total != null)
-                  ?(kmSelected) ?totalDistance!.total!.toStringAsFixed(2):Utils.kmToMile(totalDistance!.total!).toStringAsFixed(2)
+                  ? (kmSelected)
+                      ? totalDistance!.total!.toStringAsFixed(2)
+                      : Utils.kmToMile(totalDistance!.total!).toStringAsFixed(2)
                   : "0.00",
               textAlign: TextAlign.left,
               maxLines: 1,
@@ -643,7 +648,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           Text(
-            (kmSelected) ?Languages.of(context)!.txtTotalKM.toUpperCase():Languages.of(context)!.txtTotalMile.toUpperCase().toUpperCase(),
+            (kmSelected)
+                ? Languages.of(context)!.txtTotalKM.toUpperCase()
+                : Languages.of(context)!
+                    .txtTotalMile
+                    .toUpperCase()
+                    .toUpperCase(),
             textAlign: TextAlign.left,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -662,7 +672,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
                         (totalHours != null && totalHours!.duration! != 0)
-                            ? Utils.secToHour(totalHours!.duration!).toStringAsFixed(2)
+                            ? Utils.secToHour(totalHours!.duration!)
+                                .toStringAsFixed(2)
                             : "0.00",
                         textAlign: TextAlign.left,
                         maxLines: 1,
@@ -735,7 +746,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
                       child: Text(
-                        (avgPace != null && avgPace!.total != null) ? (kmSelected)?avgPace!.total!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(avgPace!.total!).toStringAsFixed(2) : "0.00",
+                        (avgPace != null && avgPace!.total != null)
+                            ? (kmSelected)
+                                ? avgPace!.total!.toStringAsFixed(2)
+                                : Utils.minPerKmToMinPerMile(avgPace!.total!)
+                                    .toStringAsFixed(2)
+                            : "0.00",
                         textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -1056,9 +1072,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               InkWell(
                 onTap: () {
                   showDialog(
-                          context: context,
-                          builder: (context) => AddWeightDialog())
-                      .then((value) => _getChartDataForWeight());
+                      context: context,
+                      builder: (context) => AddWeightDialog()).then((value) {
+                    _fillData();
+                  });
                 },
                 child: Text(
                   Languages.of(context)!.txtAdd.toUpperCase(),

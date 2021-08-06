@@ -65,7 +65,7 @@ class _RunningReminderState extends State<RunningReminder>
     var min = int.parse(reminderTime.split(":")[1]);
     selectedTime = TimeOfDay(hour: hr, minute: min);
     timeController.text =
-        DateFormat.jm().format(DateTime(2021, 08, 1, hr, min));
+        DateFormat.jm().format(DateTime(DateTime.now().year, DateTime.now().month,DateTime.now().day, hr, min));
 
     super.initState();
   }
@@ -202,29 +202,32 @@ class _RunningReminderState extends State<RunningReminder>
                     ],
                   ),
                 )),
-                GradientButtonSmall(
-                  width: 250,
-                  height: 50,
-                  radius: 30.0,
-                  child: Text(
-                    Languages.of(context)!.txtSave,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colur.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 18.0),
+                Container(
+                  margin: EdgeInsets.only(bottom: 30.0),
+                  child: GradientButtonSmall(
+                    width: 250,
+                    height: 50,
+                    radius: 30.0,
+                    child: Text(
+                      Languages.of(context)!.txtSave,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colur.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18.0),
+                    ),
+                    gradient: LinearGradient(
+                      colors: [
+                        Colur.purple_gradient_color1,
+                        Colur.purple_gradient_color2,
+                      ],
+                    ),
+                    onPressed: () {
+                      saveReminder();
+                    },
                   ),
-                  gradient: LinearGradient(
-                    colors: [
-                      Colur.purple_gradient_color1,
-                      Colur.purple_gradient_color2,
-                    ],
-                  ),
-                  onPressed: () {
-                    saveReminder();
-                  },
                 )
               ],
             ),
@@ -349,7 +352,7 @@ class _RunningReminderState extends State<RunningReminder>
         scheduledDate,
         const NotificationDetails(
           android: AndroidNotificationDetails(
-              'runnig_reminder', 'Running', 'This is reminder for running'),
+              'running_reminder', 'Running', 'This is reminder for running',icon: 'ic_notification'),
           iOS: IOSNotificationDetails(),
         ),
         androidAllowWhileIdle: true,

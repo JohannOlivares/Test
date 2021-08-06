@@ -564,18 +564,18 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
             if(kmSelected){
               Preference.shared.setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, targetDistanceInKm.toDouble()+1);
               Debug.printLog("${targetDistanceInKm.toDouble()+1}");
-              Utils.showToast(context, "${targetDistanceInKm.toDouble()+1} Confirmed In Kilometer");
+              // Utils.showToast(context, "${targetDistanceInKm.toDouble()+1} Confirmed In Kilometer");
             }else{
               Preference.shared
                   .setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, targetDistanceInKm.ceil().toDouble()+1);
-              Utils.showToast(context, "${Utils.kmToMile(targetDistanceInKm.toDouble()+1)} Confirmed In Mile");
+              // Utils.showToast(context, "${Utils.kmToMile(targetDistanceInKm.toDouble()+1)} Confirmed In Mile");
 
             }
           }else{
             Preference.shared.setInt(Preference.TARGETVALUE_FOR_WALKTIME, walkTime);
             Preference.shared.setInt(Preference.TARGETVALUE_FOR_RUNTIME, runTime);
             Preference.shared.setDouble(Preference.SLIDER_VALUE, _sliderValue);
-            Utils.showToast(context, "Walk:$walkTime || Run:$runTime");
+            // Utils.showToast(context, "Walk:$walkTime || Run:$runTime");
 
           }
           Navigator.of(context)

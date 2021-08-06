@@ -515,7 +515,7 @@ class _HomeScreenState extends State<HomeScreen>
               value:
                   (longestDuration != null && longestDuration!.duration != null)
                       ? Utils.secToString(longestDuration!.duration!)
-                      : "0:0",
+                      : "00:00",
               isNotDuration: false),
         ],
       ),

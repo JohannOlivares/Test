@@ -376,6 +376,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               backgroundColor: Colur.common_bg_dark,
               useMagnifier: true,
               magnification: 1.05,
+              looping: true,
               selectionOverlay: CupertinoPickerDefaultSelectionOverlay(background: Colur.transparent,),
               onSelectedItemChanged: (value) {
                 setState(() {

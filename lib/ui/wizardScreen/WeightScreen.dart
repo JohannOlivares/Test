@@ -241,6 +241,7 @@ class _WeightScreenState extends State<WeightScreen> {
                   ),
                   scrollController:
                   FixedExtentScrollController(initialItem: 0),
+                  looping: true,
                   onSelectedItemChanged: (value) {
                     setState(() {
                       value += 44;
@@ -289,6 +290,7 @@ class _WeightScreenState extends State<WeightScreen> {
                   CupertinoPickerDefaultSelectionOverlay(
                     background: Colur.transparent,
                   ),
+                  looping: true,
                   scrollController:
                   FixedExtentScrollController(initialItem: 0),
                   onSelectedItemChanged: (value) {

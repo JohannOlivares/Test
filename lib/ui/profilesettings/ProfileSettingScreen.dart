@@ -70,7 +70,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
       allDays[1],
       allDays[6],
     ];
-    if (_daysChosenValue == null) _daysChosenValue = days![0];
+    if (_daysChosenValue == null) _daysChosenValue = days![1];
 
     _getPreference();
 
