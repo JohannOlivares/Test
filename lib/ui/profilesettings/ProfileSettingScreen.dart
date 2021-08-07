@@ -541,31 +541,36 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                           ),
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 15.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "assets/icons/ic_privacy_policy.webp",
-                              scale: 4,
-                            ),
-                            Expanded(
-                              child: Container(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 25.0),
-                                child: Text(
-                                  Languages.of(context)!.txtPrivacyPolicy,
-                                  textAlign: TextAlign.left,
-                                  style: TextStyle(
-                                      color: Colur.txt_white,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w500),
+                      InkWell(
+                        onTap: (){
+                          launchURLPrivacyPolicy();
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20.0, vertical: 15.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/icons/ic_privacy_policy.webp",
+                                scale: 4,
+                              ),
+                              Expanded(
+                                child: Container(
+                                  margin: const EdgeInsets.symmetric(
+                                      horizontal: 25.0),
+                                  child: Text(
+                                    Languages.of(context)!.txtPrivacyPolicy,
+                                    textAlign: TextAlign.left,
+                                    style: TextStyle(
+                                        color: Colur.txt_white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -577,6 +582,15 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
         ),
       ),
     );
+  }
+
+  void launchURLPrivacyPolicy() async {
+    var url = Constant.getPrivacyPolicyURL();
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 
   String? encodeQueryParameters(Map<String, String> params) {

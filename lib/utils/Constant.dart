@@ -38,4 +38,9 @@ class Constant {
   ];
 
   static const String EMAIL_PATH = 'fitnessentertainmentapps@gmail.com';
+
+  static String getPrivacyPolicyURL() {
+    return "https://sites.google.com/view/steptrackerpedometer-pp/home";
+  }
+
 }

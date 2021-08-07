@@ -60,6 +60,8 @@
 	<key>LSApplicationQueriesSchemes</key>
     <array>
     <string>email</string>
+    <string>https</string>
+    <string>http</string>
     </array>
 </dict>
 </plist>
