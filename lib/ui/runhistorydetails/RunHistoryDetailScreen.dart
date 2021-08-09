@@ -491,7 +491,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                 Container(
                   padding: EdgeInsets.only(right: 2, bottom: 7),
                   child: Text(
-                    Languages.of(context)!.txtDistance+((kmSelected)?Languages.of(context)!.txtKM:Languages.of(context)!.txtMile),
+                    Languages.of(context)!.txtDistance+" ("+((kmSelected)?Languages.of(context)!.txtKM:Languages.of(context)!.txtMile)+")",
                     style: TextStyle(
                         color: Colur.txt_grey,
                         fontWeight: FontWeight.w500,

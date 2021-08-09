@@ -12,6 +12,8 @@ class Constant {
   static const STR_INFO = "INFO";
   static const STR_OPTIONS = "OPTIONS";
 
+  static const STR_RUNNING_REMINDER = "STR_RUNNING_REMINDER";
+
   static const STR_RESET = "Reset";
   static const STR_EDIT_TARGET = "Edit target";
   static const STR_TURNOFF = "Turn off";

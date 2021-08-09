@@ -34,6 +34,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
   @override
   void initState() {
     _getPreferences();
+    saveDataAndExit();
     super.initState();
 
   }
@@ -48,56 +49,54 @@ class _WellDoneScreenState extends State<WellDoneScreen>
   Widget build(BuildContext context) {
     var fullheight = MediaQuery.of(context).size.height;
     var fullwidth = MediaQuery.of(context).size.width;
-    return WillPopScope(
-      onWillPop: () => saveDataAndExit(),
-      child: Scaffold(
-          backgroundColor: Colur.common_bg_dark,
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  child: CommonTopBar(
-                    "",
-                    this,
-                    isClose: true,
-                    isDelete: true,
-                  ),
+    return Scaffold(
+        backgroundColor: Colur.common_bg_dark,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                child: CommonTopBar(
+                  "",
+                  this,
+                  isClose: true,
+                  isDelete: true,
                 ),
-                Stack(
+              ),
+              Stack(
                   alignment: Alignment.topCenter,
                   children: [
                     Container(
-                    margin: EdgeInsets.only(
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(top: fullheight * 0.19,bottom: 25),
-                          child: Text(
-                            Languages.of(context)!.txtWellDone.toUpperCase(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                color: Colur.txt_white,
-                                fontSize: 30),
+                      margin: EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                      ),
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(top: fullheight * 0.19,bottom: 25),
+                            child: Text(
+                              Languages.of(context)!.txtWellDone.toUpperCase(),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  color: Colur.txt_white,
+                                  fontSize: 30),
+                            ),
                           ),
-                        ),
-                        _mapScreenShot(fullheight, fullwidth),
-                        _informationViewOfDistance(fullheight, fullwidth),
-                        _intensityViewOfWalking(fullheight,fullwidth),
-                        _detailsAndShareButtonView(fullheight, fullwidth),
-                        _satisfyListTile(fullheight, fullwidth),
-                      ],
+                          _mapScreenShot(fullheight, fullwidth),
+                          _informationViewOfDistance(fullheight, fullwidth),
+                          _intensityViewOfWalking(fullheight,fullwidth),
+                          _detailsAndShareButtonView(fullheight, fullwidth),
+                          _satisfyListTile(fullheight, fullwidth),
+                        ],
+                      ),
                     ),
-                  ),
                     Container(
                       width: fullwidth,
                       height: fullheight,
                       child: lottie.Lottie.asset(
-                        'assets/animation/congratulation.json',
-                        repeat: false,
-                        alignment: Alignment.topCenter
+                          'assets/animation/congratulation.json',
+                          repeat: false,
+                          alignment: Alignment.topCenter
                       ),
                     ),
                     Container(
@@ -110,29 +109,28 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                     ),
 
                   ]
-                ),
-              ],
-            ),
-          )),
-    );
+              ),
+            ],
+          ),
+        ));
   }
 
   @override
   Future<void> onTopBarClick(String name, {bool value = true}) async {
     if (name == Constant.STR_DELETE) {
       //Utils.showToast(context, "THis Data is not Stored In History");
-      Navigator.of(context)
-          .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
+      _showDeleteDialog(context);
     }
     if (name == Constant.STR_CLOSE) {
-      saveDataAndExit();
+      Navigator.of(context)
+          .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
     }
   }
 
   saveDataAndExit() async {
     var data = widget.runningData!;
 
-    await DataBaseHelper.insertRunningData(RunningData(id: null,
+    int id = await DataBaseHelper.insertRunningData(RunningData(id: null,
         duration: data.duration,
         distance: data.distance,
         speed: data.speed,
@@ -148,8 +146,40 @@ class _WellDoneScreenState extends State<WellDoneScreen>
         highIntenseTime: data.highIntenseTime,
         date: data.date,
         total: null));
-    Navigator.of(context)
-        .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
+
+    widget.runningData!.id = id;
+    /* Navigator.of(context)
+        .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);*/
+  }
+
+
+  _showDeleteDialog(BuildContext context){
+    return  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(Languages.of(context)!.txtDeleteHitory),
+          content: Text(Languages.of(context)!.txtDeleteConfirmationMessage),
+          actions: [
+            TextButton(
+              child: Text(Languages.of(context)!.txtCancel),
+              onPressed: () async {
+                Navigator.pop(context);
+              },
+            ),
+            TextButton(
+              child: Text(Languages.of(context)!.txtDelete.toUpperCase()),
+              onPressed: () async {
+                await DataBaseHelper.deleteRunningData(widget.runningData!).then((value) => Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false));
+
+              },
+            ),
+
+          ],
+        );
+      },
+    );
   }
 
   _mapScreenShot(double fullheight, double fullwidth) {
@@ -246,7 +276,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                     Container(
                       padding: EdgeInsets.only(left: 2, bottom: 7),
                       child: Text(
-                          (kmSelected)?Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtMile.toUpperCase()+")",
+                        (kmSelected)?Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtMile.toUpperCase()+")",
                         style: TextStyle(
                             color: Colur.txt_grey,
                             fontWeight: FontWeight.w500,
@@ -369,13 +399,13 @@ class _WellDoneScreenState extends State<WellDoneScreen>
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(13),
           gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[
-            Colur.purple_gradient_color1,
-            Colur.purple_gradient_color2,
-          ],
-        ),),
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: <Color>[
+              Colur.purple_gradient_color1,
+              Colur.purple_gradient_color2,
+            ],
+          ),),
         child: Center(
           child: Text(
             Languages.of(context)!.txtShare,
@@ -397,189 +427,189 @@ class _WellDoneScreenState extends State<WellDoneScreen>
     return Container(
       color: Colur.transparent,
       child: Stack(
-        alignment: Alignment.topCenter,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              color: Colur.ligh_green_For_NotReally,
-              borderRadius: BorderRadius.all(Radius.circular(13)),
-            ),
-            margin: EdgeInsets.only(top: 50.0),
-            child: Padding(
-              padding: EdgeInsets.only(top: 60),
-              child: Column(
-                children: [
-                  Text(
-                    Languages.of(context)!.txtAreYouSatisfiedWithDescription,
-                    maxLines: 2,
-                    softWrap: true,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 18,
-                        color: Colur.txt_white),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 30,bottom: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GradientButtonSmall(
-                          width: 160,
-                          height: 60,
-                          radius: 10.0,
-                          child: Text(
-                            Languages.of(context)!.txtNotReally,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colur.txt_white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18.0),
-                          ),
-                          isShadow: false,
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: <Color>[
-                              Colur.green_For_NotReally,
-                              Colur.green_For_NotReally,
-                            ],
-                          ),
-                          onPressed: () {
-                            _textFeedback.text = "";
-                            showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    content: TextField(
-                                      controller: _textFeedback,
-                                      textInputAction: TextInputAction.done,
-                                      minLines: 1,
-                                      maxLines: 10,
-                                      style: TextStyle(
-                                          color: Colur.txt_black,
-                                          fontWeight: FontWeight.w400,
-                                          fontSize: 18),
-                                      keyboardType: TextInputType.text,
-                                      maxLength: 500,
-                                      decoration: InputDecoration(
-                                        hintText: Languages.of(context)!
-                                            .txtWriteSuggestionsHere,
-                                        hintStyle: TextStyle(
-                                            color: Colur.txt_grey,
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 16),
-                                      ),
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                        child: Text(
-                                          Languages.of(context)!
-                                              .txtCancel
-                                              .toUpperCase(),
-                                          style: TextStyle(
-                                              color: Colur.txt_purple,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: Text(
-                                          Languages.of(context)!
-                                              .txtSubmit
-                                              .toUpperCase(),
-                                          style: TextStyle(
-                                              color: Colur.txt_purple,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500),
-                                        ),
-                                        onPressed: () {
-                                          final Uri emailLaunchUri = Uri(
-                                            scheme: 'mailto',
-                                            path: '${Constant.EMAIL_PATH}',
-                                            query: encodeQueryParameters(<String,
-                                                String>{
-                                              'subject': Languages.of(context)!
-                                                  .txtRunTrackerFeedback,
-                                              'body': '${_textFeedback.text}'
-                                            }),
-                                          );
-                                         launch(
-                                              emailLaunchUri.toString())
-                                              .then((value) =>
-                                              Navigator.of(context).pop());
-
-                                          setState(() {});
-                                        },
-                                      ),
-                                    ],
-                                  );
-                                });
-                          },
-                        ),
-                        GradientButtonSmall(
-                          width: 160,
-                          height: 60,
-                          radius: 10.0,
-                          child: Text(
-                            Languages.of(context)!.txtGood,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Colur.txt_white,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 18.0),
-                          ),
-                          isShadow: false,
-                          gradient: LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: <Color>[
-                              Colur.green_For_NotReally,
-                              Colur.green_For_NotReally,
-                            ],
-                          ),
-                          onPressed: () {
-                            showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                isDismissible: false,
-                                enableDrag: false,
-                                builder: (context) {
-                                  return Wrap(
-                                    children: [
-                                      RatingDialog(),
-                                    ],
-                                  );
-                                });
-                          },
-                        ),
-                      ],
+          alignment: Alignment.topCenter,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                color: Colur.ligh_green_For_NotReally,
+                borderRadius: BorderRadius.all(Radius.circular(13)),
+              ),
+              margin: EdgeInsets.only(top: 50.0),
+              child: Padding(
+                padding: EdgeInsets.only(top: 60),
+                child: Column(
+                  children: [
+                    Text(
+                      Languages.of(context)!.txtAreYouSatisfiedWithDescription,
+                      maxLines: 2,
+                      softWrap: true,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 18,
+                          color: Colur.txt_white),
                     ),
-                  )
+                    Container(
+                      margin: EdgeInsets.only(top: 30,bottom: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          GradientButtonSmall(
+                            width: 160,
+                            height: 60,
+                            radius: 10.0,
+                            child: Text(
+                              Languages.of(context)!.txtNotReally,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colur.txt_white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18.0),
+                            ),
+                            isShadow: false,
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: <Color>[
+                                Colur.green_For_NotReally,
+                                Colur.green_For_NotReally,
+                              ],
+                            ),
+                            onPressed: () {
+                              _textFeedback.text = "";
+                              showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: TextField(
+                                        controller: _textFeedback,
+                                        textInputAction: TextInputAction.done,
+                                        minLines: 1,
+                                        maxLines: 10,
+                                        style: TextStyle(
+                                            color: Colur.txt_black,
+                                            fontWeight: FontWeight.w400,
+                                            fontSize: 18),
+                                        keyboardType: TextInputType.text,
+                                        maxLength: 500,
+                                        decoration: InputDecoration(
+                                          hintText: Languages.of(context)!
+                                              .txtWriteSuggestionsHere,
+                                          hintStyle: TextStyle(
+                                              color: Colur.txt_grey,
+                                              fontWeight: FontWeight.w500,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text(
+                                            Languages.of(context)!
+                                                .txtCancel
+                                                .toUpperCase(),
+                                            style: TextStyle(
+                                                color: Colur.txt_purple,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: Text(
+                                            Languages.of(context)!
+                                                .txtSubmit
+                                                .toUpperCase(),
+                                            style: TextStyle(
+                                                color: Colur.txt_purple,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500),
+                                          ),
+                                          onPressed: () {
+                                            final Uri emailLaunchUri = Uri(
+                                              scheme: 'mailto',
+                                              path: '${Constant.EMAIL_PATH}',
+                                              query: encodeQueryParameters(<String,
+                                                  String>{
+                                                'subject': Languages.of(context)!
+                                                    .txtRunTrackerFeedback,
+                                                'body': '${_textFeedback.text}'
+                                              }),
+                                            );
+                                            launch(
+                                                emailLaunchUri.toString())
+                                                .then((value) =>
+                                                Navigator.of(context).pop());
+
+                                            setState(() {});
+                                          },
+                                        ),
+                                      ],
+                                    );
+                                  });
+                            },
+                          ),
+                          GradientButtonSmall(
+                            width: 160,
+                            height: 60,
+                            radius: 10.0,
+                            child: Text(
+                              Languages.of(context)!.txtGood,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colur.txt_white,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 18.0),
+                            ),
+                            isShadow: false,
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: <Color>[
+                                Colur.green_For_NotReally,
+                                Colur.green_For_NotReally,
+                              ],
+                            ),
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  isScrollControlled: true,
+                                  backgroundColor: Colors.transparent,
+                                  isDismissible: false,
+                                  enableDrag: false,
+                                  builder: (context) {
+                                    return Wrap(
+                                      children: [
+                                        RatingDialog(),
+                                      ],
+                                    );
+                                  });
+                            },
+                          ),
+                        ],
+                      ),
+                    )
 
 
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          Container(
-            alignment: Alignment.topCenter,
-              width: 100.0,
-              height: 100.0,
-              decoration: new BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: new DecorationImage(
-                      fit: BoxFit.fill,
-                      image: new AssetImage("assets/images/dummy_girl.png")))),
-      ]),
+            Container(
+                alignment: Alignment.topCenter,
+                width: 100.0,
+                height: 100.0,
+                decoration: new BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: new DecorationImage(
+                        fit: BoxFit.fill,
+                        image: new AssetImage("assets/images/dummy_girl.png")))),
+          ]),
     );
   }
 

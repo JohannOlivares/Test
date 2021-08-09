@@ -47,7 +47,7 @@ class _RunningReminderState extends State<RunningReminder>
     isReminderOn =
         Preference.shared.getBool(Preference.IS_DAILY_REMINDER_ON) ?? false;
     String? repeatDay =
-        Preference.shared.getString(Preference.DAILY_REMINDER_REPEAT_DAY);
+    Preference.shared.getString(Preference.DAILY_REMINDER_REPEAT_DAY);
 
     if (repeatDay != null && repeatDay.isNotEmpty) {
       selectedDays.clear();
@@ -56,7 +56,8 @@ class _RunningReminderState extends State<RunningReminder>
 
     List<String> temp = [];
     selectedDays.forEach((element) {
-      temp.add(daysList[int.parse(element as String) - 1].label!.substring(0, 3));
+      temp.add(
+          daysList[int.parse(element as String) - 1].label!.substring(0, 3));
     });
 
     repeatController.text = temp.join(", ");
@@ -64,8 +65,8 @@ class _RunningReminderState extends State<RunningReminder>
     var hr = int.parse(reminderTime.split(":")[0]);
     var min = int.parse(reminderTime.split(":")[1]);
     selectedTime = TimeOfDay(hour: hr, minute: min);
-    timeController.text =
-        DateFormat.jm().format(DateTime(DateTime.now().year, DateTime.now().month,DateTime.now().day, hr, min));
+    timeController.text = DateFormat.jm().format(DateTime(DateTime.now().year,
+        DateTime.now().month, DateTime.now().day, hr, min));
 
     super.initState();
   }
@@ -87,121 +88,121 @@ class _RunningReminderState extends State<RunningReminder>
                 ),
                 Expanded(
                     child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+                      margin: EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                              child: Text(
-                            Languages.of(context)!.txtDailyReminder,
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Text(
+                                    Languages.of(context)!.txtDailyReminder,
+                                    style: TextStyle(
+                                        color: Colur.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  )),
+                              Switch(
+                                onChanged: (bool value) async {
+                                  var status = await Permission.notification.status;
+                                  if (status.isDenied) {
+                                    await Permission.notification.request();
+                                    //openAppSettings();
+                                  }
+
+                                  if (status.isPermanentlyDenied) {
+                                    openAppSettings();
+                                  }
+
+                                  if (isReminderOn == false) {
+                                    //setWaterReminder();
+                                    setState(() {
+                                      isReminderOn = true;
+                                    });
+                                  } else {
+                                    //flutterLocalNotificationsPlugin.cancelAll();
+                                    setState(() {
+                                      isReminderOn = false;
+                                    });
+                                  }
+                                },
+                                value: isReminderOn,
+                                activeColor: Colur.purple_gradient_color2,
+                                inactiveTrackColor: Colur.txt_grey,
+                              )
+                            ],
+                          ),
+                          InkWell(
+                            onTap: () {
+                              showTimePickerDialog(context);
+                            },
+                            child: Container(
+                              child: Row(
+                                children: [
+                                  Text(
+                                    timeController.text,
+                                    style: TextStyle(
+                                        color: Colur.txt_purple,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colur.txt_purple,
+                                    size: 25,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              child: Divider(
+                                height: 1,
+                                color: Colur.gray_border,
+                              )),
+                          Text(
+                            Languages.of(context)!.txtRepeat,
                             style: TextStyle(
                                 color: Colur.white,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500),
-                          )),
-                          Switch(
-                            onChanged: (bool value) async {
-                              var status = await Permission.notification.status;
-                              if (status.isDenied) {
-                                await Permission.notification.request();
-                                //openAppSettings();
-                              }
-
-                              if (status.isPermanentlyDenied) {
-                                openAppSettings();
-                              }
-
-                              if (isReminderOn == false) {
-                                //setWaterReminder();
-                                setState(() {
-                                  isReminderOn = true;
-                                });
-                              } else {
-                                //flutterLocalNotificationsPlugin.cancelAll();
-                                setState(() {
-                                  isReminderOn = false;
-                                });
-                              }
+                          ),
+                          InkWell(
+                            onTap: () {
+                              showDaySelectionDialog(context);
                             },
-                            value: isReminderOn,
-                            activeColor: Colur.purple_gradient_color2,
-                            inactiveTrackColor: Colur.txt_grey,
-                          )
+                            child: Container(
+                              margin: EdgeInsets.only(top: 8),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      repeatController.text,
+                                      style: TextStyle(
+                                          color: Colur.txt_purple,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_drop_down,
+                                    color: Colur.txt_purple,
+                                    size: 20,
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                          Container(
+                              margin: EdgeInsets.symmetric(vertical: 10),
+                              child: Divider(
+                                height: 1,
+                                color: Colur.gray_border,
+                              )),
                         ],
                       ),
-                      InkWell(
-                        onTap: () {
-                          showTimePickerDialog(context);
-                        },
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Text(
-                                timeController.text,
-                                style: TextStyle(
-                                    color: Colur.txt_purple,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500),
-                              ),
-                              Icon(
-                                Icons.arrow_drop_down,
-                                color: Colur.txt_purple,
-                                size: 25,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          child: Divider(
-                            height: 1,
-                            color: Colur.gray_border,
-                          )),
-                      Text(
-                        Languages.of(context)!.txtRepeat,
-                        style: TextStyle(
-                            color: Colur.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ),
-                      InkWell(
-                        onTap: () {
-                          showDaySelectionDialog(context);
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 8),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Text(
-                                  repeatController.text,
-                                  style: TextStyle(
-                                      color: Colur.txt_purple,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
-                                ),
-                              ),
-                              Icon(
-                                Icons.arrow_drop_down,
-                                color: Colur.txt_purple,
-                                size: 20,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                          margin: EdgeInsets.symmetric(vertical: 10),
-                          child: Divider(
-                            height: 1,
-                            color: Colur.gray_border,
-                          )),
-                    ],
-                  ),
-                )),
+                    )),
                 Container(
                   margin: EdgeInsets.only(bottom: 30.0),
                   child: GradientButtonSmall(
@@ -245,6 +246,7 @@ class _RunningReminderState extends State<RunningReminder>
       selectedTime = picked;
       timeController.text = DateFormat.jm().format(
           DateTime(2021, 08, 1, selectedTime.hour, selectedTime.minute));
+      setState(() {});
     }
   }
 
@@ -289,10 +291,12 @@ class _RunningReminderState extends State<RunningReminder>
       selectedDays.clear();
       selectedDays = selectedValues;
       repeatController.text = "";
-      selectedDays.sort((a, b) => int.parse(a as String).compareTo(int.parse(b as String)));
+      selectedDays.sort(
+              (a, b) => int.parse(a as String).compareTo(int.parse(b as String)));
       List<String> temp = [];
       selectedDays.forEach((element) {
-        temp.add(daysList[int.parse(element as String) - 1].label!.substring(0, 3));
+        temp.add(
+            daysList[int.parse(element as String) - 1].label!.substring(0, 3));
       });
 
       repeatController.text = temp.join(",");
@@ -308,10 +312,21 @@ class _RunningReminderState extends State<RunningReminder>
     Preference.shared.setString(
         Preference.DAILY_REMINDER_REPEAT_DAY, selectedDays.join(","));
 
-    var notificationId = 7979;
-    for (int i = 0; i <= 6; i++) {
-      await flutterLocalNotificationsPlugin.cancel(notificationId + i);
-    }
+    int notificationId = 100;
+    /*for (int i = 0; i <= 6; i++) {
+      await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+    }*/
+
+    List<PendingNotificationRequest> pendingNoti =
+    await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+
+    pendingNoti.forEach((element) {
+      if (element.payload == Constant.STR_RUNNING_REMINDER) {
+        Debug.printLog(
+            "Cancele Notification ::::::==> ${element.id}");
+        flutterLocalNotificationsPlugin.cancel(element.id);
+      }
+    });
 
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
 
@@ -320,6 +335,7 @@ class _RunningReminderState extends State<RunningReminder>
 
     if (isReminderOn) {
       selectedDays.forEach((element) async {
+        notificationId += 1;
         if (int.parse(element as String) == DateTime.now().weekday &&
             DateTime.now().isBefore(scheduledDate)) {
           await scheduledNotification(scheduledDate, notificationId);
@@ -330,7 +346,6 @@ class _RunningReminderState extends State<RunningReminder>
           }
           await scheduledNotification(tempTime, notificationId);
         }
-        notificationId++;
       });
     }
     Navigator.pop(context);
@@ -352,13 +367,13 @@ class _RunningReminderState extends State<RunningReminder>
         scheduledDate,
         const NotificationDetails(
           android: AndroidNotificationDetails(
-              'running_reminder', 'Running', 'This is reminder for running',icon: 'ic_notification'),
-          iOS: IOSNotificationDetails(),
+              'running_reminder_tracker',
+              'Running Reminder',
+              'This is reminder for running',icon: 'ic_notification'),
         ),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime,
-        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
-        payload: scheduledDate.millisecondsSinceEpoch.toString());
+        UILocalNotificationDateInterpretation.absoluteTime,
+        matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,payload: Constant.STR_RUNNING_REMINDER);
   }
 }

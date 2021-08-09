@@ -191,11 +191,11 @@ class DataBaseHelper {
     return result;
   }
 
-  static Future<void> insertRunningData(RunningData data) async {
+  static Future<int> insertRunningData(RunningData data) async {
     final runningDao = _database!.runningDao;
     int id = await runningDao.insertTask(data);
     Debug.printLog("insertRunningData Data Successfully  ==> " + id.toString());
-    return;
+    return id;
   }
 
   static Future<void> deleteRunningData(RunningData data) async {
