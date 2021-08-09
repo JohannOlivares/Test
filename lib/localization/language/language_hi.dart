@@ -7,7 +7,7 @@ class LanguageHi extends Languages {
   @override
   String get labelWelcome => "Welcome";
 
- @override
+  @override
   String get txtWelcomeMapRunnner => "Hi, Welcome To\n Map Runner";
 
   @override
@@ -530,15 +530,13 @@ class LanguageHi extends Languages {
   String get txtShareMapMsg => "Hey I have completed my goal.";
 
   @override
-  String get txtMinKm =>"Min/Km";
+  String get txtMinKm => "Min/Km";
 
   @override
-
   String get txtPaceMinPer => "PACE (Min/";
 
   @override
-
-  String get txtWriteSuggestionsHere =>"Share Valuable suggestions with Us" ;
+  String get txtWriteSuggestionsHere => "Share Valuable suggestions with Us";
 
   @override
   String get txtNoDataFound => "No Data Found";
@@ -551,5 +549,4 @@ class LanguageHi extends Languages {
 
   @override
   String get txtReport => "Report";
-
 }
