@@ -103,7 +103,7 @@ class _WeightScreenState extends State<WeightScreen> {
               child: Text(
                 Languages
                     .of(context)!
-                    .txtNextStep,
+                    .txtNextStep.toUpperCase(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
@@ -170,7 +170,7 @@ class _WeightScreenState extends State<WeightScreen> {
               width: 100,
               child: Center(
                 child: Text(
-                  Languages.of(context)!.txtKG,
+                  Languages.of(context)!.txtKG.toUpperCase(),
                   style: TextStyle(
                       color: kgSelected ? Colur.txt_white: Colur.txt_grey,
                       fontWeight: FontWeight.w500,
@@ -200,7 +200,7 @@ class _WeightScreenState extends State<WeightScreen> {
               width: 100,
               child: Center(
                 child: Text(
-                  Languages.of(context)!.txtLBS,
+                  Languages.of(context)!.txtLBS.toUpperCase(),
                   style: TextStyle(
                       color: lbsSelected ? Colur.txt_white : Colur.txt_grey,
                       fontWeight: FontWeight.w500,

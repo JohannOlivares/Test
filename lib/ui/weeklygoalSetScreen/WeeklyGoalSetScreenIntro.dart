@@ -145,7 +145,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(vertical: 15),
               child: Text(
-                Languages.of(context)!.txtOR,
+                Languages.of(context)!.txtOR.toUpperCase(),
                 style: TextStyle(
                     color: Colur.txt_grey,
                     fontSize: 20,
@@ -187,7 +187,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 8.0, top: 5.0),
                         child: Text(
-                          Languages.of(context)!.txtPaceover900MinKm,
+                          Languages.of(context)!.txtPaceOver900MinKm,
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colur.txt_grey,
@@ -305,7 +305,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               width: 100,
               child: Center(
                 child: Text(
-                  Languages.of(context)!.txtMILE,
+                  Languages.of(context)!.txtMile,
                   style: TextStyle(
                       color: mileSelected ? Colur.white :Colur.txt_grey,
                       fontWeight: FontWeight.w500,
@@ -429,7 +429,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
               : Container(
             margin: EdgeInsets.only(left: 5),
             child: Text(
-              Languages.of(context)!.txtMILE,
+              Languages.of(context)!.txtMile,
               style: TextStyle(
                   color: Colur.txt_white,
                   fontSize: 20,

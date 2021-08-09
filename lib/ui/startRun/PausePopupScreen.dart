@@ -127,7 +127,7 @@ class PausePopupScreen extends ModalRoute<String> {
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 8.0),
-                      child: Text(Languages.of(context)!.txtStop, style: TextStyle(fontSize: 16,
+                      child: Text(Languages.of(context)!.txtStop.toUpperCase(), style: TextStyle(fontSize: 16,
                           color: Colur.txt_white,
                           fontWeight: FontWeight.w600),),
                     ),
@@ -176,7 +176,7 @@ class PausePopupScreen extends ModalRoute<String> {
                       padding: const EdgeInsets.only(top: 8.0),
                       child: Text(Languages
                           .of(context)!
-                          .txtResume, style: TextStyle(fontSize: 16,
+                          .txtResume.toUpperCase(), style: TextStyle(fontSize: 16,
                           color: Colur.txt_white,
                           fontWeight: FontWeight.w600),),
                     ),

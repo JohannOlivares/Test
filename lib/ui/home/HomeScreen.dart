@@ -495,7 +495,7 @@ class _HomeScreenState extends State<HomeScreen>
         children: [
           bestRecordListTile(
               img: "ic_distance.webp",
-              text: Languages.of(context)!.txtLongestDistance,
+              text: Languages.of(context)!.txtLongestDistance.toUpperCase(),
               value:
                   (longestDistance != null && longestDistance!.distance != null)
                       ? (isKmSelected)?longestDistance!.distance.toString():Utils.kmToMile(longestDistance!.distance!).toStringAsFixed(2)
@@ -504,7 +504,7 @@ class _HomeScreenState extends State<HomeScreen>
               isNotDuration: true),
           bestRecordListTile(
               img: "ic_best_pace.png",
-              text: Languages.of(context)!.txtBestPace,
+              text: Languages.of(context)!.txtBestPace.toUpperCase(),
               value: (bestPace != null && bestPace!.speed != null)
                   ? (isKmSelected)?bestPace!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(bestPace!.speed!).toStringAsFixed(2)
                   : "0.0",
@@ -512,7 +512,7 @@ class _HomeScreenState extends State<HomeScreen>
               isNotDuration: true),
           bestRecordListTile(
               img: "ic_duration.webp",
-              text: Languages.of(context)!.txtLongestDuration,
+              text: Languages.of(context)!.txtLongestDuration.toUpperCase(),
               value:
                   (longestDuration != null && longestDuration!.duration != null)
                       ? Utils.secToString(longestDuration!.duration!)

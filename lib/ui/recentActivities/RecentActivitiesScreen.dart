@@ -121,7 +121,24 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
             //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ClipRRect(
-                child: (activityList[index].getImage() == null)
+                child: Image.file(
+                  activityList[index].getImage()!,
+                  errorBuilder: (
+                      BuildContext context,
+                      Object error,
+                      StackTrace? stackTrace,
+                      ) {
+                    return Image.asset(
+                      "assets/icons/ic_route_map.png",
+                      height: 90,
+                      width: 90,
+                      fit: BoxFit.cover,
+                    );
+                  },
+                  height: 90,
+                  width: 90,
+                  fit: BoxFit.fill,
+                ),/* (activityList[index].getImage() == null)
                     ? Image.asset(
                         "assets/icons/ic_route_map.png",
                         height: 90,
@@ -133,7 +150,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                         height: 90,
                         width: 90,
                         fit: BoxFit.fill,
-                      ),
+                      ),*/
                 borderRadius: BorderRadius.circular(10),
               ),
               Expanded(

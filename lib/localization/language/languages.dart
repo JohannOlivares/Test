@@ -9,10 +9,6 @@ abstract class Languages {
 
   String get labelWelcome;
 
-  String get labelInfo;
-
-  String get labelSelectLanguage;
-
   String get txtWelcomeMapRunnner;
 
   String get txtImKateYourCoach;
@@ -49,7 +45,6 @@ abstract class Languages {
 
   String get txtFT;
 
-  String get txtGeneratingWeeklyGoal;
 
   String get txtYourWeeklyGoalIsReady;
 
@@ -65,7 +60,7 @@ abstract class Languages {
 
   String get txt75MinRunning;
 
-  String get txtPaceover900MinKm;
+  String get txtPaceOver900MinKm;
 
   String get txtYouCanCombineTheseTwoDescription;
 
@@ -73,11 +68,7 @@ abstract class Languages {
 
   String get txtKM;
 
-  String get txtMILE;
-
   String get txtUseYourLocation;
-
-  String get txtNotnow;
 
   String get txtAllow;
 
@@ -157,7 +148,6 @@ abstract class Languages {
 
   String get txtBestPace;
 
-  String get txtBest;
 
   String get txtFastestTime;
 
@@ -225,7 +215,7 @@ abstract class Languages {
 
   String get txtSteps;
 
-  String get txtStepStracker;
+  String get txtStepsTracker;
 
   String get txtLast7DaysSteps;
 
@@ -259,37 +249,7 @@ abstract class Languages {
 
   String get txtFinish;
 
-  String get txtContinue;
-
   String get txtRestart;
-
-  String get txtMonday;
-
-  String get txtTuesday;
-
-  String get txtWednesday;
-
-  String get txtThursday;
-
-  String get txtFriday;
-
-  String get txtSaturday;
-
-  String get txtSunday;
-
-  String get txtFri;
-
-  String get txtMon;
-
-  String get txtSat;
-
-  String get txtSun;
-
-  String get txtThu;
-
-  String get txtTue;
-
-  String get txtWed;
 
   String get txtGotoSettings;
 
@@ -319,8 +279,6 @@ abstract class Languages {
 
   String get txtSaveChanges;
 
-  String get txtRunningApp;
-
   String get txtAlertForNoLocation;
 
   String get txtDiscard;
@@ -333,53 +291,19 @@ abstract class Languages {
 
   String get txtReport;
 
+  String get txtAverage;
+
   String get txtMonth;
 
   String get txtThisWeek;
 
   String get txtTotal;
 
-  String get txtAverage;
-
-  String get txtJanuary;
-
-  String get txtFebruary;
-
-  String get txtMarch;
-
-  String get txtApril;
-
-  String get txtMay;
-
-  String get txtJune;
-
-  String get txtJuly;
-
-  String get txtAugust;
-
-  String get txtSeptember;
-
-  String get txtOctober;
-
-  String get txtNovember;
-
-  String get txtDecember;
-
   String get txtPaused;
 
   String get txtRepeat;
 
   String get txtRunningReminderMsg;
-
-  String get txtM;
-
-  String get txtT;
-
-  String get txtW;
-
-  String get txtF;
-
-  String get txtS;
 
   String get txtUnitSettings;
 

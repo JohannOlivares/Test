@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:floor/floor.dart';
 import 'package:run_tracker/dbhelper/dao/RunningDao.dart';
 import 'package:run_tracker/dbhelper/dao/StepsDao.dart';

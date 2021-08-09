@@ -35,7 +35,7 @@ class _MapSettingScreenState extends State<MapSettingScreen>
 
   @override
   Widget build(BuildContext context) {
-    units = [Languages.of(context)!.txtKM.toUpperCase(), Languages.of(context)!.txtMILE.toUpperCase()];
+    units = [Languages.of(context)!.txtKM.toUpperCase(), Languages.of(context)!.txtMile.toUpperCase()];
     if (_chosenValue == null) _chosenValue = units![0];
     _getPreferences();
 

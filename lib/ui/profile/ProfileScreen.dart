@@ -1429,7 +1429,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          Languages.of(context)!.txtLongestDistance,
+                          Languages.of(context)!.txtLongestDistance.toUpperCase(),
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -1472,7 +1472,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             .txtKM
                                             .toLowerCase()
                                         : Languages.of(context)!
-                                            .txtMILE
+                                            .txtMile
                                             .toLowerCase(),
                                     textAlign: TextAlign.left,
                                     maxLines: 1,
@@ -1532,7 +1532,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          Languages.of(context)!.txtBestPace,
+                          Languages.of(context)!.txtBestPace.toUpperCase(),
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
@@ -1614,7 +1614,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          Languages.of(context)!.txtLongestDuration,
+                          Languages.of(context)!.txtLongestDuration.toUpperCase(),
                           textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,

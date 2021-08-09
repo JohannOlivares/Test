@@ -515,7 +515,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
               width: 100,
               child: Center(
                 child: Text(
-                  Languages.of(context)!.txtMILE,
+                  Languages.of(context)!.txtMile,
                   style: TextStyle(
                       color: !kmSelected ? Colur.white : Color(0xFF9195B6),
                       fontWeight: FontWeight.w500,
@@ -649,7 +649,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
           Container(
             margin: EdgeInsets.only(left: 5),
             child: Text(
-    (kmSelected == true)?Languages.of(context)!.txtKM:Languages.of(context)!.txtMILE,
+    (kmSelected == true)?Languages.of(context)!.txtKM:Languages.of(context)!.txtMile,
               style: TextStyle(
                   color: Colur.txt_white,
                   fontSize: 20,

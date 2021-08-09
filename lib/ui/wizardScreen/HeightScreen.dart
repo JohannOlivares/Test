@@ -90,7 +90,7 @@ class _HeightScreenState extends State<HeightScreen> {
               height: 60,
               radius: 50.0,
               child: Text(
-                Languages.of(context)!.txtNextStep,
+                Languages.of(context)!.txtNextStep.toUpperCase(),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,

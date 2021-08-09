@@ -36,7 +36,7 @@ class _WelcomeDialogScreenState extends State<WelcomeDialogScreen> {
                 child: Column(
                   children: <Widget>[
                     Text(
-                      Languages.of(context)!.txtWelcomeMapRunnner,
+                      Languages.of(context)!.txtWelcomeMapRunnner+ Languages.of(context)!.appName,
                       textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

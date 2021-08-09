@@ -7,7 +7,7 @@ import 'package:run_tracker/utils/Color.dart';
 enum Gender { Male, Female }
 
 class GenderScreen extends StatefulWidget {
-  final PageController? pageController;
+  PageController? pageController;
   Function? updatevalue;
   bool? isBack;
   Function? pageNum;
@@ -93,7 +93,7 @@ class _GenderScreenState extends State<GenderScreen> {
                 child: Text(
                   Languages
                       .of(context)!
-                      .txtNextStep,
+                      .txtNextStep.toUpperCase(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,

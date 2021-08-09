@@ -61,7 +61,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
 
   @override
   Widget build(BuildContext context) {
-    units = [Languages.of(context)!.txtKM.toUpperCase(), Languages.of(context)!.txtMILE.toUpperCase()];
+    units = [Languages.of(context)!.txtKM.toUpperCase(), Languages.of(context)!.txtMile.toUpperCase()];
     if (_unitsChosenValue == null) _unitsChosenValue = units![0];
     if (_languagesChosenValue == null) _languagesChosenValue = languages[0];
     List<String> allDays = DateFormat.EEEE().dateSymbols.STANDALONEWEEKDAYS;

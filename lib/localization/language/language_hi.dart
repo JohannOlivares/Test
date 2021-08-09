@@ -7,13 +7,7 @@ class LanguageHi extends Languages {
   @override
   String get labelWelcome => "Welcome";
 
-  @override
-  String get labelSelectLanguage => "Select Language";
-
-  @override
-  String get labelInfo => "This is multi-languages demo application";
-
-  @override
+ @override
   String get txtWelcomeMapRunnner => "Hi, Welcome To\n Map Runner";
 
   @override
@@ -49,9 +43,6 @@ class LanguageHi extends Languages {
       "Calories & Stride Length Calculation\n need it";
 
   @override
-  String get txtGeneratingWeeklyGoal => "Generating your weekly goal...";
-
-  @override
   String get txtHeartHealth => "Heart Health";
 
   @override
@@ -85,7 +76,7 @@ class LanguageHi extends Languages {
   String get txtPaceBetween9001500MinKm => "Pace between 9:00 - 15:00 min/km";
 
   @override
-  String get txtPaceover900MinKm => "Pace over 9:00 min/km";
+  String get txtPaceOver900MinKm => "Pace over 9:00 min/km";
 
   @override
   String get txtWeightDescription => "To personalize your fitness goal";
@@ -107,13 +98,7 @@ class LanguageHi extends Languages {
   String get txtKM => "Km";
 
   @override
-  String get txtMILE => "MILE";
-
-  @override
   String get txtUseYourLocation => "USE YOUR LOCATION";
-
-  @override
-  String get txtNotnow => "Not now";
 
   @override
   String get txtAllow => "Allow";
@@ -224,13 +209,10 @@ class LanguageHi extends Languages {
   String get txtWellDone => "Well done!";
 
   @override
-  String get txtLongestDistance => "LONGEST DISTANCE";
+  String get txtLongestDistance => "लंबी दूरी";
 
   @override
   String get txtBestPace => "BEST PACE";
-
-  @override
-  String get txtBest => "Best";
 
   @override
   String get txtFastestTime => "Fastest Time";
@@ -326,7 +308,7 @@ class LanguageHi extends Languages {
   String get txtSteps => "Steps";
 
   @override
-  String get txtStepStracker => "STEPS TRACKER";
+  String get txtStepsTracker => "STEPS TRACKER";
 
   @override
   String get txtLast7DaysSteps => "Last 7 Days Steps:";
@@ -363,9 +345,6 @@ class LanguageHi extends Languages {
   String get txtMetricAndImperialUnits => "Metric & Imperial Units";
 
   @override
-  String get txtContinue => "Continue";
-
-  @override
   String get txtFinish => "Finish";
 
   @override
@@ -373,48 +352,6 @@ class LanguageHi extends Languages {
 
   @override
   String get txtRestart => "Restart";
-
-  @override
-  String get txtFriday => "Friday";
-
-  @override
-  String get txtMonday => "Monday";
-
-  @override
-  String get txtSaturday => "Saturday";
-
-  @override
-  String get txtSunday => "Sunday";
-
-  @override
-  String get txtThursday => "Thursday";
-
-  @override
-  String get txtTuesday => "Tuesday";
-
-  @override
-  String get txtWednesday => "Wednesday";
-
-  @override
-  String get txtFri => "Fri";
-
-  @override
-  String get txtMon => "Mon";
-
-  @override
-  String get txtSat => "Sat";
-
-  @override
-  String get txtSun => "Sun";
-
-  @override
-  String get txtThu => "Thu";
-
-  @override
-  String get txtTue => "Tue";
-
-  @override
-  String get txtWed => "Wed";
 
   @override
   String get txtWeekGoalSetting => "Weekly Goal Setting";
@@ -440,9 +377,6 @@ class LanguageHi extends Languages {
 
   @override
   String get txtDelete => "Delete";
-
-  @override
-  String get txtRunningApp => "RunningApp";
 
   @override
   String get txtAlertForNoLocation =>
@@ -491,49 +425,7 @@ class LanguageHi extends Languages {
   String get txtDeleteHitory => "Delete History";
 
   @override
-  String get txtApril => "April";
-
-  @override
-  String get txtAugust => "August";
-
-  @override
-  String get txtAverage => "Average";
-
-  @override
-  String get txtDecember => "December";
-
-  @override
-  String get txtFebruary => "February";
-
-  @override
-  String get txtJanuary => "January";
-
-  @override
-  String get txtJuly => "July";
-
-  @override
-  String get txtJune => "June";
-
-  @override
-  String get txtMarch => "March";
-
-  @override
-  String get txtMay => "May";
-
-  @override
   String get txtMonth => "Month";
-
-  @override
-  String get txtNovember => "November";
-
-  @override
-  String get txtOctober => "October";
-
-  @override
-  String get txtReport => "Report";
-
-  @override
-  String get txtSeptember => "September";
 
   @override
   String get txtThisWeek => "This Week";
@@ -550,21 +442,6 @@ class LanguageHi extends Languages {
   @override
   String get txtRunningReminderMsg =>
       "It's time for Running,Let's get started!";
-
-  @override
-  String get txtF => "F";
-
-  @override
-  String get txtM => "M";
-
-  @override
-  String get txtS => "S";
-
-  @override
-  String get txtT => "T";
-
-  @override
-  String get txtW => "M";
 
   @override
   String get txtUnitSettings => "Unit Settings";
@@ -668,5 +545,11 @@ class LanguageHi extends Languages {
 
   @override
   String get txtTotalMile => "Total Mile";
+
+  @override
+  String get txtAverage => "Average";
+
+  @override
+  String get txtReport => "Report";
 
 }
