@@ -428,7 +428,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                                       .last.longitude
                                       .toString();
                                 } else {
-                                  Utils.showToast(context, "Discard");
+                                  //Utils.showToast(context, "Discard");
                                   return showDiscardDialog();
                                 }
 
@@ -945,7 +945,7 @@ class _StartRunScreenState extends State<StartRunScreen>
           .last.longitude
           .toString();
     } else {
-      Utils.showToast(context, "Discard");
+      //Utils.showToast(context, "Discard");
       return showDiscardDialog();
     }
 
