@@ -214,7 +214,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                   Container(
                     padding: EdgeInsets.only(right: 2, bottom: 7),
                     child: Text(
-                      Languages.of(context)!.txtDistanceKM,
+                      Languages.of(context)!.txtDistance+"("+Languages.of(context)!.txtKM.toUpperCase()+")",
                       style: TextStyle(
                           color: Colur.txt_grey,
                           fontWeight: FontWeight.w500,

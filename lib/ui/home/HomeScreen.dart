@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen>
   int totalrecentActivity = 0;
   double targetValueForDistance = 0.0;
   bool isDistanceIndicatorSelected = false;
-  bool isKmSelected = false;
+  bool isKmSelected = true;
   //Intensity Of Walking
   int walkTime = 150;
   int runTime = 75;
@@ -60,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen>
     isDistanceIndicatorSelected =
         Preference.shared.getBool(Preference.IS_DISTANCE_INDICATOR_ON) ?? false;
     isKmSelected =
-        Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? false;
+        Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
     targetValueForDistance = Preference.shared
             .getDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM) ?? 0.0;
     walkTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_WALKTIME)??150;

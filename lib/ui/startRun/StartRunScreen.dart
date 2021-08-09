@@ -95,10 +95,10 @@ class _StartRunScreenState extends State<StartRunScreen>
         onChangeRawSecond: (value) {
           //Debug.printLog("OnTime Update ::::==> ${value}");
           if(currentSpeed >=1) {
-            if (currentSpeed < 4.34) {
+            if (currentSpeed < 2.34) {
               totalLowIntenseTime += 1;
               Debug.printLog("Intensity ::::==> Low");
-            } else if (currentSpeed < 7.56) {
+            } else if (currentSpeed < 4.56) {
               totalModerateIntenseTime += 1;
               Debug.printLog("Intensity ::::==> Moderate");
             } else {
@@ -761,9 +761,9 @@ class _StartRunScreenState extends State<StartRunScreen>
           calorisvalue = _countCalories(weight);
 
           double conditionDistance;
-          if (Platform.isIOS) {
-            conditionDistance = 0.06;
-          } else {
+          if(polylineCoordinatesList.length <=2&& Platform.isIOS) {
+              conditionDistance = 0.03;
+          }else{
             conditionDistance = 0.01;
           }
 
@@ -775,7 +775,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                   currentLocation.latitude,
                   currentLocation.longitude);
 
-              Utils.showToast(context, "greater Than 0.1");
+              //Utils.showToast(context, "greater Than 0.1");
 
               polylineCoordinatesList.add(LatLng(
                   currentLocation.latitude!, currentLocation.longitude!));

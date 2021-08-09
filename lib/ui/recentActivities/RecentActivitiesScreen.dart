@@ -9,6 +9,7 @@ import 'package:run_tracker/ui/runhistorydetails/RunHistoryDetailScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:intl/intl.dart';
+import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 
 class RecentActivitiesScreen extends StatefulWidget {
@@ -20,11 +21,19 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
     implements TopBarClickListener {
   List<RunningData> activityList = [];
   bool activityShow = false;
+  bool kmSelected = true;
 
   @override
   void initState() {
     _checkData();
+    _getPreferences();
     super.initState();
+  }
+  _getPreferences(){
+    setState(() {
+      kmSelected =
+          Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+    });
   }
 
   _checkData() async {
@@ -169,7 +178,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                       Row(
                         children: [
                           Text(
-                            activityList[index].distance!.toString(),
+                          (kmSelected)?activityList[index].distance!.toStringAsFixed(2):Utils.kmToMile(activityList[index].distance!).toStringAsFixed(2),
                             textAlign: TextAlign.end,
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
@@ -179,7 +188,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                           Padding(
                             padding: const EdgeInsets.only(left: 10, top: 4),
                             child: Text(
-                              Languages.of(context)!.txtMile,
+                              (kmSelected)?Languages.of(context)!.txtKM:Languages.of(context)!.txtMile,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
