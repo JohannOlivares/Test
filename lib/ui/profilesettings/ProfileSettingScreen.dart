@@ -38,13 +38,13 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
     }*/
     prefLanguage = Preference.shared.getString(Preference.LANGUAGE);
     if (prefLanguage == null) {
-      _languagesChosenValue = languages[0];
+      _languagesChosenValue = languages[2];
     } else {
       _languagesChosenValue = languages.where((element) => (element.languageCode == prefLanguage)).toList()[0];
     }
     prefDays = Preference.shared.getString(Preference.FIRST_DAY_OF_WEEK);
     if (prefDays == null) {
-      _daysChosenValue = days![0];
+      _daysChosenValue = days![1];
     } else {
       _daysChosenValue = prefDays;
     }
@@ -63,7 +63,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
   Widget build(BuildContext context) {
     units = [Languages.of(context)!.txtKM.toUpperCase(), Languages.of(context)!.txtMile.toUpperCase()];
     if (_unitsChosenValue == null) _unitsChosenValue = units![0];
-    if (_languagesChosenValue == null) _languagesChosenValue = languages[0];
+    if (_languagesChosenValue == null) _languagesChosenValue = languages[2];
     List<String> allDays = DateFormat.EEEE().dateSymbols.STANDALONEWEEKDAYS;
     days = [
       allDays[0],

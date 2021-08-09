@@ -545,7 +545,7 @@ class LanguageEn extends Languages {
   String get txtTotalMile => "Total Mile";
 
   @override
-  String get txtAverage => "Avarage";
+  String get txtAverage => "Average";
 
   @override
   String get txtMonth => "Month";

@@ -1016,7 +1016,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     for (int i = 0; i < mapRunning.length; i++) {
       list.add(makeHeartHealthGroupData(
-          i, mapRunning.entries.toList()[i].value.toDouble(),
+          i,  Utils.secToMin(mapRunning.entries.toList()[i].value).toDouble(),
           isTouched: i == touchedIndexForHartHealthChart));
     }
 

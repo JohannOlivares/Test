@@ -177,7 +177,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
                         color: Colur.txt_white,
                         fontSize: 18,
                         fontWeight: FontWeight.w500),
-                  ),
+                    ),
                   Icon(
                     Icons.arrow_drop_down,
                     color: Colur.white,

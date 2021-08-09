@@ -18,15 +18,16 @@ import 'package:solid_bottom_sheet/solid_bottom_sheet.dart';
 class RunHistoryDetailScreen extends StatefulWidget {
   final RunningData recentActivitiesData;
 
- RunHistoryDetailScreen(this.recentActivitiesData, {Key? key}) : super(key: key);
+  RunHistoryDetailScreen(this.recentActivitiesData, {Key? key})
+      : super(key: key);
 
   @override
   _RunHistoryDetailScreenState createState() => _RunHistoryDetailScreenState();
 }
 
 class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
-
   SolidController _solidController = SolidController();
+
   //For Google Map
   bool setaliteEnable = false;
   GoogleMapController? _controller;
@@ -38,22 +39,24 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
   Set<Marker> markers = {};
   bool kmSelected = true;
 
-
   @override
   void initState() {
     super.initState();
     _getPointsAndDrawPolyLines();
     _getPreferences();
   }
-  _getPreferences(){
-   setState(() {
-     kmSelected =
-         Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
-   });
+
+  _getPreferences() {
+    setState(() {
+      kmSelected = Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+    });
   }
+
   _getPointsAndDrawPolyLines() async {
-    _startLatLong = LatLng(double.parse(widget.recentActivitiesData.sLat!),double.parse(widget.recentActivitiesData.sLong!));
-    _endLatLong = LatLng(double.parse(widget.recentActivitiesData.eLat!),double.parse(widget.recentActivitiesData.eLong!));
+    _startLatLong = LatLng(double.parse(widget.recentActivitiesData.sLat!),
+        double.parse(widget.recentActivitiesData.sLong!));
+    _endLatLong = LatLng(double.parse(widget.recentActivitiesData.eLat!),
+        double.parse(widget.recentActivitiesData.eLong!));
 
     //this is For add Markers in Map
     final Uint8List markerIcon1 =
@@ -76,25 +79,30 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
     Debug.printLog(widget.recentActivitiesData.polyLine!);
     //Utils.showToast(context, "PolyLines Added");
     _drawPolyLines();
-
   }
 
-  _drawPolyLines(){
+  _drawPolyLines() {
     _polylineList = widget.recentActivitiesData.getPolyLineData()!;
     PolylineId id = PolylineId("poly");
     Polyline polyline = Polyline(
-      polylineId: id, color: Colors.black, points: _polylineList,width: 4,);
+      polylineId: id,
+      color: Colors.black,
+      points: _polylineList,
+      width: 4,
+    );
     polylines[id] = polyline;
 
     _animateCameraToPosition(_controller);
-
   }
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(), targetWidth: width);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
     ui.FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!.buffer.asUint8List();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 
   @override
@@ -113,21 +121,21 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
               child: Container(
                 width: double.infinity,
                 color: Colur.txt_grey,
-                child: _mapView(fulheight,context),
+                child: _mapView(fulheight, context),
               ),
             ),
-
           ],
         ),
       ),
     );
   }
+
   void _onMapCreated(GoogleMapController _cntlr) {
     _controller = _cntlr;
     _animateCameraToPosition(_controller);
   }
 
-  _animateCameraToPosition(GoogleMapController? _controller){
+  _animateCameraToPosition(GoogleMapController? _controller) {
     //This IS Method For Calculation NorthEast And South West
     LatLngBounds boundsFromLatLngList(List<LatLng> list) {
       assert(list.isNotEmpty);
@@ -146,158 +154,146 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
           if (latLng.longitude < y0!) y0 = latLng.longitude;
         }
       }
-      return LatLngBounds(northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
+      return LatLngBounds(
+          northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
     }
 
     //After adding polylines list for Calculate NorthEast And South West Positions and Animate Camera
     Future.delayed(Duration(milliseconds: 10)).then((value) {
       jsonEncode(_polylineList);
       LatLngBounds latLngBounds = boundsFromLatLngList(_polylineList);
-      _controller!.animateCamera(CameraUpdate.newLatLngBounds(
-          latLngBounds,
-          100
-      ));
+      _controller!
+          .animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 100));
     });
   }
 
-  _mapView(double fullheight,BuildContext context) {
+  _mapView(double fullheight, BuildContext context) {
     return Container(
       child: Stack(
         children: [
           GoogleMap(
             initialCameraPosition:
-            CameraPosition(target: _startLatLong!, zoom: 15),
+                CameraPosition(target: _startLatLong!, zoom: 15),
             mapType:
-            setaliteEnable == true ? MapType.satellite : MapType.normal,
+                setaliteEnable == true ? MapType.satellite : MapType.normal,
             onMapCreated: _onMapCreated,
             markers: markers,
-            polylines:Set<Polyline>.of(polylines.values),
+            polylines: Set<Polyline>.of(polylines.values),
             buildingsEnabled: false,
             myLocationEnabled: true,
             scrollGesturesEnabled: true,
             myLocationButtonEnabled: false,
             zoomGesturesEnabled: true,
-            onTap: (LatLng latLng){
+            onTap: (LatLng latLng) {
               _solidController.hide();
             },
           ),
-          Container(
-            color: Colors.lightGreen,
-            margin:
-            EdgeInsets.only(left: 15, right: 15, top: fullheight * 0.3),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-               /////
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 55.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    InkWell(
-                      onTap: () {
-
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 15.0,bottom: 5),
-                        padding: const EdgeInsets.all(12.0),
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                            color: Colur.txt_white,
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(15))),
-                        child: Image.asset(
-                          'assets/icons/ic_back_white.png',color: Colur.txt_grey,
-                          scale: 3.7,
-                          width: 20,
-                          height: 20,
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        //DELETE
-
-                        _showDeleteDialog(context);
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(right: 15.0,bottom: 5),
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                            color: Colur.txt_white,
-
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(15))),
-                        child: Padding(
+          SafeArea(
+            child: Container(
+              margin: EdgeInsets.only(top: 10.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(left: 15.0, bottom: 5),
                           padding: const EdgeInsets.all(12.0),
-                          child: Image.asset('assets/icons/ic_delete.png'),
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                              color: Colur.txt_white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          child: Image.asset(
+                            'assets/icons/ic_back_white.png',
+                            color: Colur.txt_grey,
+                            scale: 3.7,
+                            width: 20,
+                            height: 20,
+                          ),
                         ),
                       ),
-                    ),
+                      InkWell(
+                        onTap: () {
+                          //DELETE
 
-                    InkWell(
-                      onTap: () {
-                        //Share
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ShareScreen(widget.recentActivitiesData)));
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(right: 15.0,bottom: 5),
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                            color: Colur.txt_white,
-
-                            borderRadius:
-                            BorderRadius.all(Radius.circular(15))),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12.0),
-                          child: Icon(Icons.share),
+                          _showDeleteDialog(context);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(right: 15.0, bottom: 5),
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                              color: Colur.txt_white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Image.asset('assets/icons/ic_delete.png'),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                InkWell(
-                  child: Container(
-                    height: 44,
-                    width: 44,
-                    margin: EdgeInsets.only(right: 15.0,top: 5),
-                    decoration: BoxDecoration(
-                        color: Colur.txt_white,
-
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(15))),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Image.asset(
-                        'assets/icons/ic_setalite.png',
-                        color: setaliteEnable
-                            ? Colur.purple_gradient_color2
-                            : Colur.txt_grey,
+                      InkWell(
+                        onTap: () {
+                          //Share
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShareScreen(widget.recentActivitiesData)));
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(right: 15.0,bottom: 5),
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                              color: Colur.txt_white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15))),
+                          child: Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: Icon(Icons.share,size: 20,),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                  onTap: () {
-                    setState(() {
-                      setaliteEnable = !setaliteEnable;
-                    });
-                    Debug.printLog(
-                        (setaliteEnable == true) ? "Started" : "Disabled");
-                  },
-                ),
-              ],
+                  InkWell(
+                    child: Container(
+                      height: 44,
+                      width: 44,
+                      margin: EdgeInsets.only(right: 15.0, top: 5),
+                      decoration: BoxDecoration(
+                          color: Colur.txt_white,
+                          borderRadius: BorderRadius.all(Radius.circular(15))),
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Image.asset(
+                          'assets/icons/ic_setalite.png',
+                          color: setaliteEnable
+                              ? Colur.purple_gradient_color2
+                              : Colur.txt_grey,
+                        ),
+                      ),
+                    ),
+                    onTap: () {
+                      setState(() {
+                        setaliteEnable = !setaliteEnable;
+                      });
+                      Debug.printLog(
+                          (setaliteEnable == true) ? "Started" : "Disabled");
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           Container(
@@ -309,8 +305,8 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
     );
   }
 
-  _showDeleteDialog(BuildContext context){
-    return  showDialog(
+  _showDeleteDialog(BuildContext context) {
+    return showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -321,18 +317,18 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
               child: Text(Languages.of(context)!.txtCancel),
               onPressed: () async {
                 Navigator.pop(context);
-
               },
             ),
-        TextButton(
-        child: Text(Languages.of(context)!.txtDelete.toUpperCase()),
-        onPressed: () async {
-          await DataBaseHelper.deleteRunningData(widget.recentActivitiesData).then((value) => Navigator.of(context)
-              .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false));
-
-        },
-        ),
-
+            TextButton(
+              child: Text(Languages.of(context)!.txtDelete.toUpperCase()),
+              onPressed: () async {
+                await DataBaseHelper.deleteRunningData(
+                        widget.recentActivitiesData)
+                    .then((value) => Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/homeWizardScreen',
+                            (Route<dynamic> route) => false));
+              },
+            ),
           ],
         );
       },
@@ -341,7 +337,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
 
   _bottomSheetDialog(BuildContext context) {
     return SolidBottomSheet(
-      controller: _solidController,
+        controller: _solidController,
         draggableBody: true,
         canUserSwipe: true,
         toggleVisibilityOnTap: true,
@@ -376,7 +372,8 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                         children: [
                           Container(
                             child: Text(
-                              Utils.secToString(widget.recentActivitiesData.duration!),
+                              Utils.secToString(
+                                  widget.recentActivitiesData.duration!),
                               //widget.runningData!.duration.toString(),
                               style: TextStyle(
                                   color: Colur.txt_white,
@@ -403,7 +400,12 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                         children: [
                           Container(
                             child: Text(
-                              (kmSelected)? widget.recentActivitiesData.speed.toString():Utils.minPerKmToMinPerMile(widget.recentActivitiesData.speed!).toStringAsFixed(2), //widget.runningData!.speed.toString(),
+                              (kmSelected)
+                                  ? widget.recentActivitiesData.speed.toString()
+                                  : Utils.minPerKmToMinPerMile(
+                                          widget.recentActivitiesData.speed!)
+                                      .toStringAsFixed(2),
+                              //widget.runningData!.speed.toString(),
                               style: TextStyle(
                                   color: Colur.txt_white,
                                   fontWeight: FontWeight.w600,
@@ -412,7 +414,21 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                           ),
                           Container(
                             child: Text(
-                                (kmSelected)?Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtMile.toUpperCase()+")",
+                              (kmSelected)
+                                  ? Languages.of(context)!
+                                          .txtPaceMinPer
+                                          .toUpperCase() +
+                                      Languages.of(context)!
+                                          .txtKM
+                                          .toUpperCase() +
+                                      ")"
+                                  : Languages.of(context)!
+                                          .txtPaceMinPer
+                                          .toUpperCase() +
+                                      Languages.of(context)!
+                                          .txtMile
+                                          .toUpperCase() +
+                                      ")",
                               style: TextStyle(
                                   color: Colur.txt_grey,
                                   fontWeight: FontWeight.w500,
@@ -428,7 +444,8 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                         children: [
                           Container(
                             child: Text(
-                              widget.recentActivitiesData.cal.toString(), //widget.runningData!.cal.toString(),
+                              widget.recentActivitiesData.cal.toString(),
+                              //widget.runningData!.cal.toString(),
                               style: TextStyle(
                                   color: Colur.txt_white,
                                   fontWeight: FontWeight.w600,
@@ -487,11 +504,20 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                     children: [
                       Container(
                         alignment: Alignment.centerLeft,
-                        child: Text(Languages.of(context)!.txtIntensity+"("+Languages.of(context)!.txtMin.toUpperCase()+")"+":",style: TextStyle(color: Colur.txt_white,fontSize: 18,fontWeight: FontWeight.w500),),
+                        child: Text(
+                          Languages.of(context)!.txtIntensity +
+                              "(" +
+                              Languages.of(context)!.txtMin.toUpperCase() +
+                              ")" +
+                              ":",
+                          style: TextStyle(
+                              color: Colur.txt_white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 15),
-
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -503,14 +529,35 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                                   Container(
                                     height: 28,
                                     width: 28,
-                                    child: Center(child: Image.asset('assets/icons/low_intensity_icon.png',)),
+                                    child: Center(
+                                        child: Image.asset(
+                                      'assets/icons/low_intensity_icon.png',
+                                    )),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 10,bottom: 10),
-                                    child: Text((widget.recentActivitiesData.lowIntenseTime != null)? Utils.secToString(widget.recentActivitiesData.lowIntenseTime!):"0:0",style: TextStyle(color: Colur.txt_white,fontSize: 22,fontWeight: FontWeight.w500),),
+                                    margin:
+                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    child: Text(
+                                      (widget.recentActivitiesData
+                                                  .lowIntenseTime !=
+                                              null)
+                                          ? Utils.secToString(widget
+                                              .recentActivitiesData
+                                              .lowIntenseTime!)
+                                          : "0:0",
+                                      style: TextStyle(
+                                          color: Colur.txt_white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
-                                  Text(Languages.of(context)!.txtLow.toUpperCase(),style: TextStyle(color: Colur.txt_grey,fontSize: 14,fontWeight: FontWeight.w500),),
-
+                                  Text(
+                                    Languages.of(context)!.txtLow.toUpperCase(),
+                                    style: TextStyle(
+                                        color: Colur.txt_grey,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ],
                               ),
                             ),
@@ -519,14 +566,35 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                                 Container(
                                   height: 28,
                                   width: 28,
-                                  child: Image.asset('assets/icons/modrate_intensity_icon.png',),
+                                  child: Image.asset(
+                                    'assets/icons/modrate_intensity_icon.png',
+                                  ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(top: 10,bottom: 10),
-                                  child: Text((widget.recentActivitiesData.moderateIntenseTime != null)? Utils.secToString(widget.recentActivitiesData.moderateIntenseTime!):"0:0",style: TextStyle(color: Colur.txt_white,fontSize: 22,fontWeight: FontWeight.w500),),
+                                  margin: EdgeInsets.only(top: 10, bottom: 10),
+                                  child: Text(
+                                    (widget.recentActivitiesData
+                                                .moderateIntenseTime !=
+                                            null)
+                                        ? Utils.secToString(widget
+                                            .recentActivitiesData
+                                            .moderateIntenseTime!)
+                                        : "0:0",
+                                    style: TextStyle(
+                                        color: Colur.txt_white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ),
-                                Text(Languages.of(context)!.txtModerate.toUpperCase(),style: TextStyle(color: Colur.txt_grey,fontSize: 14,fontWeight: FontWeight.w500),),
-
+                                Text(
+                                  Languages.of(context)!
+                                      .txtModerate
+                                      .toUpperCase(),
+                                  style: TextStyle(
+                                      color: Colur.txt_grey,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w500),
+                                ),
                               ],
                             ),
                             Container(
@@ -536,19 +604,39 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                                   Container(
                                     height: 28,
                                     width: 28,
-                                    child: Image.asset('assets/icons/high_intensity_icon.png',),
+                                    child: Image.asset(
+                                      'assets/icons/high_intensity_icon.png',
+                                    ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(top: 10,bottom: 10),
-                                    child: Text((widget.recentActivitiesData.highIntenseTime != null)? Utils.secToString(widget.recentActivitiesData.highIntenseTime!):"0:0",style: TextStyle(color: Colur.txt_white,fontSize: 22,fontWeight: FontWeight.w500),),
+                                    margin:
+                                        EdgeInsets.only(top: 10, bottom: 10),
+                                    child: Text(
+                                      (widget.recentActivitiesData
+                                                  .highIntenseTime !=
+                                              null)
+                                          ? Utils.secToString(widget
+                                              .recentActivitiesData
+                                              .highIntenseTime!)
+                                          : "0:0",
+                                      style: TextStyle(
+                                          color: Colur.txt_white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w500),
+                                    ),
                                   ),
-                                  Text(Languages.of(context)!.txtHigh.toUpperCase(),style: TextStyle(color: Colur.txt_grey,fontSize: 14,fontWeight: FontWeight.w500),),
-
+                                  Text(
+                                    Languages.of(context)!
+                                        .txtHigh
+                                        .toUpperCase(),
+                                    style: TextStyle(
+                                        color: Colur.txt_grey,
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500),
+                                  ),
                                 ],
                               ),
                             ),
-
-
                           ],
                         ),
                       )
@@ -561,5 +649,4 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
         ) // Your body here
         );
   }
-
 }
