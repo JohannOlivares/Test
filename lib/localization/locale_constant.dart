@@ -6,9 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
-
-
-
 Future<Locale> setLocale(String languageCode) async {
   SharedPreferences _prefs = await SharedPreferences.getInstance();
   await _prefs.setString(Preference.LANGUAGE, languageCode);
@@ -22,9 +19,7 @@ Future<Locale> getLocale() async {
 }
 
 Locale _locale(String languageCode) {
-  return languageCode.isNotEmpty
-      ? Locale(languageCode, '')
-      : Locale('en', '');
+  return languageCode.isNotEmpty ? Locale(languageCode, '') : Locale('en', '');
 }
 
 void changeLanguage(BuildContext context, String selectedLanguageCode) async {

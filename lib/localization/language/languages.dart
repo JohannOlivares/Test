@@ -45,7 +45,6 @@ abstract class Languages {
 
   String get txtFT;
 
-
   String get txtYourWeeklyGoalIsReady;
 
   String get txtHeartHealth;
@@ -147,7 +146,6 @@ abstract class Languages {
   String get txtLongestDistance;
 
   String get txtBestPace;
-
 
   String get txtFastestTime;
 

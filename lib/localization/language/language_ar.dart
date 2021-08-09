@@ -97,7 +97,6 @@ class LanguageAr extends Languages {
   @override
   String get txtKM => "Km";
 
-
   @override
   String get txtUseYourLocation => "USE YOUR LOCATION";
 
@@ -443,6 +442,7 @@ class LanguageAr extends Languages {
   @override
   String get txtRunningReminderMsg =>
       "It's time for Running,Let's get started!";
+
   @override
   String get txtUnitSettings => "Unit Settings";
 
@@ -533,7 +533,6 @@ class LanguageAr extends Languages {
   String get txtMinKm => "Min/Km";
 
   @override
-
   String get txtPaceMinPer => "PACE (Min/";
 
   @override
@@ -549,7 +548,5 @@ class LanguageAr extends Languages {
   String get txtAverage => "Average";
 
   @override
-
   String get txtMonth => "Month";
-
 }

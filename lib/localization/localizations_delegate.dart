@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:run_tracker/localization/language/language_en.dart';
 
@@ -7,7 +6,6 @@ import 'language/language_hi.dart';
 import 'language/languages.dart';
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<Languages> {
-
   const AppLocalizationsDelegate();
 
   @override
