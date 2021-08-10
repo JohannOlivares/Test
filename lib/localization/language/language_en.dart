@@ -536,7 +536,7 @@ class LanguageEn extends Languages {
   String get txtWeekGoal => "Weekly Goal";
 
   @override
-  String get txtShareMapMsg => "Hey I have completed my goal.";
+  String get txtShareMapMsg => "Hey, I have completed my goal.";
 
   @override
   String get txtNoDataFound => "No Data Found";
