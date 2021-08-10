@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/gestures.dart';
@@ -631,7 +632,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           Container(
             margin: const EdgeInsets.only(top: 15.0),
-            child: Text(
+            child: AutoSizeText(
               (totalDistance != null && totalDistance!.total != null)
                   ? (kmSelected)
                       ? totalDistance!.total!.toStringAsFixed(2)
@@ -670,7 +671,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
-                      child: Text(
+                      child: AutoSizeText(
                         (totalHours != null && totalHours!.duration! != 0)
                             ? Utils.secToHour(totalHours!.duration!)
                                 .toStringAsFixed(2)
@@ -708,7 +709,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
-                      child: Text(
+                      child: AutoSizeText(
                         (totalKcal != null && totalKcal!.total! != 0)
                             ? totalKcal!.total!.toStringAsFixed(1)
                             : "0.0",

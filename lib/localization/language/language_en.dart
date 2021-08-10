@@ -405,11 +405,11 @@ class LanguageEn extends Languages {
 
   @override
   String get txtWarningForKg =>
-      "Please enter weight grater than 20 and less than 997";
+      "Please enter weight greater than 20 and less than 997";
 
   @override
   String get txtWarningForLbs =>
-      "Please enter lbs grater than 45 and less 2200";
+      "Please enter lbs greater than 45 and less 2200";
 
   @override
   String get txtDrinkWaterNotiMsg => "It's Time to drink water";

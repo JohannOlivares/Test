@@ -920,9 +920,9 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   Future<void> moveCameraToUserLocation() async {
     try {
-      LatLng newcurrentlatLong =
+      LatLng newCurrentlatLong =
           LatLng(polylineCoordinatesList.last.latitude, polylineCoordinatesList.last.longitude);
-      _controller!.moveCamera(CameraUpdate.newLatLng(newcurrentlatLong));
+      _controller!.moveCamera(CameraUpdate.newLatLng(newCurrentlatLong));
     } on Exception catch (e) {
       Utils.showToast(context, "Can't Locate To your Location:$e");
       Debug.printLog(e.toString());
