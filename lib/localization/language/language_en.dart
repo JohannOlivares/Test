@@ -525,8 +525,9 @@ class LanguageEn extends Languages {
   String get txtFeedbackOrSuggestion => "Feedback or suggestion";
 
   @override
-  String get txtWriteSuggestionsHere => "Share Valuable suggestions with Us";
+  String get txtWriteSuggestionsHere => "Share Your Valuable suggestions with Us";
 
+  @override
   String get txtModerate => "Moderate";
 
   @override
