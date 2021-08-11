@@ -179,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen>
             Container(
               margin: EdgeInsets.only(left: fullWidth * 0.05),
               child: CommonTopBar(
-                Languages.of(context)!.txtRunTracker,
+                  Languages.of(context)!.txtRunTracker,
                 this,
                 isShowSubheader: true,
                 subHeader: Languages.of(context)!.txtGoFasterSmarter,

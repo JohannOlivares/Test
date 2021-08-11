@@ -9,6 +9,8 @@ abstract class Languages {
 
   String get labelWelcome;
 
+  String get txtRunTracker;
+
   String get txtWelcomeMapRunnner;
 
   String get txtImKateYourCoach;
@@ -74,8 +76,6 @@ abstract class Languages {
   String get txtLocationDesc1;
 
   String get txtLocationDesc2;
-
-  String get txtRunTracker;
 
   String get txtGoFasterSmarter;
 
