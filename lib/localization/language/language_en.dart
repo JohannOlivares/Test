@@ -385,8 +385,7 @@ class LanguageEn extends Languages {
   String get txtDelete => "Delete";
 
   @override
-  String get txtAlertForNoLocation =>
-      "There is no Location Found. Do you want to discard?";
+  String get txtAlertForNoLocation => "There is no Location Found. Do you want to discard?";
 
   @override
   String get txtDiscard => "Discard";

@@ -2,165 +2,168 @@ import 'languages.dart';
 
 class LanguageHi extends Languages {
   @override
-  String get appName => "Runner App";
+  String get appName => "रनर ऐप";
 
   @override
-  String get labelWelcome => "Welcome";
+  String get txtRunTracker => "रन ट्रैकर";
 
   @override
-  String get txtWelcomeMapRunnner => "Hi, Welcome To\n Map Runner";
+  String get labelWelcome => "स्वागत";
+
+  @override
+  String get txtWelcomeMapRunnner => "नमस्ते, आपका स्वागत है\n";
 
   @override
   String get txtBottomSheetDescription =>
-      "Before we get started, please\n let us know you better to help you set your\n personal fitness goal.";
+      "इससे पहले कि हम शुरू करें, कृपया\n अपने व्यक्तिगत फिटनेस लक्ष्य को निर्धारित करने में आपकी मदद करने के लिए हमें बेहतर तरीके से बताएं।";
 
   @override
-  String get txtImKateYourCoach => "I’m kate, your personal fitness coach.";
+  String get txtImKateYourCoach => "मैं केट हूं, आपका निजी फिटनेस कोच।";
 
   @override
-  String get txtOk => "OK";
+  String get txtOk => "ठीक है";
 
   @override
-  String get txt150MinBriskWalking => "150 Min Brisk walking";
+  String get txt150MinBriskWalking => "150 मिनट तेज चलना";
 
   @override
-  String get txt75MinRunning => "75 min running";
+  String get txt75MinRunning => "75 मिनट चल रहा है";
 
   @override
   String get txtCM => "CM";
 
   @override
-  String get txtDistance => "Distance";
+  String get txtDistance => "दूरी";
 
   @override
   String get txtFT => "FT";
 
   @override
-  String get txtFemale => "Female";
+  String get txtFemale => "महिला";
 
   @override
   String get txtGenderDescription =>
-      "Calories & Stride Length Calculation\n need it";
+      "कैलोरी और स्ट्राइड लेंथ कैलकुलेशन के लिए\n इसकी आवश्यकता होती है";
 
   @override
-  String get txtHeartHealth => "Heart Health";
+  String get txtHeartHealth => "स्वस्थ दिल";
 
   @override
-  String get txtHeightDescription => "To personalize your fitness goal";
+  String get txtHeightDescription => "अपने फिटनेस लक्ष्य को वैयक्तिकृत करने के लिए";
 
   @override
-  String get txtHowMuchDoYouWeight => "How much do you weigh?";
+  String get txtHowMuchDoYouWeight => "आपका वज़न कितना है?";
 
   @override
-  String get txtHowTallAreYou => "How tall are you?";
+  String get txtHowTallAreYou => "तुम कितने लम्बे हो?";
 
   @override
-  String get txtKG => "KG";
+  String get txtKG => "Kg";
 
   @override
-  String get txtLBS => "LBS";
+  String get txtLBS => "Lbs";
 
   @override
   String get txtLB => "Lb";
 
   @override
-  String get txtMale => "Male";
+  String get txtMale => "पुरुष";
 
   @override
-  String get txtNextStep => "NEXT STEP";
+  String get txtNextStep => "अगला कदम";
 
   @override
-  String get txtOR => "OR";
+  String get txtOR => "या";
 
   @override
-  String get txtPaceBetween9001500MinKm => "Pace between 9:00 - 15:00 min/km";
+  String get txtPaceBetween9001500MinKm => "9:00 - 15:00 min/km के बीच की गति";
 
   @override
-  String get txtPaceOver900MinKm => "Pace over 9:00 min/km";
+  String get txtPaceOver900MinKm => "9:00  min/km से अधिक की गति";
 
   @override
-  String get txtWeightDescription => "To personalize your fitness goal";
+  String get txtWeightDescription => "अपने फिटनेस लक्ष्य को वैयक्तिकृत करने के लिए";
 
   @override
-  String get txtWhatIsYourGender => "What’s your gender?";
+  String get txtWhatIsYourGender => "आपका लिंग क्या है?";
 
   @override
   String get txtYouCanCombineTheseTwoDescription =>
-      "You can combine these two kinds of\nexercise together.";
+      "आप इन दोनों प्रकार के व्यायाम\nको एक साथ जोड़ सकते हैं।";
 
   @override
-  String get txtYourWeeklyGoalIsReady => "Your Weekly Goal is Ready";
+  String get txtYourWeeklyGoalIsReady => "आपका साप्ताहिक लक्ष्य तैयार है";
 
   @override
-  String get txtSetAsMyGoal => "SET AS MY GOAL";
+  String get txtSetAsMyGoal => "मेरे लक्ष्य के रूप में सेट करें";
 
   @override
   String get txtKM => "Km";
 
   @override
-  String get txtUseYourLocation => "USE YOUR LOCATION";
+  String get txtUseYourLocation => "अपने स्थान का उपयोग करें";
 
   @override
-  String get txtAllow => "Allow";
+  String get txtAllow => "अनुमति देना";
 
   @override
   String get txtLocationDesc1 =>
-      "To see maps for automatically tracked activities, allow Run Tracker to use your location all of the time.";
+      "स्वचालित रूप से ट्रैक की गई गतिविधियों के लिए मानचित्र देखने के लिए, रन ट्रैकर को हर समय अपने स्थान का उपयोग करने दें।";
 
   @override
   String get txtLocationDesc2 =>
-      "Run Tracker will use your location in the background to show walks, runs and bike rides on a map.";
+      "रन ट्रैकर पृष्ठभूमि में आपके स्थान का उपयोग नक्शे पर चलने, दौड़ने और बाइक की सवारी दिखाने के लिए करेगा।";
 
   @override
-  String get txtRunTracker => "RUN TRACKER";
+  String get txtGoFasterSmarter => "तेज़ और होशियार हो जाओ";
 
   @override
-  String get txtGoFasterSmarter => "Go Faster & Smarter";
+  String get txtSettings => "समायोजन";
 
   @override
-  String get txtSettings => "Settings";
+  String get txtCupCapacityUnits => "कप क्षमता इकाइयां";
 
   @override
-  String get txtCupCapacityUnits => "Cup capacity units";
-
-  @override
-  String get txtTarget => "Target";
+  String get txtTarget => "लक्ष्य";
 
   @override
   String get txtReminder => "अनुस्मारक";
 
   @override
-  String get txtTargetDesc => "Most people need 2000 ml a day.";
+  String get txtTargetDesc => "अधिकांश लोगों को प्रतिदिन 2000 मिलीलीटर की आवश्यकता होती है।";
 
   @override
-  String get txtDrinkWaterReminder => "Drink water reminder";
+  String get txtDrinkWaterReminder => "पानी पिएं रिमाइंडर";
 
   @override
-  String get txtNotifications => "Notifications";
+  String get txtNotifications => "सूचनाएं";
 
   @override
-  String get txtSchedule => "Schedule";
+  String get txtSchedule => "अनुसूची";
 
   @override
-  String get txtEnd => "End";
+  String get txtEnd => "समाप्त";
 
   @override
-  String get txtInterval => "Interval";
+  String get txtInterval => "मध्यान्तर";
 
   @override
-  String get txtSound => "Sound";
+  String get txtSound => "ध्वनि";
 
   @override
-  String get txtMessage => "Message";
+  String get txtMessage => "संदेश";
 
   @override
-  String get txtRingtone => "Ringtone";
+  String get txtRingtone => "रिंगटोन";
 
   @override
-  String get txtAM => "AM";
+  String get txtAM => "पूर्वाह्न";
 
   @override
-  String get txtPM => "PM";
+  String get txtPM => "अपराह्न";
+
+  @override
+  String get txtPaceMinPer => "गति (Min/";
 
   @override
   String get txtKCAL => "KCAL";
@@ -169,134 +172,137 @@ class LanguageHi extends Languages {
   String get txtMin => "Min";
 
   @override
-  String get txtStart => "Start";
+  String get txtStart => "शुरू";
 
   @override
-  String get txtStop => "STOP";
+  String get txtStop => "विराम";
 
   @override
-  String get txtResume => "RESUME";
+  String get txtResume => "फिर शुरू करना";
 
   @override
-  String get txtPause => "PAUSE";
+  String get txtPause => "ठहराव ";
 
   @override
   String get txtAreYouSatisfiedWithDescription =>
-      "Are you satisfied with the\n tracking results?";
+      "क्या आप ट्रैकिंग परिणामों\n से संतुष्ट हैं?";
 
   @override
-  String get txtDetails => "Details";
+  String get txtDetails => "विवरण";
 
   @override
-  String get txtDistanceKM => "Distance (km)";
+  String get txtDistanceKM => "दूरी (km)";
 
   @override
-  String get txtDuration => "Duration";
+  String get txtDuration => "अवधि";
 
   @override
-  String get txtGood => "Good";
+  String get txtGood => "अच्छा";
 
   @override
-  String get txtMovingTime => "Moving time";
+  String get txtMovingTime => "चलने का समय";
 
   @override
-  String get txtNotReally => "Not really";
+  String get txtNotReally => "ज़रूरी नहीं";
 
   @override
-  String get txtShare => "Share";
+  String get txtShare => "साझा करना";
 
   @override
-  String get txtWellDone => "Well done!";
+  String get txtWellDone => "बहुत बढ़िया!";
 
   @override
-  String get txtLongestDistance => "लंबी दूरी";
+  String get txtLongestDistance => "सबसे लंबी दूरी";
 
   @override
-  String get txtBestPace => "BEST PACE";
+  String get txtBestPace => "सर्वश्रेष्ठ गति";
 
   @override
-  String get txtFastestTime => "Fastest Time";
+  String get txtFastestTime => "सबसे तेज़ समय";
 
   @override
-  String get txtLongestDuration => "LONGEST DURATION";
+  String get txtLongestDuration => "सबसे लंबी अवधि";
 
   @override
-  String get txtRecentActivities => "Recent Activities";
+  String get txtRecentActivities => "हाल की गतिविधियां";
 
   @override
-  String get txtMore => "More";
+  String get txtMore => "अधिक";
 
   @override
-  String get txtBestRecords => "Best Records";
+  String get txtBestRecords => "सर्वश्रेष्ठ रिकॉर्ड";
 
   @override
-  String get txtBad => "Bad";
+  String get txtBad => "बुरा";
 
   @override
-  String get txtGreat => "Great";
+  String get txtGreat => "महान";
 
   @override
-  String get txtOkay => "Okay";
+  String get txtOkay => "ठीक";
 
   @override
-  String get txtTerrible => "Terrible";
+  String get txtTerrible => "भयानक";
 
   @override
-  String get txtBestWeCanGet => "The best we can get";
+  String get txtBestWeCanGet => "सबसे अच्छा हम प्राप्त कर सकते हैं";
 
   @override
-  String get txtRate => "Rate";
+  String get txtRate => "रेट करें";
 
   @override
-  String get txtPro => "Pro";
+  String get txtPro => "समर्थक";
 
   @override
-  String get txtRemoveAddForever => "Remove ads forever";
+  String get txtRemoveAddForever => "विज्ञापनों को हमेशा के लिए हटा दें";
 
   @override
-  String get txtUnlockAllTrainingPlans => "Unlock all Training Plans";
+  String get txtUnlockAllTrainingPlans => "सभी प्रशिक्षण योजनाओं को अनलॉक करें";
 
   @override
-  String get txtDeeperAnalysis => "Deeper Analysis";
+  String get txtDeeperAnalysis => "गहरा विश्लेषण";
 
   @override
-  String get txtMyProgress => "My progress";
+  String get txtMyProgress => "मेरी तरक्की";
 
   @override
-  String get txtDailyAverage => "Daily average";
+  String get txtDailyAverage => "दैनिक औसत";
 
   @override
-  String get txtTotalKM => "Total KM";
+  String get txtTotalKM => "कुल KM";
 
   @override
-  String get txtDrinkWater => "Drink Water";
+  String get txtDrinkWater => "पानी पिएं";
 
   @override
   String get txtMl => "ml";
 
   @override
-  String get txtNextTime => "Next Time";
+  String get txtNextTime => "अगली बार";
 
   @override
-  String get txtToday => "Today";
+  String get txtToday => "आज";
 
   @override
-  String get txtTodayRecords => "Today records";
+  String get txtTodayRecords => "आज के रिकॉर्ड";
 
   @override
-  String get txtWeek => "Week";
+  String get txtWeek => "हफ्ता";
 
   @override
-  String get txtAvgPace => "Avg Pace";
+  String get txtAvgPace => "औसत गति";
 
   @override
-  String get txtTotalHours => "Total Hours";
+  String get txtTotalHours => "कुल घंटे";
 
   @override
-  String get txtTotalKCAL => "Total KCAL";
+  String get txtTotalKCAL => "कुल KCAL";
 
   @override
   String get txtMinMi => "Min/mi";
+
+  @override
+  String get txtMinKm => "Min/Km";
 
   @override
   String get txtKcal => "Kcal";
@@ -305,248 +311,243 @@ class LanguageHi extends Languages {
   String get txtMile => "Mile";
 
   @override
-  String get txtSteps => "Steps";
+  String get txtSteps => "कदम";
 
   @override
-  String get txtStepsTracker => "STEPS TRACKER";
+  String get txtStepsTracker => "कदम ट्रैकर";
 
   @override
-  String get txtLast7DaysSteps => "Last 7 Days Steps:";
+  String get txtLast7DaysSteps => "पिछले 7 दिनों के चरण:";
 
   @override
-  String get txtReset => "Reset";
+  String get txtReset => "रीसेट";
 
   @override
-  String get txtEditTarget => "Edit target";
+  String get txtEditTarget => "लक्ष्य संपादित करें";
 
   @override
-  String get txtTurnoff => "Turn off";
+  String get txtTurnoff => "बंद करें";
 
   @override
-  String get txtEditTargetSteps => "Edit Target Steps";
+  String get txtEditTargetSteps => "लक्ष्य चरण संपादित करें";
 
   @override
   String get txtEditStepsTargetDesc =>
-      "Burned calories, walking distance & duration will be calculated accordingly.";
+      "जली हुई कैलोरी, पैदल दूरी और अवधि की गणना तदनुसार की जाएगी।";
 
   @override
-  String get txtCancel => "CANCEL";
+  String get txtCancel => "रद्द करना";
 
   @override
-  String get txtSave => "SAVE";
+  String get txtSave => "बचा ले";
 
   @override
-  String get txtWeeklyStatistics => "Weekly Statistics";
+  String get txtWeeklyStatistics => "साप्ताहिक सांख्यिकी";
 
   @override
-  String get txtTroubleShooting => "Troubleshooting";
+  String get txtTroubleShooting => "समस्या निवारण";
 
   @override
-  String get txtMetricAndImperialUnits => "Metric & Imperial Units";
+  String get txtMetricAndImperialUnits => "मीट्रिक और शाही इकाइयाँ";
 
   @override
-  String get txtFinish => "Finish";
+  String get txtFinish => "खत्म हो";
 
   @override
-  String get txtFinishTraining => "Finish Training?";
+  String get txtFinishTraining => "प्रशिक्षण समाप्त करें?";
 
   @override
-  String get txtRestart => "Restart";
+  String get txtRestart => "पुनः आरंभ करें";
 
   @override
-  String get txtWeekGoalSetting => "Weekly Goal Setting";
+  String get txtWeekGoalSetting => "साप्ताहिक लक्ष्य निर्धारण";
 
   @override
-  String get txtHighIntensity => "High intensity";
+  String get txtHighIntensity => "उच्च तीव्रता";
 
   @override
-  String get txtModerateIntensity => "Moderate \nintensity";
+  String get txtModerateIntensity => "मध्यम तीव्रता";
 
   @override
-  String get txtGotoSettings => "Go to Settings";
+  String get txtGotoSettings => "सेटिंग्स में जाओ";
 
   @override
   String get txtPleaseGivePermissionFromSettings =>
-      "Please give us access to your GPS Location";
+      "कृपया हमें अपने जीपीएस स्थान तक पहुंच प्रदान करें";
 
   @override
-  String get txtWeNeedYourLocation => "We Need Your Location";
+  String get txtWeNeedYourLocation => "हमें आपका स्थान चाहिए";
 
   @override
-  String get txtLongPressToUnlock => "Long press to unlock";
+  String get txtLongPressToUnlock => "अनलॉक करने के लिए देर तक दबाएं";
 
   @override
-  String get txtDelete => "Delete";
+  String get txtDelete => "हटाएं";
 
   @override
   String get txtAlertForNoLocation =>
-      "There is no Location Found. Do you want to discard?";
+      "कोई स्थान नहीं मिला। क्या आप त्यागना चाहते हैं?";
 
   @override
-  String get txtDiscard => "Discard";
+  String get txtDiscard => "त्यागना";
 
   @override
-  String get txtTime => "Time";
+  String get txtTime => "समय";
 
   @override
-  String get txtWeight => "Weight";
+  String get txtWeight => "वज़न";
 
   @override
-  String get txtLast30Days => "Last 30 days";
+  String get txtLast30Days => "पिछले 30 दिनों में";
 
   @override
-  String get txtAdd => "Add";
+  String get txtAdd => "जोड़ें";
 
   @override
   String get txtWarningForKg =>
-      "Please enter weight grater than 20 and less than 997";
+      "कृपया वजन 20 से अधिक और 997 से कम दर्ज करें";
 
   @override
   String get txtWarningForLbs =>
-      "Please enter lbs grater than 45 and less 2200";
+      "कृपया वजन 45 से अधिक और 2200 से कम दर्ज करें";
 
   @override
-  String get txtDrinkWaterNotiMsg => "It's Time to drink water";
+  String get txtDrinkWaterNotiMsg => "पानी पीने का समय हो गया है";
 
   @override
-  String get txtTimeToHydrate => "Time to Hydrate";
+  String get txtTimeToHydrate => "हाइड्रेट करने का समय";
 
   @override
-  String get txtTurnedOff => "Turned Off";
+  String get txtTurnedOff => "बंद है";
 
   @override
-  String get txtSaveChanges => "Save Changes?";
+  String get txtSaveChanges => "परिवर्तनों को सुरक्षित करें?";
 
   @override
   String get txtDeleteConfirmationMessage =>
-      "Are You Sure Do You want to Delete this Data ?";
+      "क्या आप सुनिश्चित हैं कि क्या आप इस डेटा को हटाना चाहते हैं?";
 
   @override
-  String get txtDeleteHitory => "Delete History";
+  String get txtDeleteHitory => "हिस्ट्री हटाएं";
 
   @override
-  String get txtMonth => "Month";
+  String get txtReport => "प्रतिवेदन";
 
   @override
-  String get txtThisWeek => "This Week";
+  String get txtThisWeek => "इस सप्ताह";
 
   @override
-  String get txtTotal => "Total";
+  String get txtTotal => "कुल";
 
   @override
-  String get txtPaused => "Paused";
+  String get txtPaused => "रोके गए";
 
   @override
-  String get txtRepeat => "Repeat";
+  String get txtRepeat => "दोहराना";
 
   @override
   String get txtRunningReminderMsg =>
-      "It's time for Running,Let's get started!";
+      "दौड़ने का समय हो गया है, चलिए शुरू करते हैं!";
 
   @override
-  String get txtUnitSettings => "Unit Settings";
+  String get txtUnitSettings => "यूनिट सेटिंग्स";
 
   @override
-  String get txtGeneralSettings => "General Settings";
+  String get txtGeneralSettings => "सामान्य सेटिंग्स";
 
   @override
-  String get txtLanguageOptions => "Language Options";
+  String get txtLanguageOptions => "भाषा विकल्प";
 
   @override
-  String get txtFirstDayOfWeek => "First day of week";
+  String get txtFirstDayOfWeek => "सप्ताह का पहला दिन";
 
   @override
-  String get txtSupportUs => "Support Us";
+  String get txtSupportUs => "हमें समर्थन प्रदान करें";
 
   @override
-  String get txtFeedback => "Feedback";
+  String get txtFeedback => "प्रतिपुष्टि";
 
   @override
-  String get txtRateUs => "Rate us";
+  String get txtRateUs => "हमें रेटिंग दें";
 
   @override
-  String get txtPrivacyPolicy => "Privacy policy";
+  String get txtPrivacyPolicy => "गोपनीयता नीति";
 
   @override
-  String get txtRunningReminder => "Running reminder";
+  String get txtRunningReminder => "रनिंग रिमाइंडर";
 
   @override
-  String get txtLast7daysReport => "Last 7 Days Report";
+  String get txtLast7daysReport => "पिछले 7 दिनों की रिपोर्ट";
 
   @override
-  String get txtEveryHalfHour => "Every 0.5 hours";
+  String get txtEveryHalfHour => "हर 0.5 घंटे";
 
   @override
-  String get txtEveryOneHour => "Every 1 hours";
+  String get txtEveryOneHour => "हर 1 घंटे";
 
   @override
-  String get txtEveryOneNHalfHour => "Every 1.5 hours";
+  String get txtEveryOneNHalfHour => "हर 1.5 घंटे";
 
   @override
-  String get txtEveryTwoHour => "Every 2 hours";
+  String get txtEveryTwoHour => "हर 2 घंटे";
 
   @override
-  String get txtEveryTwoNHalfHour => "Every 2.5 hours";
+  String get txtEveryTwoNHalfHour => "हर 2.5 घंटे";
 
   @override
-  String get txtEveryThreeHour => "Every 3 hours";
+  String get txtEveryThreeHour => "हर 3 घंटे";
 
   @override
-  String get txtEveryThreeNHalfHour => "Every 3.5 hours";
+  String get txtEveryThreeNHalfHour => "हर 3.5 घंटे";
 
   @override
-  String get txtEveryFourHour => "Every 4 hours";
+  String get txtEveryFourHour => "हर 4 घंटे";
 
   @override
-  String get txtDailyReminder => "Daily Reminder";
+  String get txtDailyReminder => "दैनिक अनुस्मारक";
 
   @override
-  String get txtLow => "Low";
+  String get txtLow => "कम";
 
   @override
-  String get txtHigh => "High";
+  String get txtHigh => "उच्च";
 
   @override
-  String get txtRatingOnGooglePlay => "Rating on google play";
+  String get txtRatingOnGooglePlay => "गूगल प्ले पर रेटिंग";
 
   @override
-  String get txtRunTrackerFeedback => "Run Tracker Feedback";
+  String get txtRunTrackerFeedback => "रन ट्रैकर फीडबैक";
 
   @override
-  String get txtSubmit => "Submit";
+  String get txtSubmit => "प्रस्तुत करना";
 
   @override
-  String get txtFeedbackOrSuggestion => "Feedback or suggestion";
-
-  String get txtModerate => "Moderate";
+  String get txtFeedbackOrSuggestion => "प्रतिक्रिया या सुझाव";
 
   @override
-  String get txtIntensity => "Intensity";
+  String get txtWriteSuggestionsHere => "अपने बहुमूल्य सुझाव हमारे साथ साझा करें";
 
   @override
-  String get txtWeekGoal => "Weekly Goal";
+  String get txtModerate => "मध्यम";
 
   @override
-  String get txtShareMapMsg => "Hey I have completed my goal.";
+  String get txtIntensity => "तीव्रता";
 
   @override
-  String get txtMinKm => "Min/Km";
+  String get txtWeekGoal => "साप्ताहिक लक्ष्य";
 
   @override
-  String get txtPaceMinPer => "PACE (Min/";
+  String get txtShareMapMsg => "अरे, मैंने अपना लक्ष्य पूरा कर लिया है।";
 
   @override
-  String get txtWriteSuggestionsHere => "Share Valuable suggestions with Us";
+  String get txtNoDataFound => "कोई डेटा नहीं मिला";
 
   @override
-  String get txtNoDataFound => "No Data Found";
+  String get txtTotalMile => "कुल Mile";
 
   @override
-  String get txtTotalMile => "Total Mile";
+  String get txtAverage => "औसत";
 
   @override
-  String get txtAverage => "Average";
-
-  @override
-  String get txtReport => "Report";
+  String get txtMonth => "महीना";
 }
