@@ -120,6 +120,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                                         child: Text(
                                           Languages.of(context)!.txtTime.toUpperCase() +
                                               " (${Languages.of(context)!.txtMin.toUpperCase()})",
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colur.txt_white,
                                               fontWeight: FontWeight.w500,
@@ -145,6 +146,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                                       Container(
                                         child: Text(
                                           (kmSelected)?Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtMile.toUpperCase()+")",
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
                                               color: Colur.txt_white,
                                               fontWeight: FontWeight.w500,

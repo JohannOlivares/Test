@@ -78,7 +78,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                   visible: widget.isClose,
                   child: Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(left: 15.0, top: 5,bottom: 5),
+                    margin: EdgeInsets.only(left: 15.0, top: 5,bottom: 5, right: 15),
                     width: 42,
                     height: 42,
                     decoration: BoxDecoration(
@@ -133,7 +133,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                   visible: widget.isShowSetting,
                   child: Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5),
+                    margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5, left: 15),
                     width: 42,
                     height: 42,
 
@@ -158,7 +158,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                   visible: widget.isShowSettingCircle,
                   child: Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5),
+                    margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5, left: 15),
                     width: 42,
                     height: 42,
                     decoration: BoxDecoration(
@@ -183,7 +183,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                   visible: widget.isDelete,
                   child: Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5),
+                    margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5, left: 15),
                     width: 42,
                     height: 42,
                     decoration: BoxDecoration(
@@ -226,7 +226,7 @@ class _CommonTopBarState extends State<CommonTopBar> {
                   visible: widget.isOptions,
                   child: Container(
                     alignment: Alignment.center,
-                    margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5),
+                    margin: EdgeInsets.only(right: 15.0, top: 5,bottom: 5, left: 15.0),
                     width: 42,
                     height: 42,
                     decoration: BoxDecoration(

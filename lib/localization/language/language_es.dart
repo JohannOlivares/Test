@@ -360,13 +360,13 @@ class LanguageEs extends Languages {
   String get txtWeekGoalSetting => "Establecimiento de objetivos semanales";
 
   @override
-  String get txtHighIntensity => "High intensity";
+  String get txtHighIntensity => "Alta intensidad";
 
   @override
   String get txtModerateIntensity => "Intensidad \nmoderada";
 
   @override
-  String get txtGotoSettings => "Go to Settings";
+  String get txtGotoSettings => "Ir a la configuración";
 
   @override
   String get txtPleaseGivePermissionFromSettings =>
@@ -560,5 +560,9 @@ class LanguageEs extends Languages {
   @override
   String get txtPleaseGivePermissionForActivity =>
       "Please give us access to Detect You Activity For Steps";
+
+  @override
+  // TODO: implement txtDailyAverage
+  String get txtDailyAverage => throw UnimplementedError();
 
 }

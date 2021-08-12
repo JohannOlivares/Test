@@ -266,7 +266,7 @@ class LanguageFr extends Languages {
   String get txtMyProgress => "Mes progrès";
 
   @override
-  String get txtTotalKM => "KM total";
+  String get txtTotalKM => "KM totales";
 
   @override
   String get txtDrinkWater => "Bois de l'eau";
@@ -320,7 +320,7 @@ class LanguageFr extends Languages {
   String get txtReset => "Réinitialiser";
 
   @override
-  String get txtEditTarget => "Modifier la cible";
+  String get txtEditTarget => "Modifier la \ncible";
 
   @override
   String get txtTurnoff => "Éteindre";

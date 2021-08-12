@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -66,6 +68,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                   ),
                   Text(
                     Languages.of(context)!.txtUseYourLocation,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colur.txt_white,
                         fontWeight: FontWeight.w700,
@@ -253,6 +256,7 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                 child: Center(
                   child: Text(
                     Languages.of(context)!.txtGotoSettings.toUpperCase(),
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colur.txt_white,
                         fontWeight: FontWeight.w700,

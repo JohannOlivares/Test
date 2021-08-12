@@ -555,31 +555,35 @@ class _HomeScreenState extends State<HomeScreen>
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
       child: Container(
+        padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
           color: Colur.progress_background_color,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(13.0),
-          child: Row(
-            children: [
-              Image.asset(
-                "assets/icons/$img",
-                height: 60,
-                width: 60,
-                fit: BoxFit.cover,
-              ),
-              Padding(
+        child: Row(
+          children: [
+            Image.asset(
+              "assets/icons/$img",
+              height: 60,
+              width: 60,
+              fit: BoxFit.cover,
+            ),
+            Expanded(
+              child: Container(
                 padding: const EdgeInsets.only(left:12.0,bottom: 12.0,top: 12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       text,
+                      textAlign: TextAlign.left,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 15,
-                          color: Colur.txt_white),
+                          color: Colur.txt_white
+                      ),
                     ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.end,
@@ -613,9 +617,9 @@ class _HomeScreenState extends State<HomeScreen>
                     ),
                   ],
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -890,7 +894,7 @@ class _HomeScreenState extends State<HomeScreen>
           MaterialPageRoute(
               builder: (context) => StepsTrackerScreen()));
     }else{
-      Navigator.push(
+            Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => StepsTrackerScreen()));

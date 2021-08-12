@@ -163,7 +163,7 @@ class LanguageJa extends Languages {
   String get txtPM => "PM";
 
   @override
-  String get txtPaceMinPer => "ペース（最小/";
+  String get txtPaceMinPer => "ペース（Min/";
 
   @override
   String get txtKCAL => "KCAL";
@@ -306,7 +306,7 @@ class LanguageJa extends Languages {
   String get txtKcal => "Kcal";
 
   @override
-  String get txtMile => "マイル";
+  String get txtMile => "Mile";
 
   @override
   String get txtSteps => "ステップ";
@@ -364,7 +364,7 @@ class LanguageJa extends Languages {
   String get txtHighIntensity => "高強度";
 
   @override
-  String get txtModerateIntensity => "中程度の\ ニンテンシティ";
+  String get txtModerateIntensity => "中程度の\n ニンテンシティ";
 
   @override
   String get txtGotoSettings => "設定に移動";

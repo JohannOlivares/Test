@@ -429,6 +429,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                                           .txtMile
                                           .toUpperCase() +
                                       ")",
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: Colur.txt_grey,
                                   fontWeight: FontWeight.w500,
@@ -475,7 +476,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
           child: Container(
             padding: EdgeInsets.only(top: 10),
             width: double.infinity,
-            height: MediaQuery.of(context).size.height * 0.35,
+            height: MediaQuery.of(context).size.height * 0.4,
             color: Colur.common_bg_dark,
             child: Column(
               children: [

@@ -76,10 +76,10 @@ class LanguageVi extends Languages {
   String get txtOR => "Hoặc";
 
   @override
-  String get txtPaceBetween9001500MinKm => "Tốc độ từ 9:00 - 15:00 phút / km";
+  String get txtPaceBetween9001500MinKm => "Tốc độ từ 9:00 - 15:00 min/km";
 
   @override
-  String get txtPaceOver900MinKm => "Tốc độ trên 9:00 phút / km";
+  String get txtPaceOver900MinKm => "Tốc độ trên 9:00 min/km";
 
   @override
   String get txtWeightDescription => "Để cá nhân hóa mục tiêu thể chất của bạn";
@@ -163,7 +163,7 @@ class LanguageVi extends Languages {
   String get txtPM => "BUỔI CHIỀU";
 
   @override
-  String get txtPaceMinPer => "PACE (Tối thiểu /";
+  String get txtPaceMinPer => "TỐC ĐỘ (Min/";
 
   @override
   String get txtKCAL => "KCAL";
@@ -363,7 +363,7 @@ class LanguageVi extends Languages {
   String get txtHighIntensity => "Cường độ cao";
 
   @override
-  String get txtModerateIntensity => "Vừa phải \ nintensity";
+  String get txtModerateIntensity => "Cường độ\nVừa phải";
 
   @override
   String get txtGotoSettings => "Đi tới Cài đặt";

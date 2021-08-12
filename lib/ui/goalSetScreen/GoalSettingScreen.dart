@@ -118,6 +118,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
                             Languages.of(context)!.txtHeartHealth,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: !distanceSelected ? Colors.white : Color(0xFF9195B6),
                                 fontSize: !distanceSelected ? 20 : 16.0,
@@ -324,6 +325,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
                     margin: EdgeInsets.only(left: fullWidth*0.08),
                     child: Text(
                       Languages.of(context)!.txtHighIntensity,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                           fontWeight: FontWeight.w700,
                           fontSize: 18,

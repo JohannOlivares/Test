@@ -175,7 +175,7 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                     color: Colors.grey.shade300,
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 25.0),
+                    margin: EdgeInsets.only(top: 25.0, right: 5),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       crossAxisAlignment: CrossAxisAlignment.center,

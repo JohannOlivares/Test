@@ -225,6 +225,7 @@ class PausePopupScreen extends ModalRoute<String> {
                     .of(context)!
                     .txtFinishTraining
                     .toUpperCase(),
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       color: Colur.txt_black,
                       fontWeight: FontWeight.w900, fontSize: 20),),

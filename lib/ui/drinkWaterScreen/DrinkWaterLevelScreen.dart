@@ -567,8 +567,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             margin: const EdgeInsets.only(top: 20.0),
             child: Text(
               drinkWaterAverage != null
-                  ? Languages.of(context)!.txtWeeklyAverage +
-                      " : " +
+                  ? Languages.of(context)!.txtWeeklyAverage + " : " +
                       drinkWaterAverage!+" "+Languages.of(context)!.txtMl
                   : Languages.of(context)!.txtWeeklyAverage + " :0 "+Languages.of(context)!.txtMl,
               textAlign: TextAlign.center,

@@ -182,7 +182,7 @@ class _StartRunScreenState extends State<StartRunScreen>
               ),
               _timerAndDistance(fullwidth),
               Expanded(
-                child: _mapView(fulheight, context),
+                child: _mapView(fulheight, fullwidth, context),
               ),
             ],
           ),
@@ -311,7 +311,7 @@ class _StartRunScreenState extends State<StartRunScreen>
     );
   }
 
-  _mapView(double fullheight, BuildContext context) {
+  _mapView(double fullheight, double fullWidth, BuildContext context) {
     return Container(
       child: Stack(
         children: [
@@ -490,21 +490,26 @@ class _StartRunScreenState extends State<StartRunScreen>
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(
-                                      !startTrack
-                                          ? Languages.of(context)!
-                                              .txtStart
-                                              .toUpperCase()
-                                          : Languages.of(context)!
-                                              .txtPause
-                                              .toUpperCase(),
-                                      style: TextStyle(
-                                          fontSize: 20,
-                                          color: Colur.white,
-                                          fontWeight: FontWeight.w700),
+                                    Flexible(
+                                      child: Container(
+                                        child: Text(
+                                          !startTrack
+                                              ? Languages.of(context)!
+                                                  .txtStart
+                                                  .toUpperCase()
+                                              : Languages.of(context)!
+                                                  .txtPause
+                                                  .toUpperCase(),
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Colur.white,
+                                              fontWeight: FontWeight.w700),
+                                        ),
+                                      ),
                                     ),
                                     Container(
-                                        margin: EdgeInsets.only(left: 25),
+                                        margin: EdgeInsets.only(left: fullWidth*0.015),
                                         child: Icon(
                                           startTrack
                                               ? Icons.pause
@@ -1090,6 +1095,7 @@ class PopUpState extends State<PopUp> {
                         Languages.of(context)!
                             .txtLongPressToUnlock
                             .toUpperCase(),
+                        textAlign: ui.TextAlign.center,
                         style: TextStyle(
                             color: Colur.white,
                             fontWeight: FontWeight.w500,

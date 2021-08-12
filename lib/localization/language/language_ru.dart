@@ -360,7 +360,7 @@ class LanguageRu extends Languages {
   String get txtWeekGoalSetting => "Еженедельная постановка целей";
 
   @override
-  String get txtHighIntensity => "Высокая интенсивность";
+  String get txtHighIntensity => "Высокая \nинтенсивность";
 
   @override
   String get txtModerateIntensity => "Умеренная\nинтенсивность";
@@ -376,7 +376,7 @@ class LanguageRu extends Languages {
   String get txtWeNeedYourLocation => "Пожалуйста, дайте нам доступ к вашему GPS-местоположению";
 
   @override
-  String get txtLongPressToUnlock => "Long press to unlock";
+  String get txtLongPressToUnlock => "Нажмите и удерживайте, чтобы разблокировать";
 
   @override
   String get txtDelete => "Удалить";
@@ -516,7 +516,7 @@ class LanguageRu extends Languages {
   String get txtRunTrackerFeedback => "Запустить обратную связь с трекером";
 
   @override
-  String get txtSubmit => "Представлять на рассмотрение";
+  String get txtSubmit => "Представлять \nна рассмотрение";
 
   @override
   String get txtFeedbackOrSuggestion => "Отзыв или предложение";

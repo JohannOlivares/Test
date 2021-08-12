@@ -305,7 +305,7 @@ class LanguagePt extends Languages {
   String get txtKcal => "Kcal";
 
   @override
-  String get txtMile => "Milha";
+  String get txtMile => "Mile";
 
   @override
   String get txtSteps => "Etapas";
@@ -363,7 +363,7 @@ class LanguagePt extends Languages {
   String get txtHighIntensity => "Alta intensidade";
 
   @override
-  String get txtModerateIntensity => "Intensidade \ n moderada";
+  String get txtModerateIntensity => "Intensidade \n moderada";
 
   @override
   String get txtGotoSettings => "Vá para as configurações";

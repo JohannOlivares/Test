@@ -111,7 +111,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                       horizontal: 25.0),
                                   child: Text(
                                     Languages.of(context)!.txtReminder,
-                                    textAlign: TextAlign.left,
+                                    //textAlign: TextAlign.left,
                                     style: TextStyle(
                                         color: Colur.txt_white,
                                         fontSize: 18,
@@ -135,7 +135,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                             horizontal: 20.0, vertical: 10.0),
                         child: Text(
                           Languages.of(context)!.txtUnitSettings.toUpperCase(),
-                          textAlign: TextAlign.left,
+                          //textAlign: TextAlign.left,
                           style: TextStyle(
                               color: Colur.txt_grey,
                               fontSize: 18,
@@ -159,7 +159,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                 child: Text(
                                   Languages.of(context)!
                                       .txtMetricAndImperialUnits,
-                                  textAlign: TextAlign.left,
+                                  //textAlign: TextAlign.left,
                                   style: TextStyle(
                                       color: Colur.txt_white,
                                       fontSize: 18,
@@ -223,7 +223,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                           Languages.of(context)!
                               .txtGeneralSettings
                               .toUpperCase(),
-                          textAlign: TextAlign.left,
+                          //textAlign: TextAlign.left,
                           style: TextStyle(
                               color: Colur.txt_grey,
                               fontSize: 18,
@@ -248,7 +248,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                         horizontal: 25.0),
                                     child: Text(
                                       Languages.of(context)!.txtLanguageOptions,
-                                      textAlign: TextAlign.left,
+                                      //textAlign: TextAlign.left,
                                       style: TextStyle(
                                           color: Colur.txt_white,
                                           fontSize: 18,
@@ -318,7 +318,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                       child: Text(
                                         Languages.of(context)!
                                             .txtFirstDayOfWeek,
-                                        textAlign: TextAlign.left,
+                                        //textAlign: TextAlign.left,
                                         style: TextStyle(
                                             color: Colur.txt_white,
                                             fontSize: 18,
@@ -387,7 +387,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                             horizontal: 20.0, vertical: 10.0),
                         child: Text(
                           Languages.of(context)!.txtSupportUs.toUpperCase(),
-                          textAlign: TextAlign.left,
+                          //textAlign: TextAlign.left,
                           style: TextStyle(
                               color: Colur.txt_grey,
                               fontSize: 18,
@@ -485,7 +485,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                       horizontal: 25.0),
                                   child: Text(
                                     Languages.of(context)!.txtFeedback,
-                                    textAlign: TextAlign.left,
+                                    //textAlign: TextAlign.left,
                                     style: TextStyle(
                                         color: Colur.txt_white,
                                         fontSize: 18,
@@ -529,7 +529,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                       horizontal: 25.0),
                                   child: Text(
                                     Languages.of(context)!.txtRateUs,
-                                    textAlign: TextAlign.left,
+                                    //textAlign: TextAlign.left,
                                     style: TextStyle(
                                         color: Colur.txt_white,
                                         fontSize: 18,
@@ -561,7 +561,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                       horizontal: 25.0),
                                   child: Text(
                                     Languages.of(context)!.txtPrivacyPolicy,
-                                    textAlign: TextAlign.left,
+                                    //textAlign: TextAlign.left,
                                     style: TextStyle(
                                         color: Colur.txt_white,
                                         fontSize: 18,

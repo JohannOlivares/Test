@@ -294,16 +294,16 @@ class LanguageUr extends Languages {
   String get txtTotalHours => "کل گھنٹے";
 
   @override
-  String get txtTotalKCAL => "کل KCAL";
+  String get txtTotalKCAL => "کل کلو کیلوری";
 
   @override
-  String get txtMinMi => "میں / میں۔";
+  String get txtMinMi => "میں/میں۔";
 
   @override
-  String get txtMinKm => "/کلومیٹر سے";
+  String get txtMinKm => "کلومیٹر/سے";
 
   @override
-  String get txtKcal => "Kcal";
+  String get txtKcal => "کلو کیلوری";
 
   @override
   String get txtMile => "میل";

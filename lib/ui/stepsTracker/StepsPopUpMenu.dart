@@ -94,7 +94,7 @@ class StepsPopUpMenu extends ModalRoute<String>{
     return InkWell(
       onTap: onTap as void Function()?,
       child: Container(
-        margin: EdgeInsets.only(top: 22,  left: 12),
+        margin: EdgeInsets.only(top: 22,  left: 12, right:10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -104,14 +104,18 @@ class StepsPopUpMenu extends ModalRoute<String>{
               width: 14,
               color: color,
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: Text(
-                text,
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Colur.txt_black,
+            Flexible(
+              child: Container(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Text(
+                  text,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Colur.txt_black,
+                  ),
                 ),
               ),
             ),

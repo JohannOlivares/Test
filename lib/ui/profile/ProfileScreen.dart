@@ -393,16 +393,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Text(
-                            Languages.of(context)!.txtRunTracker,
-                            textAlign: TextAlign.left,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: Colur.white,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 25),
-                            //maxLines: 1,
+                          Flexible(
+                            child: Container(
+                              child: Text(
+                                Languages.of(context)!.txtRunTracker,
+                                textAlign: TextAlign.left,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: Colur.white,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 25),
+                                //maxLines: 1,
+                              ),
+                            ),
                           ),
                           // Container(
                           //   margin: const EdgeInsets.only(left: 10.0),
@@ -601,7 +605,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Expanded(
                 child: Text(
                   Languages.of(context)!.txtMyProgress,
-                  textAlign: TextAlign.left,
+                  //textAlign: TextAlign.left,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -663,49 +667,51 @@ class _ProfileScreenState extends State<ProfileScreen> {
             //maxLines: 1,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 15.0),
-                      child: AutoSizeText(
-                        (totalHours != null && totalHours!.duration! != 0)
-                            ? Utils.secToHour(totalHours!.duration!)
-                                .toStringAsFixed(2)
-                            : "0.00",
-                        textAlign: TextAlign.left,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: Colur.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 40.0),
-                        //maxLines: 1,
+              Expanded(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 15.0),
+                        child: AutoSizeText(
+                          (totalHours != null && totalHours!.duration! != 0)
+                              ? Utils.secToHour(totalHours!.duration!)
+                                  .toStringAsFixed(2)
+                              : "0.00",
+                          //textAlign: TextAlign.left,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colur.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 40.0),
+                          //maxLines: 1,
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        Languages.of(context)!.txtTotalHours.toUpperCase(),
-                        textAlign: TextAlign.left,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: Colur.txt_grey,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14),
-                        //maxLines: 1,
+                      Container(
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          Languages.of(context)!.txtTotalHours.toUpperCase(),
+                          //textAlign: TextAlign.left,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colur.txt_grey,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14),
+                          //maxLines: 1,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       margin: const EdgeInsets.only(top: 15.0),
@@ -713,7 +719,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         (totalKcal != null && totalKcal!.total! != 0)
                             ? totalKcal!.total!.toStringAsFixed(1)
                             : "0.0",
-                        textAlign: TextAlign.left,
+                        //textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -727,7 +733,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       margin: EdgeInsets.only(top: 10.0),
                       child: Text(
                         Languages.of(context)!.txtTotalKCAL.toUpperCase(),
-                        textAlign: TextAlign.left,
+                        //textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -740,44 +746,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(top: 15.0),
-                      child: Text(
-                        (avgPace != null && avgPace!.total != null)
-                            ? (kmSelected)
-                                ? avgPace!.total!.toStringAsFixed(2)
-                                : Utils.minPerKmToMinPerMile(avgPace!.total!)
-                                    .toStringAsFixed(2)
-                            : "0.00",
-                        textAlign: TextAlign.left,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: Colur.white,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 40.0),
-                        //maxLines: 1,
+              Expanded(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: const EdgeInsets.only(top: 15.0),
+                        child: Text(
+                          (avgPace != null && avgPace!.total != null)
+                              ? (kmSelected)
+                                  ? avgPace!.total!.toStringAsFixed(2)
+                                  : Utils.minPerKmToMinPerMile(avgPace!.total!)
+                                      .toStringAsFixed(2)
+                              : "0.00",
+                          //textAlign: TextAlign.left,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colur.white,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 40.0),
+                          //maxLines: 1,
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 10.0),
-                      child: Text(
-                        Languages.of(context)!.txtAvgPace.toUpperCase(),
-                        textAlign: TextAlign.left,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: Colur.txt_grey,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14),
-                        //maxLines: 1,
+                      Container(
+                        margin: EdgeInsets.only(top: 10.0),
+                        child: Text(
+                          Languages.of(context)!.txtAvgPace.toUpperCase(),
+                          //textAlign: TextAlign.left,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colur.txt_grey,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14),
+                          //maxLines: 1,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -1060,7 +1068,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Expanded(
                 child: Text(
                   Languages.of(context)!.txtWeight,
-                  textAlign: TextAlign.left,
+                  //textAlign: TextAlign.left,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -1475,7 +1483,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         : Languages.of(context)!
                                             .txtMile
                                             .toLowerCase(),
-                                    textAlign: TextAlign.left,
+                                    //textAlign: TextAlign.left,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
@@ -1636,7 +1644,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ? Utils.secToString(
                                           longestDuration!.duration!)
                                       : "00:00",
-                                  textAlign: TextAlign.left,
+                                  //textAlign: TextAlign.left,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(

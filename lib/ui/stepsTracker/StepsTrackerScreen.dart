@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/services.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:pedometer/pedometer.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/StepsData.dart';
 import 'package:run_tracker/ui/last7daysStepsStatistics/Last7DaysStepsScreen.dart';
@@ -445,7 +448,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                     )
                   : Container(
                       height: 25,
-                      width: 70,
+                      width: 80,
                       decoration: BoxDecoration(
                         color: Colur.progress_background_color,
                         borderRadius: BorderRadius.circular(14),
@@ -453,10 +456,11 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                       child: Center(
                         child: Text(
                           Languages.of(context)!.txtPaused,
+                          overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colur.txt_white,
                               fontSize: 14,
-                              fontWeight: FontWeight.w400),
+                              fontWeight: FontWeight.w300),
                         ),
                       ),
                     )
@@ -698,7 +702,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
           showTicks: false,
           showLabels: false,
           minimum: 0,
-          maximum: targetSteps == null ? 1500 : targetSteps!.toDouble(),
+          maximum: targetSteps == null ? 6000 : targetSteps!.toDouble(),
           axisLineStyle: AxisLineStyle(
             thickness: 0.19,
             cornerStyle: CornerStyle.bothCurve,
@@ -734,7 +738,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                             color: Colur.txt_white),
                       ),
                       Text(
-                        targetSteps == null ? "/1500" : "/$targetSteps",
+                        targetSteps == null ? "/6000" : "/$targetSteps",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
@@ -748,15 +752,53 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   }
 
   countStep() {
-    _stepCountStream = Pedometer.stepCountStream.listen((value) {
-      setState(() {
+    _stepCountStream = Pedometer.stepCountStream.listen((value) async {
+      /*if(Platform.isIOS) {
+        var status = await Permission.activityRecognition.status;
+        print(status.toString());
+        if(status.isGranted){
+          if (!mounted) {
+            totalSteps = value.steps;
+            Preference.shared.setInt(Preference.TOTAL_STEPS, totalSteps!);
+            //Debug.printLog("total step count: $totalSteps");
+
+            currentStepCount = currentStepCount! + 1;
+            Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
+          } else{
+            setState(() {
+              totalSteps = value.steps;
+              Preference.shared.setInt(Preference.TOTAL_STEPS, totalSteps!);
+              //Debug.printLog("total step count: $totalSteps");
+
+              currentStepCount = currentStepCount! + 1;
+              Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
+            });
+          }
+          calculateDistance();
+          calculateCalories();
+          getTodayStepsPercent();        } else if(status.isDenied) {
+          await Geolocator.openAppSettings();
+        } else {
+          await Permission.activityRecognition.request();
+        }
+      }*/
+      if (!mounted) {
         totalSteps = value.steps;
         Preference.shared.setInt(Preference.TOTAL_STEPS, totalSteps!);
         //Debug.printLog("total step count: $totalSteps");
 
         currentStepCount = currentStepCount! + 1;
         Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
-      });
+      } else{
+        setState(() {
+          totalSteps = value.steps;
+          Preference.shared.setInt(Preference.TOTAL_STEPS, totalSteps!);
+          //Debug.printLog("total step count: $totalSteps");
+
+          currentStepCount = currentStepCount! + 1;
+          Preference.shared.setInt(Preference.CURRENT_STEPS, currentStepCount!);
+        });
+      }
       calculateDistance();
       calculateCalories();
       getTodayStepsPercent();
@@ -769,12 +811,13 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   getTodayStepsPercent() {
     var todayDate = getDate(DateTime.now()).toString();
     if (targetSteps == null) {
-      targetSteps = 1500;
+      targetSteps = 6000;
     }
     for (int i = 0; i < weekDates.length; i++) {
       if (todayDate == weekDates[i]) {
-        setState(() {
-          double value = currentStepCount!.toDouble() / targetSteps!.toDouble();
+        if (!mounted){
+          double value =
+              currentStepCount!.toDouble() / targetSteps!.toDouble();
           if (value <= 1.0) {
             if (stepsPercentValue!.isNotEmpty) {
               stepsPercentValue![i] = value;
@@ -782,9 +825,21 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
           } else {
             stepsPercentValue![i] = 1.0;
           }
-          /*Debug.printLog(
+        }else{
+          setState(() {
+            double value =
+                currentStepCount!.toDouble() / targetSteps!.toDouble();
+            if (value <= 1.0) {
+              if (stepsPercentValue!.isNotEmpty) {
+                stepsPercentValue![i] = value;
+              }
+            } else {
+              stepsPercentValue![i] = 1.0;
+            }
+            /*Debug.printLog(
               "value: $value  & dates[$i]: ${weekDates[i]}");*/
-        });
+          });
+        }
       }
     }
   }
@@ -799,7 +854,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         if (prefSteps != null) {
           targetStepController.text = prefSteps.toString();
         } else {
-          targetStepController.text = 1500.toString();
+          targetStepController.text = 6000.toString();
         }
         editTargetStepsBottomDialog(fullHeight, fullWidth);
       });
@@ -807,7 +862,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
     if (result == Constant.STR_RESET) {
       /*DataBaseHelper().insertSteps(StepsData(
-          steps: 15000,
+          steps: 150,
           targetSteps: 5000,
           cal: 200,
           distance: 2.48,
@@ -832,7 +887,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   }
 
   getPreference() {
-     targetSteps = Preference.shared.getInt(Preference.TARGET_STEPS) ?? 1500;
+     targetSteps = Preference.shared.getInt(Preference.TARGET_STEPS) ?? 6000;
      currentStepCount = Preference.shared.getInt(Preference.CURRENT_STEPS) ?? 0;
      oldTime = Preference.shared.getInt(Preference.OLD_TIME) ?? 0;
      duration = Preference.shared.getString(Preference.DURATION) ?? "00h 0";
@@ -881,7 +936,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   }
 
   calculateDistance() {
-    setState(() {
+    if(!mounted) {
       if (isKmSelected!) {
         distance = currentStepCount! * 0.0008;
         Preference.shared.setDouble(Preference.OLD_DISTANCE, distance!);
@@ -889,46 +944,28 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         distance = currentStepCount! * 0.0008 * 0.6214;
         Preference.shared.setDouble(Preference.OLD_DISTANCE, distance!);
       }
-      //Debug.printLog("Distance: $distance");
-    });
+    } else {
+      setState(() {
+        if (isKmSelected!) {
+          distance = currentStepCount! * 0.0008;
+          Preference.shared.setDouble(Preference.OLD_DISTANCE, distance!);
+        } else {
+          distance = currentStepCount! * 0.0008 * 0.6214;
+          Preference.shared.setDouble(Preference.OLD_DISTANCE, distance!);
+        }
+        //Debug.printLog("Distance: $distance");
+      });
+    }
   }
 
-  /*getDuration() {
-     oldTime = Preference.shared.getInt(Preference.OLD_TIME) ?? 0;
-    //Debug.printLog("t: $t");
-
-    
-
-    
-    //Debug.printLog("t: $d");
-
-    
-  }
-
-  getDistance() {
-    var distance =
-        Preference.shared.getDouble(Preference.OLD_DISTANCE) ?? 0;
-    //Debug.printLog("d: $dist");
-
-    
-  }
-
-  getCalories() {
-    height = Preference.shared.getInt(Preference.HEIGHT);
-    //Debug.printLog("Height: $height");
-
-    weight = Preference.shared.getInt(Preference.WEIGHT);
-    //Debug.printLog("Weight: $weight");
-
-    var calories = Preference.shared.getDouble(Preference.OLD_CALORIES) ?? 0;
-    //Debug.printLog("calories: $cal");
-
-    
-  }*/
 
   calculateCalories() {
-    setState(() {
-      /*var velocity;
+    if(!mounted) {
+      calories = currentStepCount! * 0.04;
+      Preference.shared.setDouble(Preference.OLD_CALORIES, calories!);
+    }else {
+      setState(() {
+        /*var velocity;
       if (time != 0) {
         velocity = (distance! * 1000) / (time! * 0.001);
         Debug.printLog("v: $velocity");
@@ -936,12 +973,13 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         velocity = (distance! * 1000) / (oldTime! * 0.001);
         Debug.printLog("v: $velocity");
       }*/
-      calories = currentStepCount! * 0.04;
-      //Debug.printLog("cal: $cal");
-      //calories = ((0.035*weight!)+((velocity*velocity)/(height!*0.01))) * 0.029 *weight!;
-      Preference.shared.setDouble(Preference.OLD_CALORIES, calories!);
-      //Debug.printLog("Calories: $calories");
-    });
+        calories = currentStepCount! * 0.04;
+        //Debug.printLog("cal: $cal");
+        //calories = ((0.035*weight!)+((velocity*velocity)/(height!*0.01))) * 0.029 *weight!;
+        Preference.shared.setDouble(Preference.OLD_CALORIES, calories!);
+        //Debug.printLog("Calories: $calories");
+      });
+    }
   }
 
   setTime() {
@@ -961,7 +999,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       if (currentDate == oldDate.add(Duration(days: 1))) {
         DataBaseHelper().insertSteps(StepsData(
             steps: currentStepCount,
-            targetSteps: targetSteps != null ? targetSteps : 1500,
+            targetSteps: targetSteps != null ? targetSteps : 6000,
             cal: calories!.toInt(),
             distance: distance,
             duration: duration,
@@ -989,12 +1027,6 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       stepsData!.forEach((element) {
         if (element.stepDate == weekDates[i]) {
           isMatch = true;
-          /*var s;
-          if(element.targetSteps == null) {
-            s = 1500;
-          } else {
-            s = element.targetSteps!;
-          }*/
           setState(() {
             double value = element.steps!.toDouble() / targetSteps!.toDouble();
             if (value <= 1.0) {

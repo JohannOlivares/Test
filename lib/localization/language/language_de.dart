@@ -287,10 +287,10 @@ class LanguageDe extends Languages {
   String get txtWeek => "Woche";
 
   @override
-  String get txtAvgPace => "Durchschnittliches Tempo";
+  String get txtAvgPace => "Durchschnit\ntliches Tempo";
 
   @override
-  String get txtTotalHours => "Gesamtstunden";
+  String get txtTotalHours => "Gesamt-Hours";
 
   @override
   String get txtTotalKCAL => "Gesamt-KCAL";
@@ -305,7 +305,7 @@ class LanguageDe extends Languages {
   String get txtKcal => "Kcal";
 
   @override
-  String get txtMile => "Meile";
+  String get txtMile => "Mile";
 
   @override
   String get txtSteps => "Schritte";

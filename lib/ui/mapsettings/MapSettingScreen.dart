@@ -88,7 +88,7 @@ class _MapSettingScreenState extends State<MapSettingScreen>
                     Expanded(
                       child: Text(
                         Languages.of(context)!.txtMetricAndImperialUnits,
-                        textAlign: TextAlign.left,
+                        //textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colur.txt_white,
                             fontSize: 18,

@@ -296,10 +296,10 @@ class LanguageAr extends Languages {
   String get txtTotalKCAL => "مجموع السعرات الحرارية";
 
   @override
-  String get txtMinMi => "دقيقة / ميل";
+  String get txtMinMi => "دقيقة/ميل";
 
   @override
-  String get txtMinKm => "دقيقة / كم";
+  String get txtMinKm => "دقيقة/كم";
 
   @override
   String get txtKcal => "سعر حراري";
