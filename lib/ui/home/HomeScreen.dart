@@ -4,6 +4,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
@@ -24,6 +25,7 @@ import 'package:intl/intl.dart';
 import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
 import '../../localization/language/languages.dart';
+import '../../main.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -58,7 +60,23 @@ class _HomeScreenState extends State<HomeScreen>
     _getBestRecordsDataForLongestDuration();
     _getSumOfHighIntensity();
     _getSumOfLowIntensity();
+
+    _initNotificationListener();
+
     super.initState();
+  }
+
+  _initNotificationListener() async {
+    final NotificationAppLaunchDetails? notificationAppLaunchDetails =
+        await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+
+    if(notificationAppLaunchDetails != null)
+    {
+      if(notificationAppLaunchDetails.payload != Constant.STR_RUNNING_REMINDER)
+      {
+        Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> DrinkWaterLevelScreen())));
+      }
+    }
   }
 
   _getPreference() {

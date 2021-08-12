@@ -13,6 +13,7 @@ import 'package:run_tracker/ui/useLocation/UseLocationScreen.dart';
 import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
 import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
+import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
 
@@ -84,6 +85,12 @@ Future<void> main() async {
     if (payload != null) {
       debugPrint('notification payload: $payload');
     }
+
+    if(payload != Constant.STR_RUNNING_REMINDER)
+      {
+        Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> DrinkWaterLevelScreen())));
+      }
+
     selectedNotificationPayload = payload;
     selectNotificationSubject.add(payload);
   });
@@ -100,6 +107,7 @@ Future<void> _configureLocalTimeZone() async {
 }
 
 class MyApp extends StatefulWidget {
+  static final navigatorKey = new GlobalKey<NavigatorState>();
   /*final FlutterDatabase? database;
 
   MyApp(this.database);*/
@@ -149,6 +157,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        navigatorKey: MyApp.navigatorKey,
         builder: (context, child) {
           return MediaQuery(
             child: child!,
