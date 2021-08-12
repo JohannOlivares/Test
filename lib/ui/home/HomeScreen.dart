@@ -861,13 +861,17 @@ class _HomeScreenState extends State<HomeScreen>
     if(Platform.isAndroid){
       var status = await Permission.activityRecognition.status;
       if(status.isDenied) {
-        await Permission.activityRecognition.request();
-        if(!status.isGranted)
+        var status2 =await Permission.activityRecognition.request();
+        if(!status2.isGranted)
           stepsPermissionDialog();
         return;
-
       }
 
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => StepsTrackerScreen()));
+    }else{
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -881,17 +885,16 @@ class _HomeScreenState extends State<HomeScreen>
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text(Languages.of(context)!.txtPleaseGivePermissionFromSettings),
-            content: Text(""),
+            title: Text(Languages.of(context)!.txtPleaseGivePermissionForActivity),
             actions: [
               TextButton(
-                child: Text(Languages.of(context)!.txtCancel.toUpperCase()),
+                child: Text(Languages.of(context)!.txtCancel.toUpperCase(),style: TextStyle(fontSize: 16),),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               TextButton(
-                child: Text(Languages.of(context)!.txtGotoSettings.toUpperCase()),
+                child: Text(Languages.of(context)!.txtGotoSettings.toUpperCase(),style: TextStyle(fontSize: 16),),
                 onPressed: () async {
                   openAppSettings();
                 },

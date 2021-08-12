@@ -557,4 +557,8 @@ class LanguageEs extends Languages {
   @override
   String get txtExit => "Salida";
 
+  @override
+  String get txtPleaseGivePermissionForActivity =>
+      "Please give us access to Detect You Activity For Steps";
+
 }

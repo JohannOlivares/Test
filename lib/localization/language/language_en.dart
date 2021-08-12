@@ -555,4 +555,8 @@ class LanguageEn extends Languages {
 
   @override
   String get txtExit => "Exit";
+
+  @override
+  String get txtPleaseGivePermissionForActivity =>
+      "Please give us access to Detect You Activity For Steps";
 }

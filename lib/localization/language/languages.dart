@@ -253,6 +253,8 @@ abstract class Languages {
 
   String get txtPleaseGivePermissionFromSettings;
 
+  String get txtPleaseGivePermissionForActivity;
+
   String get txtWeNeedYourLocation;
 
   String get txtLongPressToUnlock;

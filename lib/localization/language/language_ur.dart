@@ -558,4 +558,9 @@ class LanguageUr extends Languages {
   @override
   String get txtExit => "باہر نکلیں";
 
+
+  @override
+  String get txtPleaseGivePermissionForActivity =>
+      "Please give us access to Detect You Activity For Steps";
+
 }
