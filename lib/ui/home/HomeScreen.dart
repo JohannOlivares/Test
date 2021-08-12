@@ -885,13 +885,13 @@ class _HomeScreenState extends State<HomeScreen>
             content: Text(""),
             actions: [
               TextButton(
-                child: Text(Languages.of(context)!.txtCancel),
+                child: Text(Languages.of(context)!.txtCancel.toUpperCase()),
                 onPressed: () {
                   Navigator.of(context).pop();
                 },
               ),
               TextButton(
-                child: Text(Languages.of(context)!.txtGotoSettings),
+                child: Text(Languages.of(context)!.txtGotoSettings.toUpperCase()),
                 onPressed: () async {
                   openAppSettings();
                 },
