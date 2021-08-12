@@ -105,7 +105,6 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
         await DataBaseHelper().selectTodayDrinkWater(Utils.getCurrentDate());
     _getChartDataForDrinkWater();
     _getDailyDrinkWaterAverage();
-    _getDailyDrinkWaterAverage();
     List<PendingNotificationRequest> notificationList =
         await flutterLocalNotificationsPlugin.pendingNotificationRequests();
 
@@ -568,10 +567,10 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             margin: const EdgeInsets.only(top: 20.0),
             child: Text(
               drinkWaterAverage != null
-                  ? Languages.of(context)!.txtDailyAverage +
+                  ? Languages.of(context)!.txtWeeklyAverage +
                       " : " +
-                      drinkWaterAverage!
-                  : Languages.of(context)!.txtDailyAverage + " :0",
+                      drinkWaterAverage!+" "+Languages.of(context)!.txtMl
+                  : Languages.of(context)!.txtWeeklyAverage + " :0 "+Languages.of(context)!.txtMl,
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,

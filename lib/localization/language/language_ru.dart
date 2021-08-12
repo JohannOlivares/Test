@@ -266,9 +266,6 @@ class LanguageRu extends Languages {
   String get txtMyProgress => "Мой прогресс";
 
   @override
-  String get txtDailyAverage => "В среднем за день";
-
-  @override
   String get txtTotalKM => "Всего KM";
 
   @override
@@ -550,4 +547,13 @@ class LanguageRu extends Languages {
 
   @override
   String get txtMonth => "Месяц";
+
+  @override
+  String get txtWeeklyAverage => "Среднее значение за неделю";
+
+  @override
+  String get txtExitMessage => "Вы уверены, что уйдете?";
+
+  @override
+  String get txtExit => "Выход";
 }

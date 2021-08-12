@@ -266,9 +266,6 @@ class LanguageEs extends Languages {
   String get txtMyProgress => "Mi progreso";
 
   @override
-  String get txtDailyAverage => "Promedio diario";
-
-  @override
   String get txtTotalKM => "KM Totales";
 
   @override
@@ -550,5 +547,14 @@ class LanguageEs extends Languages {
 
   @override
   String get txtMonth => "Mes";
+
+  @override
+  String get txtWeeklyAverage => "Promedio semanal";
+
+  @override
+  String get txtExitMessage => "¿Estás segura de salir?";
+
+  @override
+  String get txtExit => "Salida";
 
 }

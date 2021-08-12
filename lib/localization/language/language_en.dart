@@ -266,7 +266,7 @@ class LanguageEn extends Languages {
   String get txtMyProgress => "My progress";
 
   @override
-  String get txtDailyAverage => "Daily average";
+  String get txtWeeklyAverage => "Weekly average";
 
   @override
   String get txtTotalKM => "Total KM";
@@ -539,6 +539,9 @@ class LanguageEn extends Languages {
   String get txtShareMapMsg => "Hey, I have completed my goal.";
 
   @override
+  String get txtExitMessage => "Are you Sure to Exit ?";
+
+  @override
   String get txtNoDataFound => "No Data Found";
 
   @override
@@ -549,4 +552,7 @@ class LanguageEn extends Languages {
 
   @override
   String get txtMonth => "Month";
+
+  @override
+  String get txtExit => "Exit";
 }

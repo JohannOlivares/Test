@@ -266,9 +266,6 @@ class LanguageAr extends Languages {
   String get txtMyProgress => "تقدمي";
 
   @override
-  String get txtDailyAverage => "المتوسط اليومي";
-
-  @override
   String get txtTotalKM => "مجموع كيلومترات";
 
   @override
@@ -550,4 +547,13 @@ class LanguageAr extends Languages {
 
   @override
   String get txtMonth => "شهر";
+
+  @override
+  String get txtWeeklyAverage => "المتوسط الأسبوعي";
+
+  @override
+  String get txtExitMessage => "هل أنت متأكد من الخروج؟";
+
+  @override
+  String get txtExit => "مخرج";
 }

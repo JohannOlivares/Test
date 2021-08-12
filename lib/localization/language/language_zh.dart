@@ -266,7 +266,7 @@ class LanguageZh extends Languages {
   String get txtMyProgress => "我的进步";
 
   @override
-  String get txtDailyAverage => "日均";
+  String get txtWeeklyAverage => "周平均";
 
   @override
   String get txtTotalKM => "总公里数";
@@ -550,5 +550,11 @@ class LanguageZh extends Languages {
 
   @override
   String get txtMonth => "月";
+
+  @override
+  String get txtExitMessage => "你确定要退出吗？";
+
+  @override
+  String get txtExit => "出口";
 
 }

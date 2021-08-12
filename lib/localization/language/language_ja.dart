@@ -265,8 +265,6 @@ class LanguageJa extends Languages {
   @override
   String get txtMyProgress => "私の進歩";
 
-  @override
-  String get txtDailyAverage => "1日平均";
 
   @override
   String get txtTotalKM => "総KM";
@@ -550,5 +548,14 @@ class LanguageJa extends Languages {
 
   @override
   String get txtMonth => "月";
+
+  @override
+  String get txtWeeklyAverage => "週平均";
+
+  @override
+  String get txtExitMessage => "終了してもよろしいですか？";
+
+  @override
+  String get txtExit => "出口";
 
 }

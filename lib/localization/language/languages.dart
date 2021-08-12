@@ -165,7 +165,7 @@ abstract class Languages {
 
   String get txtWeek;
 
-  String get txtDailyAverage;
+  String get txtWeeklyAverage;
 
   String get txtTodayRecords;
 
@@ -362,4 +362,7 @@ abstract class Languages {
   String get txtWriteSuggestionsHere;
 
   String get txtNoDataFound;
+
+  String get txtExitMessage;
+  String get txtExit;
 }

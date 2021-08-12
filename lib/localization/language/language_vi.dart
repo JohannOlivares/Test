@@ -266,9 +266,6 @@ class LanguageVi extends Languages {
   String get txtMyProgress => "Tiến trình của tôi";
 
   @override
-  String get txtDailyAverage => "Trung bình hàng ngày, trung bình mỗi ngày";
-
-  @override
   String get txtTotalKM => "Tổng số KM";
 
   @override
@@ -551,4 +548,12 @@ class LanguageVi extends Languages {
   @override
   String get txtMonth => "Tháng";
 
+  @override
+  String get txtWeeklyAverage => "Trung bình hàng tuần";
+
+  @override
+  String get txtExitMessage => "Bạn có chắc chắn thoát không?";
+
+  @override
+  String get txtExit => "Lối ra";
 }

@@ -266,9 +266,6 @@ class LanguageHi extends Languages {
   String get txtMyProgress => "मेरी तरक्की";
 
   @override
-  String get txtDailyAverage => "दैनिक औसत";
-
-  @override
   String get txtTotalKM => "कुल KM";
 
   @override
@@ -550,4 +547,13 @@ class LanguageHi extends Languages {
 
   @override
   String get txtMonth => "महीना";
+
+  @override
+  String get txtWeeklyAverage => "साप्ताहिक औसत";
+
+  @override
+  String get txtExitMessage => "क्या आप वाकई बाहर निकलना चाहते हों?";
+
+  @override
+  String get txtExit => "बाहर जाएं";
 }

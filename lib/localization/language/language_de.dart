@@ -266,9 +266,6 @@ class LanguageDe extends Languages {
   String get txtMyProgress => "Mein Fortschritt";
 
   @override
-  String get txtDailyAverage => "Täglicher Durchschnitt";
-
-  @override
   String get txtTotalKM => "Gesamt-KM";
 
   @override
@@ -549,5 +546,14 @@ class LanguageDe extends Languages {
 
   @override
   String get txtMonth => "Monat";
+
+  @override
+  String get txtWeeklyAverage => "Wochendurchschnitt";
+
+  @override
+  String get txtExitMessage => "Bist du sicher, dass du aufhören willst?";
+
+  @override
+  String get txtExit => "Ausgang";
 
 }

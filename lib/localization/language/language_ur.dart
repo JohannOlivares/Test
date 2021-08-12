@@ -265,8 +265,6 @@ class LanguageUr extends Languages {
   @override
   String get txtMyProgress => "میری ترقی۔";
 
-  @override
-  String get txtDailyAverage => "روزانہ اوسط۔";
 
   @override
   String get txtTotalKM => "کل KM";
@@ -550,5 +548,14 @@ class LanguageUr extends Languages {
 
   @override
   String get txtMonth => "مہینہ";
+
+  @override
+  String get txtWeeklyAverage => "ہفتہ وار اوسط۔";
+
+  @override
+  String get txtExitMessage => "کیا آپ باہر نکلنے کا یقین رکھتے ہیں؟";
+
+  @override
+  String get txtExit => "باہر نکلیں";
 
 }

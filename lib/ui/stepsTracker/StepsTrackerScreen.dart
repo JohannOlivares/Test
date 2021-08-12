@@ -30,7 +30,7 @@ class StepsTrackerScreen extends StatefulWidget {
 
 class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     implements TopBarClickListener {
-  bool? isPause; //= false; //true: tracker on nd false: tracker off
+  bool? isPause = true; //= false; //true: tracker on nd false: tracker off
 
   bool reset = false;
 
@@ -79,7 +79,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   }
 
   getisPauseFromPrefs() {
-    isPause = Preference.shared.getBool(Preference.IS_PAUSE) ?? false;
+    isPause = Preference.shared.getBool(Preference.IS_PAUSE) ?? true;
 
     if (isPause == true) {
       if (currentStepCount! > 0) {

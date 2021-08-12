@@ -1,5 +1,10 @@
+import 'dart:io';
+
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/localization/language/languages.dart';
@@ -170,25 +175,29 @@ class _HomeScreenState extends State<HomeScreen>
     var fullHeight = MediaQuery.of(context).size.height;
     var fullWidth = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      backgroundColor: Colur.common_bg_dark,
-      body: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              margin: EdgeInsets.only(left: fullWidth * 0.05),
-              child: CommonTopBar(
-                  Languages.of(context)!.txtRunTracker,
-                this,
-                isShowSubheader: true,
-                subHeader: Languages.of(context)!.txtGoFasterSmarter,
-                isInfo: true,
+    return WillPopScope(
+      onWillPop: () async {
+      ExitDialog();
+      return false;
+    },
+      child: Scaffold(
+        backgroundColor: Colur.common_bg_dark,
+        body: Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                margin: EdgeInsets.only(left: fullWidth * 0.05),
+                child: CommonTopBar(
+                    Languages.of(context)!.txtRunTracker,
+                  this,
+                  isShowSubheader: true,
+                  subHeader: Languages.of(context)!.txtGoFasterSmarter,
+                  isInfo: true,
+                ),
               ),
-            ),
-            Expanded(
-              child: SingleChildScrollView(
-                child: SafeArea(
+              Expanded(
+                child: SingleChildScrollView(
                   child: Container(
                     child: Column(
                       children: [
@@ -197,13 +206,9 @@ class _HomeScreenState extends State<HomeScreen>
                           child: Stack(
                             alignment: Alignment.bottomCenter,
                             children: [
-                              Padding(
-                                padding:
-                                    EdgeInsets.only(top: fullHeight * 0.04),
-                                child: isDistanceIndicatorSelected
-                                    ? percentIndicatorForDistance()
-                                    : percentIndicatorForIntensity(),
-                              ),
+                              isDistanceIndicatorSelected
+                                  ? percentIndicatorForDistance()
+                                  : percentIndicatorForIntensity(),
                               isDistanceIndicatorSelected
                                   ? weeklyGoalsDisplay()
                                   : walkOrRunCount(),
@@ -219,8 +224,8 @@ class _HomeScreenState extends State<HomeScreen>
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -547,7 +552,7 @@ class _HomeScreenState extends State<HomeScreen>
                 fit: BoxFit.cover,
               ),
               Padding(
-                padding: const EdgeInsets.all(12.0),
+                padding: const EdgeInsets.only(left:12.0,bottom: 12.0,top: 12.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -797,10 +802,8 @@ class _HomeScreenState extends State<HomeScreen>
         children: [
           InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => StepsTrackerScreen()));
+                _checkPermission();
+
               },
               child: Image.asset("assets/icons/ic_steps.png",
                   height: 90, width: fullWidth * 0.385)),
@@ -827,5 +830,74 @@ class _HomeScreenState extends State<HomeScreen>
       Navigator.push(context,
           MaterialPageRoute(builder: (context) => GoalSettingScreen()));
     }
+  }
+
+  void ExitDialog() {
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(Languages.of(context)!.txtExitMessage),
+              content: Text(""),
+              actions: [
+                TextButton(
+                  child: Text(Languages.of(context)!.txtCancel),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+                TextButton(
+                  child: Text(Languages.of(context)!.txtExit),
+                  onPressed: () async {
+                    SystemNavigator.pop();
+                  },
+                ),
+              ],
+            );
+          });
+  }
+
+  Future<void> _checkPermission() async {
+    if(Platform.isAndroid){
+      var status = await Permission.activityRecognition.status;
+      if(status.isDenied) {
+        await Permission.activityRecognition.request();
+        if(!status.isGranted)
+          stepsPermissionDialog();
+        return;
+
+      }
+
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => StepsTrackerScreen()));
+    }
+  }
+
+  void stepsPermissionDialog() {
+    showDialog(
+      barrierDismissible: false,
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(Languages.of(context)!.txtPleaseGivePermissionFromSettings),
+            content: Text(""),
+            actions: [
+              TextButton(
+                child: Text(Languages.of(context)!.txtCancel),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: Text(Languages.of(context)!.txtGotoSettings),
+                onPressed: () async {
+                  openAppSettings();
+                },
+              ),
+            ],
+          );
+        });
   }
 }
