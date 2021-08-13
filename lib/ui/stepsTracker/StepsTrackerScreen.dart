@@ -10,6 +10,7 @@ import 'package:pedometer/pedometer.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/StepsData.dart';
+import 'package:run_tracker/localization/locale_constant.dart';
 import 'package:run_tracker/ui/last7daysStepsStatistics/Last7DaysStepsScreen.dart';
 import 'package:run_tracker/ui/stepsTracker/StepsPopUpMenu.dart';
 import 'package:run_tracker/ui/stepsTrackerStatistics/StepsStatisticsScreen.dart';
@@ -67,7 +68,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   int? last7DaysSteps;
 
   List<String> allDaysInSingleWord =
-      DateFormat.EEEE().dateSymbols.NARROWWEEKDAYS;
+      DateFormat.EEEE(getLocale().languageCode).dateSymbols.NARROWWEEKDAYS;
 
   @override
   void initState() {

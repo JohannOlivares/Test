@@ -9,6 +9,7 @@ import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/localization/locale_constant.dart';
 import 'package:run_tracker/main.dart';
 import 'package:run_tracker/ui/drinkWaterSettings/DrinkWaterSettingsScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
@@ -35,7 +36,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   int touchedIndexForWaterChart = -1;
 
   var currentDate = DateTime.now();
-  var currentDay = DateFormat('EEEE').format(DateTime.now());
+  var currentDay = DateFormat('EEEE',getLocale().languageCode).format(DateTime.now());
   var startDateOfCurrentWeek;
   var endDateOfCurrentWeek;
   var formatStartDateOfCurrentWeek;
@@ -48,7 +49,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   List<WaterData> drinkWaterHistory = [];
   DateTime? nextDrinkTime;
 
-  List<String> allDays = DateFormat.EEEE().dateSymbols.SHORTWEEKDAYS;
+  List<String> allDays = DateFormat.EEEE(getLocale().languageCode).dateSymbols.SHORTWEEKDAYS;
 
   @override
   void initState() {
@@ -145,7 +146,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           .subtract(Duration(days: currentDate.weekday - prefSelectedDay!))
           .add(Duration(days: i)));
       String formatCurrentWeekDates = DateFormat.yMd().format(currentWeekDates);
-      allDays.add(DateFormat('EEEE').format(currentWeekDates));
+      allDays.add(DateFormat('EEEE',getLocale().languageCode).format(currentWeekDates));
       dates.add(formatCurrentWeekDates);
     }
     total = await DataBaseHelper.getTotalDrinkWaterAllDays(dates);

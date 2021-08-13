@@ -133,18 +133,12 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void didChangeDependencies() async {
-    getLocale().then((locale) {
-      setState(() {
-        _locale = locale;
-        initializeDateFormatting(_locale!.languageCode);
-      });
-    });
+    _locale = getLocale();
     super.didChangeDependencies();
   }
 
   @override
   void initState() {
-
     isFirstTime();
     super.initState();
 

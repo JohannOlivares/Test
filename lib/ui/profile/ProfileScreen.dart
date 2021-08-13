@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:fl_chart/fl_chart.dart';
@@ -10,6 +12,7 @@ import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WaterData.dart';
 import 'package:run_tracker/dbhelper/datamodel/WeightData.dart';
+import 'package:run_tracker/localization/locale_constant.dart';
 import 'package:run_tracker/ui/recentActivities/RecentActivitiesScreen.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
@@ -29,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int touchedIndexForHartHealthChart = -1;
 
   var currentDate = DateTime.now();
-  var currentDay = DateFormat('EEEE').format(DateTime.now());
+  var currentDay = DateFormat('EEEE',getLocale().languageCode).format(DateTime.now());
   var startDateOfCurrentWeek;
   var endDateOfCurrentWeek;
   var formatStartDateOfCurrentWeek;
@@ -39,7 +42,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   var formatStartDateOfPreviousWeek;
   var formatEndDateOfPreviousWeek;
 
-  List<String> allDays = DateFormat.EEEE().dateSymbols.SHORTWEEKDAYS;
+  List<String> allDays = DateFormat.EEEE(getLocale().languageCode).dateSymbols.STANDALONESHORTWEEKDAYS;
 
   bool isNextWeek = false;
   bool isPreviousWeek = false;
@@ -55,6 +58,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     _fillData();
+
+    Debug.printLog(jsonEncode(allDays));
 
     isPreviousWeek = true;
     isNextWeek = false;
@@ -133,7 +138,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       String formatCurrentWeekDates =
           DateFormat.yMMMd().format(currentWeekDates);
 
-      allDays.add(DateFormat('EEEE').format(currentWeekDates));
+      allDays.add(DateFormat('EEEE',getLocale().languageCode).format(currentWeekDates));
 
       dates.add(formatCurrentWeekDates);
     }
@@ -165,7 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .add(Duration(days: i)));
       String formatCurrentWeekDates = DateFormat.yMd().format(currentWeekDates);
 
-      allDays.add(DateFormat('EEEE').format(currentWeekDates));
+      allDays.add(DateFormat('EEEE',getLocale().languageCode).format(currentWeekDates));
 
       dates.add(formatCurrentWeekDates);
     }

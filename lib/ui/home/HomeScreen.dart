@@ -9,6 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/localization/locale_constant.dart';
 import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/goalSetScreen/GoalSettingScreen.dart';
 import 'package:run_tracker/ui/recentActivities/RecentActivitiesScreen.dart';
@@ -26,6 +27,7 @@ import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
 import '../../localization/language/languages.dart';
 import '../../main.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -62,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen>
     _getSumOfLowIntensity();
 
     _initNotificationListener();
+    initializeDateFormatting(getLocale().languageCode);
 
     super.initState();
   }
@@ -72,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     if(notificationAppLaunchDetails != null)
     {
-      if(notificationAppLaunchDetails.payload != Constant.STR_RUNNING_REMINDER)
+      if(notificationAppLaunchDetails.payload != null && notificationAppLaunchDetails.payload != Constant.STR_RUNNING_REMINDER)
       {
         Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> DrinkWaterLevelScreen())));
       }

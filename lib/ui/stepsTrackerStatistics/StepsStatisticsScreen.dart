@@ -7,6 +7,7 @@ import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/StepsData.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/localization/locale_constant.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:intl/intl.dart';
@@ -52,8 +53,8 @@ class _StepsTrackerStatisticsScreenState
   bool isMonthSelected = false;
   bool isWeekSelected = true;
 
-  List<String> allDays = DateFormat.EEEE().dateSymbols.WEEKDAYS;
-  List<String> allMonths = DateFormat.EEEE().dateSymbols.MONTHS;
+  List<String> allDays = DateFormat.EEEE(getLocale().languageCode).dateSymbols.WEEKDAYS;
+  List<String> allMonths = DateFormat.EEEE(getLocale().languageCode).dateSymbols.MONTHS;
 
   int? prefSelectedDay;
 

@@ -23,7 +23,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
   LanguageData? _languagesChosenValue = LanguageData.languageList()[0];
   List<LanguageData> languages =LanguageData.languageList();
   List<String>? days;
-  String? _daysChosenValue = DateFormat.EEEE().dateSymbols.WEEKDAYS[1];
+  String? _daysChosenValue = DateFormat.EEEE(getLocale().languageCode).dateSymbols.WEEKDAYS[1];
   String? prefDays, prefLanguage;
   TextEditingController _textFeedback = TextEditingController();
 
@@ -64,7 +64,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
     units = [Languages.of(context)!.txtKM.toUpperCase(), Languages.of(context)!.txtMile.toUpperCase()];
     if (_unitsChosenValue == null) _unitsChosenValue = units![0];
     if (_languagesChosenValue == null) _languagesChosenValue = languages[2];
-    List<String> allDays = DateFormat.EEEE().dateSymbols.STANDALONEWEEKDAYS;
+    List<String> allDays = DateFormat.EEEE(getLocale().languageCode).dateSymbols.STANDALONEWEEKDAYS;
     days = [
       allDays[0],
       allDays[1],
