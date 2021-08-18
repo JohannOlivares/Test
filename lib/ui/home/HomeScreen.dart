@@ -196,57 +196,51 @@ class _HomeScreenState extends State<HomeScreen>
     var fullHeight = MediaQuery.of(context).size.height;
     var fullWidth = MediaQuery.of(context).size.width;
 
-    return WillPopScope(
-      onWillPop: () async {
-      ExitDialog();
-      return false;
-    },
-      child: Scaffold(
-        backgroundColor: Colur.common_bg_dark,
-        body: Container(
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              Container(
-                margin: EdgeInsets.only(left: fullWidth * 0.05),
-                child: CommonTopBar(
-                    Languages.of(context)!.txtRunTracker,
-                  this,
-                  isShowSubheader: true,
-                  subHeader: Languages.of(context)!.txtGoFasterSmarter,
-                  isInfo: true,
-                ),
+    return Scaffold(
+      backgroundColor: Colur.common_bg_dark,
+      body: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            Container(
+              margin: EdgeInsets.only(left: fullWidth * 0.05),
+              child: CommonTopBar(
+                  Languages.of(context)!.txtRunTracker,
+                this,
+                isShowSubheader: true,
+                subHeader: Languages.of(context)!.txtGoFasterSmarter,
+                isInfo: true,
               ),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Container(
-                    child: Column(
-                      children: [
-                        //Circular percent Indicator
-                        Container(
-                          child: Stack(
-                            alignment: Alignment.bottomCenter,
-                            children: [
-                              isDistanceIndicatorSelected
-                                  ? percentIndicatorForDistance()
-                                  : percentIndicatorForIntensity(),
-                              isDistanceIndicatorSelected
-                                  ? weeklyGoalsDisplay()
-                                  : walkOrRunCount(),
-                            ],
-                          ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Container(
+                  child: Column(
+                    children: [
+                      //Circular percent Indicator
+                      Container(
+                        child: Stack(
+                          alignment: Alignment.bottomCenter,
+                          children: [
+                            isDistanceIndicatorSelected
+                                ? percentIndicatorForDistance()
+                                : percentIndicatorForIntensity(),
+                            isDistanceIndicatorSelected
+                                ? weeklyGoalsDisplay()
+                                : walkOrRunCount(),
+                          ],
                         ),
+                      ),
 
-                        stepsAndWaterButtons(fullHeight, fullWidth),
-                        recentActivities(fullHeight, fullWidth),
-                        bestRecords(fullHeight, fullWidth,isKmSelected),
-                      ],
-                    ),
+                      stepsAndWaterButtons(fullHeight, fullWidth),
+                      recentActivities(fullHeight, fullWidth),
+                      bestRecords(fullHeight, fullWidth,isKmSelected),
+                    ],
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -857,30 +851,7 @@ class _HomeScreenState extends State<HomeScreen>
     }
   }
 
-  void ExitDialog() {
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(Languages.of(context)!.txtExitMessage),
-              content: Text(""),
-              actions: [
-                TextButton(
-                  child: Text(Languages.of(context)!.txtCancel),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-                TextButton(
-                  child: Text(Languages.of(context)!.txtExit),
-                  onPressed: () async {
-                    SystemNavigator.pop();
-                  },
-                ),
-              ],
-            );
-          });
-  }
+
 
   Future<void> _checkPermission() async {
     if(Platform.isAndroid){
