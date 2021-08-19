@@ -224,7 +224,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                                   activityList[index].cal!.toString(),
                                   style: TextStyle(
                                       fontWeight: FontWeight.w400,
-                                      fontSize: 15,
+                                      fontSize: 14,
                                       color: Colur.txt_grey),
                                 ),
                                 Padding(
@@ -233,7 +233,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                                     Languages.of(context)!.txtKcal,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 11,
+                                        fontSize: 14,
                                         color: Colur.txt_grey),
                                   ),
                                 ),

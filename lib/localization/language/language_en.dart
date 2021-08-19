@@ -539,7 +539,7 @@ class LanguageEn extends Languages {
   String get txtShareMapMsg => "Hey, I have completed my goal.";
 
   @override
-  String get txtExitMessage => "Are you Sure to Exit ?";
+  String get txtExitMessage => "Are you sure you want to exit?";
 
   @override
   String get txtNoDataFound => "No Data Found";

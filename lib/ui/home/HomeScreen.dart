@@ -803,7 +803,7 @@ class _HomeScreenState extends State<HomeScreen>
                                     Languages.of(context)!.txtKcal,
                                     style: TextStyle(
                                         fontWeight: FontWeight.w400,
-                                        fontSize: 11,
+                                        fontSize: 15,
                                         color: Colur.txt_grey),
                                   ),
                                 ),

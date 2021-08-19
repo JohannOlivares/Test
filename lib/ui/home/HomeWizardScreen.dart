@@ -201,7 +201,7 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
                 },
               ),
               TextButton(
-                child: Text(Languages.of(context)!.txtExit),
+                child: Text(Languages.of(context)!.txtExit.toUpperCase()),
                 onPressed: () async {
                   SystemNavigator.pop();
                 },
