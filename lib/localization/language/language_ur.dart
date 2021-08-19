@@ -364,7 +364,7 @@ class LanguageUr extends Languages {
   String get txtHighIntensity => "انتہائی شدت";
 
   @override
-  String get txtModerateIntensity => "اعتدال پسندی۔";
+  String get txtModerateIntensity => "اعتدال\n پسندی۔";
 
   @override
   String get txtGotoSettings => "ترتیبات پر جائیں۔";

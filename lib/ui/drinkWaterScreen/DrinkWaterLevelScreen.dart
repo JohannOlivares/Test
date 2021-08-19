@@ -1,4 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -69,9 +70,9 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           days: DateTime.daysPerWeek - 5)));
     }
     formatStartDateOfCurrentWeek =
-        DateFormat.MMMd().format(startDateOfCurrentWeek);
+        DateFormat.MMMd(getLocale().languageCode).format(startDateOfCurrentWeek);
     formatEndDateOfCurrentWeek =
-        DateFormat.MMMd().format(endDateOfCurrentWeek);
+        DateFormat.MMMd(getLocale().languageCode).format(endDateOfCurrentWeek);
     super.initState();
   }
 
@@ -639,7 +640,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
 
   _todayHistory(double fullheight, double fullwidth) {
     return Container(
-      margin: const EdgeInsets.only(left: 20, top: 50),
+      margin: const EdgeInsets.only(left: 20, top: 50, right: 20),
       child: Row(
         children: [
           Container(
@@ -677,6 +678,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   }
 
   _reminderHistory(double fullheight, double fullwidth) {
+    bool prefReminder = Preference.shared.getBool(Preference.IS_REMINDER_ON) ?? false;
     return Container(
       margin: const EdgeInsets.only(left: 15, right: 20, top: 50),
       child: Column(
@@ -685,12 +687,13 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             child: Row(
               children: [
                 Container(
-                  margin: const EdgeInsets.only(right: 15),
+                  //margin: const EdgeInsets.only(right: 15),
                   child: Image.asset(
                     'assets/icons/ic_clock_reminder.png',
                     scale: 3.5,
                   ),
                 ),
+                SizedBox(width: 15),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -698,7 +701,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                       Container(
                         margin: const EdgeInsets.only(),
                         child: Text(
-                          (nextDrinkTime != null)
+                          (nextDrinkTime != null && prefReminder == true)
                               ? "${DateFormat.jm().format(nextDrinkTime!)}"
                               : Languages.of(context)!.txtTurnedOff,
                           style: TextStyle(
@@ -767,14 +770,15 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
 
   _itemDrinkWaterHistory(BuildContext context, int index) {
     return Container(
-      margin: const EdgeInsets.only(left: 20, right: 0, top: 10),
+      margin: const EdgeInsets.only(left: 20, right: 20, top: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            width: double.infinity,
+            //width: double.infinity,
             height: 30.0,
             margin: const EdgeInsets.only(bottom: 10),
-            alignment: Alignment.centerLeft,
+            //alignment: Alignment.centerLeft,
             child: VerticalDivider(
               color: Colur.txt_grey,
               thickness: 2.5,
@@ -792,9 +796,10 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                     fit: BoxFit.contain,
                   ),
                 ),
+                SizedBox(width: 15,),
                 Expanded(
                   child: Container(
-                    margin: const EdgeInsets.only(left: 15.0),
+                    //margin: const EdgeInsets.only(left: 15.0),
                     child: Text(
                       // "${DateFormat().add_jm().format(DateTime.now()).toString()}",
                       "${drinkWaterHistory[index].time}",

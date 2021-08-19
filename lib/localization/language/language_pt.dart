@@ -266,7 +266,7 @@ class LanguagePt extends Languages {
   String get txtMyProgress => "Meu progresso";
 
   @override
-  String get txtTotalKM => "KM total";
+  String get txtTotalKM => "Total de KM";
 
   @override
   String get txtDrinkWater => "Beber água";
@@ -293,7 +293,7 @@ class LanguagePt extends Languages {
   String get txtTotalHours => "Total de horas";
 
   @override
-  String get txtTotalKCAL => "KCAL total";
+  String get txtTotalKCAL => "Total de KCAL";
 
   @override
   String get txtMinMi => "Min/mi";
@@ -363,7 +363,7 @@ class LanguagePt extends Languages {
   String get txtHighIntensity => "Alta intensidade";
 
   @override
-  String get txtModerateIntensity => "Intensidade \n moderada";
+  String get txtModerateIntensity => "Intensidade \nmoderada";
 
   @override
   String get txtGotoSettings => "Vá para as configurações";
@@ -540,7 +540,7 @@ class LanguagePt extends Languages {
   String get txtNoDataFound => "Nenhum dado encontrado";
 
   @override
-  String get txtTotalMile => "Milha Total";
+  String get txtTotalMile => "Total de Milha";
 
   @override
   String get txtAverage => "Média";

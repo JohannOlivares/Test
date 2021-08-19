@@ -115,7 +115,7 @@ class LanguageHi extends Languages {
       "रन ट्रैकर पृष्ठभूमि में आपके स्थान का उपयोग नक्शे पर चलने, दौड़ने और बाइक की सवारी दिखाने के लिए करेगा।";
 
   @override
-  String get txtGoFasterSmarter => "तेज़ और होशियार हो जाओ";
+  String get txtGoFasterSmarter => "तेजी और होसियारी से जाओ";
 
   @override
   String get txtSettings => "समायोजन";
@@ -422,7 +422,7 @@ class LanguageHi extends Languages {
 
   @override
   String get txtDeleteConfirmationMessage =>
-      "क्या आप सुनिश्चित हैं कि क्या आप इस डेटा को हटाना चाहते हैं?";
+      "क्या आप सुनिश्चित हैं कि आप इस डेटा को हटाना चाहते हैं?";
 
   @override
   String get txtDeleteHitory => "हिस्ट्री हटाएं";

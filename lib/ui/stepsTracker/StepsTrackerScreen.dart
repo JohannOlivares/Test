@@ -282,6 +282,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                   builder: (context, snapshot) {
                     time = snapshot.hasData ? snapshot.data! + oldTime! : 0;
                     Preference.shared.setInt(Preference.OLD_TIME, time!);
+                    //Debug.printLog("time: $time");
 
                     duration = StopWatchTimer.getDisplayTime(
                       time!,
@@ -925,6 +926,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       oldTime = 0;
       _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
     });
+    if(isPause!) _stopWatchTimer.onExecute.add(StopWatchExecute.start);
 
     var todayDate = getDate(DateTime.now()).toString();
     for (int i = 0; i < weekDates.length; i++) {
@@ -997,7 +999,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     //Debug.printLog("Current Date: $currentDate");
 
     if (oldDate != null) {
-      if (currentDate == oldDate.add(Duration(days: 1))) {
+      if (currentDate != oldDate) {
         DataBaseHelper().insertSteps(StepsData(
             steps: currentStepCount,
             targetSteps: targetSteps != null ? targetSteps : 6000,

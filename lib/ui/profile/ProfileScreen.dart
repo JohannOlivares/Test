@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int touchedIndexForHartHealthChart = -1;
 
   var currentDate = DateTime.now();
-  var currentDay = DateFormat('EEEE',getLocale().languageCode).format(DateTime.now());
+  var currentDay;
   var startDateOfCurrentWeek;
   var endDateOfCurrentWeek;
   var formatStartDateOfCurrentWeek;
@@ -278,8 +278,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
           getDate(currentDate.add(Duration(days: DateTime.daysPerWeek - 5)));
     }
     formatStartDateOfCurrentWeek =
-        DateFormat.MMMd().format(startDateOfCurrentWeek);
-    formatEndDateOfCurrentWeek = DateFormat.MMMd().format(endDateOfCurrentWeek);
+        DateFormat.MMMd(getLocale().languageCode).format(startDateOfCurrentWeek);
+    formatEndDateOfCurrentWeek = DateFormat.MMMd(getLocale().languageCode).format(endDateOfCurrentWeek);
 
     startDateOfPreviousWeek = getDate(currentDate.subtract(
         Duration(days: (currentDate.weekday - prefSelectedDay!) + 7)));
@@ -295,9 +295,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
 
     formatStartDateOfPreviousWeek =
-        DateFormat.MMMd().format(startDateOfPreviousWeek);
+        DateFormat.MMMd(getLocale().languageCode).format(startDateOfPreviousWeek);
     formatEndDateOfPreviousWeek =
-        DateFormat.MMMd().format(endDateOfPreviousWeek);
+        DateFormat.MMMd(getLocale().languageCode).format(endDateOfPreviousWeek);
   }
 
   String? weightAverage;
@@ -348,6 +348,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    currentDay = DateFormat('EEEE',getLocale().languageCode).format(DateTime.now());
     return Scaffold(
       backgroundColor: Colur.common_bg_dark,
       body: Container(
@@ -948,7 +949,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     getTitles: (double value) {
                       if (allDays.isNotEmpty) {
                         if (allDays[value.toInt()] == currentDay) {
-                          return Languages.of(context)!.txtToday;
+                          return Languages.
+                          of(context)!.txtToday;
                         } else {
                           return allDays[value.toInt()].substring(0, 3);
                         }

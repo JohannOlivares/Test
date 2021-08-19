@@ -366,7 +366,7 @@ class LanguageZh extends Languages {
   String get txtHighIntensity => "高强度";
 
   @override
-  String get txtModerateIntensity => "中等\强度";
+  String get txtModerateIntensity => "中等强度";
 
   @override
   String get txtGotoSettings => "前往设置";

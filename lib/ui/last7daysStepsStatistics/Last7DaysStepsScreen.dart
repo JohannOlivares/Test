@@ -6,6 +6,7 @@ import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/StepsData.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/localization/locale_constant.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:intl/intl.dart';
@@ -91,7 +92,7 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
       child: Column(
         children: [
           Text(
-            DateFormat.MMMd("en_US").format(DateTime.parse(dates[0])) + " - "+ DateFormat.MMMd("en_US").format(DateTime.parse(dates[6])),
+            DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[0])) + " - "+ DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[6])),
             style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w500,
@@ -126,25 +127,25 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
                       String day;
                       switch(group.x.toInt()) {
                         case 0:
-                          day = DateFormat.MMMd("en_US").format(DateTime.parse(dates[0]));
+                          day = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[0]));
                           break;
                         case 1:
-                          day = DateFormat.MMMd("en_US").format(DateTime.parse(dates[1]));
+                          day = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[1]));
                           break;
                         case 2:
-                          day = DateFormat.MMMd("en_US").format(DateTime.parse(dates[2]));
+                          day = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[2]));
                           break;
                         case 3:
-                          day = DateFormat.MMMd("en_US").format(DateTime.parse(dates[3]));
+                          day = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[3]));
                           break;
                         case 4:
-                          day = DateFormat.MMMd("en_US").format(DateTime.parse(dates[4]));
+                          day = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[4]));
                           break;
                         case 5:
-                          day = DateFormat.MMMd("en_US").format(DateTime.parse(dates[5]));
+                          day = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[5]));
                           break;
                         case 6:
-                          day = DateFormat.MMMd("en_US").format(DateTime.parse(dates[6]));
+                          day = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[6]));
                           break;
                         default:
                           throw Error();
@@ -215,19 +216,19 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
       getTitles:  (value) {
         switch(value.toInt()) {
           case 0:
-            return DateFormat.MMMd("en_US").format(DateTime.parse(dates[0]));
+            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[0]));
           case 1:
-            return DateFormat.MMMd("en_US").format(DateTime.parse(dates[1]));
+            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[1]));
           case 2:
-            return DateFormat.MMMd("en_US").format(DateTime.parse(dates[2]));
+            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[2]));
           case 3:
-            return DateFormat.MMMd("en_US").format(DateTime.parse(dates[3]));
+            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[3]));
           case 4:
-            return DateFormat.MMMd("en_US").format(DateTime.parse(dates[4]));
+            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[4]));
           case 5:
-            return DateFormat.MMMd("en_US").format(DateTime.parse(dates[5]));
+            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[5]));
           case 6:
-            return DateFormat.MMMd("en_US").format(DateTime.parse(dates[6]));
+            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[6]));
           default:
             return '';
         }

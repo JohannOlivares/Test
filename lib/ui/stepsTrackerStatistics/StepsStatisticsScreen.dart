@@ -43,7 +43,7 @@ class _StepsTrackerStatisticsScreenState
   int? totalStepsWeek = 0;
   double? avgStepsWeek = 0.0;
 
-  var currentDay = DateFormat('EEEE').format(DateTime.now());
+  var currentDay = DateFormat('EEEE',getLocale().languageCode).format(DateTime.now());
 
   int touchedIndexForStepsChart = -1;
 
@@ -53,7 +53,7 @@ class _StepsTrackerStatisticsScreenState
   bool isMonthSelected = false;
   bool isWeekSelected = true;
 
-  List<String> allDays = DateFormat.EEEE(getLocale().languageCode).dateSymbols.WEEKDAYS;
+  List<String> allDays = DateFormat.EEEE(getLocale().languageCode).dateSymbols.STANDALONESHORTWEEKDAYS;
   List<String> allMonths = DateFormat.EEEE(getLocale().languageCode).dateSymbols.MONTHS;
 
   int? prefSelectedDay;
@@ -663,7 +663,7 @@ class _StepsTrackerStatisticsScreenState
           .add(Duration(days: i)));
       weekDates.add(currentWeekDates.toString());
       // Debug.printLog("date[$i] : ${currentWeekDates.toString()}");
-      allDays.add(DateFormat('EEEE').format(currentWeekDates));
+      allDays.add(DateFormat('EEEE',getLocale().languageCode).format(currentWeekDates));
     }
     stepsDataWeek = await DataBaseHelper().getStepsForCurrentWeek();
     for (int i = 0; i < weekDates.length; i++) {

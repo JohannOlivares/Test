@@ -12,8 +12,10 @@ import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/localization/locale_constant.dart';
 import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/goalSetScreen/GoalSettingScreen.dart';
+import 'package:run_tracker/ui/home/HomeWizardScreen.dart';
 import 'package:run_tracker/ui/recentActivities/RecentActivitiesScreen.dart';
 import 'package:run_tracker/ui/runhistorydetails/RunHistoryDetailScreen.dart';
+import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/ui/stepsTracker/StepsTrackerScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
@@ -68,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen>
 
     super.initState();
   }
-
+  bool? redirect;
   _initNotificationListener() async {
     final NotificationAppLaunchDetails? notificationAppLaunchDetails =
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
@@ -79,6 +81,14 @@ class _HomeScreenState extends State<HomeScreen>
       {
         Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> DrinkWaterLevelScreen())));
       }
+      /*else if (redirect != true)
+      {
+        if(notificationAppLaunchDetails.payload != null && notificationAppLaunchDetails.payload == Constant.STR_RUNNING_REMINDER) {
+          redirect = true;
+          Preference.shared.setBool(Preference.IS_REDIRECT, redirect!);
+          Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> StartRunScreen())));
+        }
+      }*/
     }
   }
 
@@ -92,6 +102,7 @@ class _HomeScreenState extends State<HomeScreen>
     walkTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_WALKTIME)??150;
     runTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_RUNTIME)??75;
     prefSelectedDay = Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM) ?? 1;
+    redirect = Preference.shared.getBool(Preference.IS_REDIRECT) ?? false;
   }
 
   RunningData? longestDistance;

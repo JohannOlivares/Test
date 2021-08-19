@@ -86,10 +86,11 @@ Future<void> main() async {
       debugPrint('notification payload: $payload');
     }
 
-    if(payload != Constant.STR_RUNNING_REMINDER)
-      {
+    if(payload != null && payload != Constant.STR_RUNNING_REMINDER) {
         Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> DrinkWaterLevelScreen())));
-      }
+    } else if(payload != null && payload == Constant.STR_RUNNING_REMINDER){
+      Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> StartRunScreen())));
+    }
 
     selectedNotificationPayload = payload;
     selectNotificationSubject.add(payload);

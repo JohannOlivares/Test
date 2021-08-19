@@ -130,6 +130,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
     return Container(
       margin: EdgeInsets.only(top: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [

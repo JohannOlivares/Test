@@ -363,7 +363,7 @@ class LanguageFr extends Languages {
   String get txtHighIntensity => "Haute intensité";
 
   @override
-  String get txtModerateIntensity => "\nintensité modérée";
+  String get txtModerateIntensity => "intensité \nmodérée";
 
   @override
   String get txtGotoSettings => "Aller aux paramètres";

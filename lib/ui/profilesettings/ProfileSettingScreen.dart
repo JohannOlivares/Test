@@ -25,6 +25,7 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
   List<String>? days;
   String? _daysChosenValue = DateFormat.EEEE(getLocale().languageCode).dateSymbols.WEEKDAYS[1];
   String? prefDays, prefLanguage;
+  int? prefDayInNum;
   TextEditingController _textFeedback = TextEditingController();
 
   bool kmSelected = true;
@@ -42,11 +43,19 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
     } else {
       _languagesChosenValue = languages.where((element) => (element.languageCode == prefLanguage)).toList()[0];
     }
-    prefDays = Preference.shared.getString(Preference.FIRST_DAY_OF_WEEK);
+    /*prefDays = Preference.shared.getString(Preference.FIRST_DAY_OF_WEEK);
     if (prefDays == null) {
       _daysChosenValue = days![1];
     } else {
       _daysChosenValue = prefDays;
+    }*/
+    prefDayInNum = Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM) ?? 1;
+    if(prefDayInNum == 1) {
+      _daysChosenValue = days![1];
+    } else if(prefDayInNum == 0){
+      _daysChosenValue = days![0];
+    } else{
+      _daysChosenValue = days![2];
     }
     kmSelected =
         Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
