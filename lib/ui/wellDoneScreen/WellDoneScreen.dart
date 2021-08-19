@@ -52,19 +52,20 @@ class _WellDoneScreenState extends State<WellDoneScreen>
     return Scaffold(
         backgroundColor: Colur.common_bg_dark,
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                child: CommonTopBar(
-                  "",
-                  this,
-                  isClose: true,
-                  isDelete: true,
-                ),
-              ),
-              Stack(
-                  alignment: Alignment.topCenter,
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Container(
+            child: Stack(
+              children: [
+                Column(
                   children: [
+                    Container(
+                      child: CommonTopBar(
+                        "",
+                        this,
+                        isClose: true,
+                        isDelete: true,
+                      ),
+                    ),
                     Container(
                       margin: EdgeInsets.only(
                         left: 20,
@@ -73,7 +74,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                       child: Column(
                         children: [
                           Container(
-                            margin: EdgeInsets.only(top: fullheight * 0.19,bottom: 25),
+                            margin: EdgeInsets.only(top: fullheight * 0.12,bottom: 25),
                             child: Text(
                               Languages.of(context)!.txtWellDone.toUpperCase(),
                               style: TextStyle(
@@ -90,27 +91,31 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                         ],
                       ),
                     ),
-                    Container(
-                      width: fullwidth,
-                      height: fullheight,
-                      child: lottie.Lottie.asset(
-                          'assets/animation/congratulation.json',
-                          repeat: false,
-                          alignment: Alignment.topCenter
-                      ),
+                  ],
+                ),  SafeArea(
+                  child: Container(
+                    alignment: Alignment.topCenter,
+                    child: lottie.Lottie.asset(
+                      'assets/animation/thumbs_up.json',
+                      width: 200,
+                      height: 200,
+                      repeat: true,
                     ),
-                    Container(
-                      child: lottie.Lottie.asset(
-                        'assets/animation/thumbs_up.json',
-                        width: 200,
-                        height: 200,
-                        repeat: true,
-                      ),
+                  ),
+                ),
+                SafeArea(
+                  child: Container(
+                    width: fullwidth,
+                    height: fullheight,
+                    child: lottie.Lottie.asset(
+                        'assets/animation/congratulation.json',
+                        repeat: false,
+                        alignment: Alignment.topCenter
                     ),
-
-                  ]
-              ),
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ));
   }
@@ -455,7 +460,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           GradientButtonSmall(
-                            width: 160,
+                            width: 140,
                             height: 60,
                             radius: 10.0,
                             child: Text(
@@ -553,7 +558,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                             },
                           ),
                           GradientButtonSmall(
-                            width: 160,
+                            width: 140,
                             height: 60,
                             radius: 10.0,
                             child: Text(

@@ -493,7 +493,7 @@ class _HomeScreenState extends State<HomeScreen>
   bestRecords(double fullHeight, double fullWidth,bool isKmSelected) {
     return Padding(
       padding: EdgeInsets.only(
-          top: 30, left: fullWidth * 0.05, right: fullWidth * 0.05),
+          top: 20, left: fullWidth * 0.05, right: fullWidth * 0.05),
       child: Container(
         child: Column(
           children: [
@@ -561,7 +561,7 @@ class _HomeScreenState extends State<HomeScreen>
       String? unit,
       required bool isNotDuration}) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Container(
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
@@ -668,9 +668,6 @@ class _HomeScreenState extends State<HomeScreen>
                 ),
               ],
             ),
-            SizedBox(
-              height: 21,
-            ),
             recentActivitiesList(fullHeight,isKmSelected)
           ],
         ),
@@ -680,10 +677,12 @@ class _HomeScreenState extends State<HomeScreen>
 
   recentActivitiesList(double fullHeight,bool isKmSelected) {
     return Container(
+      margin: EdgeInsets.only(top: 20),
       child: ListView.builder(
           itemCount: recentActivitiesData.length,
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
+          padding: EdgeInsets.all(0),
           itemBuilder: (BuildContext context, int index) {
             return _activitiesView(context, index, fullHeight);
           }),
