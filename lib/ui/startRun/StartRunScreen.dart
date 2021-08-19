@@ -1021,52 +1021,52 @@ class PopUpState extends State<PopUp> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Container(
-        child: GestureDetector(
-          onTapDown: (_) {
-            widget.controller?.forward();
-            setState(() {
-              size = 84;
-            });
-          },
-          onTapUp: (_) {
-            checkCompleted();
-          },
-          onVerticalDragEnd: (_) {
-            checkCompleted();
-          },
-          onHorizontalDragEnd: (_) {
-            checkCompleted();
-          },
-          child: Container(
-            margin: EdgeInsets.only(bottom: 0),
-            child: Scaffold(
-              backgroundColor: Colur.transparent,
-              body: Container(
-                margin: EdgeInsets.only(bottom: 120),
-                alignment: Alignment.bottomCenter,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Container(
-                      width: size,
-                      height: size,
-                      child: CircularProgressIndicator(
-                        value: 2.0,
-                        strokeWidth: 7,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Colur.purple_Lock_screen),
-                      ),
+        child: Container(
+          margin: EdgeInsets.only(bottom: 0),
+          child: Scaffold(
+            backgroundColor: Colur.transparent,
+            body: Container(
+              margin: EdgeInsets.only(bottom: 120),
+              alignment: Alignment.bottomCenter,
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Container(
+                    width: size,
+                    height: size,
+                    child: CircularProgressIndicator(
+                      value: 2.0,
+                      strokeWidth: 7,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Colur.purple_Lock_screen),
                     ),
-                    Container(
-                      width: size,
-                      height: size,
-                      child: CircularProgressIndicator(
-                        value: widget.controller?.value,
-                        strokeWidth: 7,
-                        valueColor: AlwaysStoppedAnimation<Color>(Colur.white),
-                      ),
+                  ),
+                  Container(
+                    width: size,
+                    height: size,
+                    child: CircularProgressIndicator(
+                      value: widget.controller?.value,
+                      strokeWidth: 7,
+                      valueColor: AlwaysStoppedAnimation<Color>(Colur.white),
                     ),
-                    Container(
+                  ),
+                  GestureDetector(
+                    onTapDown: (_) {
+                      widget.controller?.forward();
+                      setState(() {
+                        size = 84;
+                      });
+                    },
+                    onTapUp: (_) {
+                      checkCompleted();
+                    },
+                    onVerticalDragEnd: (_) {
+                      checkCompleted();
+                    },
+                    onHorizontalDragEnd: (_) {
+                      checkCompleted();
+                    },
+                    child: Container(
                       width: 78,
                       height: 78,
                       decoration: BoxDecoration(
@@ -1089,21 +1089,21 @@ class PopUpState extends State<PopUp> {
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(top: 135),
-                      child: Text(
-                        Languages.of(context)!
-                            .txtLongPressToUnlock
-                            .toUpperCase(),
-                        textAlign: ui.TextAlign.center,
-                        style: TextStyle(
-                            color: Colur.white,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 17),
-                      ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 135),
+                    child: Text(
+                      Languages.of(context)!
+                          .txtLongPressToUnlock
+                          .toUpperCase(),
+                      textAlign: ui.TextAlign.center,
+                      style: TextStyle(
+                          color: Colur.white,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 17),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

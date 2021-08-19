@@ -193,7 +193,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                   onTap: (){
                     screenShotAndShare();
                   },
-                  child:Container(
+                  child:/*Container(
                     height: 90,
                     width: 90,
                     margin: EdgeInsets.symmetric(vertical: 10),
@@ -211,7 +211,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                       height: 200,
                       repeat: true,
                     ),
-                  ), /*Container(
+                  ),*/ Container(
                     height: 90,
                     width: 90,
                     margin: EdgeInsets.symmetric(vertical: 15),
@@ -224,7 +224,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                       ],
                     ), ),
                     child: Icon(Icons.share,size: 40,color: Colur.white,),
-                  ),*/
+                  ),
                 )
               ],
             ),
