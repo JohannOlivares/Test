@@ -570,7 +570,7 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   void showDiscardDialog() {
     showDialog(
-        barrierDismissible: false,
+        barrierDismissible: true,
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(

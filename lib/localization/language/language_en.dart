@@ -385,7 +385,7 @@ class LanguageEn extends Languages {
   String get txtDelete => "Delete";
 
   @override
-  String get txtAlertForNoLocation => "There is no Location Found. Do you want to discard?";
+  String get txtAlertForNoLocation => "There is no location found. Do you want to discard?";
 
   @override
   String get txtDiscard => "Discard";
@@ -420,11 +420,11 @@ class LanguageEn extends Languages {
   String get txtTurnedOff => "Turned Off";
 
   @override
-  String get txtSaveChanges => "Save Changes?";
+  String get txtSaveChanges => "Save changes?";
 
   @override
   String get txtDeleteConfirmationMessage =>
-      "Are You Sure Do You want to Delete this Data ?";
+      "Are you sure do you want to delete this data?";
 
   @override
   String get txtDeleteHitory => "Delete History";
@@ -524,7 +524,7 @@ class LanguageEn extends Languages {
   String get txtFeedbackOrSuggestion => "Feedback or suggestion";
 
   @override
-  String get txtWriteSuggestionsHere => "Share Your Valuable suggestions with Us";
+  String get txtWriteSuggestionsHere => "Share your valuable suggestion with us";
 
   @override
   String get txtModerate => "Moderate";

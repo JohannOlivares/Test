@@ -354,6 +354,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
                       walkOrRunValue();
                     },
                     child: Container(
+                      padding: EdgeInsets.all(10),
                       child: Image.asset(
                         "assets/icons/ic_minus.png",
                         height: 6,
@@ -408,6 +409,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
                       walkOrRunValue();
                     },
                     child: Container(
+                      padding: EdgeInsets.all(5),
                       child: Image.asset(
                         "assets/icons/ic_add.png",
                         height:15,

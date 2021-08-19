@@ -192,7 +192,6 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(Languages.of(context)!.txtExitMessage),
-            content: Text(""),
             actions: [
               TextButton(
                 child: Text(Languages.of(context)!.txtCancel),

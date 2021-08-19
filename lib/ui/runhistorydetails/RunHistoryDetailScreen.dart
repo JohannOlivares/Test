@@ -311,7 +311,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(Languages.of(context)!.txtDeleteHitory),
-          content: Text(Languages.of(context)!.txtDeleteConfirmationMessage),
+          content: Text(Languages.of(context)!.txtDeleteConfirmationMessage,maxLines: 2,),
           actions: [
             TextButton(
               child: Text(Languages.of(context)!.txtCancel),

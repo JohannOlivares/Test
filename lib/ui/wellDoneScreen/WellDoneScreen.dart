@@ -92,7 +92,10 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                       ),
                     ),
                   ],
-                ),  SafeArea(
+                ),
+
+
+                SafeArea(
                   child: Container(
                     alignment: Alignment.topCenter,
                     child: lottie.Lottie.asset(
@@ -105,11 +108,10 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                 ),
                 SafeArea(
                   child: Container(
-                    width: fullwidth,
-                    height: fullheight,
+                    margin: EdgeInsets.only(top: 55),
                     child: lottie.Lottie.asset(
                         'assets/animation/congratulation.json',
-                        repeat: false,
+                        repeat: true,
                         alignment: Alignment.topCenter
                     ),
                   ),
@@ -165,6 +167,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
         return AlertDialog(
           title: Text(Languages.of(context)!.txtDeleteHitory),
           content: Text(Languages.of(context)!.txtDeleteConfirmationMessage),
+          contentPadding: EdgeInsets.zero,
           actions: [
             TextButton(
               child: Text(Languages.of(context)!.txtCancel),

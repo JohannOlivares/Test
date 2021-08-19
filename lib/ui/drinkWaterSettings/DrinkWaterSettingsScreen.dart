@@ -159,7 +159,15 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen>
                         fontSize: 18,
                         fontWeight: FontWeight.w500),
                   ),
-                  trailing: Switch(
+                  trailing:Container(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Image.asset(
+                      "assets/icons/ic_arrow_green_gradient.png",
+                      color: Colur.white,
+                      height: 20,
+                      width: 10,
+                    ),
+                  ),/*Switch(
                     onChanged: (bool value) {
                       if (isReminder == false) {
                         setState(() {
@@ -176,7 +184,7 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen>
                     value: isReminder,
                     activeColor: Colur.purple_gradient_color2,
                     inactiveTrackColor: Colur.txt_grey,
-                  ),
+                  ),*/
                 ),
               ),
             ],

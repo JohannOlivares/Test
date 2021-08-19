@@ -549,7 +549,6 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text(Languages.of(context)!.txtSaveChanges),
-            content: Text(""),
             actions: [
               TextButton(
                 child: Text(Languages.of(context)!.txtCancel),

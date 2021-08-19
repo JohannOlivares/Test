@@ -197,49 +197,49 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
 
   //Last 7 days steps card
   weeklyAverage(double fullHeight, double fullWidth, BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-          top: fullHeight * 0.1,
-          right: fullWidth * 0.04,
-          left: fullWidth * 0.04,
-          bottom: fullHeight * 0.05),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(10)),
-        color: Colur.progress_background_color,
-      ),
-      padding: EdgeInsets.symmetric(
-          vertical: fullWidth * 0.04, horizontal: fullWidth * 0.04),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            Languages.of(context)!.txtLast7DaysSteps,
-            style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.w700,
-                color: Colur.txt_white),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: fullHeight * 0.03),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  last7DaysSteps != null ? last7DaysSteps.toString() : "0",
-                  style: TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.w700,
-                      color: Colur.txt_white),
-                ),
-                Visibility(
-                  visible: true,
-                  child: InkWell(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Last7DaysStepsScreen()));
-                    },
+    return InkWell(
+      onTap: (){
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Last7DaysStepsScreen()));
+      },
+      child: Container(
+        margin: EdgeInsets.only(
+            top: fullHeight * 0.1,
+            right: fullWidth * 0.04,
+            left: fullWidth * 0.04,
+            bottom: fullHeight * 0.05),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: Colur.progress_background_color,
+        ),
+        padding: EdgeInsets.symmetric(
+            vertical: fullWidth * 0.04, horizontal: fullWidth * 0.04),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              Languages.of(context)!.txtLast7DaysSteps,
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: Colur.txt_white),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: fullHeight * 0.03),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    last7DaysSteps != null ? last7DaysSteps.toString() : "0",
+                    style: TextStyle(
+                        fontSize: 48,
+                        fontWeight: FontWeight.w700,
+                        color: Colur.txt_white),
+                  ),
+                  Visibility(
+                    visible: true,
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
@@ -259,11 +259,11 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                       ],
                     ),
                   ),
-                ),
-              ],
-            ),
-          )
-        ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
