@@ -2,6 +2,8 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:date_format/date_format.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart'as lottie;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -101,6 +103,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                             padding: EdgeInsets.only(top: 25, bottom: 20),
                             color: Colur.blue_gredient_1,
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Expanded(
                                   child: Column(
@@ -130,7 +133,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                                     ],
                                   ),
                                 ),
-                                Expanded(
+                                Container(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
