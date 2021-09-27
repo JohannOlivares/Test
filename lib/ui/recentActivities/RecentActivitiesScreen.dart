@@ -59,37 +59,43 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
     //var fullWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colur.common_bg_dark,
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              Container(
-                child: CommonTopBar(
-                  Languages.of(context)!.txtRecentActivities,
-                  this,
-                  isShowBack: true,
+      body: Container(
+        child: Column(
+          children: [
+            Container(
+              child: CommonTopBar(
+                Languages.of(context)!.txtRecentActivities,
+                this,
+                isShowBack: true,
+              ),
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Visibility(
+                      visible: activityShow,
+                      child: recentActivitiesList(fullHeight),
+                    ),
+                    Visibility(
+                      visible: !activityShow,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.4),
+                        child: Text(
+                          Languages.of(context)!.txtNoDataFound,
+                          style: TextStyle(
+                              color: Colur.purple_gradient_color2,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              Visibility(
-                visible: activityShow,
-                child: recentActivitiesList(fullHeight),
-              ),
-              Visibility(
-                visible: !activityShow,
-                child: Container(
-                  margin: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.4),
-                  child: Text(
-                    Languages.of(context)!.txtNoDataFound,
-                    style: TextStyle(
-                        color: Colur.purple_gradient_color2,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500),
-                  ),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

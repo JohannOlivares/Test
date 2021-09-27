@@ -188,29 +188,36 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
     fullWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colur.common_bg_dark,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              child: CommonTopBar(
-                Languages.of(context)!.txtToday,
-                this,
-                subHeader: Languages.of(context)!.txtDrinkWater,
-                isShowSubheader: true,
-                isShowBack: true,
-                isShowSettingCircle: true,
+      body: Column(
+        children: [
+          Container(
+            child: CommonTopBar(
+              Languages.of(context)!.txtToday,
+              this,
+              subHeader: Languages.of(context)!.txtDrinkWater,
+              isShowSubheader: true,
+              isShowBack: true,
+              isShowSettingCircle: true,
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _waterProgressIndicator(fullHeight, fullWidth),
+                  _designForWaterIncrementButton(fullHeight, fullWidth),
+                  _designForWaterMeasureIcon(fullHeight, fullWidth),
+                  _designWeek(fullHeight, fullWidth),
+                  _drinkWaterWidget(context),
+                  _todayHistory(fullHeight, fullWidth),
+                  _reminderHistory(fullHeight, fullWidth),
+                  _todayDrinkWaterHistory(fullHeight, fullWidth, context),
+                ],
               ),
             ),
-            _waterProgressIndicator(fullHeight, fullWidth),
-            _designForWaterIncrementButton(fullHeight, fullWidth),
-            _designForWaterMeasureIcon(fullHeight, fullWidth),
-            _designWeek(fullHeight, fullWidth),
-            _drinkWaterWidget(context),
-            _todayHistory(fullHeight, fullWidth),
-            _reminderHistory(fullHeight, fullWidth),
-            _todayDrinkWaterHistory(fullHeight, fullWidth, context),
-          ],
-        ),
+          ),
+
+        ],
       ),
     );
   }

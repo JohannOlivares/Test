@@ -112,83 +112,91 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colur.common_bg_dark,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Container(
-            child: Column(
-              children: [
-                //TopBar
-                Container(
-                  child: CommonTopBar(
-                    Languages.of(context)!.txtStepsTracker,
-                    this,
-                    isShowBack: true,
-                    isOptions: true,
-                  ),
+      body: SafeArea(
+        child: Container(
+          child: Column(
+            children: [
+              //TopBar
+              Container(
+                child: CommonTopBar(
+                  Languages.of(context)!.txtStepsTracker,
+                  this,
+                  isShowBack: true,
+                  isOptions: true,
                 ),
+              ),
 
-                //Step Indicator with pause & play button nd options
-                buildStepIndiactorRow(context, fullHeight, fullWidth),
-
-                //Circular progress indicator for each day in a week
-                Container(
-                  margin: EdgeInsets.only(top: fullHeight * 0.08),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
                     children: [
-                      buildWeekCircularIndicator(
-                          fullHeight,
-                          allDaysInSingleWord[1],
-                          stepsPercentValue!.isNotEmpty
-                              ? stepsPercentValue![0]
-                              : 0.0),
-                      buildWeekCircularIndicator(
-                          fullHeight,
-                          allDaysInSingleWord[2],
-                          stepsPercentValue!.isNotEmpty
-                              ? stepsPercentValue![1]
-                              : 0.0),
-                      buildWeekCircularIndicator(
-                          fullHeight,
-                          allDaysInSingleWord[3],
-                          stepsPercentValue!.isNotEmpty
-                              ? stepsPercentValue![2]
-                              : 0.0),
-                      buildWeekCircularIndicator(
-                          fullHeight,
-                          allDaysInSingleWord[4],
-                          stepsPercentValue!.isNotEmpty
-                              ? stepsPercentValue![3]
-                              : 0.0),
-                      buildWeekCircularIndicator(
-                          fullHeight,
-                          allDaysInSingleWord[5],
-                          stepsPercentValue!.isNotEmpty
-                              ? stepsPercentValue![4]
-                              : 0.0),
-                      buildWeekCircularIndicator(
-                          fullHeight,
-                          allDaysInSingleWord[6],
-                          stepsPercentValue!.isNotEmpty
-                              ? stepsPercentValue![5]
-                              : 0.0),
-                      buildWeekCircularIndicator(
-                          fullHeight,
-                          allDaysInSingleWord[0],
-                          stepsPercentValue!.isNotEmpty
-                              ? stepsPercentValue![6]
-                              : 0.0),
+                      //Step Indicator with pause & play button nd options
+                      buildStepIndiactorRow(context, fullHeight, fullWidth),
+
+                      //Circular progress indicator for each day in a week
+                      Container(
+                        margin: EdgeInsets.only(top: fullHeight * 0.08),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            buildWeekCircularIndicator(
+                                fullHeight,
+                                allDaysInSingleWord[1],
+                                stepsPercentValue!.isNotEmpty
+                                    ? stepsPercentValue![0]
+                                    : 0.0),
+                            buildWeekCircularIndicator(
+                                fullHeight,
+                                allDaysInSingleWord[2],
+                                stepsPercentValue!.isNotEmpty
+                                    ? stepsPercentValue![1]
+                                    : 0.0),
+                            buildWeekCircularIndicator(
+                                fullHeight,
+                                allDaysInSingleWord[3],
+                                stepsPercentValue!.isNotEmpty
+                                    ? stepsPercentValue![2]
+                                    : 0.0),
+                            buildWeekCircularIndicator(
+                                fullHeight,
+                                allDaysInSingleWord[4],
+                                stepsPercentValue!.isNotEmpty
+                                    ? stepsPercentValue![3]
+                                    : 0.0),
+                            buildWeekCircularIndicator(
+                                fullHeight,
+                                allDaysInSingleWord[5],
+                                stepsPercentValue!.isNotEmpty
+                                    ? stepsPercentValue![4]
+                                    : 0.0),
+                            buildWeekCircularIndicator(
+                                fullHeight,
+                                allDaysInSingleWord[6],
+                                stepsPercentValue!.isNotEmpty
+                                    ? stepsPercentValue![5]
+                                    : 0.0),
+                            buildWeekCircularIndicator(
+                                fullHeight,
+                                allDaysInSingleWord[0],
+                                stepsPercentValue!.isNotEmpty
+                                    ? stepsPercentValue![6]
+                                    : 0.0),
+                          ],
+                        ),
+                      ),
+
+                      //Duration, Calories nd Distance info
+                      otherInfo(fullHeight, context),
+
+                      //Weekly average steps card
+                      weeklyAverage(fullHeight, fullWidth, context),
                     ],
                   ),
                 ),
+              ),
 
-                //Duration, Calories nd Distance info
-                otherInfo(fullHeight, context),
 
-                //Weekly average steps card
-                weeklyAverage(fullHeight, fullWidth, context),
-              ],
-            ),
+            ],
           ),
         ),
       ),
