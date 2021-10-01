@@ -49,77 +49,84 @@ class _WellDoneScreenState extends State<WellDoneScreen>
   Widget build(BuildContext context) {
     var fullheight = MediaQuery.of(context).size.height;
     var fullwidth = MediaQuery.of(context).size.width;
-    return Scaffold(
-        backgroundColor: Colur.common_bg_dark,
-        body: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Container(
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    Container(
-                      child: CommonTopBar(
-                        "",
-                        this,
-                        isClose: true,
-                        isDelete: true,
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
+        return false;
+      },
+      child: Scaffold(
+          backgroundColor: Colur.common_bg_dark,
+          body: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Container(
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      Container(
+                        child: CommonTopBar(
+                          "",
+                          this,
+                          isClose: true,
+                          isDelete: true,
+                        ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        left: 20,
-                        right: 20,
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(top: fullheight * 0.12,bottom: 25),
-                            child: Text(
-                              Languages.of(context)!.txtWellDone.toUpperCase(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  color: Colur.txt_white,
-                                  fontSize: 30),
+                      Container(
+                        margin: EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: fullheight * 0.12,bottom: 25),
+                              child: Text(
+                                Languages.of(context)!.txtWellDone.toUpperCase(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    color: Colur.txt_white,
+                                    fontSize: 30),
+                              ),
                             ),
-                          ),
-                          _mapScreenShot(fullheight, fullwidth),
-                          _informationViewOfDistance(fullheight, fullwidth),
-                          _intensityViewOfWalking(fullheight,fullwidth),
-                          _detailsAndShareButtonView(fullheight, fullwidth),
-                          _satisfyListTile(fullheight, fullwidth),
-                        ],
+                            _mapScreenShot(fullheight, fullwidth),
+                            _informationViewOfDistance(fullheight, fullwidth),
+                            _intensityViewOfWalking(fullheight,fullwidth),
+                            _detailsAndShareButtonView(fullheight, fullwidth),
+                            _satisfyListTile(fullheight, fullwidth),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+
+
+                  SafeArea(
+                    child: Container(
+                      alignment: Alignment.topCenter,
+                      child: lottie.Lottie.asset(
+                        'assets/animation/thumbs_up.json',
+                        width: 200,
+                        height: 200,
+                        repeat: true,
                       ),
                     ),
-                  ],
-                ),
-
-
-                SafeArea(
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    child: lottie.Lottie.asset(
-                      'assets/animation/thumbs_up.json',
-                      width: 200,
-                      height: 200,
-                      repeat: true,
+                  ),
+                  SafeArea(
+                    child: Container(
+                      margin: EdgeInsets.only(top: 55),
+                      child: lottie.Lottie.asset(
+                          'assets/animation/congratulation.json',
+                          repeat: true,
+                          alignment: Alignment.topCenter
+                      ),
                     ),
                   ),
-                ),
-                SafeArea(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 55),
-                    child: lottie.Lottie.asset(
-                        'assets/animation/congratulation.json',
-                        repeat: true,
-                        alignment: Alignment.topCenter
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ));
+          )),
+    );
   }
 
   @override
@@ -166,8 +173,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(Languages.of(context)!.txtDeleteHitory),
-          content: Text(Languages.of(context)!.txtDeleteConfirmationMessage),
-          contentPadding: EdgeInsets.zero,
+          content: Text(Languages.of(context)!.txtDeleteConfirmationMessage,maxLines: 2,overflow: TextOverflow.ellipsis),
           actions: [
             TextButton(
               child: Text(Languages.of(context)!.txtCancel),

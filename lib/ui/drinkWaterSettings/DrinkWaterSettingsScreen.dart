@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:run_tracker/ad_helper.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/drinkWaterReminder/DrinkWaterReminderScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
@@ -26,6 +28,9 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen>
   var fullWidth;
   var prefTargetValue;
 
+  late BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
+
   @override
   void initState() {
     targetList = [
@@ -41,8 +46,32 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen>
       '5000'
     ];
     _getPreferences();
+    _loadBanner();
     super.initState();
   }
+
+  _loadBanner() {
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+
+    _bannerAd.load();
+  }
+
 
   _getPreferences() {
     prefTargetValue =
@@ -81,6 +110,16 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen>
               ),
 
               buildListView(context),
+
+              if (_isBannerAdReady)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    width: _bannerAd.size.width.toDouble(),
+                    height: _bannerAd.size.height.toDouble(),
+                    child: AdWidget(ad: _bannerAd),
+                  ),
+                ),
             ],
           ),
         ),
@@ -89,107 +128,109 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen>
   }
 
   buildListView(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(top: 20),
-        child: Container(
-          child: Column(
-            children: [
-              ListTile(
-                title: Text(
-                  Languages.of(context)!.txtTarget,
-                  style: TextStyle(
-                      color: Colur.txt_white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500),
-                ),
-                subtitle: Text(
-                  Languages.of(context)!.txtTargetDesc,
-                  style: TextStyle(
-                      color: Colur.txt_grey,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400),
-                ),
-                trailing: DropdownButton(
-                  dropdownColor: Colur.progress_background_color,
-                  underline: Container(
-                    color: Colur.transparent,
-                  ),
-                  value: targetValue,
-                  //targetValue,
-                  iconEnabledColor: Colur.white,
-                  items:
-                      targetList.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(
-                        "$value ml",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colur.txt_white,
-                          fontSize: 14,
-                        ),
-                      ),
-                    );
-                  }).toList(),
-                  onChanged: (dynamic value) {
-                    setState(() {
-                      Preference.clearTargetDrinkWater();
-                      targetValue = value;
-                      Preference.shared.setString(Preference.TARGET_DRINK_WATER,
-                          targetValue.toString());
-                    });
-                  },
-                ),
-              ),
-              Divider(
-                color: Colur.txt_grey,
-                indent: fullWidth * 0.04,
-                endIndent: fullWidth * 0.04,
-              ),
-              InkWell(
-                onTap: () => Navigator.of(context)
-                    .push(MaterialPageRoute(
-                        builder: (context) => DrinkWaterReminderScreen()))
-                    .then((value) => _onRefresh()),
-                child: ListTile(
+    return Expanded(
+      child: Container(
+          margin: EdgeInsets.only(top: 20),
+          child: Container(
+            child: Column(
+              children: [
+                ListTile(
                   title: Text(
-                    Languages.of(context)!.txtReminder,
+                    Languages.of(context)!.txtTarget,
                     style: TextStyle(
                         color: Colur.txt_white,
                         fontSize: 18,
                         fontWeight: FontWeight.w500),
                   ),
-                  trailing:Container(
-                    padding: EdgeInsets.only(right: 10),
-                    child: Image.asset(
-                      "assets/icons/ic_arrow_green_gradient.png",
-                      color: Colur.white,
-                      height: 20,
-                      width: 10,
+                  subtitle: Text(
+                    Languages.of(context)!.txtTargetDesc,
+                    style: TextStyle(
+                        color: Colur.txt_grey,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400),
+                  ),
+                  trailing: DropdownButton(
+                    dropdownColor: Colur.progress_background_color,
+                    underline: Container(
+                      color: Colur.transparent,
                     ),
-                  ),/*Switch(
-                    onChanged: (bool value) {
-                      if (isReminder == false) {
-                        setState(() {
-                          isReminder = true;
-                        });
-                      } else {
-                        setState(() {
-                          isReminder = false;
-                        });
-                      }
-                      Preference.shared
-                          .setBool(Preference.IS_REMINDER_ON, isReminder);
+                    value: targetValue,
+                    //targetValue,
+                    iconEnabledColor: Colur.white,
+                    items:
+                        targetList.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(
+                          "$value ml",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Colur.txt_white,
+                            fontSize: 14,
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                    onChanged: (dynamic value) {
+                      setState(() {
+                        Preference.clearTargetDrinkWater();
+                        targetValue = value;
+                        Preference.shared.setString(Preference.TARGET_DRINK_WATER,
+                            targetValue.toString());
+                      });
                     },
-                    value: isReminder,
-                    activeColor: Colur.purple_gradient_color2,
-                    inactiveTrackColor: Colur.txt_grey,
-                  ),*/
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ));
+                Divider(
+                  color: Colur.txt_grey,
+                  indent: fullWidth * 0.04,
+                  endIndent: fullWidth * 0.04,
+                ),
+                InkWell(
+                  onTap: () => Navigator.of(context)
+                      .push(MaterialPageRoute(
+                          builder: (context) => DrinkWaterReminderScreen()))
+                      .then((value) => _onRefresh()),
+                  child: ListTile(
+                    title: Text(
+                      Languages.of(context)!.txtReminder,
+                      style: TextStyle(
+                          color: Colur.txt_white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500),
+                    ),
+                    trailing:Container(
+                      padding: EdgeInsets.only(right: 10),
+                      child: Image.asset(
+                        "assets/icons/ic_arrow_green_gradient.png",
+                        color: Colur.white,
+                        height: 20,
+                        width: 10,
+                      ),
+                    ),/*Switch(
+                      onChanged: (bool value) {
+                        if (isReminder == false) {
+                          setState(() {
+                            isReminder = true;
+                          });
+                        } else {
+                          setState(() {
+                            isReminder = false;
+                          });
+                        }
+                        Preference.shared
+                            .setBool(Preference.IS_REMINDER_ON, isReminder);
+                      },
+                      value: isReminder,
+                      activeColor: Colur.purple_gradient_color2,
+                      inactiveTrackColor: Colur.txt_grey,
+                    ),*/
+                  ),
+                ),
+              ],
+            ),
+          )),
+    );
   }
 
   @override

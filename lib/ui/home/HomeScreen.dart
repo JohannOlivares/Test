@@ -24,6 +24,8 @@ import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
 import 'package:intl/intl.dart';
+import 'package:run_tracker/ad_helper.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
@@ -51,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen>
   int runTime = 75;
   int? prefSelectedDay;
 
+
   var currentDate = DateTime.now();
   DateTime getDate(DateTime d) => DateTime(d.year, d.month, d.day);
 
@@ -64,13 +67,15 @@ class _HomeScreenState extends State<HomeScreen>
     _getBestRecordsDataForLongestDuration();
     _getSumOfHighIntensity();
     _getSumOfLowIntensity();
-
     _initNotificationListener();
     initializeDateFormatting(getLocale().languageCode);
 
     super.initState();
   }
   bool? redirect;
+
+
+
   _initNotificationListener() async {
     final NotificationAppLaunchDetails? notificationAppLaunchDetails =
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
@@ -203,6 +208,11 @@ class _HomeScreenState extends State<HomeScreen>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var fullHeight = MediaQuery.of(context).size.height;
     var fullWidth = MediaQuery.of(context).size.width;
@@ -223,6 +233,7 @@ class _HomeScreenState extends State<HomeScreen>
                 isInfo: true,
               ),
             ),
+
             Expanded(
               child: SingleChildScrollView(
                 child: Container(

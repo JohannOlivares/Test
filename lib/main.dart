@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/home/HomeWizardScreen.dart';
@@ -106,6 +107,9 @@ Future<void> _configureLocalTimeZone() async {
   final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timeZoneName!));
 }
+Future<InitializationStatus> _initGoogleMobileAds() {
+  return MobileAds.instance.initialize();
+}
 
 class MyApp extends StatefulWidget {
   static final navigatorKey = new GlobalKey<NavigatorState>();
@@ -140,6 +144,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    _initGoogleMobileAds();
     isFirstTime();
     super.initState();
 

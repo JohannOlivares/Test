@@ -4,6 +4,7 @@ import 'dart:io' show Directory, File, Platform;
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:geolocator/geolocator.dart' as geoLocator;
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' hide PermissionStatus;
 import 'package:path_provider/path_provider.dart';
+import 'package:run_tracker/ad_helper.dart';
 import 'dart:math' show asin, cos, sqrt;
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
@@ -85,6 +87,8 @@ class _StartRunScreenState extends State<StartRunScreen>
   late StopWatchTimer stopWatchTimer;
   //For Unit Changes
   bool kmSelected = true;
+  InterstitialAd? _interstitialAd;
+  bool _isInterstitialAdReady = false;
 
   @override
   void initState() {
@@ -112,6 +116,7 @@ class _StartRunScreenState extends State<StartRunScreen>
         });
 
     _getPreferences();
+    _loadInterstitialAd();
 
     super.initState();
   }
@@ -139,8 +144,9 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   @override
   Future<void> dispose() async {
+    _interstitialAd?.dispose();
+    stopWatchTimer.dispose();
     super.dispose();
-    await stopWatchTimer.dispose();
   }
 
   void _onMapCreated(GoogleMapController _cntlr) {
@@ -614,12 +620,43 @@ class _StartRunScreenState extends State<StartRunScreen>
       super.setState(fn);
     }
   }
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+      adUnitId: AdHelper.interstitialAdUnitId,
+      request: AdRequest(),
+      adLoadCallback: InterstitialAdLoadCallback(
+        onAdLoaded: (ad) {
+          this._interstitialAd = ad;
+
+          ad.fullScreenContentCallback = FullScreenContentCallback(
+            onAdDismissedFullScreenContent: (ad) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => WellDoneScreen(runningData: runningData)),
+                  ModalRoute.withName("/homeWizardScreen"));
+            },
+          );
+
+          _isInterstitialAdReady = true;
+        },
+        onAdFailedToLoad: (err) {
+          print('Failed to load an interstitial ad: ${err.message}');
+          _isInterstitialAdReady = false;
+        },
+      ),
+    );
+  }
+
+
 
   @override
   Future<void> onFinish({bool value = true}) async {
     if (_locationSubscription != null && _locationSubscription!.isPaused)
       _locationSubscription!.cancel();
     await _addEndMarker();
+
+
     Navigator.pop(context);
     runningData!.polyLine = jsonEncode(polylineCoordinatesList);
 
@@ -662,11 +699,17 @@ class _StartRunScreenState extends State<StartRunScreen>
       runningData!.imageFile = newFile;
       runningData!.image = newFile.path;
 
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-              builder: (context) => WellDoneScreen(runningData: runningData)),
-          ModalRoute.withName("/homeWizardScreen"));
+
+      if (_isInterstitialAdReady) {
+        _interstitialAd?.show();
+      } else {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+                builder: (context) => WellDoneScreen(runningData: runningData)),
+            ModalRoute.withName("/homeWizardScreen"));
+      }
+
 
       return true;
     } catch (e) {
@@ -859,35 +902,6 @@ class _StartRunScreenState extends State<StartRunScreen>
     /* Utils.showToast(context, "Hours: $hr||||Min: $min ||| Sec: $sec||durationInSec:$TotalTimeInSec");
     Debug.printLog( "Hours: $hr||||Min: $min");*/
   }
-
-/*  double _countSpeed(double lat1, double lon1, double lat2, double lon2) {
-    // Convert degrees to radians
-    double mPI = 3.141592;
-    lat1 = lat1 * mPI / 180.0;
-    lon1 = lon1 * mPI / 180.0;
-    lat2 = lat2 * mPI / 180.0;
-    lon2 = lon2 * mPI / 180.0;
-
-    // radius of earth in metres
-    double r = 6378100;
-    // P
-    double rho1 = r * cos(lat1);
-    double z1 = r * sin(lat1);
-    double x1 = rho1 * cos(lon1);
-    double y1 = rho1 * sin(lon1);
-    // Q
-    double rho2 = r * cos(lat2);
-    double z2 = r * sin(lat2);
-    double x2 = rho2 * cos(lon2);
-    double y2 = rho2 * sin(lon2);
-    // Dot product
-    double dot = (x1 * x2 + y1 * y2 + z1 * z2);
-    double cosTheta = dot / (r * r);
-
-    double theta = acos(cosTheta);
-
-    return r * theta;
-  }*/
 
   double _countCalories(double weight) {
     int hr = int.parse(timeValue!.split(":")[0]);

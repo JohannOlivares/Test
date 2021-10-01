@@ -188,7 +188,7 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                               maxLines: 1,
                               maxLength: 5,
                               textInputAction: TextInputAction.done,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.numberWithOptions(decimal: true),
                               inputFormatters: <TextInputFormatter>[
                                 // FilteringTextInputFormatter.digitsOnly,
                                 FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,1}')),
@@ -202,10 +202,9 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                                 contentPadding: EdgeInsets.all(0.0),
                                 hintText: "0.0",
                                 hintStyle: TextStyle(
-                                    color: Colur.txt_black,
+                                    color: Colur.txt_grey,
                                     fontSize: 22,
                                     fontWeight: FontWeight.w500),
-                                counterText: "",
                                 enabledBorder: UnderlineInputBorder(
                                   borderSide:
                                       BorderSide(color: Colur.txt_black),

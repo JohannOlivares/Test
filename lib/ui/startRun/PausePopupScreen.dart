@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:run_tracker/ad_helper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
@@ -33,6 +35,10 @@ class PausePopupScreen extends ModalRoute<String> {
 
   @override
   bool get maintainState => true;
+
+
+
+
 
 
   @override
@@ -233,9 +239,7 @@ class PausePopupScreen extends ModalRoute<String> {
             ),
             InkWell(
               onTap: () async {
-
-                //Utils.showToast(context, "Timevalue: ${runningData!.duration}||distance: ${runningData.distance}\n||speed: ${runningData.speed}||Calories: ${runningData.cal}");
-                  StartRunScreen.runningStopListener!.onFinish(value: true);
+                StartRunScreen.runningStopListener!.onFinish(value: true);
 
               },
               child: Container(
