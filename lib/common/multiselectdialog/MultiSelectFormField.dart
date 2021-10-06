@@ -5,15 +5,9 @@ class MultiSelectFormField extends FormField<dynamic> {
   final Widget title;
   final Widget hintWidget;
   final bool required;
-  final String errorText;
   final List? dataSource;
   final String? textField;
   final String? valueField;
-  final Function? change;
-  final Function? open;
-  final Function? close;
-  final Widget? leading;
-  final Widget? trailing;
   final String okButtonLabel;
   final String cancelButtonLabel;
   final Color? fillColor;
@@ -34,19 +28,13 @@ class MultiSelectFormField extends FormField<dynamic> {
     this.title = const Text('Title'),
     this.hintWidget = const Text('Tap to select one or more'),
     this.required = false,
-    this.errorText = 'Please select one or more options',
-    this.leading,
     this.dataSource,
     this.textField,
     this.valueField,
-    this.change,
-    this.open,
-    this.close,
     this.okButtonLabel = 'OK',
     this.cancelButtonLabel = 'CANCEL',
     this.fillColor,
     this.border,
-    this.trailing,
     this.chipLabelStyle,
     this.enabled = true,
     this.chipBackGroundColor,

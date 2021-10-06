@@ -107,7 +107,6 @@ class _RunningReminderState extends State<RunningReminder>
                                   var status = await Permission.notification.status;
                                   if (status.isDenied) {
                                     await Permission.notification.request();
-                                    //openAppSettings();
                                   }
 
                                   if (status.isPermanentlyDenied) {
@@ -115,12 +114,10 @@ class _RunningReminderState extends State<RunningReminder>
                                   }
 
                                   if (isReminderOn == false) {
-                                    //setWaterReminder();
                                     setState(() {
                                       isReminderOn = true;
                                     });
                                   } else {
-                                    //flutterLocalNotificationsPlugin.cancelAll();
                                     setState(() {
                                       isReminderOn = false;
                                     });
@@ -282,7 +279,6 @@ class _RunningReminderState extends State<RunningReminder>
           ),
           checkBoxActiveColor: Colur.txt_purple,
           minimumSelection: 1,
-          //checkBoxCheckColor: Colur.txt_purple,*/
         );
       },
     );
@@ -313,9 +309,6 @@ class _RunningReminderState extends State<RunningReminder>
         Preference.DAILY_REMINDER_REPEAT_DAY, selectedDays.join(","));
 
     int notificationId = 100;
-    /*for (int i = 0; i <= 6; i++) {
-      await flutterLocalNotificationsPlugin.pendingNotificationRequests();
-    }*/
 
     List<PendingNotificationRequest> pendingNoti =
     await flutterLocalNotificationsPlugin.pendingNotificationRequests();

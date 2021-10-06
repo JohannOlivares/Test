@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:run_tracker/ad_helper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
@@ -36,11 +34,6 @@ class PausePopupScreen extends ModalRoute<String> {
   @override
   bool get maintainState => true;
 
-
-
-
-
-
   @override
   Widget buildPage(BuildContext context,
       Animation<double> animation,
@@ -49,10 +42,8 @@ class PausePopupScreen extends ModalRoute<String> {
         .of(context)
         .size
         .height;
-    // This makes sure that text and other content follows the material style
     return Material(
       type: MaterialType.transparency,
-      // make sure that the overlay content is not cut off
       child: _buildOverlayContent(context, fullheight,runningData,controller2,markers!),
     );
   }
@@ -93,13 +84,8 @@ class PausePopupScreen extends ModalRoute<String> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              //THis IS STOP BUTTON COLUMN
               InkWell(
                 onTap: (){
-                  //Utils.showToast(context, "Skip");
-                  /*Navigator.pop(context, Constant.STR_STOP);*/
-                  /*       stopWatchTimer.onExecute.add(StopWatchExecute.reset); //It will reset the timer*/
-
                   showDialog(
                       context: context,
                       builder: (BuildContext context) =>
@@ -141,10 +127,8 @@ class PausePopupScreen extends ModalRoute<String> {
                 ),
               ),
 
-              //THis IS RESUME BUTTON COLUMN
               InkWell(
                 onTap: () {
-                  //Utils.showToast(context, "Back");
                   stopWatchTimer!.onExecute.add(StopWatchExecute.start);
                   Navigator.pop(context,'true');
 

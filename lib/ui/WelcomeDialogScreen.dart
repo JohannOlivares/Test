@@ -44,7 +44,6 @@ class _WelcomeDialogScreenState extends State<WelcomeDialogScreen> {
                           color: Colur.txt_white,
                           fontWeight: FontWeight.w700,
                           fontSize: 28),
-                      //maxLines: 1,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top:30.0,bottom: 30),
@@ -57,7 +56,6 @@ class _WelcomeDialogScreenState extends State<WelcomeDialogScreen> {
                             color: Colur.txt_grey,
                             fontWeight: FontWeight.w400,
                             fontSize: 20),
-                        //maxLines: 1,
                       ),
                     ),
                     Padding(
@@ -71,7 +69,6 @@ class _WelcomeDialogScreenState extends State<WelcomeDialogScreen> {
                             color: Colur.txt_grey,
                             fontWeight: FontWeight.w400,
                             fontSize: 20),
-                        //maxLines: 1,
                       ),
                     ),
 
@@ -98,10 +95,7 @@ class _WelcomeDialogScreenState extends State<WelcomeDialogScreen> {
                           ],
                         ),
                         onPressed: () {
-
-
                           Navigator.pop(context);
-
                         },
                       ),
                     ),

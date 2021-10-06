@@ -65,7 +65,6 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
                 ),
               ),
             ),
-            //selectMonthOrWeek(fullHeight, fullWidth)//TODO
           ],
         ),
       ),
@@ -315,7 +314,6 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
       }
     return list;
 
-    //return List.generate(7, (index) => makeBarChartGroupData(index, 5063));
   }
 
   makeBarChartGroupData(int index, double steps) {
@@ -367,7 +365,6 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
     total = await DataBaseHelper().getTotalStepsForLast7Days();
     avg = total!/7;
     setState(() {});
-    //Debug.printLog("Steps from last 7 days: $last7DaysSteps");
   }
 
 

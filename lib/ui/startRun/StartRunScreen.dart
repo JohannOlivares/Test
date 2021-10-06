@@ -43,7 +43,6 @@ class _StartRunScreenState extends State<StartRunScreen>
     implements TopBarClickListener, RunningStopListener {
   RunningData? runningData;
 
-  //For Google Map
   GoogleMapController? _controller;
   Location _location = Location();
   StreamSubscription<LocationData>? _locationSubscription;
@@ -51,14 +50,9 @@ class _StartRunScreenState extends State<StartRunScreen>
   LatLng _initialcameraposition = LatLng(0.5937, 0.9629);
 
 
-  //For Markers And PolyLines
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinatesList = [];
-  BitmapDescriptor? pinLocationIcon;
   Set<Marker> markers = {};
-
-  //For SnapShots
-  Uint8List? imageBytesVar;
 
   double totalDistance = 0;
   double lastDistance = 0;
@@ -69,23 +63,18 @@ class _StartRunScreenState extends State<StartRunScreen>
   String? timeValue = "";
   bool isBack = true;
 
-//THis Are Final Complete Value Holder Variables::::
   double? avaragePace;
   double? finaldistance;
   double? finalspeed;
 
-  //THis Variables For Weight and Kcal Calculation
   double weight = 50;
 
-  double currentSpeed = 0.0; // speed in km/h
+  double currentSpeed = 0.0;
+  int totalLowIntenseTime = 0;
+  int totalModerateIntenseTime = 0;
+  int totalHighIntenseTime = 0;
 
-  int totalLowIntenseTime = 0; // in second
-  int totalModerateIntenseTime = 0; // in second
-  int totalHighIntenseTime = 0; // in second
-
-  //For Timer
   late StopWatchTimer stopWatchTimer;
-  //For Unit Changes
   bool kmSelected = true;
   InterstitialAd? _interstitialAd;
   bool _isInterstitialAdReady = false;
@@ -97,7 +86,6 @@ class _StartRunScreenState extends State<StartRunScreen>
     stopWatchTimer = StopWatchTimer(
         mode: StopWatchMode.countUp,
         onChangeRawSecond: (value) {
-          //Debug.printLog("OnTime Update ::::==> ${value}");
           if(currentSpeed >=1) {
             if (currentSpeed < 2.34) {
               totalLowIntenseTime += 1;
@@ -112,7 +100,6 @@ class _StartRunScreenState extends State<StartRunScreen>
           }
         },
         onChange: (value) {
-          //print('onChange $value');
         });
 
     _getPreferences();
@@ -126,7 +113,6 @@ class _StartRunScreenState extends State<StartRunScreen>
       kmSelected =
           Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
       weight =(Preference.shared.getInt(Preference.WEIGHT)??50).toDouble();
-      //Utils.showToast(context, "Weight in Kg: "+weight.toString());
 
     });
   }
@@ -238,7 +224,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                             : null;
                         timeValue = displayTime;
                         return Text(
-                          displayTime ?? "00:00:00", //TODO
+                          displayTime ?? "00:00:00",
                           style: TextStyle(
                               fontSize: 60,
                               color: Colur.txt_white,
@@ -392,7 +378,6 @@ class _StartRunScreenState extends State<StartRunScreen>
                           ),
                         ),
                       ),
-                      //Start Button Code
                       Expanded(
                         child: UnconstrainedBox(
                           child: InkWell(
@@ -419,10 +404,9 @@ class _StartRunScreenState extends State<StartRunScreen>
                                   });
                                 });
                               } else {
-                                //IF User Pressed Pause Button then This part Will Do actions>>>>>>>>>
                                 _locationSubscription!.pause();
                                 stopWatchTimer.onExecute.add(StopWatchExecute
-                                    .stop); //It will pause the timer
+                                    .stop);
                                 setState(() {
                                   startTrack = false;
                                 });
@@ -434,7 +418,6 @@ class _StartRunScreenState extends State<StartRunScreen>
                                       .last.longitude
                                       .toString();
                                 } else {
-                                  //Utils.showToast(context, "Discard");
                                   return showDiscardDialog();
                                 }
 
@@ -454,13 +437,11 @@ class _StartRunScreenState extends State<StartRunScreen>
                                     if (_locationSubscription != null &&
                                         _locationSubscription!.isPaused)
                                       _locationSubscription!.resume();
-                                    //if User Pressed Restart then below function called
                                     if (result == "false") {
                                       stopWatchTimer.onExecute
                                           .add(StopWatchExecute.reset);
                                       isBack = true;
                                     }
-                                    //if User Pressed RESUME then below function called
                                     if (result == "true") {
                                       setState(() {
                                         startTrack = true;
@@ -583,13 +564,6 @@ class _StartRunScreenState extends State<StartRunScreen>
             title: Text(Languages.of(context)!.txtDiscard + " ?"),
             content: Text(Languages.of(context)!.txtAlertForNoLocation),
             actions: [
-              /* TextButton(
-                child: Text(Languages.of(context)!.txtCancel),
-                onPressed: () {
-
-                  Navigator.pop(context);
-                },
-              ),*/
               TextButton(
                 child: Text(Languages.of(context)!.txtDiscard),
                 onPressed: () async {
@@ -661,7 +635,6 @@ class _StartRunScreenState extends State<StartRunScreen>
     runningData!.polyLine = jsonEncode(polylineCoordinatesList);
 
     Future.delayed(const Duration(milliseconds: 50), () async {
-      //1
       final imageBytes = await _controller!.takeSnapshot();
       await saveFile(imageBytes!, "${DateTime.now().millisecond}");
     });
@@ -672,9 +645,6 @@ class _StartRunScreenState extends State<StartRunScreen>
     final directory = (plateform2 == TargetPlatform.android)
         ? await getExternalStorageDirectory()
         : await getApplicationDocumentsDirectory();
-
-    /* if(plateform2 == TargetPlatform.android)
-      return '/storage/emulated/0';*/
 
     return directory?.path;
   }
@@ -742,16 +712,12 @@ class _StartRunScreenState extends State<StartRunScreen>
       markers.add(marker);
     });
 
-    //Utils.showToast(context, "marker added");
     Debug.printLog("marker added");
 
     return;
   }
 
   getLoc() async {
-    //_location.changeSettings(interval: 2000, distanceFilter: 0.1);
-
-    //Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     _location.changeSettings(
       accuracy: LocationAccuracy.balanced,
     );
@@ -765,22 +731,18 @@ class _StartRunScreenState extends State<StartRunScreen>
         currentSpeed = speedKmpm*60;
         pace = 1 / speedKmpm;
       }
-      //Utils.showToast(context, speedKmpm.toString()+"/kmp");
-      // this is your speed
     });
 
     _currentPosition = await _location.getLocation();
     _initialcameraposition =
         LatLng(_currentPosition!.latitude!, _currentPosition!.longitude!);
 
-    // IF Button IS in Play Position
     _locationSubscription = _location.onLocationChanged
         .listen((LocationData currentLocation) async {
       print("${currentLocation.latitude} : ${currentLocation.longitude}");
       if (startTrack) {
         if (currentLocation.latitude != null &&
             currentLocation.longitude != null) {
-          //It Will Execute only First Time
           if (polylineCoordinatesList.isEmpty) {
             polylineCoordinatesList.add(
                 LatLng(currentLocation.latitude!, currentLocation.longitude!));
@@ -799,7 +761,6 @@ class _StartRunScreenState extends State<StartRunScreen>
             });
           }
 
-          //After that This Part only Execute
           lastDistance = calculateDistance(
               polylineCoordinatesList.last.latitude,
               polylineCoordinatesList.last.longitude,
@@ -823,7 +784,6 @@ class _StartRunScreenState extends State<StartRunScreen>
                   currentLocation.latitude,
                   currentLocation.longitude);
 
-              //Utils.showToast(context, "greater Than 0.1");
 
               polylineCoordinatesList.add(LatLng(
                   currentLocation.latitude!, currentLocation.longitude!));
@@ -844,7 +804,6 @@ class _StartRunScreenState extends State<StartRunScreen>
   }
 
   Future<void> _animateToCenterofMap() async {
-    //This IS Method For Calculation NorthEast And South West
     LatLngBounds boundsFromLatLngList(List<LatLng> list) {
       assert(list.isNotEmpty);
       double? x0;
@@ -866,7 +825,6 @@ class _StartRunScreenState extends State<StartRunScreen>
           northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
     }
 
-    //After adding polylines list for Calculate NorthEast And South West Positions and Animate Camera
     jsonEncode(polylineCoordinatesList);
     LatLngBounds latLngBounds = boundsFromLatLngList(polylineCoordinatesList);
     _controller!.animateCamera(CameraUpdate.newLatLngBounds(latLngBounds, 100));
@@ -876,13 +834,6 @@ class _StartRunScreenState extends State<StartRunScreen>
     avaragePace = 0;
     finaldistance = 0;
     finalspeed = 0;
-    /*if (polylineCoordinatesList.isNotEmpty) {
-      avaragePace = _countSpeed(
-          polylineCoordinatesList.first.latitude,
-          polylineCoordinatesList.first.longitude,
-          polylineCoordinatesList.last.latitude,
-          polylineCoordinatesList.last.longitude);
-    }*/
     finaldistance = double.parse(totalDistance.toStringAsFixed(2));
     finalspeed = double.parse(avaragePace!.toStringAsFixed(2));
     runningData!.date = DateFormat.yMMMd().format(DateTime.now()).toString();
@@ -899,8 +850,6 @@ class _StartRunScreenState extends State<StartRunScreen>
     runningData!.lowIntenseTime = totalLowIntenseTime;
     runningData!.moderateIntenseTime = totalModerateIntenseTime;
     runningData!.highIntenseTime = totalHighIntenseTime;
-    /* Utils.showToast(context, "Hours: $hr||||Min: $min ||| Sec: $sec||durationInSec:$TotalTimeInSec");
-    Debug.printLog( "Hours: $hr||||Min: $min");*/
   }
 
   double _countCalories(double weight) {
@@ -949,10 +898,9 @@ class _StartRunScreenState extends State<StartRunScreen>
   }
 
   customDialog() async {
-    //IF User Pressed Pause Button then This part Will Do actions>>>>>>>>>
     _locationSubscription!.pause();
     stopWatchTimer.onExecute.add(StopWatchExecute
-        .stop); //It will pause the timer
+        .stop);
     setState(() {
       startTrack = false;
     });
@@ -964,7 +912,6 @@ class _StartRunScreenState extends State<StartRunScreen>
           .last.longitude
           .toString();
     } else {
-      //Utils.showToast(context, "Discard");
       return showDiscardDialog();
     }
 
@@ -984,13 +931,11 @@ class _StartRunScreenState extends State<StartRunScreen>
         if (_locationSubscription != null &&
             _locationSubscription!.isPaused)
           _locationSubscription!.resume();
-        //if User Pressed Restart then below function called
         if (result == "false") {
           stopWatchTimer.onExecute
               .add(StopWatchExecute.reset);
           isBack = true;
         }
-        //if User Pressed RESUME then below function called
         if (result == "true") {
           setState(() {
             startTrack = true;
@@ -1002,10 +947,8 @@ class _StartRunScreenState extends State<StartRunScreen>
 
 
   }
-//End Class
 }
 
-//=====================================================================================================
 
 class PopUp extends StatefulWidget {
   final AnimationController? controller;

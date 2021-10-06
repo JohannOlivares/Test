@@ -39,7 +39,6 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
       });
     });
 
-    //Total days count of 2 year.
     startDate = DateTime(
         DateTime.now().year - 1, DateTime.now().month, DateTime.now().day);
     endDate = DateTime.now().add(Duration(days: 4));
@@ -190,7 +189,6 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                               textInputAction: TextInputAction.done,
                               keyboardType: TextInputType.numberWithOptions(decimal: true),
                               inputFormatters: <TextInputFormatter>[
-                                // FilteringTextInputFormatter.digitsOnly,
                                 FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,1}')),
                               ],
                               style: TextStyle(
@@ -349,7 +347,6 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                             if(isKg && !isLsb){
                               if (double.parse(weightController.text.toString()) >= Constant.MIN_KG && double.parse(weightController.text.toString()) <= Constant.MAX_KG){
                                 setState(() {
-                                  //Insert weight in weight table.
                                   DataBaseHelper.insertWeight(WeightData(
                                     id: null,
                                     weightKg: (isKg && !isLsb) ? double.parse(weightController.text.toString()) : Utils.lbToKg(double.parse(weightController.text.toString())),
@@ -364,7 +361,6 @@ class _AddWeightDialogState extends State<AddWeightDialog> {
                             }else{
                               if (double.parse(weightController.text.toString()) >= Constant.MIN_LBS && double.parse(weightController.text.toString()) <= Constant.MAX_LBS) {
                                 setState(() {
-                                  //Insert weight in weight table.
                                   DataBaseHelper.insertWeight(WeightData(
                                     id: null,
                                     weightKg: (isKg && !isLsb) ? double.parse(weightController.text.toString()) : Utils.lbToKg(double.parse(weightController.text.toString())),

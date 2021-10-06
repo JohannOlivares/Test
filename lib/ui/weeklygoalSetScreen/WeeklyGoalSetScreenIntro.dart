@@ -30,11 +30,10 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
   bool kmSelected = true;
   bool mileSelected = false;
 
-  bool unit = true; //true for km and false for mile.
+  bool unit = true;
   var distanceKM = 1;
   var distanceMILE = 1;
 
-  int? distance;
 
   @override
   void initState() {
@@ -54,7 +53,6 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
         color: Colur.common_bg_dark,
         child: Column(
           children: [
-            //What is Your Gender Text
             Container(
               margin: EdgeInsets.only(top: fullHeight * 0.15),
               child: Text(
@@ -76,7 +74,6 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                     forDistance: _forDistance(fullHeight)),
               ),
             ),
-            //Next Step Button
 
             _setAsMyGoalButton(fullHeight, fullWidth),
           ],
@@ -91,7 +88,6 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
         margin: EdgeInsets.only(top: fullHeight * 0.06),
         child: Column(
           children: [
-            //Row For Walking Information
             Row(
               children: [
                 Container(
@@ -140,7 +136,6 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                 ),
               ],
             ),
-            //OR Container
             Container(
               alignment: Alignment.center,
               margin: EdgeInsets.symmetric(vertical: 15),
@@ -152,7 +147,6 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                     fontWeight: FontWeight.w700),
               ),
             ),
-            //Row For Running Information
             Row(
               children: [
                 Container(
@@ -199,7 +193,6 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                 ),
               ],
             ),
-            //Info Container
             Expanded(
               child: Container(
                 margin: EdgeInsets.only(
@@ -239,10 +232,7 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
     return Container(
       child: Column(
         children: [
-          //this is for selection between KM and MILE
           _distanceUnitTab(fullHeight),
-          //Curpentino picker for KM and Mile
-          //Distance selector
           _curpentinoPickerDesign(fullHeight),
         ],
       ),
@@ -269,7 +259,6 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                 mileSelected = false;
                 unit = true;
               });
-              //Debug.printLog("km selected");
             },
             child: Container(
               width: 100,
@@ -298,7 +287,6 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                 kmSelected = false;
                 mileSelected = true;
                 unit = false;
-                //Debug.printLog("mile selected");
               });
             },
             child: Container(
@@ -383,11 +371,9 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
                   if (unit == false) {
                     value += 1;
                     distanceMILE = value;
-                    //Debug.printLog("$distanceMILE mile selected");
                   } else {
                     value += 1;
                     distanceKM = value;
-                    //Debug.printLog("$distanceKM km selected");
                   }
                 });
               },
@@ -447,20 +433,15 @@ class _WeeklyGoalSetScreenState extends State<WeeklyGoalSetScreen> {
     if(Debug.STORE_RES_IN_PREF) {
 
       Preference.shared.setString(Preference.GENDER, widget.gender!);
-      //Debug.printLog("Gender stored in pref: ${widget.gender}");
 
       Preference.shared.setInt(Preference.WEIGHT, widget.weight!);
-      //Debug.printLog("Weight stored in pref: ${widget.weight} kg");
 
       Preference.shared.setInt(Preference.HEIGHT, widget.height!);
-      //Debug.printLog("Height stored in pref: ${widget.height} cm");
 
       Preference.shared.setInt(Preference.DISTANCE, distanceKM);
-      //Debug.printLog("Distance stored in pref: $distanceKM km");
     }
   }
 
-  //convert mile in km.
   convert() {
     if(unit == false) {
       var d = distanceMILE*1.609;

@@ -37,7 +37,7 @@ class _LockScreenState extends State<LockScreen> with SingleTickerProviderStateM
         onPressed: showPopup,
         tooltip: 'Increment',
         child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
@@ -51,7 +51,6 @@ class PopUp extends StatefulWidget {
 }
 
 class PopUpState extends State<PopUp> {
-  Animation<double>? opacityAnimation;
   Tween<double> opacityTween = Tween<double>(begin: 0.0, end: 1.0);
   Tween<double> marginTopTween = Tween<double>(begin: 600, end: 200);
   Animation<double>? marginTopAnimation;

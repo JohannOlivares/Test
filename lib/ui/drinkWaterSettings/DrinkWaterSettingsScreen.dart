@@ -100,7 +100,6 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen>
         child: Container(
           child: Column(
             children: [
-              //Top Bar
               Container(
                 child: CommonTopBar(
                   Languages.of(context)!.txtSettings,
@@ -207,24 +206,7 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen>
                         height: 20,
                         width: 10,
                       ),
-                    ),/*Switch(
-                      onChanged: (bool value) {
-                        if (isReminder == false) {
-                          setState(() {
-                            isReminder = true;
-                          });
-                        } else {
-                          setState(() {
-                            isReminder = false;
-                          });
-                        }
-                        Preference.shared
-                            .setBool(Preference.IS_REMINDER_ON, isReminder);
-                      },
-                      value: isReminder,
-                      activeColor: Colur.purple_gradient_color2,
-                      inactiveTrackColor: Colur.txt_grey,
-                    ),*/
+                    ),
                   ),
                 ),
               ],

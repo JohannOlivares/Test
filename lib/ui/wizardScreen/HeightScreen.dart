@@ -9,7 +9,6 @@ import 'package:run_tracker/utils/Color.dart';
 
 
 class HeightScreen extends StatefulWidget {
-  PageController? pageController;
   bool? isBack;
 
   WizardScreenState wizardScreenState;
@@ -29,7 +28,7 @@ class _HeightScreenState extends State<HeightScreen> {
   var ftHeight = 0;
   var inchHeight = 0;
   int? cmHeight = 20;
-  bool unit = true; //true for cm and false for feet
+  bool unit = true;
 
   @override
   void initState() {
@@ -49,7 +48,6 @@ class _HeightScreenState extends State<HeightScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          //What is Your Gender Text
           Container(
             margin: EdgeInsets.only(top:fullHeight*0.05),
             child: Text(
@@ -60,7 +58,6 @@ class _HeightScreenState extends State<HeightScreen> {
                   fontSize: 30),
             ),
           ),
-          //Gender Description
           Container(
             margin: EdgeInsets.only(top: 20),
             child: Text(
@@ -73,15 +70,12 @@ class _HeightScreenState extends State<HeightScreen> {
               ),
             ),
           ),
-          //height Picker===========================
           _heightUnitPicker(fullHeight),
-          //Height Selector
           _heightSelector(fullHeight),
 
 
 
 
-          //Next Step Button
           Container(
             margin: EdgeInsets.only(left: fullWidth*0.15, bottom: fullHeight*0.08, right: fullWidth*0.15),
             alignment: Alignment.bottomCenter,
@@ -108,10 +102,6 @@ class _HeightScreenState extends State<HeightScreen> {
                 ],
               ),
               onPressed: () {
-                /*unit == true ?
-                Utils.showToast(context, "$cmHeight cm") :
-                Utils.showToast(context, "$ftHeight' $inchHeight\" feet") ;*/
-
                 convert();
 
                 Navigator.push(
@@ -151,7 +141,6 @@ class _HeightScreenState extends State<HeightScreen> {
                 cmSelected = true;
                 ftSelected = false;
                 unit = true;
-                //Debug.printLog("cm selected");
               });
             },
             child: Container(
@@ -181,7 +170,6 @@ class _HeightScreenState extends State<HeightScreen> {
                 cmSelected = false;
                 ftSelected = true;
                 unit = false;
-                //Debug.printLog("feet selected");
               });
             },
             child: Container(
@@ -208,7 +196,6 @@ class _HeightScreenState extends State<HeightScreen> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            //FEET SELECTOR
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -232,7 +219,6 @@ class _HeightScreenState extends State<HeightScreen> {
                     onSelectedItemChanged: (value) {
                       setState(() {
                         ftHeight = value;
-                        //Debug.printLog("$ftHeight ft selected");
                       });
                     },
                     itemExtent: 75.0,
@@ -260,7 +246,6 @@ class _HeightScreenState extends State<HeightScreen> {
                     onSelectedItemChanged: (value) {
                       setState(() {
                         inchHeight = value;
-                        //Debug.printLog("$inchHeight inch selected");
                       });
 
                     },
@@ -308,7 +293,6 @@ class _HeightScreenState extends State<HeightScreen> {
                   setState(() {
                     value+=20;
                     cmHeight = value;
-                    //Debug.printLog("$cmHeight cm selected");
                   });
                 },
                 itemExtent: 75.0,
@@ -331,7 +315,6 @@ class _HeightScreenState extends State<HeightScreen> {
     }
   }
 
-  //convert feet into cm
   convert() {
     if(unit == false) {
       var h = (ftHeight*30.48) + (inchHeight*2.59);

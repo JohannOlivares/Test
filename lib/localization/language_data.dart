@@ -7,18 +7,18 @@ class LanguageData {
 
   static List<LanguageData> languageList() {
     return <LanguageData>[
-      LanguageData("🇸🇦", "عربى", 'ar'), //Arabic (ar)
-      LanguageData("🇨🇳", "中国人", 'zh'), //Chinese (zh)
-      LanguageData("🇺🇸", "English", 'en'), //English (en)
-      LanguageData("🇫🇷", "français", 'fr'), //French (fr)
-      LanguageData("🇩🇪", "Deutsche", 'de'), //German (de)
-      LanguageData("🇮🇳", "हिंदी", 'hi'), //Hindi (hi)
-      LanguageData("🇯🇵", "日本", 'ja'), //Japanese (ja)
-      LanguageData("🇵🇹", "português", 'pt'), //Portuguese (pt)
-      LanguageData("🇷🇺", "русский", 'ru'), //Russian (ru)
-      LanguageData("🇪🇸", "Español", 'es'), //Spanish (es)
-      LanguageData("🇵🇰", "اردو", "ur"), //Urdu (ur)
-      LanguageData("🇻🇳", "Tiếng Việt", 'vi'), //Vietnamese (vi)
+      LanguageData("🇸🇦", "عربى", 'ar'),
+      LanguageData("🇨🇳", "中国人", 'zh'),
+      LanguageData("🇺🇸", "English", 'en'),
+      LanguageData("🇫🇷", "français", 'fr'),
+      LanguageData("🇩🇪", "Deutsche", 'de'),
+      LanguageData("🇮🇳", "हिंदी", 'hi'),
+      LanguageData("🇯🇵", "日本", 'ja'),
+      LanguageData("🇵🇹", "português", 'pt'),
+      LanguageData("🇷🇺", "русский", 'ru'),
+      LanguageData("🇪🇸", "Español", 'es'),
+      LanguageData("🇵🇰", "اردو", "ur"),
+      LanguageData("🇻🇳", "Tiếng Việt", 'vi'),
     ];
   }
 }

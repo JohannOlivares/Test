@@ -30,30 +30,6 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
             fullwidth * 0.05, fullheight * 0.01),
         child: Column(
           children: [
-            //Not now
-            /*Container(
-                height: fullheight*0.1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () {
-
-                        Navigator.of(context)
-                            .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);
-                      },
-                      child: Text(
-                        Languages.of(context)!.txtNotnow,
-                        style: TextStyle(
-                          color: Colur.txt_white,
-                          fontSize: 22,
-                          fontWeight: FontWeight.w900
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),*/
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -101,7 +77,6 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                 ],
               ),
             ),
-            //Allow Button,
             Container(
               margin: EdgeInsets.only(bottom: fullheight * 0.04),
               child: GradientButtonSmall(
@@ -127,8 +102,6 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
                 onPressed: () {
                   _permissionCheck();
 
-                  /*Navigator.of(context)
-                        .pushNamedAndRemoveUntil('/startrunScreen', (Route<dynamic> route) => false);*/
                 },
               ),
             )
@@ -227,13 +200,6 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
             ),
             InkWell(
               onTap: () async {
-                /*    Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => WellDoneScreen()
-                    ),
-                    ModalRoute.withName("/homeWizardScreen")
-                );*/
                 await Geolocator.openAppSettings();
               },
               child: Container(

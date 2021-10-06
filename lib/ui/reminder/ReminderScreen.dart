@@ -210,8 +210,6 @@ class _ReminderScreenState extends State<ReminderScreen>
   }
 
   void fillData() {
-
-    //::::::::: *For Running Reminder*:::::::::::::
     String reminderTime =
         Preference.shared.getString(Preference.DAILY_REMINDER_TIME) ?? "6:30";
     isRunningReminder =
@@ -235,8 +233,6 @@ class _ReminderScreenState extends State<ReminderScreen>
     var min = int.parse(reminderTime.split(":")[1]);
     txtReminderTime =
         DateFormat.jm().format(DateTime(2021, 08, 1, hr, min));
-
-    //::::::::: *For Water Reminder*:::::::::::::
 
     String prefStartTimeValue = Preference.shared.getString(Preference.START_TIME_REMINDER)??"08:00";
     String prefEndTimeValue = Preference.shared.getString(Preference.END_TIME_REMINDER)??"23:00";

@@ -108,7 +108,6 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
               "assets/icons/ic_person_bottombar.webp",
               height: 45,
               width: 45,
-              //fit: BoxFit.cover,
             ),
           ),
         ),

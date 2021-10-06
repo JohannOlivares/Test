@@ -270,16 +270,11 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           value: drinkWater != null
               ? (drinkWater! / maxLimitOfDrinkWater!).toDouble()
               : 0,
-          // Defaults to 0.5.
           valueColor: AlwaysStoppedAnimation(Colur.water_level_wave2),
-          //Color(0x9000AEFF)
-          // Defaults to the current Theme's accentColor.
           backgroundColor: Colur.common_bg_dark,
-          // Defaults to the current Theme's backgroundColor.
           borderColor: Colur.rounded_rectangle_color,
           borderWidth: 5.0,
           direction: Axis.vertical,
-          // The direction the liquid moves (Axis.vertical = bottom to top, Axis.horizontal = left to right). Defaults to Axis.vertical.
           center: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -344,7 +339,6 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
               Debug.printLog(
                   "Plus Water drinkWater ==> " + valueForIncrement.toString());
 
-              //Insert water in water table.
               DataBaseHelper()
                   .insertDrinkWater(WaterData(
                     id: null,
@@ -518,7 +512,6 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                   color: Colur.white,
                   fontWeight: FontWeight.w400,
                   fontSize: 15.5),
-              //maxLines: 1,
             ),
           ),
           Container(
@@ -625,7 +618,6 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                   color: Colur.graph_water,
                   fontWeight: FontWeight.w500,
                   fontSize: 15.5),
-              //maxLines: 1,
             ),
           ),
         ],
@@ -733,7 +725,6 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             child: Row(
               children: [
                 Container(
-                  //margin: const EdgeInsets.only(right: 15),
                   child: Image.asset(
                     'assets/icons/ic_clock_reminder.png',
                     scale: 3.5,
@@ -821,10 +812,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            //width: double.infinity,
             height: 30.0,
             margin: const EdgeInsets.only(bottom: 10),
-            //alignment: Alignment.centerLeft,
             child: VerticalDivider(
               color: Colur.txt_grey,
               thickness: 2.5,
@@ -845,9 +834,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                 SizedBox(width: 15,),
                 Expanded(
                   child: Container(
-                    //margin: const EdgeInsets.only(left: 15.0),
                     child: Text(
-                      // "${DateFormat().add_jm().format(DateTime.now()).toString()}",
+
                       "${drinkWaterHistory[index].time}",
                       style: TextStyle(
                           fontSize: 20,
@@ -924,7 +912,10 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
               context,
               MaterialPageRoute(
                   builder: (context) => DrinkWaterSettingsScreen()))
-          .then((value) => _getPreference());
+          .then((value) {
+            _getDataFromDataBase();
+            _getPreference();
+      });
     }
   }
 }

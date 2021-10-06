@@ -67,7 +67,6 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
     final result = await DataBaseHelper.selectMapHistory();
     activityList.addAll(result);
 
-    //print(result[0].eLong);
 
     if (result.isEmpty || result.length == 0) {
       setState(() {
@@ -83,7 +82,6 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
   @override
   Widget build(BuildContext context) {
     var fullHeight = MediaQuery.of(context).size.height;
-    //var fullWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colur.common_bg_dark,
       body: Container(
@@ -169,7 +167,6 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
         child: Padding(
           padding: EdgeInsets.all(13.0),
           child: Row(
-            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ClipRRect(
                 child: Image.file(
@@ -189,19 +186,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                   height: 90,
                   width: 90,
                   fit: BoxFit.fill,
-                ),/* (activityList[index].getImage() == null)
-                    ? Image.asset(
-                        "assets/icons/ic_route_map.png",
-                        height: 90,
-                        width: 90,
-                        fit: BoxFit.cover,
-                      )
-                    : Image.file(
-                        activityList[index].getImage()!,
-                        height: 90,
-                        width: 90,
-                        fit: BoxFit.fill,
-                      ),*/
+                ),
                 borderRadius: BorderRadius.circular(10),
               ),
               Expanded(

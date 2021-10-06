@@ -59,8 +59,6 @@ class _CountdownTimerScreenState extends State<CountdownTimerScreen> with Ticker
             height: 150,
             repeat: false,
             onLoaded: (composition) {
-              // Configure the AnimationController with the duration of the
-              // Lottie file and start the animation.
               _controller!
                 ..duration = composition.duration
                 ..forward();
@@ -81,10 +79,6 @@ class _CountdownTimerScreenState extends State<CountdownTimerScreen> with Ticker
       _controller!.stop(canceled: true);
 
       Navigator.pop(context);
-      /*Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => StartRunScreen(fromCountDown:widget.startTrack)));*/
-
     });
   }
 }

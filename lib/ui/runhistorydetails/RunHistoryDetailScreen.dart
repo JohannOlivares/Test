@@ -28,14 +28,12 @@ class RunHistoryDetailScreen extends StatefulWidget {
 class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
   SolidController _solidController = SolidController();
 
-  //For Google Map
   bool setaliteEnable = false;
   GoogleMapController? _controller;
   LatLng? _startLatLong;
   LatLng? _endLatLong;
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> _polylineList = [];
-  BitmapDescriptor? pinLocationIcon;
   Set<Marker> markers = {};
   bool kmSelected = true;
 
@@ -58,7 +56,6 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
     _endLatLong = LatLng(double.parse(widget.recentActivitiesData.eLat!),
         double.parse(widget.recentActivitiesData.eLong!));
 
-    //this is For add Markers in Map
     final Uint8List markerIcon1 =
         await getBytesFromAsset('assets/icons/ic_map_pin_purple.png', 50);
     final Uint8List markerIcon2 =
@@ -77,7 +74,6 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
     });
 
     Debug.printLog(widget.recentActivitiesData.polyLine!);
-    //Utils.showToast(context, "PolyLines Added");
     _drawPolyLines();
   }
 
@@ -136,7 +132,6 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
   }
 
   _animateCameraToPosition(GoogleMapController? _controller) {
-    //This IS Method For Calculation NorthEast And South West
     LatLngBounds boundsFromLatLngList(List<LatLng> list) {
       assert(list.isNotEmpty);
       double? x0;
@@ -158,7 +153,6 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
           northeast: LatLng(x1!, y1!), southwest: LatLng(x0!, y0!));
     }
 
-    //After adding polylines list for Calculate NorthEast And South West Positions and Animate Camera
     Future.delayed(Duration(milliseconds: 10)).then((value) {
       jsonEncode(_polylineList);
       LatLngBounds latLngBounds = boundsFromLatLngList(_polylineList);
@@ -221,7 +215,6 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          //DELETE
 
                           _showDeleteDialog(context);
                         },
@@ -242,7 +235,6 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                       ),
                       InkWell(
                         onTap: () {
-                          //Share
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -374,7 +366,6 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                             child: Text(
                               Utils.secToString(
                                   widget.recentActivitiesData.duration!),
-                              //widget.runningData!.duration.toString(),
                               style: TextStyle(
                                   color: Colur.txt_white,
                                   fontWeight: FontWeight.w600,
@@ -405,7 +396,6 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                                   : Utils.minPerKmToMinPerMile(
                                           widget.recentActivitiesData.speed!)
                                       .toStringAsFixed(2),
-                              //widget.runningData!.speed.toString(),
                               style: TextStyle(
                                   color: Colur.txt_white,
                                   fontWeight: FontWeight.w600,
@@ -446,7 +436,6 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                           Container(
                             child: Text(
                               widget.recentActivitiesData.cal.toString(),
-                              //widget.runningData!.cal.toString(),
                               style: TextStyle(
                                   color: Colur.txt_white,
                                   fontWeight: FontWeight.w600,
@@ -471,7 +460,6 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
             ],
           ),
         ),
-        // Your header here
         body: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.only(top: 10),
@@ -482,7 +470,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
               children: [
                 Container(
                   child: Text(
-                   (kmSelected)?widget.recentActivitiesData.distance!.toStringAsFixed(2):Utils.kmToMile(widget.recentActivitiesData.distance!).toStringAsFixed(2),//widget.runningData!.distance.toString(),
+                   (kmSelected)?widget.recentActivitiesData.distance!.toStringAsFixed(2):Utils.kmToMile(widget.recentActivitiesData.distance!).toStringAsFixed(2),
                     style: TextStyle(
                         color: Colur.txt_white,
                         fontWeight: FontWeight.w600,
@@ -647,7 +635,7 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
               ],
             ),
           ),
-        ) // Your body here
-        );
+        )
+    );
   }
 }

@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:date_format/date_format.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lottie/lottie.dart'as lottie;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -34,7 +33,6 @@ class ShareScreen extends StatefulWidget {
 class _ShareScreenState extends State<ShareScreen> implements TopBarClickListener {
 
   GlobalKey previewContainer = new GlobalKey();
-  int originalSize = 800;
   bool kmSelected = true;
   RunningData? runningData;
 
@@ -112,7 +110,6 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                                       Container(
                                         child: Text(
                                           Utils.secToString(runningData!.duration!),
-                                          //runningData!.duration.toString(),
                                           style: TextStyle(
                                               color: Colur.txt_white,
                                               fontWeight: FontWeight.w600,
@@ -139,7 +136,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                                     children: [
                                       Container(
                                         child: Text(
-                                          (kmSelected)? runningData!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(runningData!.speed!).toStringAsFixed(2), //runningData!.speed.toString(),
+                                          (kmSelected)? runningData!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(runningData!.speed!).toStringAsFixed(2),
                                           style: TextStyle(
                                               color: Colur.txt_white,
                                               fontWeight: FontWeight.w600,
@@ -165,7 +162,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                                     children: [
                                       Container(
                                         child: Text(
-                                          runningData!.cal.toString(), //runningData!.cal.toString(),
+                                          runningData!.cal.toString(),
                                           style: TextStyle(
                                               color: Colur.txt_white,
                                               fontWeight: FontWeight.w600,
@@ -196,25 +193,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                   onTap: (){
                     screenShotAndShare();
                   },
-                  child:/*Container(
-                    height: 90,
-                    width: 90,
-                    margin: EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(shape: BoxShape.circle,gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: <Color>[
-                        Colur.purple_gradient_color1,
-                        Colur.purple_gradient_color2,
-                      ],
-                    ), ),
-                    child: lottie.Lottie.asset(
-                      'assets/animation/send_2.json',
-                      width: 200,
-                      height: 200,
-                      repeat: true,
-                    ),
-                  ),*/ Container(
+                  child:Container(
                     height: 90,
                     width: 90,
                     margin: EdgeInsets.symmetric(vertical: 15),
@@ -259,7 +238,6 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
       Uint8List pngBytes = byteData.buffer.asUint8List();
       File imgFile = await File(savedDir.path + Platform.pathSeparator + DateTime.now().millisecondsSinceEpoch.toString()+'_ss.png').create(recursive: true);
       await imgFile.writeAsBytes(pngBytes);
-      // print('Screenshot Path:' + imgFile.path);
       final RenderBox box = context.findRenderObject() as RenderBox;
       Share.shareFiles([imgFile.path],
           subject: Languages.of(context)!.appName,
@@ -279,10 +257,6 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
     final directory = (plateform2 == TargetPlatform.android)
         ? await getExternalStorageDirectory()
         : await getApplicationDocumentsDirectory();
-
-    /* if(plateform2 == TargetPlatform.android)
-      return '/storage/emulated/0';*/
-
     return directory?.path;
   }
 

@@ -35,7 +35,7 @@ class _WeightScreenState extends State<WeightScreen> {
   bool kgSelected = true;
   bool lbsSelected = false;
 
-  bool unit = true;//true for kg and false for lbs
+  bool unit = true;
   int? weightKG = 20;
   int weightLBS = 44;
 
@@ -56,7 +56,6 @@ class _WeightScreenState extends State<WeightScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          //How much do you weigh?
           Container(
             margin: EdgeInsets.only(top: fullHeight*0.05),
             child: Text(
@@ -69,7 +68,6 @@ class _WeightScreenState extends State<WeightScreen> {
                   fontSize: 30),
             ),
           ),
-          //To personalize your fitness goal
           Container(
             margin: EdgeInsets.only(top: 20),
             child: Text(
@@ -85,13 +83,10 @@ class _WeightScreenState extends State<WeightScreen> {
             ),
           ),
 
-          //Weight unit Picker===========================
           weightUnitPicker(fullHeight),
 
-          //Weight selector
           weightSelector(fullHeight),
 
-          //Next Step Button
           Container(
             margin: EdgeInsets.only(left: fullWidth*0.15, bottom: fullHeight*0.08, right: fullWidth*0.15),
             alignment: Alignment.bottomCenter,
@@ -164,7 +159,6 @@ class _WeightScreenState extends State<WeightScreen> {
                 lbsSelected = false;
                 unit = true;
               });
-              //Debug.printLog("kg selected");
             },
             child: Container(
               width: 100,
@@ -193,7 +187,6 @@ class _WeightScreenState extends State<WeightScreen> {
                 kgSelected = false;
                 lbsSelected = true;
                 unit = false;
-                //Debug.printLog("lbs selected");
               });
             },
             child: Container(
@@ -246,7 +239,6 @@ class _WeightScreenState extends State<WeightScreen> {
                     setState(() {
                       value += 44;
                       weightLBS = value;
-                      //Debug.printLog("$weightLBS lbs selected");
                     });
                   },
                   itemExtent: 75.0,
@@ -297,7 +289,6 @@ class _WeightScreenState extends State<WeightScreen> {
                     setState(() {
                       value += 20;
                       weightKG = value;
-                      // Debug.printLog("$weightKG kg selected");
                     });
                   },
                   itemExtent: 75.0,
@@ -320,13 +311,10 @@ class _WeightScreenState extends State<WeightScreen> {
     }
   }
 
-  //convert lbs into kg.
   convert() {
     if(unit == false) {
-      //print(weightLBS);
       var w = weightLBS *0.45;
       weightKG = w.toInt();
-      //print("w in kg: "+weightKG.toString());
     }
   }
 }

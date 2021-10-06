@@ -45,7 +45,6 @@ class _MapSettingScreenState extends State<MapSettingScreen>
         child: Container(
           child: Column(
             children: [
-              //Top Bar
               Container(
                 child: CommonTopBar(
                   Languages.of(context)!.txtSettings,
@@ -53,33 +52,6 @@ class _MapSettingScreenState extends State<MapSettingScreen>
                   isShowBack: true,
                 ),
               ),
-             /* Container(
-                margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        Languages.of(context)!.txtTroubleShooting,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            color: Colur.txt_white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                    Image.asset(
-                      "assets/icons/ic_trouble_shooting.png",
-                      scale: 4,
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                color: Colur.txt_grey,
-                indent: 20.0,
-                endIndent: 20.0,
-              ),*/
               Container(
                 margin: EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
                 child: Row(
@@ -88,7 +60,6 @@ class _MapSettingScreenState extends State<MapSettingScreen>
                     Expanded(
                       child: Text(
                         Languages.of(context)!.txtMetricAndImperialUnits,
-                        //textAlign: TextAlign.left,
                         style: TextStyle(
                             color: Colur.txt_white,
                             fontSize: 18,

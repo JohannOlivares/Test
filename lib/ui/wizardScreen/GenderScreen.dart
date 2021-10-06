@@ -47,7 +47,6 @@ class _GenderScreenState extends State<GenderScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
-          //What is Your Gender Text
           Container(
             margin: EdgeInsets.only(top: fullHeight*0.05),
             child: Text(
@@ -60,7 +59,6 @@ class _GenderScreenState extends State<GenderScreen> {
                   fontSize: 30),
             ),
           ),
-          //Gender Description
           Container(
             margin: EdgeInsets.only(top: 20),
             child: Text(
@@ -75,10 +73,8 @@ class _GenderScreenState extends State<GenderScreen> {
               ),
             ),
           ),
-          //Male Button===========================
           _maleContanier(fullHeight),
           _femaleContainer(fullHeight),
-          //Next Step Button
 
 
           Expanded(
@@ -136,8 +132,6 @@ class _GenderScreenState extends State<GenderScreen> {
       onTap: () {
         setState(() {
           gender = Gender.Male;
-         /* Debug.printLog("Male Selected");
-          Utils.showToast(context, "Male");*/
         });
       },
       child: Container(
@@ -180,8 +174,6 @@ class _GenderScreenState extends State<GenderScreen> {
                 onChanged: (Gender? value) {
                   setState(() {
                     gender = value;
-                    /*Debug.printLog(
-                        "Male Selected From Radio" + gender.toString());*/
                   });
                 },
               ),
@@ -197,8 +189,6 @@ class _GenderScreenState extends State<GenderScreen> {
       onTap: () {
         setState(() {
           gender = Gender.Female;
-          /*Debug.printLog("Female Selected");
-          Utils.showToast(context, "Female");*/
         });
       },
       child: Container(
@@ -241,8 +231,6 @@ class _GenderScreenState extends State<GenderScreen> {
                 onChanged: (Gender? value) {
                   setState(() {
                     gender = value;
-                    /*Debug.printLog("Female Selected From Radio" +
-                        gender.toString());*/
                   });
                 },
               ),

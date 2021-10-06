@@ -132,7 +132,6 @@ class _WellDoneScreenState extends State<WellDoneScreen>
   @override
   Future<void> onTopBarClick(String name, {bool value = true}) async {
     if (name == Constant.STR_DELETE) {
-      //Utils.showToast(context, "THis Data is not Stored In History");
       _showDeleteDialog(context);
     }
     if (name == Constant.STR_CLOSE) {
@@ -162,8 +161,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
         total: null));
 
     widget.runningData!.id = id;
-    /* Navigator.of(context)
-        .pushNamedAndRemoveUntil('/homeWizardScreen', (Route<dynamic> route) => false);*/
+
   }
 
 
@@ -201,15 +199,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
     return Container(
       width: fullwidth,
       margin: EdgeInsets.only(top: 20, bottom: 20),
-      child: /*ClipRRect(
-        borderRadius: BorderRadius.all(Radius.circular(12.0)),
-        child: (widget.runningData!.image != null && widget.runningData!.getImage() != null)?Image.memory(widget.runningData!.getImage()!,fit: BoxFit.contain,): Image.asset(
-          'assets/images/dummy_map.png',
-          fit: BoxFit.cover,
-        ),
-      ),*/
-
-      ClipRRect(
+      child: ClipRRect(
         borderRadius: BorderRadius.all(Radius.circular(12.0)),
         child: (widget.runningData!.imageFile != null)?Image.file(
           widget.runningData!.imageFile!,fit: BoxFit.contain,): Image.asset(
@@ -224,7 +214,6 @@ class _WellDoneScreenState extends State<WellDoneScreen>
     return Container(
       child: Column(
         children: [
-          //THis ROW is For Duration and Distance Text
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -278,7 +267,6 @@ class _WellDoneScreenState extends State<WellDoneScreen>
               )
             ],
           ),
-          //This Row is For PAce || KCAL || MOVING TIME
           Container(
             margin: EdgeInsets.only(top: 30),
             child: Row(

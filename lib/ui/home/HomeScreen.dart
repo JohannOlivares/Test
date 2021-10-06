@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
@@ -12,10 +12,8 @@ import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/localization/locale_constant.dart';
 import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/goalSetScreen/GoalSettingScreen.dart';
-import 'package:run_tracker/ui/home/HomeWizardScreen.dart';
 import 'package:run_tracker/ui/recentActivities/RecentActivitiesScreen.dart';
 import 'package:run_tracker/ui/runhistorydetails/RunHistoryDetailScreen.dart';
-import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/ui/stepsTracker/StepsTrackerScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
@@ -23,15 +21,11 @@ import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'package:syncfusion_flutter_gauges/gauges.dart';
-import 'package:intl/intl.dart';
-import 'package:run_tracker/ad_helper.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
 import '../../localization/language/languages.dart';
 import '../../main.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -40,15 +34,11 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen>
     implements TopBarClickListener {
-  bool homeSelected = true;
-  bool profileSelected = false;
   bool recentActivityShow = false;
   List<RunningData> recentActivitiesData = [];
-  int totalrecentActivity = 0;
   double targetValueForDistance = 0.0;
   bool isDistanceIndicatorSelected = false;
   bool isKmSelected = true;
-  //Intensity Of Walking
   int walkTime = 150;
   int runTime = 75;
   int? prefSelectedDay;
@@ -86,14 +76,6 @@ class _HomeScreenState extends State<HomeScreen>
       {
         Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> DrinkWaterLevelScreen())));
       }
-      /*else if (redirect != true)
-      {
-        if(notificationAppLaunchDetails.payload != null && notificationAppLaunchDetails.payload == Constant.STR_RUNNING_REMINDER) {
-          redirect = true;
-          Preference.shared.setBool(Preference.IS_REDIRECT, redirect!);
-          Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> StartRunScreen())));
-        }
-      }*/
     }
   }
 
@@ -159,7 +141,6 @@ class _HomeScreenState extends State<HomeScreen>
       dates.add(formatCurrentWeekDates);
     }
     highIntensityCount = await DataBaseHelper.getSumOfTotalHighIntensity(dates);
-    //Debug.printLog("total high intensity: ${highIntensityCount!}");
     setState(() {
 
     });
@@ -179,13 +160,10 @@ class _HomeScreenState extends State<HomeScreen>
       dates.add(formatCurrentWeekDates);
     }
     lowIntensityCount = await DataBaseHelper.getSumOfTotalLowIntensity(dates);
-    //Debug.printLog("total low intensity: ${lowIntensityCount!}");
 
     moderateIntensityCount = await DataBaseHelper.getSumOfTotalModerateIntensity(dates);
-    //Debug.printLog("total moderate intensity: ${moderateIntensityCount!}");
 
     walkIntensityCount = lowIntensityCount! + moderateIntensityCount!;
-    //Debug.printLog("total walk intensity: ${walkIntensityCount!}");
     setState(() {
       
     });
@@ -239,7 +217,6 @@ class _HomeScreenState extends State<HomeScreen>
                 child: Container(
                   child: Column(
                     children: [
-                      //Circular percent Indicator
                       Container(
                         child: Stack(
                           alignment: Alignment.bottomCenter,
@@ -283,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen>
           style: TextStyle(
               color: Colur.txt_grey,
               fontWeight: FontWeight.w400,
-              fontSize: 18 //12
+              fontSize: 18
               ),
         ),
       ],
@@ -299,7 +276,7 @@ class _HomeScreenState extends State<HomeScreen>
             children: [
               Image.asset(
                 "assets/icons/ic_person_walk.png",
-                height: 30, //20
+                height: 30,
               ),
               SizedBox(
                 width: 12,
@@ -309,7 +286,7 @@ class _HomeScreenState extends State<HomeScreen>
                 style: TextStyle(
                     color: Colur.txt_grey,
                     fontWeight: FontWeight.w400,
-                    fontSize: 22 //18
+                    fontSize: 22
                     ),
               ),
               Text(
@@ -317,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen>
                 style: TextStyle(
                     color: Colur.txt_grey,
                     fontWeight: FontWeight.w400,
-                    fontSize: 18 //12
+                    fontSize: 18
                     ),
               )
             ],
@@ -329,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen>
             children: [
               Image.asset(
                 "assets/icons/ic_person_run.png",
-                height: 30, //20
+                height: 30,
               ),
               SizedBox(
                 width: 12,
@@ -339,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen>
                 style: TextStyle(
                   color: Colur.txt_grey,
                   fontWeight: FontWeight.w400,
-                  fontSize: 22, //18
+                  fontSize: 22,
                 ),
               ),
               Text(
@@ -347,7 +324,7 @@ class _HomeScreenState extends State<HomeScreen>
                 style: TextStyle(
                   color: Colur.txt_grey,
                   fontWeight: FontWeight.w400,
-                  fontSize: 18, //12
+                  fontSize: 18,
                 ),
               )
             ],
@@ -628,7 +605,6 @@ class _HomeScreenState extends State<HomeScreen>
                                   color: Colur.txt_purple,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 14),
-                              //maxLines: 1,
                             ),
                           ),
                         ),
@@ -708,7 +684,6 @@ class _HomeScreenState extends State<HomeScreen>
             MaterialPageRoute(
                 builder: (context) =>
                     RunHistoryDetailScreen(recentActivitiesData[index])));
-        //recentActivitiesData[index]
       },
       child: Container(
         margin: EdgeInsets.only(top: 5, bottom: 5),
@@ -719,7 +694,6 @@ class _HomeScreenState extends State<HomeScreen>
         child: Padding(
           padding: EdgeInsets.all(13.0),
           child: Row(
-            //mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ClipRRect(
                 child: Image.file(

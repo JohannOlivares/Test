@@ -366,7 +366,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     _weightWidget(context),
                     _drinkWaterWidget(context),
                     _bestRecordWidget(context),
-                    // _fastestTimeWidget(context),
                   ],
                 ),
               ),
@@ -410,35 +409,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: Colur.white,
                                     fontWeight: FontWeight.w700,
                                     fontSize: 25),
-                                //maxLines: 1,
                               ),
                             ),
                           ),
-                          // Container(
-                          //   margin: const EdgeInsets.only(left: 10.0),
-                          //   decoration: BoxDecoration(
-                          //       gradient: LinearGradient(
-                          //           begin: Alignment.topCenter,
-                          //           end: Alignment.bottomCenter,
-                          //           colors: [
-                          //             Colur.grad_yellow_light,
-                          //             Colur.grad_yellow_dark,
-                          //           ]),
-                          //       borderRadius: BorderRadius.circular(3.0)),
-                          //   padding: const EdgeInsets.symmetric(
-                          //       vertical: 2.5, horizontal: 5.0),
-                          //   child: Text(
-                          //     Languages.of(context)!.txtPro.toUpperCase(),
-                          //     textAlign: TextAlign.center,
-                          //     maxLines: 1,
-                          //     overflow: TextOverflow.ellipsis,
-                          //     style: TextStyle(
-                          //         color: Colur.txt_black,
-                          //         fontWeight: FontWeight.w700,
-                          //         fontSize: 12),
-                          //     //maxLines: 1,
-                          //   ),
-                          // ),
                         ],
                       ),
                       Container(
@@ -452,7 +425,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               color: Colur.txt_grey,
                               fontWeight: FontWeight.w500,
                               fontSize: 15),
-                          //maxLines: 1,
                         ),
                       ),
                     ],
@@ -480,117 +452,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-
-            //This comment design is the in-app purchase
-            /* Container(
-              margin: const EdgeInsets.only(top: 50.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Image.asset(
-                    "assets/icons/ic_round_true.webp",
-                    scale: 4.2,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 25.0),
-                    child: Text(
-                      Languages.of(context)!.txtRemoveAddForever,
-                      textAlign: TextAlign.left,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colur.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18),
-                      //maxLines: 1,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 20.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Image.asset(
-                    "assets/icons/ic_round_true.webp",
-                    scale: 4.2,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 25.0),
-                    child: Text(
-                      Languages.of(context)!.txtUnlockAllTrainingPlans,
-                      textAlign: TextAlign.left,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colur.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18),
-                      //maxLines: 1,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 20.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Image.asset(
-                    "assets/icons/ic_round_true.webp",
-                    scale: 4.2,
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(left: 25.0),
-                    child: Text(
-                      Languages.of(context)!.txtDeeperAnalysis,
-                      textAlign: TextAlign.left,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          color: Colur.white,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 18),
-                      //maxLines: 1,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 30.0),
-              child: GradientButtonSmall(
-                width: double.infinity,
-                height: 50.0,
-                radius: 50.0,
-                child: Text(
-                  Languages.of(context)!.txtStart.toUpperCase(),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      color: Colur.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 18.0),
-                ),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: <Color>[
-                    Colur.purple_gradient_color1,
-                    Colur.purple_gradient_color2,
-                  ],
-                ),
-                isShadow: false,
-                onPressed: () {},
-              ),
-            ),*/
           ],
         ),
       ),
@@ -611,14 +472,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Expanded(
                 child: Text(
                   Languages.of(context)!.txtMyProgress,
-                  //textAlign: TextAlign.left,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: Colur.white,
                       fontWeight: FontWeight.w700,
                       fontSize: 18),
-                  //maxLines: 1,
                 ),
               ),
               InkWell(
@@ -635,7 +494,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: Colur.txt_purple,
                       fontWeight: FontWeight.w500,
                       fontSize: 16),
-                  //maxLines: 1,
                 ),
               ),
             ],
@@ -655,7 +513,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colur.white,
                   fontWeight: FontWeight.w700,
                   fontSize: 50.0),
-              //maxLines: 1,
             ),
           ),
           Text(
@@ -670,7 +527,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 color: Colur.white, fontWeight: FontWeight.w500, fontSize: 14),
-            //maxLines: 1,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -687,28 +543,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ? Utils.secToHour(totalHours!.duration!)
                                   .toStringAsFixed(2)
                               : "0.00",
-                          //textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colur.white,
                               fontWeight: FontWeight.w700,
                               fontSize: 40.0),
-                          //maxLines: 1,
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 10.0),
                         child: Text(
                           Languages.of(context)!.txtTotalHours.toUpperCase(),
-                          //textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colur.txt_grey,
                               fontWeight: FontWeight.w500,
                               fontSize: 14),
-                          //maxLines: 1,
                         ),
                       ),
                     ],
@@ -725,28 +577,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         (totalKcal != null && totalKcal!.total! != 0)
                             ? totalKcal!.total!.toStringAsFixed(1)
                             : "0.0",
-                        //textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             color: Colur.white,
                             fontWeight: FontWeight.w700,
                             fontSize: 40.0),
-                        //maxLines: 1,
                       ),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: 10.0),
                       child: Text(
                         Languages.of(context)!.txtTotalKCAL.toUpperCase(),
-                        //textAlign: TextAlign.left,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             color: Colur.txt_grey,
                             fontWeight: FontWeight.w500,
                             fontSize: 14),
-                        //maxLines: 1,
                       ),
                     ),
                   ],
@@ -766,28 +614,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   : Utils.minPerKmToMinPerMile(avgPace!.total!)
                                       .toStringAsFixed(2)
                               : "0.00",
-                          //textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colur.white,
                               fontWeight: FontWeight.w700,
                               fontSize: 40.0),
-                          //maxLines: 1,
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.only(top: 10.0),
                         child: Text(
                           Languages.of(context)!.txtAvgPace.toUpperCase(),
-                          //textAlign: TextAlign.left,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               color: Colur.txt_grey,
                               fontWeight: FontWeight.w500,
                               fontSize: 14),
-                          //maxLines: 1,
                         ),
                       ),
                     ],
@@ -817,7 +661,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 color: Colur.white, fontWeight: FontWeight.w700, fontSize: 18),
-            //maxLines: 1,
           ),
           Container(
             width: double.infinity,
@@ -859,7 +702,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: Colur.white,
                       fontWeight: FontWeight.w400,
                       fontSize: 15.5),
-                  //maxLines: 1,
                 ),
                 if (isNextWeek)
                   InkWell(
@@ -994,7 +836,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colur.txt_white,
                   fontWeight: FontWeight.w700,
                   fontSize: 22),
-              //maxLines: 1,
             ),
           ),
         ],
@@ -1075,14 +916,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Expanded(
                 child: Text(
                   Languages.of(context)!.txtWeight,
-                  //textAlign: TextAlign.left,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       color: Colur.white,
                       fontWeight: FontWeight.w700,
                       fontSize: 18),
-                  //maxLines: 1,
                 ),
               ),
               InkWell(
@@ -1102,7 +941,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: Colur.txt_purple,
                       fontWeight: FontWeight.w500,
                       fontSize: 18),
-                  //maxLines: 1,
                 ),
               ),
             ],
@@ -1121,7 +959,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colur.white,
                   fontWeight: FontWeight.w700,
                   fontSize: 18),
-              //maxLines: 1,
             ),
           ),
           Container(
@@ -1136,7 +973,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colur.txt_grey,
                   fontWeight: FontWeight.w400,
                   fontSize: 14),
-              //maxLines: 1,
             ),
           ),
           Container(
@@ -1166,7 +1002,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 new charts.PanBehavior(),
                 charts.LinePointHighlighter(
                     symbolRenderer:
-                        CustomCircleSymbolRenderer() // add this line in behaviours
+                        CustomCircleSymbolRenderer()
                     )
               ],
               primaryMeasureAxis: charts.NumericAxisSpec(
@@ -1191,7 +1027,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     final value = model.selectedSeries[0]
                         .measureFn(model.selectedDatum[0].index);
                     CustomCircleSymbolRenderer.value =
-                        value.toString(); // paints the tapped value
+                        value.toString();
                   }
                 })
               ],
@@ -1218,7 +1054,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 color: Colur.white, fontWeight: FontWeight.w700, fontSize: 18),
-            //maxLines: 1,
           ),
           Container(
             width: double.infinity,
@@ -1234,7 +1069,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colur.white,
                   fontWeight: FontWeight.w400,
                   fontSize: 15.5),
-              //maxLines: 1,
             ),
           ),
           Container(
@@ -1342,7 +1176,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colur.txt_purple,
                   fontWeight: FontWeight.w500,
                   fontSize: 15.5),
-              //maxLines: 1,
             ),
           ),
           Container(
@@ -1357,7 +1190,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   color: Colur.txt_white,
                   fontWeight: FontWeight.w700,
                   fontSize: 22),
-              //maxLines: 1,
             ),
           ),
         ],
@@ -1423,7 +1255,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 color: Colur.white, fontWeight: FontWeight.w700, fontSize: 18),
-            //maxLines: 1,
           ),
           Container(
             decoration: BoxDecoration(
@@ -1476,7 +1307,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: Colur.txt_purple,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 22),
-                                //maxLines: 1,
                               ),
                               Expanded(
                                 child: Container(
@@ -1490,14 +1320,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         : Languages.of(context)!
                                             .txtMile
                                             .toLowerCase(),
-                                    //textAlign: TextAlign.left,
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         color: Colur.txt_purple,
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14),
-                                    //maxLines: 1,
                                   ),
                                 ),
                               ),
@@ -1515,7 +1343,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       color: Colur.white,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 13),
-                                  //maxLines: 1,
                                 ),
                               ),
                             ],
@@ -1577,7 +1404,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     color: Colur.txt_purple,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 22),
-                                //maxLines: 1,
                               ),
                               Container(
                                 padding: const EdgeInsets.only(
@@ -1597,7 +1423,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       color: Colur.txt_purple,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 14),
-                                  //maxLines: 1,
                                 ),
                               ),
                             ],
@@ -1651,14 +1476,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       ? Utils.secToString(
                                           longestDuration!.duration!)
                                       : "00:00",
-                                  //textAlign: TextAlign.left,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                       color: Colur.txt_purple,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 22),
-                                  //maxLines: 1,
                                 ),
                               ),
                               Container(
@@ -1675,7 +1498,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       color: Colur.white,
                                       fontWeight: FontWeight.w400,
                                       fontSize: 13),
-                                  //maxLines: 1,
                                 ),
                               ),
                             ],
@@ -1692,83 +1514,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
     );
   }
-
-/*  _fastestTimeWidget(BuildContext context) {
-    return Container(
-      margin:
-          const EdgeInsets.only(left: 25.0, right: 25.0, bottom: 50, top: 20),
-      child: Theme(
-        data: ThemeData(
-          accentColor: Colur.txt_purple,
-          unselectedWidgetColor: Colur.white,
-        ),
-        child: ExpansionTile(
-          title: Text(
-            Languages.of(context)!.txtFastestTime,
-            textAlign: TextAlign.left,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                color: Colur.white, fontWeight: FontWeight.w700, fontSize: 18),
-          ),
-          initiallyExpanded: true,
-          tilePadding: const EdgeInsets.only(left: 5.0, right: 5.0),
-          children: [
-            ListView.builder(
-              itemCount: 20,
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  decoration: BoxDecoration(
-                      color: Colur.rounded_rectangle_color,
-                      borderRadius: BorderRadius.circular(10.0)),
-                  margin: EdgeInsets.only(bottom: 20.0),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20.0, vertical: 30.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/icons/ic_star_blue.png",
-                        scale: 3.5,
-                      ),
-                      Expanded(
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: 25.0),
-                          child: Text(
-                            Languages.of(context)!.txtBest.toUpperCase() +
-                                " 400M",
-                            textAlign: TextAlign.left,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                color: Colur.white,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 18),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        "--",
-                        textAlign: TextAlign.left,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: Colur.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }*/
 }
 
 class LinearSales {

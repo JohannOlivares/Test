@@ -26,19 +26,14 @@ class DrinkWaterReminderScreen extends StatefulWidget {
 class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
     implements TopBarClickListener {
   bool isNotification = false;
-  var startValue;
-  var endValue;
   int dropdownIntervalValue = 30;
-  final TextEditingController msgController = TextEditingController();
 
-  //For Time Selection Variables
   String? _hour, _minute, _time;
   TextEditingController _timeController = TextEditingController();
   TextEditingController _endTimeController = TextEditingController();
   TextEditingController _startTimeController = TextEditingController();
   TextEditingController _notificationMSgController = TextEditingController();
 
-  //Preference Values Variables
   String? prefStartTimeValue;
   String? prefEndTimeValue;
   String? prefNotiMsg;
@@ -126,7 +121,6 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
         resizeToAvoidBottomInset: true,
         body: Container(
           child: Column(children: [
-            //Top Bar
             Container(
               child: CommonTopBar(
                   Languages.of(context)!.txtDrinkWaterReminder, this,
@@ -188,7 +182,6 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
           buildTitleText(fullWidth, fullHeight, context,
               Languages.of(context)!.txtSchedule),
 
-          //Start
 
           InkWell(
             onTap: () {
@@ -229,7 +222,6 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
 
           buildDivider(),
 
-          //Stop
           InkWell(
             onTap: () {
               var hr = int.parse(prefEndTimeValue!.split(":")[0]);
@@ -268,7 +260,6 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
           ),
           buildDivider(),
 
-          //Interval
           Container(
             child: Row(
               children: [
@@ -306,7 +297,6 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
         style: TextStyle(
             color: Colur.txt_white, fontSize: 18, fontWeight: FontWeight.w500),
         cursorColor: Colur.txt_grey,
-        //controller: msgController,
         decoration: InputDecoration(
           border: InputBorder.none,
         ),
@@ -339,12 +329,9 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
             var newtime = (selectedTime.hour + 1).toString() +
                 ' : ' +
                 (selectedTime.minute).toString();
-            //Preference.shared.setString(Preference.END_TIME_REMINDER, newtime);
             prefEndTimeValue = newtime;
           }
 
-          /*Preference.clearStartTimeReminder();
-          Preference.shared.setString(Preference.START_TIME_REMINDER, _time!);*/
           prefStartTimeValue = _time!;
         } else {
           _endTimeController.text = DateFormat.jm().format(
@@ -358,57 +345,15 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
             var newtime = (selectedTime.hour + 1).toString() +
                 ' : ' +
                 (selectedTime.minute).toString();
-            //Preference.shared.setString(Preference.START_TIME_REMINDER, newtime);
             prefStartTimeValue = newtime;
           }
-          // Preference.clearStartTimeReminder();
-          // Preference.shared.setString(Preference.END_TIME_REMINDER, _time!);
           prefEndTimeValue = _time!;
         }
 
-        //_repeatNotificationDaily();
       });
   }
 
-  ringtone(double fullWidth, double fullHeight, BuildContext context) {
-    return InkWell(
-      onTap: () {},
-      child: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  Languages.of(context)!.txtRingtone,
-                  style: TextStyle(
-                      color: Colur.txt_white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500),
-                ),
-                Text(
-                  "Default",
-                  style: TextStyle(
-                      color: Colur.txt_grey,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 15),
-              child: Icon(
-                Icons.arrow_forward_ios_outlined,
-                color: Colur.txt_grey,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+
 
   buildTitleText(
       double fullWidth, double fullHeight, BuildContext context, String title) {
@@ -436,7 +381,6 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
         var status = await Permission.notification.status;
         if (status.isDenied) {
           await Permission.notification.request();
-          //openAppSettings();
         }
 
         if (status.isPermanentlyDenied) {
@@ -444,12 +388,10 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
         }
 
         if (isNotification == false) {
-          //setWaterReminder();
           setState(() {
             isNotification = true;
           });
         } else {
-          //flutterLocalNotificationsPlugin.cancelAll();
           setState(() {
             isNotification = false;
           });
@@ -521,13 +463,20 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
   }
 
   setWaterReminder() async {
-    //TimeOfDay startTime  = TimeOfDay(hour:int.parse(prefStartTimeValue!.split(":")[0]),minute: int.parse(prefStartTimeValue!.split(":")[1]));
-    //TimeOfDay endTime  = TimeOfDay(hour:int.parse(prefEndTimeValue!.split(":")[0]),minute: int.parse(prefEndTimeValue!.split(":")[1]));
-
     var titleText = Languages.of(context)!.txtTimeToHydrate;
     var msg = _notificationMSgController.text;
-    await flutterLocalNotificationsPlugin.cancelAll();
     final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
+
+    List<PendingNotificationRequest> pendingNoti =
+    await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+
+    pendingNoti.forEach((element) {
+      if (element.payload != Constant.STR_RUNNING_REMINDER) {
+        Debug.printLog(
+            "Cancele Notification ::::::==> ${element.id}");
+        flutterLocalNotificationsPlugin.cancel(element.id);
+      }
+    });
 
     tz.TZDateTime startTime = tz.TZDateTime(
         tz.local,
@@ -568,7 +517,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
       payload: scheduledDate.millisecondsSinceEpoch.toString());
     }
 
-    var interVal = dropdownIntervalValue; //dropdownIntervalValue
+    var interVal = dropdownIntervalValue;
     var notificationId = 1;
     while (startTime.isBefore(endTime)) {
       tz.TZDateTime newScheduledDate = startTime;
@@ -607,11 +556,19 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
                       _notificationMSgController.text);
                   Preference.shared.setBool(Preference.IS_REMINDER_ON, isNotification);
                   Preference.shared.setInt(Preference.DRINK_WATER_INTERVAL, dropdownIntervalValue);
-                  //_repeatNotificationDaily();
                  if (isNotification)
                     setWaterReminder();
                   else {
-                    flutterLocalNotificationsPlugin.cancelAll();
+                   List<PendingNotificationRequest> pendingNoti =
+                   await flutterLocalNotificationsPlugin.pendingNotificationRequests();
+
+                   pendingNoti.forEach((element) {
+                     if (element.payload != Constant.STR_RUNNING_REMINDER) {
+                       Debug.printLog(
+                           "Cancele Notification ::::::==> ${element.id}");
+                       flutterLocalNotificationsPlugin.cancel(element.id);
+                     }
+                   });
                   }
                   Navigator.of(context).pop();
                   Navigator.of(context).pop();

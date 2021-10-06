@@ -20,7 +20,6 @@ class CustomCircleSymbolRenderer extends CircleSymbolRenderer {
         strokeColor: strokeColor,
         strokeWidthPx: strokeWidthPx);
 
-    //canvas.
     canvas.drawRRect(
       Rectangle(bounds.left-8, bounds.top - 30, bounds.width + 30,
           bounds.height + 10),

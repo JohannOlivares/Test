@@ -1,25 +1,11 @@
-// Dart imports:
 import 'dart:async';
 
-// Package imports:
 import 'package:shared_preferences/shared_preferences.dart';
 
-/* global class for handle all the preference activity into application */
 
 class Preference {
-  // Preference key
-  static const String AUTHORIZATION = "Authorization";
-  static const String FCM_TOKEN = "FCM_TOKEN";
-  static const String USER_DATA = "USER_DATA";
+
   static const String USER_ID = "USER_ID";
-  static const String TOKEN = "TOKEN";
-  static const String IS_PURCHASED = "IS_PURCHASED";
-  static const String IS_NOTIFICATION_ALLOWED = "IS_NOTIFICATION_ALLOWED";
-  static const String PERCENTAGE = "PERCENTAGE";
-  static const String NEED_TO_SYNC = "NEED_TO_SYNC";
-
-
-
   static const String IS_USER_FIRSTTIME = "IS_USER_FIRSTTIME";
   static const String TARGET_DRINK_WATER = "TARGET_DRINK_WATER";
   static const String SELECTED_DRINK_WATER_ML = "SELECTED_DRINK_WATER_ML";
@@ -54,13 +40,11 @@ class Preference {
   static const String OLD_TIME = "OLD_TIME";
   static const String OLD_DISTANCE = "OLD_DISTANCE";
   static const String OLD_CALORIES = "OLD_CALORIES";
-  static const String CALORIES = "CALORIES";
   static const String DATE = "DATE";
   static const String IS_PAUSE = "IS_PAUSE";
   static const String DURATION = "DURATION";
   static const String IS_REDIRECT = "IS_REDIRECT";
 
-  // ------------------ SINGLETON -----------------------
   static final Preference _preference = Preference._internal();
 
   factory Preference() {
@@ -73,7 +57,6 @@ class Preference {
 
   static SharedPreferences? _pref;
 
-  /* make connection with preference only once in application */
   Future<SharedPreferences?> instance() async {
     if (_pref != null) return _pref;
     await SharedPreferences.getInstance().then((onValue) {
@@ -85,7 +68,6 @@ class Preference {
     return _pref;
   }
 
-  // String get & set
   String? getString(String key) {
     return _pref!.getString(key);
   }
@@ -94,7 +76,6 @@ class Preference {
     return _pref!.setString(key, value);
   }
 
-  // Int get & set
   int? getInt(String key) {
     return _pref!.getInt(key);
   }
@@ -103,7 +84,6 @@ class Preference {
     return _pref!.setInt(key, value);
   }
 
-  // Bool get & set
   bool? getBool(String key) {
     return _pref!.getBool(key);
   }
@@ -112,7 +92,6 @@ class Preference {
     return _pref!.setBool(key, value);
   }
 
-  // Double get & set
   double? getDouble(String key) {
     return _pref!.getDouble(key);
   }
@@ -121,16 +100,6 @@ class Preference {
     return _pref!.setDouble(key, value);
   }
 
-  // Array get & set
-  List<String>? getStringList(String key) {
-    return _pref!.getStringList(key);
-  }
-
-  Future<bool> setStringList(String key, List<String> value) {
-    return _pref!.setStringList(key, value);
-  }
-
-  /* remove  element from preferences */
   Future<bool> remove(key, [multi = false]) async {
     SharedPreferences? pref = await instance();
     if (multi) {
@@ -144,40 +113,9 @@ class Preference {
     return new Future.value(true);
   }
 
-  /* remove all elements from preferences */
-  static Future<bool> clear() async {
-    // return await _pref.clear();
-    // Except FCM token & device info
-    _pref!.getKeys().forEach((key) async {
-      if (key != FCM_TOKEN && key != IS_NOTIFICATION_ALLOWED) {
-        await _pref!.remove(key);
-      }
-    });
-
-    return Future.value(true);
-  }
-
   static Future<bool> clearTargetDrinkWater() async {
     _pref!.getKeys().forEach((key) async {
       if (key == TARGET_DRINK_WATER) {
-        await _pref!.remove(key);
-      }
-    });
-    return Future.value(true);
-  }
-
-  static Future<bool> clearStartTimeReminder() async {
-    _pref!.getKeys().forEach((key) async {
-      if (key == START_TIME_REMINDER) {
-        await _pref!.remove(key);
-      }
-    });
-    return Future.value(true);
-  }
-
-  static Future<bool> clearEndTimeReminder() async {
-    _pref!.getKeys().forEach((key) async {
-      if (key == END_TIME_REMINDER) {
         await _pref!.remove(key);
       }
     });
@@ -202,21 +140,5 @@ class Preference {
     return Future.value(true);
   }
 
-  static Future<bool> clearLanguage() async {
-    _pref!.getKeys().forEach((key) async {
-      if (key == LANGUAGE) {
-        await _pref!.remove(key);
-      }
-    });
-    return Future.value(true);
-  }
 
-  static Future<bool> clearFirstDayOfWeek() async {
-    _pref!.getKeys().forEach((key) async {
-      if (key == FIRST_DAY_OF_WEEK) {
-        await _pref!.remove(key);
-      }
-    });
-    return Future.value(true);
-  }
 }

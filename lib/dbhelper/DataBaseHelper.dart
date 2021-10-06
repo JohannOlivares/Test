@@ -23,7 +23,6 @@ class DataBaseHelper {
     return _database;
   }
 
-  //<!----------------------------- Water Table Operations ---------------------------------------------------!>
 
   Future<WaterData> insertDrinkWater(WaterData data) async {
     final waterDao = _database!.waterDao;
@@ -37,24 +36,6 @@ class DataBaseHelper {
         " Time ==> " +
         data.time.toString());
     return data;
-  }
-
-  Future<List<WaterData>> selectDrinkWater() async {
-    final waterDao = _database!.waterDao;
-    final List<WaterData> result = await waterDao.getAllDrinkWater();
-    result.forEach((element) {
-      Debug.printLog("Select DrinkWater Data Successfully  ==> Id =>" +
-          element.id.toString() +
-          " Ml =>" +
-          element.ml.toString() +
-          " Date ==> " +
-          element.date.toString() +
-          " Time ==> " +
-          element.time.toString() +
-          " DateTime => " +
-          element.dateTime.toString());
-    });
-    return result;
   }
 
   Future<List<WaterData>> selectTodayDrinkWater(String date) async {
@@ -77,7 +58,6 @@ class DataBaseHelper {
 
   static Future<int?> getTotalDrinkWater(String date) async {
     final waterDao = _database!.waterDao;
-    // final waterDao = await _database!.database.rawQuery('SELECT SUM(ml) as Total FROM WaterData');
     final totalDrinkWater = await waterDao.getTotalOfDrinkWater(date);
     Debug.printLog("Total DrinkWater ==> " + totalDrinkWater!.total.toString());
     return totalDrinkWater.total;
@@ -112,7 +92,6 @@ class DataBaseHelper {
     return data;
   }
 
-  //<!----------------------------- Weight Table Operations ---------------------------------------------------!>
 
   static Future<WeightData> insertWeight(WeightData data) async {
     final weightDao = _database!.weightDao;
@@ -153,7 +132,6 @@ class DataBaseHelper {
     return avgWeight.average;
   }
 
-  //<!----------------------------- Running Table Operations ---------------------------------------------------!>
 
   static Future<List<RunningData>> selectMapHistory() async {
     final runningDao = _database!.runningDao;
@@ -275,7 +253,6 @@ class DataBaseHelper {
     return heartHealth;
   }
 
-  //<!----------------------------- Steps Table Operations ---------------------------------------------------!>
 
   Future<StepsData> insertSteps(StepsData data) async {
     final stepsDao = _database!.stepsDao;
@@ -371,13 +348,6 @@ class DataBaseHelper {
     Debug.printLog("Total Steps from current month =====> ${totalSteps!.steps}");
     return totalSteps.steps;
   }
-
-  /*Future<double?> getAverageStepsForCurrentMonth() async {
-    final stepsDao = _database!.stepsDao;
-    final avgSteps = await stepsDao.getAverageStepsForCurrentMonth();
-    Debug.printLog("Average of steps from current month =====> ${avgSteps!.distance}");
-    return avgSteps.distance;
-  }*/
 
   Future<int?> getTotalStepsForCurrentWeek() async {
     final stepsDao = _database!.stepsDao;

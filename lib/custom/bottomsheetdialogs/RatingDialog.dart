@@ -139,7 +139,6 @@ class _RatingDialogState extends State<RatingDialog> {
                           color: Colur.txt_black,
                           fontWeight: FontWeight.w700,
                           fontSize: 28),
-                      //maxLines: 1,
                     ),
                   ),
                   Container(
@@ -204,7 +203,6 @@ class _RatingDialogState extends State<RatingDialog> {
                           color: Colur.txt_grey,
                           fontWeight: FontWeight.w400,
                           fontSize: 18),
-                      //maxLines: 1,
                     ),
                   ),
                   Container(

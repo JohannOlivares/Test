@@ -3,14 +3,8 @@ import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 
 @dao
 abstract class RunningDao {
-  @Query('SELECT * FROM RunningData WHERE id = :id')
-  Future<RunningData?> findTaskById(int id);
-
   @Query('SELECT * FROM RunningData')
   Future<List<RunningData>> getAllHistory();
-
-  @Query('SELECT * FROM RunningData')
-  Stream<List<RunningData>> findAllTasksAsStream();
 
   @Query('SELECT * FROM RunningData ORDER BY id DESC LIMIT 3')
   Future<List<RunningData>> findRecentTasksAsStream();
@@ -21,7 +15,6 @@ abstract class RunningDao {
   @Query('SELECT IFNULL(SUM(distance),0.0) as total FROM RunningData')
   Future<RunningData?> findSumOfDistance();
 
-  // @Query('SELECT *,IFNULL(MAX(speed),0) FROM RunningData')
   @Query('SELECT *,IFNULL(MIN(speed),0) FROM RunningData')
   Future<RunningData?> findBestPace();
 
@@ -46,31 +39,13 @@ abstract class RunningDao {
   @Query('SELECT IFNULL(SUM(moderateIntenseTime),0) as moderateIntenseTime FROM RunningData WHERE date IN(:date)')
   Future<RunningData?> getTotalOfModerateIntensity(List<String> date);
 
-
-  /*@Query('SELECT *, (SELECT IFNULL(SUM(lowIntenseTime),0) FROM RunningData WHERE date = wt2.date) as allTotal FROM RunningData as wt2 WHERE date IN(:date) GROUP BY date')
-  Future<List<RunningData>> getHeartHealthLowIntenseTime(List<String> date);
-
-  @Query('SELECT *, (SELECT IFNULL(SUM(moderateIntenseTime),0) FROM RunningData WHERE date = wt2.date) as allTotal FROM RunningData as wt2 WHERE date IN(:date) GROUP BY date')
-  Future<List<RunningData>> getHeartHealthModerateIntenseTime(List<String> date);*/
-
   @Query('SELECT *, (SELECT IFNULL(SUM(lowIntenseTime + moderateIntenseTime),0) FROM RunningData WHERE date = wt2.date) as allTotal FROM RunningData as wt2 WHERE date IN(:date) GROUP BY date')
   Future<List<RunningData>> getHeartHealth(List<String> date);
 
   @insert
   Future<int> insertTask(RunningData task);
 
-  @insert
-  Future<void> insertTasks(List<RunningData> tasks);
-
-  @update
-  Future<void> updateTask(RunningData task);
-
-  @update
-  Future<void> updateTasks(List<RunningData> task);
-
   @delete
   Future<void> deleteTask(RunningData task);
 
-  @delete
-  Future<void> deleteTasks(List<RunningData> tasks);
 }

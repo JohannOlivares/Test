@@ -21,7 +21,6 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
   bool kmSelected = true;
   bool distanceSelected = false;
 
-  //late String unit;
   int targetDistanceInKm = 0;
   int selectedMile = 0;
 
@@ -60,7 +59,6 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
 
   @override
   Widget build(BuildContext context) {
-    //unit = Languages.of(context)!.txtKM;
     var fullHeight = MediaQuery.of(context).size.height;
     var fullWidth = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -70,7 +68,6 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
         color: Colur.common_bg_dark,
         child: Column(
           children: [
-            //What is Your Gender Text
             Container(
               child: CommonTopBar(
                 Languages.of(context)!.txtWeekGoalSetting,
@@ -84,7 +81,6 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
                 child: _customTabBarView(fullHeight,fullWidth),
               ),
             ),
-            //Next Step Button
 
             _setAsMyGoalButton(fullHeight, fullWidth),
           ],
@@ -196,7 +192,6 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
         margin: EdgeInsets.only(top: fullHeight * 0.06),
         child: Column(
           children: [
-            //Row for walking or running
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -302,7 +297,6 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
               ],
             ),
 
-            //Moderate or high intensity
             Container(
               margin: EdgeInsets.only(top: fullHeight*0.03),
               child: Row(
@@ -337,7 +331,6 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
               ),
             ),
 
-            //Slider
             Container(
               margin: EdgeInsets.only(top: fullHeight*0.05,left: fullWidth*0.01, right: fullWidth*0.01),
               child: Row(
@@ -383,7 +376,6 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
                             Debug.printLog("Slider: $_sliderValue");
                             walkOrRunValue();
                           });
-                          //walkOrRunValue();
                         },
                         autofocus: true,
                         min: 1,
@@ -451,10 +443,7 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
     return Container(
       child: Column(
         children: [
-          //this is for selection between KM and MILE
           _distanceUnitTab(fullHeight),
-          //Curpentino picker for KM and Mile
-          //Distance selector
           _curpentinoPickerDesign(fullHeight),
         ],
       ),
@@ -560,26 +549,20 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
         onPressed: () {
           Preference.shared
               .setBool(Preference.IS_DISTANCE_INDICATOR_ON, distanceSelected);
-          //Check Distance Selected or Not?
           if(distanceSelected){
-            //When Distance Selected This Code will Execute......
             Preference.shared.setBool(Preference.IS_KM_SELECTED, kmSelected);
-            //Utils.showToast(context, "Unit IS KM?:"+KmSelected.toString());
             if(kmSelected){
               Preference.shared.setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, targetDistanceInKm.toDouble()+1);
               Debug.printLog("${targetDistanceInKm.toDouble()+1}");
-              // Utils.showToast(context, "${targetDistanceInKm.toDouble()+1} Confirmed In Kilometer");
             }else{
               Preference.shared
                   .setDouble(Preference.TARGETVALUE_FOR_DISTANCE_IN_KM, targetDistanceInKm.ceil().toDouble()+1);
-              // Utils.showToast(context, "${Utils.kmToMile(targetDistanceInKm.toDouble()+1)} Confirmed In Mile");
 
             }
           }else{
             Preference.shared.setInt(Preference.TARGETVALUE_FOR_WALKTIME, walkTime);
             Preference.shared.setInt(Preference.TARGETVALUE_FOR_RUNTIME, runTime);
             Preference.shared.setDouble(Preference.SLIDER_VALUE, _sliderValue);
-            // Utils.showToast(context, "Walk:$walkTime || Run:$runTime");
 
           }
           Navigator.of(context)
@@ -614,14 +597,10 @@ class _GoalSettingScreenState extends State<GoalSettingScreen> implements TopBar
               onSelectedItemChanged: (value) {
                 setState(() {
                   if (!kmSelected) {
-                    //value += 1;
                     selectedMile = value;
                     targetDistanceInKm = Utils.mileToKm(value.toDouble()).round();
-                    //Debug.printLog("$targetDistanceInMile Mile selected");
                   } else {
-                    //value += 1;
                     targetDistanceInKm = value;
-                    //Debug.printLog("$targetDistanceInKm Km selected");
                   }
                 });
               },

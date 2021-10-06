@@ -6,14 +6,13 @@ class CustomRadioSelection extends StatefulWidget {
   final String? unit3;
   final String? unit4;
   final bool visible;
-  final Function? onPressed1;
   const CustomRadioSelection({
     Key? key,
     required this.unit1,
     required this.unit2,
     this.unit3,
     this.unit4,
-    required this.visible, this.onPressed1
+    required this.visible,
   }):super(key: key);
 
   @override

@@ -25,13 +25,10 @@ import 'package:rxdart/subjects.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
-/// Streams are created so that app can respond to notification-related events
-/// since the plugin is initialised in the `main` function
 final BehaviorSubject<ReceivedNotification> didReceiveLocalNotificationSubject =
     BehaviorSubject<ReceivedNotification>();
 
@@ -62,8 +59,6 @@ Future<void> main() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('app_icon');
 
-  /// Note: permissions aren't requested here just to demonstrate that can be
-  /// done later
   final IOSInitializationSettings initializationSettingsIOS =
       IOSInitializationSettings(
     requestAlertPermission: true,
@@ -113,10 +108,6 @@ Future<InitializationStatus> _initGoogleMobileAds() {
 
 class MyApp extends StatefulWidget {
   static final navigatorKey = new GlobalKey<NavigatorState>();
-  /*final FlutterDatabase? database;
-
-  MyApp(this.database);*/
-
   static void setLocale(BuildContext context, Locale newLocale) {
     var state = context.findAncestorStateOfType<_MyAppState>()!;
     state.setLocale(newLocale);
@@ -232,10 +223,6 @@ class _MyAppState extends State<MyApp> {
           '/profileSettingScreen': (BuildContext context) =>
               ProfileSettingScreen(),
           '/reminder': (BuildContext context) => ReminderScreen(),
-          /*'/changeusername': (BuildContext context) =>
-          ChangeUsernameScreen(),
-      '/changepassword': (BuildContext context) =>
-          ChangePasswordScreen(),*/
         });
   }
 }

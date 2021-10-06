@@ -4,8 +4,6 @@ import 'package:run_tracker/localization/locale_constant.dart';
 
 class Constant {
   static const STR_BACK = "Back";
-  static const STR_STOP = "STOP";
-  static const STR_RESUME = "RESUME";
   static const STR_DELETE = "DELETE";
   static const STR_SETTING = "Setting";
   static const STR_SETTING_CIRCLE = "Setting_circle";

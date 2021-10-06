@@ -20,7 +20,6 @@ class Colur {
   static const light_green_play_gredient2 = const Color(0xff22BE11);
   static const green_For_NotReally = const Color(0xff28853a);
   static const ligh_green_For_NotReally = const Color(0xff1ED247);
-  static const light_pink = const Color(0x40C040FF);
   static const purple_Lock_screen = const Color(0xffC95CFF);
 
   static const water_level_wave1 = const Color(0xff42B2FF);
@@ -47,18 +46,9 @@ class Colur {
   static const unselected_star = const Color(0x909195B6);
   static const selected_star = const Color(0xffFFC804);
 
-
-  static const grad_yellow_light = const Color(0xffFFE94F);
-  static const grad_yellow_dark = const Color(0xffF3B90E);
-
   static const gray_border = const Color(0xff9195B6);
   static const graph_water = const Color(0xff00A3FF);
   static const graph_health = const Color(0xff8C3CFF);
 
   static const red_turn_off = const Color(0xffEB5757);
-
-  static const gradient_for_weight_colors = [
-  const Color(0xff8A3CFF),
-  const Color(0xffC040FF),
-  ];
 }

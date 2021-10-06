@@ -21,14 +21,4 @@ class AdHelper {
       throw new UnsupportedError("Unsupported platform");
     }
   }
-
-  static String get rewardedAdUnitId {
-    if (Platform.isAndroid) {
-      return "ca-app-pub-3940256099942544/5224354917";//TODO: Change Banner ad id for android here
-    } else if (Platform.isIOS) {
-      return "ca-app-pub-3940256099942544/1712485313";//TODO: Change Rewarded ad id for iOS here
-    } else {
-      throw new UnsupportedError("Unsupported platform");
-    }
-  }
 }

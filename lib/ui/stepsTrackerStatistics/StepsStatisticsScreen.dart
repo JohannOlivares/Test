@@ -62,8 +62,6 @@ class _StepsTrackerStatisticsScreenState
   void initState() {
     prefSelectedDay =
         Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM) ?? 1;
-    //Debug.printLog("current month: $currentMonth");
-    //Debug.printLog("current step count: ${widget.currentStepCount}");
     daysInMonth = Utils.daysInMonth(int.parse(currentMonth), int.parse(currentYear));
     getChartDataOfStepsForMonth();
     getTotalStepsMonth();
@@ -621,7 +619,6 @@ class _StepsTrackerStatisticsScreenState
       startDateofMonth = date;
     }
     stepsDataMonth = await DataBaseHelper().getStepsForCurrentMonth();
-    //Debug.printLog("size of monthDates list: ${monthDates.length}");
 
     for(int i = 0; i<= monthDates.length-1; i++) {
       bool isMatch = false;
@@ -639,20 +636,14 @@ class _StepsTrackerStatisticsScreenState
         mapMonth.putIfAbsent(monthDates[i], () => 0);
       }
     }
-    /*for (int i = 0; i < mapMonth.length; i++) {
-      Debug.printLog("Steps[$i]: ${mapMonth.entries.toList()[i].value}");
-    }*/
-
     setState(() { });
   }
 
   getTotalStepsMonth() async{
     var s = await DataBaseHelper().getTotalStepsForCurrentMonth();
     totalStepsMonth = s! + widget.currentStepCount!;
-    //Debug.printLog("Total Steps from current month: $totalStepsMonth");
 
     avgStepsMonth = (totalStepsMonth!+widget.currentStepCount!)/daysInMonth!;
-    //Debug.printLog("Average Steps from current month: $avgStepsMonth");
   }
 
   getChartDataOfStepsForWeek() async{
@@ -662,7 +653,6 @@ class _StepsTrackerStatisticsScreenState
           .subtract(Duration(days: currentDate.weekday - prefSelectedDay!))
           .add(Duration(days: i)));
       weekDates.add(currentWeekDates.toString());
-      // Debug.printLog("date[$i] : ${currentWeekDates.toString()}");
       allDays.add(DateFormat('EEEE',getLocale().languageCode).format(currentWeekDates));
     }
     stepsDataWeek = await DataBaseHelper().getStepsForCurrentWeek();
@@ -672,7 +662,6 @@ class _StepsTrackerStatisticsScreenState
         if (element.stepDate == weekDates[i]) {
           isMatch = true;
           mapWeek.putIfAbsent(element.stepDate!, () => element.steps!);
-          //dailySteps!.add(element.steps!);
         }
       });
       if(weekDates[i] == getDate(currentDate).toString()) {
@@ -681,13 +670,8 @@ class _StepsTrackerStatisticsScreenState
       }
       if(!isMatch) {
         mapWeek.putIfAbsent(weekDates[i], () => 0);
-        //dailySteps!.add(0);
       }
     }
-
-    /*for (int i = 0; i < mapWeek.length; i++) {
-      Debug.printLog("Steps[$i]: ${mapWeek.entries.toList()[i].value}");
-    }*/
 
     setState(() { });
 
@@ -696,10 +680,8 @@ class _StepsTrackerStatisticsScreenState
   getTotalStepsWeek() async{
     var s = await DataBaseHelper().getTotalStepsForCurrentWeek();
     totalStepsWeek = s! + widget.currentStepCount!;
-    //Debug.printLog("Total Steps from current week: $totalStepsWeek");
 
     avgStepsWeek = (totalStepsWeek!+widget.currentStepCount!)/7;
-    //Debug.printLog("Average Steps from current week: $avgStepsWeek");
   }
 
   @override

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
-import 'package:run_tracker/utils/Preference.dart';
 import 'package:intl/intl.dart';
 
 class Utils {
@@ -18,11 +17,6 @@ class Utils {
         backgroundColor: Colur.txt_grey,
         textColor: Colur.white,
         fontSize: 14.0);
-  }
-
-  static bool isLogin() {
-    var uid = Preference.shared.getString(Preference.USER_ID);
-    return (uid != null && uid.isNotEmpty);
   }
 
   static getCurrentDateTime() {

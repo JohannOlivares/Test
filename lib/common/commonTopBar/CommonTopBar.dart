@@ -11,9 +11,6 @@ class CommonTopBar extends StatefulWidget {
   bool isShowBack = true;
   bool isShowSetting = false;
   bool isShowSettingCircle = false;
-  bool isShowEdit = false;
-  bool isShowDone = false;
-  bool isShowAdd = false;
   bool isDelete = false;
   bool isClose = false;
   bool isInfo = false;
@@ -25,13 +22,10 @@ class CommonTopBar extends StatefulWidget {
   CommonTopBar(this.headerName, this.clickListener,
       {this.isShowBack = false,
         this.isShowSetting = false,
-        this.isShowEdit = false,
-        this.isShowDone = false,
         this.isDelete = false,
         this.isClose = false,
         this.isInfo = false,
         this.isOptions = false,
-        this.isShowAdd = false,
         this.isShowSubheader = false,
         this.isShowSettingCircle = false,
         this.subHeader,
