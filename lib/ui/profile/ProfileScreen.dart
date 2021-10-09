@@ -355,12 +355,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
+            _runTrackerWidget(context),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisSize: MainAxisSize.max,
                   children: [
-                    _runTrackerWidget(context),
                     _progressWidget(context),
                     _heartHealthWidget(context),
                     _weightWidget(context),
