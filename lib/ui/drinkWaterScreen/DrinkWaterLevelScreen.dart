@@ -142,14 +142,17 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
     List<PendingNotificationRequest> todayList = [];
 
     notificationList.forEach((element) {
-      DateTime scheduleTime =
-          DateTime.fromMillisecondsSinceEpoch(int.parse(element.payload!));
-      DateTime currTime = DateTime.now();
 
-      if (currTime.day == scheduleTime.day &&
-          currTime.month == scheduleTime.month &&
-          currTime.year == currTime.year) {
-        if (scheduleTime.isAfter(currTime)) todayList.add(element);
+      if (element.payload != Constant.STR_RUNNING_REMINDER) {
+        DateTime scheduleTime =
+        DateTime.fromMillisecondsSinceEpoch(int.parse(element.payload!));
+        DateTime currTime = DateTime.now();
+
+        if (currTime.day == scheduleTime.day &&
+            currTime.month == scheduleTime.month &&
+            currTime.year == currTime.year) {
+          if (scheduleTime.isAfter(currTime)) todayList.add(element);
+        }
       }
     });
 
