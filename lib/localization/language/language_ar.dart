@@ -311,7 +311,7 @@ class LanguageAr extends Languages {
   String get txtSteps => "خطوات";
 
   @override
-  String get txtStepsTracker => "تعقب الخطوات";
+  String get txtStepsTracker => "عداد الخطوة";
 
   @override
   String get txtLast7DaysSteps => "خطوات الأيام السبعة الأخيرة:";

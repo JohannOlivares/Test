@@ -311,7 +311,7 @@ class LanguageDe extends Languages {
   String get txtSteps => "Schritte";
 
   @override
-  String get txtStepsTracker => "Schritte Fährtenleser";
+  String get txtStepsTracker => "SCHRITTZÄHLER";
 
   @override
   String get txtLast7DaysSteps => "Letzte 7 Tage Schritte:";

@@ -312,7 +312,7 @@ class LanguageUr extends Languages {
   String get txtSteps => "قدم۔";
 
   @override
-  String get txtStepsTracker => "قدم ٹریکر۔";
+  String get txtStepsTracker => "مرحلہ کاؤنٹر";
 
   @override
   String get txtLast7DaysSteps => "آخری 7 دن کے اقدامات:";

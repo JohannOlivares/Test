@@ -314,7 +314,7 @@ class LanguageZh extends Languages {
   String get txtSteps => "脚步";
 
   @override
-  String get txtStepsTracker => "步数追踪器";
+  String get txtStepsTracker => "计步器";
 
   @override
   String get txtLast7DaysSteps => "过去 7 天步骤：";

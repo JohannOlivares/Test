@@ -311,7 +311,7 @@ class LanguageRu extends Languages {
   String get txtSteps => "Шаги";
 
   @override
-  String get txtStepsTracker => "ШАГОВЫЙ ТРЕКЕР";
+  String get txtStepsTracker => "СЧЕТЧИК ШАГОВ";
 
   @override
   String get txtLast7DaysSteps => "Шаги за последние 7 дней:";

@@ -311,7 +311,7 @@ class LanguageHi extends Languages {
   String get txtSteps => "कदम";
 
   @override
-  String get txtStepsTracker => "कदम ट्रैकर";
+  String get txtStepsTracker => "कदम काउंटर";
 
   @override
   String get txtLast7DaysSteps => "पिछले 7 दिनों के चरण:";

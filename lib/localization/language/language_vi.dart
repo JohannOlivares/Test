@@ -311,7 +311,7 @@ class LanguageVi extends Languages {
   String get txtSteps => "Các bước";
 
   @override
-  String get txtStepsTracker => "BỘ THEO DÕI BƯỚC CHÂN";
+  String get txtStepsTracker => "BỘ ĐẾM BƯỚC";
 
   @override
   String get txtLast7DaysSteps => "Các bước trong 7 ngày qua:";

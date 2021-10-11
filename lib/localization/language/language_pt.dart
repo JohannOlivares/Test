@@ -311,7 +311,7 @@ class LanguagePt extends Languages {
   String get txtSteps => "Etapas";
 
   @override
-  String get txtStepsTracker => "RASTREADOR DEGRAUS";
+  String get txtStepsTracker => "CONTADOR DE PASSOS";
 
   @override
   String get txtLast7DaysSteps => "Passos dos últimos 7 dias:";

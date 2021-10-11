@@ -311,7 +311,7 @@ class LanguageEs extends Languages {
   String get txtSteps => "Pasos";
 
   @override
-  String get txtStepsTracker => "RASTREADOR DE PASOS ";
+  String get txtStepsTracker => "CONTADOR DE PASOS";
 
   @override
   String get txtLast7DaysSteps => "Pasos de los últimos 7 días:";

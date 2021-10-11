@@ -312,7 +312,7 @@ class LanguageJa extends Languages {
   String get txtSteps => "ステップ";
 
   @override
-  String get txtStepsTracker => "ステップトラッカー";
+  String get txtStepsTracker => "ステップカウンター";
 
   @override
   String get txtLast7DaysSteps => "過去7日間のステップ:";
