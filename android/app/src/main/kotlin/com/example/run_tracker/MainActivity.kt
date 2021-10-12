@@ -28,7 +28,6 @@ class MainActivity: FlutterActivity() {
         }
         if(ContextCompat.checkSelfPermission(this,
                         Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){
-            //ask for permission
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 var permission = arrayListOf<String>()
                 permission.add(Manifest.permission.ACTIVITY_RECOGNITION)
