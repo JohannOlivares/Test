@@ -38,7 +38,7 @@ class Constant {
     MultiSelectDialogItem("7", DateFormat.EEEE(getLocale().languageCode).dateSymbols.WEEKDAYS[6]),
   ];
 
-  static const String EMAIL_PATH = 'fitnessentertainmentapps@gmail.com';
+  static const String EMAIL_PATH = 'Enter your email address here';
 
   static String getPrivacyPolicyURL() {
     return "https://sites.google.com/view/runtracker-pp/home";

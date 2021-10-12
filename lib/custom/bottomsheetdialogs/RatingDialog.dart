@@ -35,8 +35,8 @@ class _RatingDialogState extends State<RatingDialog> {
       minLaunches: 10,
       remindDays: 7,
       remindLaunches: 10,
-      googlePlayIdentifier: 'com.lawquizgame',
-      appStoreIdentifier: '1563681531',
+      googlePlayIdentifier: 'Enter your googlePlayIdentifier here',
+      appStoreIdentifier: 'Enter your appStoreIdentifier here',
     );
 
     rateMyApp!.init().then((_) {
