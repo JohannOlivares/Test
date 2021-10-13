@@ -55,13 +55,13 @@ class LanguageTa extends Languages {
   String get txtHowTallAreYou => "நீங்கள் எவ்வளவு உயரம்?";
 
   @override
-  String get txtKG => "கிலோ";
+  String get txtKG => "கேஜி";
 
   @override
-  String get txtLBS => "பவுண்டுகள்";
+  String get txtLBS => "எல்பி";
 
   @override
-  String get txtLB => "பவுண்டுகள்";
+  String get txtLB => "எல்பி";
 
   @override
   String get txtMale => "ஆண்";
@@ -145,7 +145,7 @@ class LanguageTa extends Languages {
   String get txtPaceMinPer => "வேகம்(நிமிடம்/";
 
   @override
-  String get txtKCAL => "கிலோகலோரி";
+  String get txtKCAL => "கேகால்";
 
   @override
   String get txtMin => "நிமிடம்";
@@ -260,7 +260,7 @@ class LanguageTa extends Languages {
   String get txtMinKm => "நிமிடம்/கிமீ";
 
   @override
-  String get txtKcal => "கிலோகலோரி";
+  String get txtKcal => "கேகால்";
 
   @override
   String get txtMile => "மைல்";
@@ -319,7 +319,7 @@ class LanguageTa extends Languages {
   String get txtHighIntensity => "அதிக தீவிரம்";
 
   @override
-  String get txtModerateIntensity => "மிதமான\அதிக தீவிரம்";
+  String get txtModerateIntensity => "மிதமான\nதிக தீவிரம்";
 
   @override
   String get txtGotoSettings => "அமைப்புகளுக்குச் செல்லவும்";
@@ -392,7 +392,7 @@ class LanguageTa extends Languages {
   String get txtTotal => "மொத்தம்";
 
   @override
-  String get txtPaused => "இடைநிறுத்தப்பட்டது";
+  String get txtPaused => "இடைநிறுத்து";
 
   @override
   String get txtRepeat => "மீண்டும்";
@@ -432,28 +432,28 @@ class LanguageTa extends Languages {
   String get txtLast7daysReport => "கடந்த 7 நாட்கள் அறிக்கை";
 
   @override
-  String get txtEveryHalfHour => "ஒவ்வொரு 0.5 மணி நேரமும்";
+  String get txtEveryHalfHour => "ஒவ்வொரு 0.5 மணி";
 
   @override
-  String get txtEveryOneHour => "ஒவ்வொரு 1 மணி நேரமும்";
+  String get txtEveryOneHour => "ஒவ்வொரு 1 மணி";
 
   @override
-  String get txtEveryOneNHalfHour => "ஒவ்வொரு 1.5 மணி நேரமும்";
+  String get txtEveryOneNHalfHour => "ஒவ்வொரு 1.5 மணி";
 
   @override
-  String get txtEveryTwoHour => "ஒவ்வொரு 2 மணி நேரமும்";
+  String get txtEveryTwoHour => "ஒவ்வொரு 2 மணி";
 
   @override
-  String get txtEveryTwoNHalfHour => "ஒவ்வொரு 2.5 மணி நேரமும்";
+  String get txtEveryTwoNHalfHour => "ஒவ்வொரு 2.5 மணி";
 
   @override
-  String get txtEveryThreeHour => "ஒவ்வொரு 3 மணி நேரமும்";
+  String get txtEveryThreeHour => "ஒவ்வொரு 3 மணி";
 
   @override
-  String get txtEveryThreeNHalfHour => "ஒவ்வொரு 3.5 மணி நேரமும்";
+  String get txtEveryThreeNHalfHour => "ஒவ்வொரு 3.5 மணி";
 
   @override
-  String get txtEveryFourHour => "ஒவ்வொரு 4 மணி நேரமும்";
+  String get txtEveryFourHour => "ஒவ்வொரு 4 மணி";
 
   @override
   String get txtDailyReminder => "தினசரி நினைவூட்டல்";

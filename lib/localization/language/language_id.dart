@@ -92,7 +92,7 @@ class LanguageId extends Languages {
   String get txtSetAsMyGoal => "Tetapkan Sebagai Tujuan Saya";
 
   @override
-  String get txtKM => "km";
+  String get txtKM => "KM";
 
   @override
   String get txtUseYourLocation => "GUNAKAN LOKASI ANDA";
@@ -179,7 +179,7 @@ class LanguageId extends Languages {
   String get txtShare => "Membagikan";
 
   @override
-  String get txtWellDone => "sudah selesai dilakukan dengan baik!";
+  String get txtWellDone => "Bagus Sekali!";
 
   @override
   String get txtLongestDistance => "Jarak Terjauh";
@@ -263,7 +263,7 @@ class LanguageId extends Languages {
   String get txtKcal => "Kkal";
 
   @override
-  String get txtMile => "Mil";
+  String get txtMile => "Mile";
 
   @override
   String get txtSteps => "Langkah";

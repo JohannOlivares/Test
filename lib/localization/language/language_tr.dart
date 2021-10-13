@@ -264,7 +264,7 @@ class LanguageTr extends Languages {
   String get txtKcal => "Kcal";
 
   @override
-  String get txtMile => "Mil";
+  String get txtMile => "Mile";
 
   @override
   String get txtSteps => "adımlar";
@@ -498,7 +498,7 @@ class LanguageTr extends Languages {
   String get txtNoDataFound => "Veri bulunamadı";
 
   @override
-  String get txtTotalMile => "Toplam Mil";
+  String get txtTotalMile => "Toplam Mile";
 
   @override
   String get txtAverage => "Ortalama";

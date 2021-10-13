@@ -263,14 +263,16 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
           Container(
             child: Row(
               children: [
-                Text(
-                  Languages.of(context)!.txtInterval,
-                  style: TextStyle(
-                      color: Colur.txt_white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w500),
+                Expanded(
+                  child: Text(
+                    Languages.of(context)!.txtInterval,
+                    style: TextStyle(
+                        color: Colur.txt_white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500),
+                  ),
                 ),
-                Expanded(child: Container()),
+
                 _intervalDropdown(context),
               ],
             ),

@@ -73,7 +73,7 @@ class LanguageTe extends Languages {
   String get txtOR => "లేదా";
 
   @override
-  String get txtPaceBetween9001500MinKm => "9:00 - 15:00 min/km మధ్య గమనం";
+  String get txtPaceBetween9001500MinKm => "9:00 - 15:00 నిమి/కి.మీ మధ్య గమనం";
 
   @override
   String get txtPaceOver900MinKm => "9:00 నిమి/కిమీ కంటే ఎక్కువ దూరం";
@@ -143,10 +143,10 @@ class LanguageTe extends Languages {
   String get txtMessage => "సందేశం";
 
   @override
-  String get txtPaceMinPer => "PACE (Min/";
+  String get txtPaceMinPer => "వేగం (నిమి/";
 
   @override
-  String get txtKCAL => "KCAL";
+  String get txtKCAL => "కిలోకాలరీ";
 
   @override
   String get txtMin => "నిమిషం";
@@ -225,13 +225,13 @@ class LanguageTe extends Languages {
   String get txtWeeklyAverage => "వారపు సగటు";
 
   @override
-  String get txtTotalKM => "మొత్తం KM";
+  String get txtTotalKM => "మొత్తం కి.మీ";
 
   @override
   String get txtDrinkWater => "నీరు త్రాగండి";
 
   @override
-  String get txtMl => "ml";
+  String get txtMl => "మిల్లీలీటర్";
 
   @override
   String get txtNextTime => "వచ్చే సారి";
@@ -252,7 +252,7 @@ class LanguageTe extends Languages {
   String get txtTotalHours => "మొత్తం గంటలు";
 
   @override
-  String get txtTotalKCAL => "మొత్తం KCAL";
+  String get txtTotalKCAL => "మొత్తం కిలోకాలరీ";
 
   @override
   String get txtMinMi => "కనిష్ట/మై";
@@ -261,7 +261,7 @@ class LanguageTe extends Languages {
   String get txtMinKm => "కనిష్ట/కి.మీ";
 
   @override
-  String get txtKcal => "Kcal";
+  String get txtKcal => "కిలోకాలరీ";
 
   @override
   String get txtMile => "మైల్";

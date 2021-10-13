@@ -480,7 +480,8 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                           fontWeight: FontWeight.w400),
                     )
                   : Container(
-                      height: 25,
+                      padding: EdgeInsets.all(8),
+                      height: 30,
                       width: 80,
                       decoration: BoxDecoration(
                         color: Colur.progress_background_color,

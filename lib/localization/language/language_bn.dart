@@ -142,13 +142,13 @@ class LanguageBn extends Languages {
   String get txtMessage => "বার্তা";
 
   @override
-  String get txtPaceMinPer => "গতি (Min/";
+  String get txtPaceMinPer => "গতি (মিনিট/";
 
   @override
   String get txtKCAL => "কেসিএএল";
 
   @override
-  String get txtMin => "Min";
+  String get txtMin => "মিনিট";
 
   @override
   String get txtStart => "শুরু করুন";
@@ -224,7 +224,7 @@ class LanguageBn extends Languages {
   String get txtWeeklyAverage => "সাপ্তাহিক গড়";
 
   @override
-  String get txtTotalKM => "মোট KM";
+  String get txtTotalKM => "মোট কিমি";
 
   @override
   String get txtDrinkWater => "জলপান করা";
@@ -251,7 +251,7 @@ class LanguageBn extends Languages {
   String get txtTotalHours => "মোট ঘণ্টা";
 
   @override
-  String get txtTotalKCAL => "মোট KCAL";
+  String get txtTotalKCAL => "মোট কি.ক্যালরি";
 
   @override
   String get txtMinMi => "মিনিট/মাইল";
@@ -260,7 +260,7 @@ class LanguageBn extends Languages {
   String get txtMinKm => "মিনিট/কিমি";
 
   @override
-  String get txtKcal => "Kcal";
+  String get txtKcal => "কি.ক্যালরি";
 
   @override
   String get txtMile => "মাইল";
@@ -391,7 +391,7 @@ class LanguageBn extends Languages {
   String get txtTotal => "মোট";
 
   @override
-  String get txtPaused => "বিরতি দেওয়া হয়েছে";
+  String get txtPaused => "বিরাম";
 
   @override
   String get txtRepeat => "পুনরাবৃত্তি করুন";
@@ -419,7 +419,7 @@ class LanguageBn extends Languages {
   String get txtFeedback => "প্রতিক্রিয়া";
 
   @override
-  String get txtRateUs => "Rate us";
+  String get txtRateUs => "হার আমাদের";
 
   @override
   String get txtPrivacyPolicy => "গোপনীয়তা নীতি";
@@ -428,7 +428,7 @@ class LanguageBn extends Languages {
   String get txtRunningReminder => "চলমান অনুস্মারক";
 
   @override
-  String get txtLast7daysReport => "গত Day দিনের রিপোর্ট";
+  String get txtLast7daysReport => "গত 7 দিনের রিপোর্ট";
 
   @override
   String get txtEveryHalfHour => "প্রতি 0.5 ঘন্টা";

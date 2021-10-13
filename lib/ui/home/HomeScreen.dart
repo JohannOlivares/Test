@@ -631,12 +631,14 @@ class _HomeScreenState extends State<HomeScreen>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  Languages.of(context)!.txtRecentActivities,
-                  style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.w500,
-                      color: Colur.txt_white),
+                Expanded(
+                  child                                                                                                                                                        : Text(
+                    Languages.of(context)!.txtRecentActivities,
+                    style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w500,
+                        color: Colur.txt_white),
+                  ),
                 ),
                 InkWell(
                   onTap: () {
