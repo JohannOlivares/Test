@@ -8,9 +8,6 @@ class LanguageEn extends Languages {
   String get txtRunTracker => "RUN TRACKER";
 
   @override
-  String get labelWelcome => "Welcome";
-
-  @override
   String get txtWelcomeMapRunnner => "Hi, Welcome To\n";
 
   @override
@@ -81,8 +78,6 @@ class LanguageEn extends Languages {
   @override
   String get txtPaceOver900MinKm => "Pace over 9:00 min/km";
 
-  @override
-  String get txtWeightDescription => "To personalize your fitness goal";
 
   @override
   String get txtWhatIsYourGender => "What’s your gender?";
@@ -121,9 +116,6 @@ class LanguageEn extends Languages {
   String get txtSettings => "Settings";
 
   @override
-  String get txtCupCapacityUnits => "Cup capacity units";
-
-  @override
   String get txtTarget => "Target";
 
   @override
@@ -148,19 +140,7 @@ class LanguageEn extends Languages {
   String get txtInterval => "Interval";
 
   @override
-  String get txtSound => "Sound";
-
-  @override
   String get txtMessage => "Message";
-
-  @override
-  String get txtRingtone => "Ringtone";
-
-  @override
-  String get txtAM => "AM";
-
-  @override
-  String get txtPM => "PM";
 
   @override
   String get txtPaceMinPer => "PACE (Min/";
@@ -188,19 +168,10 @@ class LanguageEn extends Languages {
       "Are you satisfied with the\n tracking results?";
 
   @override
-  String get txtDetails => "Details";
-
-  @override
-  String get txtDistanceKM => "Distance (km)";
-
-  @override
   String get txtDuration => "Duration";
 
   @override
   String get txtGood => "Good";
-
-  @override
-  String get txtMovingTime => "Moving time";
 
   @override
   String get txtNotReally => "Not really";
@@ -216,9 +187,6 @@ class LanguageEn extends Languages {
 
   @override
   String get txtBestPace => "Best Pace";
-
-  @override
-  String get txtFastestTime => "Fastest Time";
 
   @override
   String get txtLongestDuration => "Longest Duration";
@@ -249,18 +217,6 @@ class LanguageEn extends Languages {
 
   @override
   String get txtRate => "Rate";
-
-  @override
-  String get txtPro => "Pro";
-
-  @override
-  String get txtRemoveAddForever => "Remove ads forever";
-
-  @override
-  String get txtUnlockAllTrainingPlans => "Unlock all Training Plans";
-
-  @override
-  String get txtDeeperAnalysis => "Deeper Analysis";
 
   @override
   String get txtMyProgress => "My progress";
@@ -343,9 +299,6 @@ class LanguageEn extends Languages {
 
   @override
   String get txtWeeklyStatistics => "Weekly Statistics";
-
-  @override
-  String get txtTroubleShooting => "Troubleshooting";
 
   @override
   String get txtMetricAndImperialUnits => "Metric & Imperial Units";

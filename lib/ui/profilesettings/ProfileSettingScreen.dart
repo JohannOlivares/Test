@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/custom/bottomsheetdialogs/RatingDialog.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';
@@ -247,49 +248,51 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                     ),
                                   ),
                                 ),
-                                DropdownButton<LanguageData>(
-                                  value: _languagesChosenValue,
-                                  elevation: 2,
-                                  style: TextStyle(
-                                      color: Colur.txt_purple,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w400),
-                                  iconEnabledColor: Colur.white,
-                                  iconDisabledColor: Colur.white,
-                                  dropdownColor:
-                                      Colur.progress_background_color,
-                                  underline: Container(
-                                    color: Colur.transparent,
-                                  ),
-                                  isDense: true,
-                                  items: languages
-                                      .map<DropdownMenuItem<LanguageData>>(
-                                        (e) => DropdownMenuItem<LanguageData>(
-                                          value: e,
-                                          child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: <Widget>[
-                                              Text(
-                                                e.flag,
-                                                style: TextStyle(fontSize: 20),
-                                              ),
-                                              Text(" "+e.name,style: TextStyle(fontSize: 20),)
-                                            ],
+                                FittedBox(
+                                  child: DropdownButton<LanguageData>(
+                                    value: _languagesChosenValue,
+                                    elevation: 2,
+                                    style: TextStyle(
+                                        color: Colur.txt_purple,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w400),
+                                    iconEnabledColor: Colur.white,
+                                    iconDisabledColor: Colur.white,
+                                    dropdownColor:
+                                        Colur.progress_background_color,
+                                    underline: Container(
+                                      color: Colur.transparent,
+                                    ),
+                                    isDense: true,
+                                    items: languages
+                                        .map<DropdownMenuItem<LanguageData>>(
+                                          (e) => DropdownMenuItem<LanguageData>(
+                                            value: e,
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: <Widget>[
+                                                Text(
+                                                  e.flag,
+                                                  style: TextStyle(fontSize: 20),
+                                                ),
+                                                Text(" "+e.name,style: TextStyle(fontSize: 20),)
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                      .toList(),
-                                  onChanged: (LanguageData? value) {
-                                    if (value != null)
-                                      setState(() {
-                                        _languagesChosenValue = value;
-                                        Preference.shared.setString(
-                                            Preference.LANGUAGE,
-                                            _languagesChosenValue!
-                                                .languageCode);
-                                        changeLanguage(context, _languagesChosenValue!.languageCode);
-                                      });
-                                  },
+                                        )
+                                        .toList(),
+                                    onChanged: (LanguageData? value) {
+                                      if (value != null)
+                                        setState(() {
+                                          _languagesChosenValue = value;
+                                          Preference.shared.setString(
+                                              Preference.LANGUAGE,
+                                              _languagesChosenValue!
+                                                  .languageCode);
+                                          changeLanguage(context, _languagesChosenValue!.languageCode);
+                                        });
+                                    },
+                                  ),
                                 ),
                               ],
                             ),

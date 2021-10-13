@@ -8,9 +8,6 @@ class LanguageVi extends Languages {
   String get txtRunTracker => "CHẠY THEO DÕI";
 
   @override
-  String get labelWelcome => "Chào mừng";
-
-  @override
   String get txtWelcomeMapRunnner => "Xin chào, Chào mừng đến với\n";
 
   @override
@@ -82,9 +79,6 @@ class LanguageVi extends Languages {
   String get txtPaceOver900MinKm => "Tốc độ trên 9:00 min/km";
 
   @override
-  String get txtWeightDescription => "Để cá nhân hóa mục tiêu thể chất của bạn";
-
-  @override
   String get txtWhatIsYourGender => "Giơi tinh của bạn la gi?";
 
   @override
@@ -121,9 +115,6 @@ class LanguageVi extends Languages {
   String get txtSettings => "Cài đặt";
 
   @override
-  String get txtCupCapacityUnits => "Đơn vị dung tích cốc";
-
-  @override
   String get txtTarget => "Mục tiêu";
 
   @override
@@ -148,19 +139,7 @@ class LanguageVi extends Languages {
   String get txtInterval => "Khoảng thời gian";
 
   @override
-  String get txtSound => "Âm thanh";
-
-  @override
   String get txtMessage => "Thông điệp";
-
-  @override
-  String get txtRingtone => "Nhạc chuông";
-
-  @override
-  String get txtAM => "SÁNG";
-
-  @override
-  String get txtPM => "BUỔI CHIỀU";
 
   @override
   String get txtPaceMinPer => "TỐC ĐỘ (Min/";
@@ -188,19 +167,10 @@ class LanguageVi extends Languages {
       "Abạn có hài lòng với\n theo dõi kết quả?";
 
   @override
-  String get txtDetails => "Chi tiết";
-
-  @override
-  String get txtDistanceKM => "Khoảng cách (km)";
-
-  @override
   String get txtDuration => "Khoảng thời gian";
 
   @override
   String get txtGood => "Tốt";
-
-  @override
-  String get txtMovingTime => "Thời gian di chuyển";
 
   @override
   String get txtNotReally => "Không hẳn vậy";
@@ -216,9 +186,6 @@ class LanguageVi extends Languages {
 
   @override
   String get txtBestPace => "Tốc độ tốt nhất";
-
-  @override
-  String get txtFastestTime => "Thời gian nhanh nhất";
 
   @override
   String get txtLongestDuration => "Thời lượng dài nhất";
@@ -249,18 +216,6 @@ class LanguageVi extends Languages {
 
   @override
   String get txtRate => "Tỷ lệ";
-
-  @override
-  String get txtPro => "Pro";
-
-  @override
-  String get txtRemoveAddForever => "Xóa quảng cáo vĩnh viễn";
-
-  @override
-  String get txtUnlockAllTrainingPlans => "Mở khóa tất cả các Kế hoạch đào tạo";
-
-  @override
-  String get txtDeeperAnalysis => "Phân tích sâu hơn";
 
   @override
   String get txtMyProgress => "Tiến trình của tôi";
@@ -340,9 +295,6 @@ class LanguageVi extends Languages {
 
   @override
   String get txtWeeklyStatistics => "Thống kê hàng tuần";
-
-  @override
-  String get txtTroubleShooting => "Xử lý sự cố";
 
   @override
   String get txtMetricAndImperialUnits => "Đơn vị hệ mét & đơn vị đo lường hoàng gia";

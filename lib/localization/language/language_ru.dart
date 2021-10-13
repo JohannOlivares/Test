@@ -8,9 +8,6 @@ class LanguageRu extends Languages {
   String get txtRunTracker => "ЗАПУСК ТРЕКЕР";
 
   @override
-  String get labelWelcome => "Добро пожаловать";
-
-  @override
   String get txtWelcomeMapRunnner => "Привет, добро пожаловать \n";
 
   @override
@@ -82,9 +79,6 @@ class LanguageRu extends Languages {
   String get txtPaceOver900MinKm => "Темп с 9:00 min/km";
 
   @override
-  String get txtWeightDescription => "Чтобы персонализировать вашу фитнес-цель";
-
-  @override
   String get txtWhatIsYourGender => "Какого вы пола?";
 
   @override
@@ -121,9 +115,6 @@ class LanguageRu extends Languages {
   String get txtSettings => "Настройки";
 
   @override
-  String get txtCupCapacityUnits => "Единицы емкости чашки";
-
-  @override
   String get txtTarget => "Цель";
 
   @override
@@ -148,19 +139,7 @@ class LanguageRu extends Languages {
   String get txtInterval => "Интервал";
 
   @override
-  String get txtSound => "Звук";
-
-  @override
   String get txtMessage => "Сообщение";
-
-  @override
-  String get txtRingtone => "Рингтон";
-
-  @override
-  String get txtAM => "AM";
-
-  @override
-  String get txtPM => "PM";
 
   @override
   String get txtPaceMinPer => "ШАГ (Min/";
@@ -188,19 +167,10 @@ class LanguageRu extends Languages {
       "Довольны ли вы результатами\nотслеживания?";
 
   @override
-  String get txtDetails => "Подробности";
-
-  @override
-  String get txtDistanceKM => "Расстояние (km)";
-
-  @override
   String get txtDuration => "Продолжительность";
 
   @override
   String get txtGood => "Хороший";
-
-  @override
-  String get txtMovingTime => "Время в пути";
 
   @override
   String get txtNotReally => "Не совсем";
@@ -249,18 +219,6 @@ class LanguageRu extends Languages {
 
   @override
   String get txtRate => "Показатель";
-
-  @override
-  String get txtPro => "профессионал";
-
-  @override
-  String get txtRemoveAddForever => "Удалить рекламу навсегда";
-
-  @override
-  String get txtUnlockAllTrainingPlans => "Разблокировать все планы тренировок";
-
-  @override
-  String get txtDeeperAnalysis => "Более глубокий анализ";
 
   @override
   String get txtMyProgress => "Мой прогресс";
@@ -340,9 +298,6 @@ class LanguageRu extends Languages {
 
   @override
   String get txtWeeklyStatistics => "Еженедельная статистика";
-
-  @override
-  String get txtTroubleShooting => "Поиск проблемы";
 
   @override
   String get txtMetricAndImperialUnits => "Метрические и британские единицы";

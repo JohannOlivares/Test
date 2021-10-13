@@ -8,9 +8,6 @@ class LanguageZh extends Languages {
   String get txtRunTracker => "跑步追踪器";
 
   @override
-  String get labelWelcome => "欢迎";
-
-  @override
   String get txtWelcomeMapRunnner => "您好，欢迎来到\n";
 
   @override
@@ -82,9 +79,6 @@ class LanguageZh extends Languages {
   String get txtPaceOver900MinKm => "配速超过 9:00 分钟/公里";
 
   @override
-  String get txtWeightDescription => "个性化您的健身目标";
-
-  @override
   String get txtWhatIsYourGender => "什么是你的性别?";
 
   @override
@@ -121,9 +115,6 @@ class LanguageZh extends Languages {
   String get txtSettings => "设置";
 
   @override
-  String get txtCupCapacityUnits => "杯容量单位";
-
-  @override
   String get txtTarget => "目标";
 
   @override
@@ -148,19 +139,7 @@ class LanguageZh extends Languages {
   String get txtInterval => "间隔";
 
   @override
-  String get txtSound => "声音";
-
-  @override
   String get txtMessage => "信息";
-
-  @override
-  String get txtRingtone => "铃声";
-
-  @override
-  String get txtAM => "是";
-
-  @override
-  String get txtPM => "下午";
 
   @override
   String get txtPaceMinPer => "配速（最小/";
@@ -188,19 +167,10 @@ class LanguageZh extends Languages {
       "你满意吗\n 追踪结果?";
 
   @override
-  String get txtDetails => "细节";
-
-  @override
-  String get txtDistanceKM => "距离（公里）";
-
-  @override
   String get txtDuration => "期间";
 
   @override
   String get txtGood => "好的";
-
-  @override
-  String get txtMovingTime => "搬家时间";
 
   @override
   String get txtNotReally => "搬家时间不是真的";
@@ -216,9 +186,6 @@ class LanguageZh extends Languages {
 
   @override
   String get txtBestPace => "最佳配速";
-
-  @override
-  String get txtFastestTime => "最快时间";
 
   @override
   String get txtLongestDuration => "最长持续时间";
@@ -249,18 +216,6 @@ class LanguageZh extends Languages {
 
   @override
   String get txtRate => "速度";
-
-  @override
-  String get txtPro => "亲";
-
-  @override
-  String get txtRemoveAddForever => "永久删除广告";
-
-  @override
-  String get txtUnlockAllTrainingPlans => "解锁所有训练计划";
-
-  @override
-  String get txtDeeperAnalysis => "深入分析";
 
   @override
   String get txtMyProgress => "我的进步";
@@ -343,9 +298,6 @@ class LanguageZh extends Languages {
 
   @override
   String get txtWeeklyStatistics => "每周统计";
-
-  @override
-  String get txtTroubleShooting => "故障排除";
 
   @override
   String get txtMetricAndImperialUnits => "公制和英制单位";

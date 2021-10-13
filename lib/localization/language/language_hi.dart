@@ -8,9 +8,6 @@ class LanguageHi extends Languages {
   String get txtRunTracker => "रन ट्रैकर";
 
   @override
-  String get labelWelcome => "स्वागत";
-
-  @override
   String get txtWelcomeMapRunnner => "नमस्ते, आपका स्वागत है\n";
 
   @override
@@ -82,9 +79,6 @@ class LanguageHi extends Languages {
   String get txtPaceOver900MinKm => "9:00  min/km से अधिक की गति";
 
   @override
-  String get txtWeightDescription => "अपने फिटनेस लक्ष्य को वैयक्तिकृत करने के लिए";
-
-  @override
   String get txtWhatIsYourGender => "आपका लिंग क्या है?";
 
   @override
@@ -121,9 +115,6 @@ class LanguageHi extends Languages {
   String get txtSettings => "समायोजन";
 
   @override
-  String get txtCupCapacityUnits => "कप क्षमता इकाइयां";
-
-  @override
   String get txtTarget => "लक्ष्य";
 
   @override
@@ -148,19 +139,7 @@ class LanguageHi extends Languages {
   String get txtInterval => "मध्यान्तर";
 
   @override
-  String get txtSound => "ध्वनि";
-
-  @override
   String get txtMessage => "संदेश";
-
-  @override
-  String get txtRingtone => "रिंगटोन";
-
-  @override
-  String get txtAM => "पूर्वाह्न";
-
-  @override
-  String get txtPM => "अपराह्न";
 
   @override
   String get txtPaceMinPer => "गति (Min/";
@@ -188,19 +167,10 @@ class LanguageHi extends Languages {
       "क्या आप ट्रैकिंग परिणामों\n से संतुष्ट हैं?";
 
   @override
-  String get txtDetails => "विवरण";
-
-  @override
-  String get txtDistanceKM => "दूरी (km)";
-
-  @override
   String get txtDuration => "अवधि";
 
   @override
   String get txtGood => "अच्छा";
-
-  @override
-  String get txtMovingTime => "चलने का समय";
 
   @override
   String get txtNotReally => "ज़रूरी नहीं";
@@ -216,9 +186,6 @@ class LanguageHi extends Languages {
 
   @override
   String get txtBestPace => "सर्वश्रेष्ठ गति";
-
-  @override
-  String get txtFastestTime => "सबसे तेज़ समय";
 
   @override
   String get txtLongestDuration => "सबसे लंबी अवधि";
@@ -249,18 +216,6 @@ class LanguageHi extends Languages {
 
   @override
   String get txtRate => "रेट करें";
-
-  @override
-  String get txtPro => "समर्थक";
-
-  @override
-  String get txtRemoveAddForever => "विज्ञापनों को हमेशा के लिए हटा दें";
-
-  @override
-  String get txtUnlockAllTrainingPlans => "सभी प्रशिक्षण योजनाओं को अनलॉक करें";
-
-  @override
-  String get txtDeeperAnalysis => "गहरा विश्लेषण";
 
   @override
   String get txtMyProgress => "मेरी तरक्की";
@@ -340,9 +295,6 @@ class LanguageHi extends Languages {
 
   @override
   String get txtWeeklyStatistics => "साप्ताहिक सांख्यिकी";
-
-  @override
-  String get txtTroubleShooting => "समस्या निवारण";
 
   @override
   String get txtMetricAndImperialUnits => "मीट्रिक और शाही इकाइयाँ";

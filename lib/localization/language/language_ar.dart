@@ -8,9 +8,6 @@ class LanguageAr extends Languages {
   String get txtRunTracker => "تشغيل تعقب";
 
   @override
-  String get labelWelcome => "أهلا بك";
-
-  @override
   String get txtWelcomeMapRunnner => "مرحبًا ، مرحبًا بك في \n";
 
   @override
@@ -82,9 +79,6 @@ class LanguageAr extends Languages {
   String get txtPaceOver900MinKm => "السرعة تزيد عن 9:00 دقيقة / كم";
 
   @override
-  String get txtWeightDescription => "لتخصيص هدف لياقتك";
-
-  @override
   String get txtWhatIsYourGender => "ما هو جنسك؟";
 
   @override
@@ -121,9 +115,6 @@ class LanguageAr extends Languages {
   String get txtSettings => "إعدادات";
 
   @override
-  String get txtCupCapacityUnits => "وحدات سعة الكأس";
-
-  @override
   String get txtTarget => "استهداف";
 
   @override
@@ -148,19 +139,7 @@ class LanguageAr extends Languages {
   String get txtInterval => "فاصلة";
 
   @override
-  String get txtSound => "صوت";
-
-  @override
   String get txtMessage => "رسالة";
-
-  @override
-  String get txtRingtone => "نغمة الرنين";
-
-  @override
-  String get txtAM => "صباحا";
-
-  @override
-  String get txtPM => "مساء";
 
   @override
   String get txtPaceMinPer => "وتيرة (دقيقة /";
@@ -188,19 +167,10 @@ class LanguageAr extends Languages {
       "هل أنت راضٍ عن \n نتائج التعقب؟";
 
   @override
-  String get txtDetails => "تفاصيل";
-
-  @override
-  String get txtDistanceKM => "المسافة (كم)";
-
-  @override
   String get txtDuration => "مدة";
 
   @override
   String get txtGood => "جيد";
-
-  @override
-  String get txtMovingTime => "تتحرك الوقت";
 
   @override
   String get txtNotReally => "ليس حقا";
@@ -216,9 +186,6 @@ class LanguageAr extends Languages {
 
   @override
   String get txtBestPace => "أفضل سرعة";
-
-  @override
-  String get txtFastestTime => "أسرع وقت";
 
   @override
   String get txtLongestDuration => "أطول مدة";
@@ -249,18 +216,6 @@ class LanguageAr extends Languages {
 
   @override
   String get txtRate => "معدل";
-
-  @override
-  String get txtPro => "طليعة";
-
-  @override
-  String get txtRemoveAddForever => "إزالة الإعلانات إلى الأبد";
-
-  @override
-  String get txtUnlockAllTrainingPlans => "افتح جميع خطط التدريب";
-
-  @override
-  String get txtDeeperAnalysis => "تحليل أعمق";
 
   @override
   String get txtMyProgress => "تقدمي";
@@ -340,9 +295,6 @@ class LanguageAr extends Languages {
 
   @override
   String get txtWeeklyStatistics => "الاحصائيات الاسبوعية";
-
-  @override
-  String get txtTroubleShooting => "استكشاف الأخطاء وإصلاحها";
 
   @override
   String get txtMetricAndImperialUnits => "الوحدات المترية والإمبراطورية";

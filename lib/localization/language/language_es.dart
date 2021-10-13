@@ -8,9 +8,6 @@ class LanguageEs extends Languages {
   String get txtRunTracker => "EJECUTAR RASTREADOR";
 
   @override
-  String get labelWelcome => "Bienvenidos";
-
-  @override
   String get txtWelcomeMapRunnner => "Hola, bienvenido a \ n";
 
   @override
@@ -82,9 +79,6 @@ class LanguageEs extends Languages {
   String get txtPaceOver900MinKm => "Ritmo superior a 9:00 min/km";
 
   @override
-  String get txtWeightDescription => "Para personalizar su objetivo de fitness";
-
-  @override
   String get txtWhatIsYourGender => "Cuál es tu género?";
 
   @override
@@ -121,9 +115,6 @@ class LanguageEs extends Languages {
   String get txtSettings => "Ajustes";
 
   @override
-  String get txtCupCapacityUnits => "Unidades de capacidad de taza";
-
-  @override
   String get txtTarget => "Objetivo";
 
   @override
@@ -148,19 +139,7 @@ class LanguageEs extends Languages {
   String get txtInterval => "Intervalo";
 
   @override
-  String get txtSound => "Sonido";
-
-  @override
   String get txtMessage => "Mensaje";
-
-  @override
-  String get txtRingtone => "Tono de llamada";
-
-  @override
-  String get txtAM => "AM";
-
-  @override
-  String get txtPM => "PM";
 
   @override
   String get txtPaceMinPer => "RITMO (Min/";
@@ -188,19 +167,10 @@ class LanguageEs extends Languages {
       "Está satisfecho con los \n resultados de seguimiento?";
 
   @override
-  String get txtDetails => "Detalles";
-
-  @override
-  String get txtDistanceKM => "Distancia (km)";
-
-  @override
   String get txtDuration => "Duración";
 
   @override
   String get txtGood => "Bueno";
-
-  @override
-  String get txtMovingTime => "Tiempo en movimiento";
 
   @override
   String get txtNotReally => "Realmente no";
@@ -216,9 +186,6 @@ class LanguageEs extends Languages {
 
   @override
   String get txtBestPace => "Mejor ritmo";
-
-  @override
-  String get txtFastestTime => "El tiempo mas rapido";
 
   @override
   String get txtLongestDuration => "Duración más larga";
@@ -249,18 +216,6 @@ class LanguageEs extends Languages {
 
   @override
   String get txtRate => "Calificar";
-
-  @override
-  String get txtPro => "Pro";
-
-  @override
-  String get txtRemoveAddForever => "Eliminar anuncios para siempre";
-
-  @override
-  String get txtUnlockAllTrainingPlans => "Desbloquea todos los planes de entrenamiento";
-
-  @override
-  String get txtDeeperAnalysis => "Análisis más profundo";
 
   @override
   String get txtMyProgress => "Mi progreso";
@@ -340,9 +295,6 @@ class LanguageEs extends Languages {
 
   @override
   String get txtWeeklyStatistics => "Estadísticas semanales";
-
-  @override
-  String get txtTroubleShooting => "Troubleshooting";
 
   @override
   String get txtMetricAndImperialUnits => "Unidades métricas e imperiales";

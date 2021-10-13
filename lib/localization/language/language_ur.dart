@@ -8,9 +8,6 @@ class LanguageUr extends Languages {
   String get txtRunTracker => "ٹریکر چلائیں۔";
 
   @override
-  String get labelWelcome => "خوش آمدید";
-
-  @override
   String get txtWelcomeMapRunnner => "\nہیلو ، میں خوش آمدید";
 
   @override
@@ -82,9 +79,6 @@ class LanguageUr extends Languages {
   String get txtPaceOver900MinKm => "رفتار 9:00 منٹ/کلومیٹر";
 
   @override
-  String get txtWeightDescription => "اپنے فٹنس مقصد کو ذاتی بنانے کے لیے۔";
-
-  @override
   String get txtWhatIsYourGender => "آپ کی جنس کیا ہے؟";
 
   @override
@@ -121,9 +115,6 @@ class LanguageUr extends Languages {
   String get txtSettings => "ترتیبات";
 
   @override
-  String get txtCupCapacityUnits => "کپ کی گنجائش والے یونٹ۔";
-
-  @override
   String get txtTarget => "ہدف۔";
 
   @override
@@ -148,19 +139,7 @@ class LanguageUr extends Languages {
   String get txtInterval => "وقفہ";
 
   @override
-  String get txtSound => "آواز";
-
-  @override
   String get txtMessage => "پیغام";
-
-  @override
-  String get txtRingtone => "رنگ ٹون۔";
-
-  @override
-  String get txtAM => "AM";
-
-  @override
-  String get txtPM => "PM";
 
   @override
   String get txtPaceMinPer => "رفتار (کم از کم/";
@@ -188,19 +167,10 @@ class LanguageUr extends Languages {
       "کیا آپ اس سے مطمئن ہیں؟\n ٹریکنگ کے نتائج?";
 
   @override
-  String get txtDetails => "تفصیلات";
-
-  @override
-  String get txtDistanceKM => "فاصلہ (کلومیٹر)";
-
-  @override
   String get txtDuration => "دورانیہ";
 
   @override
   String get txtGood => "اچھی";
-
-  @override
-  String get txtMovingTime => "حرکت پذیر وقت۔";
 
   @override
   String get txtNotReally => "واقعی نہیں۔";
@@ -216,9 +186,6 @@ class LanguageUr extends Languages {
 
   @override
   String get txtBestPace => "بہترین رفتار۔";
-
-  @override
-  String get txtFastestTime => "تیز ترین وقت۔";
 
   @override
   String get txtLongestDuration => "طویل ترین دورانیہ۔";
@@ -249,18 +216,6 @@ class LanguageUr extends Languages {
 
   @override
   String get txtRate => "شرح";
-
-  @override
-  String get txtPro => "پرو";
-
-  @override
-  String get txtRemoveAddForever => "اشتہارات کو ہمیشہ کے لیے ہٹا دیں۔";
-
-  @override
-  String get txtUnlockAllTrainingPlans => "تمام تربیتی منصوبوں کو غیر مقفل کریں۔";
-
-  @override
-  String get txtDeeperAnalysis => "گہرا تجزیہ۔";
 
   @override
   String get txtMyProgress => "میری ترقی۔";
@@ -341,9 +296,6 @@ class LanguageUr extends Languages {
 
   @override
   String get txtWeeklyStatistics => "ہفتہ وار اعداد و شمار";
-
-  @override
-  String get txtTroubleShooting => "خرابیوں کا سراغ لگانا";
 
   @override
   String get txtMetricAndImperialUnits => "میٹرک اور امپیریل یونٹس";

@@ -8,9 +8,6 @@ class LanguageFr extends Languages {
   String get txtRunTracker => "SUIVI DE COURSE";
 
   @override
-  String get labelWelcome => "Bienvenue";
-
-  @override
   String get txtWelcomeMapRunnner => "Salut, bienvenue à\n";
 
   @override
@@ -82,9 +79,6 @@ class LanguageFr extends Languages {
   String get txtPaceOver900MinKm => "Allure supérieure à 9h00 min/km";
 
   @override
-  String get txtWeightDescription => "Pour personnaliser votre objectif de remise en forme";
-
-  @override
   String get txtWhatIsYourGender => "Quel est ton genre?";
 
   @override
@@ -121,9 +115,6 @@ class LanguageFr extends Languages {
   String get txtSettings => "Paramètres";
 
   @override
-  String get txtCupCapacityUnits => "Unités de capacité de tasse";
-
-  @override
   String get txtTarget => "Cibler";
 
   @override
@@ -148,19 +139,7 @@ class LanguageFr extends Languages {
   String get txtInterval => "Intervalle";
 
   @override
-  String get txtSound => "Du son";
-
-  @override
   String get txtMessage => "Un message";
-
-  @override
-  String get txtRingtone => "Sonnerie";
-
-  @override
-  String get txtAM => "AM";
-
-  @override
-  String get txtPM => "PM";
 
   @override
   String get txtPaceMinPer => "RYTHME (Min/";
@@ -188,19 +167,10 @@ class LanguageFr extends Languages {
       "Êtes-vous satisfait de la\n suivi des résultats?";
 
   @override
-  String get txtDetails => "Détails";
-
-  @override
-  String get txtDistanceKM => "la distance (km)";
-
-  @override
   String get txtDuration => "Durée";
 
   @override
   String get txtGood => "Bon";
-
-  @override
-  String get txtMovingTime => "Temps de déménagement";
 
   @override
   String get txtNotReally => "Pas vraiment";
@@ -216,9 +186,6 @@ class LanguageFr extends Languages {
 
   @override
   String get txtBestPace => "Meilleur rythme";
-
-  @override
-  String get txtFastestTime => "Temps le plus rapide";
 
   @override
   String get txtLongestDuration => "Durée la plus longue";
@@ -249,18 +216,6 @@ class LanguageFr extends Languages {
 
   @override
   String get txtRate => "Taux";
-
-  @override
-  String get txtPro => "Pro";
-
-  @override
-  String get txtRemoveAddForever => "Supprimer les publicités pour toujours";
-
-  @override
-  String get txtUnlockAllTrainingPlans => "Débloquez tous les plans d'entraînement";
-
-  @override
-  String get txtDeeperAnalysis => "Analyse plus approfondie";
 
   @override
   String get txtMyProgress => "Mes progrès";
@@ -340,9 +295,6 @@ class LanguageFr extends Languages {
 
   @override
   String get txtWeeklyStatistics => "Statistiques hebdomadaires";
-
-  @override
-  String get txtTroubleShooting => "Dépannage";
 
   @override
   String get txtMetricAndImperialUnits => "Unités métriques et impériales";

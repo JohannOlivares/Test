@@ -7,8 +7,6 @@ abstract class Languages {
 
   String get appName;
 
-  String get labelWelcome;
-
   String get txtRunTracker;
 
   String get txtWelcomeMapRunnner;
@@ -24,8 +22,6 @@ abstract class Languages {
   String get txtGenderDescription;
 
   String get txtHowMuchDoYouWeight;
-
-  String get txtWeightDescription;
 
   String get txtHowTallAreYou;
 
@@ -81,8 +77,6 @@ abstract class Languages {
 
   String get txtSettings;
 
-  String get txtCupCapacityUnits;
-
   String get txtTarget;
 
   String get txtReminder;
@@ -101,15 +95,7 @@ abstract class Languages {
 
   String get txtInterval;
 
-  String get txtSound;
-
-  String get txtRingtone;
-
   String get txtMessage;
-
-  String get txtAM;
-
-  String get txtPM;
 
   String get txtPaceMinPer;
 
@@ -129,12 +115,6 @@ abstract class Languages {
 
   String get txtDuration;
 
-  String get txtDistanceKM;
-
-  String get txtMovingTime;
-
-  String get txtDetails;
-
   String get txtShare;
 
   String get txtNotReally;
@@ -146,8 +126,6 @@ abstract class Languages {
   String get txtLongestDistance;
 
   String get txtBestPace;
-
-  String get txtFastestTime;
 
   String get txtLongestDuration;
 
@@ -182,14 +160,6 @@ abstract class Languages {
   String get txtBestWeCanGet;
 
   String get txtRate;
-
-  String get txtPro;
-
-  String get txtRemoveAddForever;
-
-  String get txtUnlockAllTrainingPlans;
-
-  String get txtDeeperAnalysis;
 
   String get txtMyProgress;
 
@@ -238,8 +208,6 @@ abstract class Languages {
   String get txtModerateIntensity;
 
   String get txtHighIntensity;
-
-  String get txtTroubleShooting;
 
   String get txtMetricAndImperialUnits;
 
@@ -366,5 +334,6 @@ abstract class Languages {
   String get txtNoDataFound;
 
   String get txtExitMessage;
+
   String get txtExit;
 }

@@ -8,9 +8,6 @@ class LanguageJa extends Languages {
   String get txtRunTracker => "トラッカーを実行する";
 
   @override
-  String get labelWelcome => "いらっしゃいませ";
-
-  @override
   String get txtWelcomeMapRunnner => "こんにちは、ようこそ\n";
 
   @override
@@ -82,9 +79,6 @@ class LanguageJa extends Languages {
   String get txtPaceOver900MinKm => "9:00分/ km以上のペース";
 
   @override
-  String get txtWeightDescription => "フィットネスの目標をパーソナライズするには";
-
-  @override
   String get txtWhatIsYourGender => "あなたの性別はなんですか?";
 
   @override
@@ -121,9 +115,6 @@ class LanguageJa extends Languages {
   String get txtSettings => "設定";
 
   @override
-  String get txtCupCapacityUnits => "カップ容量ユニット";
-
-  @override
   String get txtTarget => "目標";
 
   @override
@@ -148,19 +139,7 @@ class LanguageJa extends Languages {
   String get txtInterval => "間隔";
 
   @override
-  String get txtSound => "音";
-
-  @override
   String get txtMessage => "メッセージ";
-
-  @override
-  String get txtRingtone => "着メロ";
-
-  @override
-  String get txtAM => "AM";
-
-  @override
-  String get txtPM => "PM";
 
   @override
   String get txtPaceMinPer => "ペース（Min/";
@@ -188,19 +167,10 @@ class LanguageJa extends Languages {
       "に満足していますか\n 結果の追跡?";
 
   @override
-  String get txtDetails => "詳細";
-
-  @override
-  String get txtDistanceKM => "距離（km）";
-
-  @override
   String get txtDuration => "間隔";
 
   @override
   String get txtGood => "良い";
-
-  @override
-  String get txtMovingTime => "移動時間";
 
   @override
   String get txtNotReally => "あまり";
@@ -216,9 +186,6 @@ class LanguageJa extends Languages {
 
   @override
   String get txtBestPace => "最高のペース";
-
-  @override
-  String get txtFastestTime => "最速時間";
 
   @override
   String get txtLongestDuration => "最長期間";
@@ -251,20 +218,7 @@ class LanguageJa extends Languages {
   String get txtRate => "割合";
 
   @override
-  String get txtPro => "プロ";
-
-  @override
-  String get txtRemoveAddForever => "広告を永久に削除する";
-
-  @override
-  String get txtUnlockAllTrainingPlans => "すべてのトレーニングプランのロックを解除する";
-
-  @override
-  String get txtDeeperAnalysis => "より深い分析";
-
-  @override
   String get txtMyProgress => "私の進歩";
-
 
   @override
   String get txtTotalKM => "総KM";
@@ -341,9 +295,6 @@ class LanguageJa extends Languages {
 
   @override
   String get txtWeeklyStatistics => "週次統計";
-
-  @override
-  String get txtTroubleShooting => "トラブルシューティング";
 
   @override
   String get txtMetricAndImperialUnits => "メートル法とインペリアル単位";

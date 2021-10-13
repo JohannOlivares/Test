@@ -19,6 +19,14 @@ class LanguageData {
       LanguageData("🇪🇸", "Español", 'es'),
       LanguageData("🇵🇰", "اردو", "ur"),
       LanguageData("🇻🇳", "Tiếng Việt", 'vi'),
+      LanguageData("🇮🇩", "bahasa indo", 'id'),
+      LanguageData("🇮🇳", "বাংলা", 'bn'),
+      LanguageData("🇮🇳", "தமிழ்", 'ta'),
+      LanguageData("🇮🇳", "తెలుగు", 'te'),
+      LanguageData("🇹🇷", "Türk", 'tr'),
+      LanguageData("🇰🇵", "한국인", 'ko'),
+      LanguageData("🇮🇳", "ਪੰਜਾਬੀ", 'pa'),
+      LanguageData("🇮🇹", "italiana", 'it'),
     ];
   }
 }
