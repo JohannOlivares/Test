@@ -65,7 +65,7 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<Languages> {
       case 'ta':
         return LanguageTa();
       case 'te':
-      return LanguageTe();
+        return LanguageTe();
       case 'tr':
         return LanguageTr();
       case 'ko':

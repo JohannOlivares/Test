@@ -582,7 +582,7 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                                   context: context,
                                   isScrollControlled: true,
                                   backgroundColor: Colors.transparent,
-                                  isDismissible: false,
+                                  isDismissible: true,
                                   enableDrag: false,
                                   builder: (context) {
                                     return Wrap(

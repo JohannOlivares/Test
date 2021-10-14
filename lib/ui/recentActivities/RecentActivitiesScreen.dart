@@ -239,7 +239,7 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
                                   color: Colur.txt_grey),
                             ),
                             Text(
-                              activityList[index].speed!.toString(),
+                              activityList[index].speed != null ? activityList[index].speed!.toString() : "Infinity",
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,

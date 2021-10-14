@@ -5,7 +5,7 @@ class LanguageKo extends Languages {
   String get appName => "러너 앱";
 
   @override
-  String get txtRunTracker => "RUN TRACKER";
+  String get txtRunTracker => "런 트래커";
 
   @override
   String get txtWelcomeMapRunnner => "안녕하세요, 환영합니다\n";
@@ -27,7 +27,7 @@ class LanguageKo extends Languages {
   String get txt75MinRunning => "75분 달리기";
 
   @override
-  String get txtCM => "CM";
+  String get txtCM => "센티미터";
 
   @override
   String get txtDistance => "거리";

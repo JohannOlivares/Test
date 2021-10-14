@@ -769,7 +769,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   color: Colur.txt_grey),
                             ),
                             Text(
-                                (isKmSelected)?recentActivitiesData[index].speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(recentActivitiesData[index].speed!).toStringAsFixed(2),
+                              recentActivitiesData[index].speed != null ? (isKmSelected)?recentActivitiesData[index].speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(recentActivitiesData[index].speed!).toStringAsFixed(2) : "Infinity",
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 15,
