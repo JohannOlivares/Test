@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
 class CountdownTimerScreen extends StatefulWidget {
-  bool isGreen = false;
-  bool? startTrack = true;
+  final bool isGreen;
 
-  CountdownTimerScreen({this.startTrack,required this.isGreen});
+
+  CountdownTimerScreen({
+    required this.isGreen
+  });
 
   @override
   _CountdownTimerScreenState createState() => _CountdownTimerScreenState();
@@ -15,8 +17,7 @@ class CountdownTimerScreen extends StatefulWidget {
 class _CountdownTimerScreenState extends State<CountdownTimerScreen> with TickerProviderStateMixin{
   AnimationController? _controller;
   AnimationStatus? status;
-
-
+  bool? startTrack = false;
   @override
   void initState() {
     super.initState();
@@ -71,7 +72,7 @@ class _CountdownTimerScreenState extends State<CountdownTimerScreen> with Ticker
   }
 
   void _timer() {
-    widget.startTrack = true;
+    startTrack = true;
     _controller!.addListener(() => setState(() {}));
     TickerFuture tickerFuture = _controller!.forward();
     tickerFuture.timeout(Duration(milliseconds: 3800), onTimeout:  () {

@@ -56,7 +56,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   bool _isBannerAdReady = false;
 
   bool? isKmSelected;
-
+  // ignore: cancel_subscriptions
   StreamSubscription<StepCount>? _stepCountStream;
 
   final StopWatchTimer _stopWatchTimer = StopWatchTimer(

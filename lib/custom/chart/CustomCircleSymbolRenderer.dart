@@ -1,7 +1,6 @@
 import 'dart:math';
 
 import 'package:charts_flutter/flutter.dart';
-import 'package:charts_flutter/src/text_style.dart' as style2;
 
 class CustomCircleSymbolRenderer extends CircleSymbolRenderer {
   static String? value;
@@ -23,20 +22,16 @@ class CustomCircleSymbolRenderer extends CircleSymbolRenderer {
     canvas.drawRRect(
       Rectangle(bounds.left-8, bounds.top - 30, bounds.width + 30,
           bounds.height + 10),
-      fill: Color.white,
+      fill: Color.fromOther(color: Color(r: 134, b: 173, g: 138)),
       radius: 10,
       roundTopLeft: true,
       roundTopRight: true,
       roundBottomLeft: true,
       roundBottomRight: true,
     );
-    var textStyle = style2.TextStyle();
-    textStyle.color = Color.black;
-    textStyle.fontSize = 15;
 
     TextElement textElement =
         canvas.graphicsFactory.createTextElement("$value");
-    textElement.textStyle = textStyle;
 
     canvas.drawText(
         textElement, (bounds.left+5).round(), (bounds.top - 24).round());

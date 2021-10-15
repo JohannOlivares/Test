@@ -369,7 +369,8 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                               style: TextStyle(
                                   color: Colur.txt_white,
                                   fontWeight: FontWeight.w600,
-                                  fontSize: 24),
+                                  fontSize: 24
+                              ),
                             ),
                           ),
                           Container(

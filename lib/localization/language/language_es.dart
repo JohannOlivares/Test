@@ -511,10 +511,7 @@ class LanguageEs extends Languages {
 
   @override
   String get txtPleaseGivePermissionForActivity =>
-      "Please give us access to Detect You Activity For Steps";
+      "Por favor, danos acceso a la actividad Detectarte para los pasos";
 
-  @override
-  // TODO: implement txtDailyAverage
-  String get txtDailyAverage => throw UnimplementedError();
 
 }

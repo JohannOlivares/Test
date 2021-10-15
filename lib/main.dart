@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:run_tracker/SplashScreen.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
 import 'package:run_tracker/ui/drinkWaterScreen/DrinkWaterLevelScreen.dart';
 import 'package:run_tracker/ui/home/HomeWizardScreen.dart';
@@ -12,7 +13,6 @@ import 'package:run_tracker/ui/reminder/ReminderScreen.dart';
 import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/ui/useLocation/UseLocationScreen.dart';
 import 'package:run_tracker/ui/wellDoneScreen/WellDoneScreen.dart';
-import 'package:run_tracker/ui/wizardScreen/WizardScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:run_tracker/utils/Debug.dart';
@@ -216,8 +216,7 @@ class _MyAppState extends State<MyApp> {
             systemNavigationBarIconBrightness: Brightness.light,
             systemNavigationBarColor: Colur.common_bg_dark,
           ),
-
-          child:(isFirstTimeUser)?WizardScreen():HomeWizardScreen(),
+          child: SplashScreen(),/*(isFirstTimeUser)?WizardScreen():HomeWizardScreen(),*/
         ),
         routes: <String, WidgetBuilder>{
           '/settingScreen': (BuildContext context) => MapSettingScreen(),

@@ -9,14 +9,11 @@ import 'package:run_tracker/utils/Color.dart';
 
 
 class HeightScreen extends StatefulWidget {
-  bool? isBack;
+  final bool? isBack;
 
-  WizardScreenState wizardScreenState;
+  final WizardScreenState wizardScreenState;
 
-  HeightScreen({this.isBack, required this.wizardScreenState,}){
-    isBack = true;
-
-  }
+  HeightScreen({this.isBack = true, required this.wizardScreenState,});
 
   @override
   _HeightScreenState createState() => _HeightScreenState();

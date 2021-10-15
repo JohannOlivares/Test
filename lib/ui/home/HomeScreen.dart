@@ -62,7 +62,6 @@ class _HomeScreenState extends State<HomeScreen>
 
     super.initState();
   }
-  bool? redirect;
 
 
 
@@ -89,7 +88,6 @@ class _HomeScreenState extends State<HomeScreen>
     walkTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_WALKTIME)??150;
     runTime= Preference.shared.getInt(Preference.TARGETVALUE_FOR_RUNTIME)??75;
     prefSelectedDay = Preference.shared.getInt(Preference.FIRST_DAY_OF_WEEK_IN_NUM) ?? 1;
-    redirect = Preference.shared.getBool(Preference.IS_REDIRECT) ?? false;
   }
 
   RunningData? longestDistance;

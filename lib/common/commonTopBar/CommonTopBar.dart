@@ -5,19 +5,19 @@ import 'package:run_tracker/utils/Constant.dart';
 
 
 class CommonTopBar extends StatefulWidget {
-  String headerName = "headerName";
-  TopBarClickListener clickListener;
+  final String headerName;
+  final TopBarClickListener clickListener;
 
-  bool isShowBack = true;
-  bool isShowSetting = false;
-  bool isShowSettingCircle = false;
-  bool isDelete = false;
-  bool isClose = false;
-  bool isInfo = false;
-  bool isOptions = false;
-  bool isShowSubheader = false;
+  final bool isShowBack;
+  final bool isShowSetting ;
+  final bool isShowSettingCircle;
+  final bool isDelete;
+  final bool isClose;
+  final bool isInfo;
+  final bool isOptions;
+  final bool isShowSubheader;
 
-  String? subHeader;
+  final String? subHeader;
 
   CommonTopBar(this.headerName, this.clickListener,
       {this.isShowBack = false,

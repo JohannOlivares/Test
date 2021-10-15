@@ -188,9 +188,6 @@ class LanguageRu extends Languages {
   String get txtBestPace => "Лучший темп";
 
   @override
-  String get txtFastestTime => "Самое быстрое время";
-
-  @override
   String get txtLongestDuration => "Самая длинная продолжительность";
 
   @override

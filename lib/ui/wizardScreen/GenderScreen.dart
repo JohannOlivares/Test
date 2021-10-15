@@ -7,20 +7,19 @@ import 'package:run_tracker/utils/Color.dart';
 enum Gender { Male, Female }
 
 class GenderScreen extends StatefulWidget {
-  PageController? pageController;
-  Function? updatevalue;
-  bool? isBack;
-  Function? pageNum;
+  final PageController? pageController;
+  final Function? updatevalue;
+  final bool? isBack;
+  final Function? pageNum;
 
-  WizardScreenState wizardScreenState;
-  String? gender;
-  Function onGender;
+  final WizardScreenState wizardScreenState;
+  final String? gender;
+  final Function onGender;
 
 
-  GenderScreen({this.pageController,this.updatevalue,this.isBack,this.pageNum,required this.gender,required this.onGender, required this.wizardScreenState}){
-    isBack = false;
+  GenderScreen(
+      {this.pageController, this.updatevalue, this.isBack = false, this.pageNum, required this.gender, required this.onGender, required this.wizardScreenState});
 
-  }
 
   @override
   _GenderScreenState createState() => _GenderScreenState();

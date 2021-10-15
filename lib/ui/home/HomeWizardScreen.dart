@@ -25,6 +25,7 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
 
   @override
   void initState() {
+    
     Preference.shared.remove(Preference.IS_PAUSE);
     super.initState();
     num = 0;
@@ -34,7 +35,7 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
   Widget build(BuildContext context) {
     return WillPopScope(
         onWillPop: () async {
-          ExitDialog();
+          exitDialog();
           return false;
         },
       child: Scaffold(
@@ -185,7 +186,7 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
 
   }
 
-  void ExitDialog() {
+  void exitDialog() {
     showDialog(
         context: context,
         builder: (BuildContext context) {

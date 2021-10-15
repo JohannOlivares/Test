@@ -19,7 +19,7 @@ class MultiSelectDialog<V> extends StatefulWidget {
   final Color? checkBoxCheckColor;
   final Color? checkBoxActiveColor;
   final int minimumSelection;
-  bool isDisable = false;
+
 
   MultiSelectDialog(
       {Key? key,
@@ -32,7 +32,8 @@ class MultiSelectDialog<V> extends StatefulWidget {
       this.dialogShapeBorder,
       this.checkBoxActiveColor,
       this.checkBoxCheckColor,
-      this.minimumSelection = 0})
+      this.minimumSelection = 0,
+      })
       : super(key: key);
 
   @override
@@ -41,7 +42,8 @@ class MultiSelectDialog<V> extends StatefulWidget {
 
 class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
   final _selectedValues = <V>[];
-
+   bool isDisable = false;
+  @override
   void initState() {
     super.initState();
     if (widget.initialSelectedValues != null) {
@@ -56,7 +58,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
       } else {
         _selectedValues.remove(itemValue);
       }
-      widget.isDisable = (_selectedValues.length < widget.minimumSelection);
+      isDisable = (_selectedValues.length < widget.minimumSelection);
     });
   }
 
@@ -65,7 +67,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
   }
 
   void _onSubmitTap() {
-    if (!widget.isDisable) Navigator.pop(context, _selectedValues);
+    if (!isDisable) Navigator.pop(context, _selectedValues);
   }
 
   @override
@@ -92,7 +94,7 @@ class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
           child: Text(
             widget.okButtonLabel!,
             style: TextStyle(
-                color: widget.isDisable
+                color: isDisable
                     ? Colur.txt_purple.withOpacity(0.5)
                     : Colur.txt_purple),
           ),

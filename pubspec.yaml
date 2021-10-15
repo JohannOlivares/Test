@@ -137,6 +137,7 @@ flutter:
    - assets/images/finish_image.png
    - assets/images/bg_countdown_timer_blue.webp
    - assets/images/bg_countdown_timer_green.webp
+   - assets/images/ic_splash.png
    - assets/animation/
    - assets/animation/countdown_blue.json
    - assets/animation/countdown_green.json

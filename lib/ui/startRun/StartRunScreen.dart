@@ -45,6 +45,7 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   GoogleMapController? _controller;
   Location _location = Location();
+  // ignore: cancel_subscriptions
   StreamSubscription<LocationData>? _locationSubscription;
   LocationData? _currentPosition;
   LatLng _initialcameraposition = LatLng(0.5937, 0.9629);
@@ -132,6 +133,7 @@ class _StartRunScreenState extends State<StartRunScreen>
   Future<void> dispose() async {
     _interstitialAd?.dispose();
     stopWatchTimer.dispose();
+    _locationSubscription!.cancel();
     super.dispose();
   }
 
