@@ -350,7 +350,7 @@ class _RunningReminderState extends State<RunningReminder>
     Debug.printLog(
         "Schedule Notification at scheduledDate.millisecond::::::==> $notificationId");
 
-    var titleText = Languages.of(context)!.appName;
+    var titleText = Languages.of(context)!.txtRunningReminder;
     var msg = Languages.of(context)!.txtRunningReminderMsg;
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
@@ -363,6 +363,7 @@ class _RunningReminderState extends State<RunningReminder>
               'running_reminder_tracker',
               'Running Reminder',
               'This is reminder for running',icon: 'ic_notification'),
+          iOS: IOSNotificationDetails()
         ),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:

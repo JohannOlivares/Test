@@ -399,7 +399,7 @@ class LanguageEn extends Languages {
 
   @override
   String get txtRunningReminderMsg =>
-      "It's time for Running,Let's get started!";
+      "It's time for Running. Let's get started!";
 
   @override
   String get txtUnitSettings => "Unit Settings";
