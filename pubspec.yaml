@@ -23,7 +23,7 @@ dependencies:
   syncfusion_flutter_gauges: ^19.2.47
   google_maps_flutter: ^2.0.6
   location: ^4.3.0
-  geolocator: ^7.3.0
+  geolocator: ^7.7.0
   flutter_polyline_points: ^1.0.0
   pedometer: ^3.0.0
   lottie: ^1.1.0
