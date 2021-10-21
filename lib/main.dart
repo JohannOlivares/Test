@@ -201,11 +201,11 @@ class _MyAppState extends State<MyApp> {
           return supportedLocales.first;
         },
         darkTheme: ThemeData(
-          brightness: Brightness.dark,
-          accentColor: Colur.white,
-          accentIconTheme: IconThemeData(color: Colur.white),
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            secondary: Colur.white,
+            brightness: Brightness.light
+          ),
           appBarTheme: AppBarTheme(
-            brightness: Brightness.light,
             backgroundColor: Colur.transparent,
           ),
         ),
