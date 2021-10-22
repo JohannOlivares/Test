@@ -540,174 +540,177 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       isScrollControlled: true,
       backgroundColor: Colur.white,
       builder: (context) {
-        return Container(
-          height: fullHeight * 0.5,
-          color: Colur.common_bg_dark,
+        return Padding(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Container(
-            decoration: new BoxDecoration(
-                color: Colur.white,
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(32),
-                    topRight: Radius.circular(32))),
+            height: fullHeight * 0.5,
+            color: Colur.common_bg_dark,
             child: Container(
-              margin: EdgeInsets.symmetric(
-                  vertical: fullHeight * 0.04, horizontal: fullWidth * 0.04),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    Languages.of(context)!.txtEditTargetSteps,
-                    style: TextStyle(
-                        color: Colur.txt_black,
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700),
-                  ),
+              decoration: new BoxDecoration(
+                  color: Colur.white,
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(32),
+                      topRight: Radius.circular(32))),
+              child: Container(
+                margin: EdgeInsets.symmetric(
+                    vertical: fullHeight * 0.04, horizontal: fullWidth * 0.04),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      Languages.of(context)!.txtEditTargetSteps,
+                      style: TextStyle(
+                          color: Colur.txt_black,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700),
+                    ),
 
-                  SizedBox(height: fullHeight * 0.01),
+                    SizedBox(height: fullHeight * 0.01),
 
-                  Text(
-                    Languages.of(context)!.txtEditStepsTargetDesc,
-                    style: TextStyle(
-                        color: Colur.txt_grey,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w400),
-                  ),
+                    Text(
+                      Languages.of(context)!.txtEditStepsTargetDesc,
+                      style: TextStyle(
+                          color: Colur.txt_grey,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400),
+                    ),
 
-                  Expanded(
-                    child: Container(
-                      margin: EdgeInsets.only(top: fullHeight * 0.04),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            Languages.of(context)!.txtSteps,
-                            style: TextStyle(
-                                color: Colur.txt_black,
-                                fontSize: 25,
-                                fontWeight: FontWeight.w600),
-                          ),
-                          Container(
-                            height: 60,
-                            width: 167,
-                            decoration: BoxDecoration(
-                                color: Colur.txt_grey,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            child: TextFormField(
-                              maxLines: 1,
-                              controller: targetStepController,
-                              textInputAction: TextInputAction.done,
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.center,
-                              inputFormatters: <TextInputFormatter>[
-                                FilteringTextInputFormatter.digitsOnly,
-                              ],
+                    Expanded(
+                      child: Container(
+                        margin: EdgeInsets.only(top: fullHeight * 0.04),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              Languages.of(context)!.txtSteps,
                               style: TextStyle(
-                                  color: Colur.txt_white,
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.w700),
-                              cursorColor: Colur.txt_white,
-                              decoration: InputDecoration(
-                                border: InputBorder.none,
-                              ),
-                              onEditingComplete: () {
-                                FocusScope.of(context).unfocus();
-                              },
+                                  color: Colur.txt_black,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.w600),
                             ),
-                          ),
-                        ],
+                            Container(
+                              height: 60,
+                              width: 167,
+                              decoration: BoxDecoration(
+                                  color: Colur.txt_grey,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10))),
+                              child: TextFormField(
+                                maxLines: 1,
+                                controller: targetStepController,
+                                textInputAction: TextInputAction.done,
+                                keyboardType: TextInputType.number,
+                                textAlign: TextAlign.center,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                style: TextStyle(
+                                    color: Colur.txt_white,
+                                    fontSize: 30,
+                                    fontWeight: FontWeight.w700),
+                                cursorColor: Colur.txt_white,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                ),
+                                onEditingComplete: () {
+                                  FocusScope.of(context).unfocus();
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
-                  Container(
-                    margin: EdgeInsets.only(top: fullHeight * 0.04),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          width: 165,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(colors: [
-                              Colur.light_red_stop_gredient1,
-                              Colur.light_red_gredient2
-                            ]),
-                            borderRadius: BorderRadius.circular(30),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0.0, 25),
-                                spreadRadius: 2,
-                                blurRadius: 50,
-                                color: Colur.red_gradient_shadow,
-                              ),
-                            ],
+                    Container(
+                      margin: EdgeInsets.only(top: fullHeight * 0.04),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            width: 165,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Colur.light_red_stop_gredient1,
+                                Colur.light_red_gredient2
+                              ]),
+                              borderRadius: BorderRadius.circular(30),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0.0, 25),
+                                  spreadRadius: 2,
+                                  blurRadius: 50,
+                                  color: Colur.red_gradient_shadow,
+                                ),
+                              ],
+                            ),
+                            child: Material(
+                              color: Colur.transparent,
+                              child: InkWell(
+                                  onTap: () {
+                                    FocusScope.of(context).unfocus();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Center(
+                                    child: Text(
+                                      Languages.of(context)!.txtCancel,
+                                      style: TextStyle(
+                                          color: Colur.txt_white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                  )),
+                            ),
                           ),
-                          child: Material(
-                            color: Colur.transparent,
-                            child: InkWell(
-                                onTap: () {
-                                  FocusScope.of(context).unfocus();
-                                  Navigator.pop(context);
-                                },
-                                child: Center(
-                                  child: Text(
-                                    Languages.of(context)!.txtCancel,
-                                    style: TextStyle(
-                                        color: Colur.txt_white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w900),
-                                  ),
-                                )),
-                          ),
-                        ),
 
-                        Container(
-                          width: 165,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(colors: [
-                              Colur.green_gradient_color1,
-                              Colur.green_gradient_color2
-                            ]),
-                            borderRadius: BorderRadius.circular(30),
-                            boxShadow: [
-                              BoxShadow(
-                                offset: Offset(0.0, 25),
-                                spreadRadius: 2,
-                                blurRadius: 50,
-                                color: Colur.green_gradient_shadow,
-                              ),
-                            ],
-                          ),
-                          child: Material(
-                            color: Colur.transparent,
-                            child: InkWell(
-                                onTap: () {
-                                  setState(() {
-                                    targetSteps =
-                                        int.parse(targetStepController.text);
-                                  });
-                                  Preference.shared.setInt(
-                                      Preference.TARGET_STEPS, targetSteps!);
-                                  FocusScope.of(context).unfocus();
-                                  Navigator.pop(context);
-                                },
-                                child: Center(
-                                  child: Text(
-                                    Languages.of(context)!.txtSave,
-                                    style: TextStyle(
-                                        color: Colur.txt_white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w900),
-                                  ),
-                                )),
-                          ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                          Container(
+                            width: 165,
+                            height: 60,
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(colors: [
+                                Colur.green_gradient_color1,
+                                Colur.green_gradient_color2
+                              ]),
+                              borderRadius: BorderRadius.circular(30),
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0.0, 25),
+                                  spreadRadius: 2,
+                                  blurRadius: 50,
+                                  color: Colur.green_gradient_shadow,
+                                ),
+                              ],
+                            ),
+                            child: Material(
+                              color: Colur.transparent,
+                              child: InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      targetSteps =
+                                          int.parse(targetStepController.text);
+                                    });
+                                    Preference.shared.setInt(
+                                        Preference.TARGET_STEPS, targetSteps!);
+                                    FocusScope.of(context).unfocus();
+                                    Navigator.pop(context);
+                                  },
+                                  child: Center(
+                                    child: Text(
+                                      Languages.of(context)!.txtSave,
+                                      style: TextStyle(
+                                          color: Colur.txt_white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                  )),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

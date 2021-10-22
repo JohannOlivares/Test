@@ -72,7 +72,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(
-                      vertical: 15,horizontal: 30
+                      vertical: 15,horizontal: 25
                   ),
                   child: RepaintBoundary(
                     key: previewContainer,
@@ -82,11 +82,26 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                         children: [
                           Stack(
                             children: [
-                              (runningData!.image != null)?Image.file(
+                              Image.file(
+                                runningData!.getImage()!,
+                                errorBuilder: (
+                                    BuildContext context,
+                                    Object error,
+                                    StackTrace? stackTrace,
+                                    ) {
+                                  return Image.asset(
+                                    'assets/images/dummy_map.png',
+                                    height: MediaQuery.of(context).size.height*0.5,
+                                    fit: BoxFit.cover,
+                                  );
+                                },
+                                fit: BoxFit.cover,
+                              ),
+                              /*(runningData!.image != null)?Image.file(
                                 File(runningData!.image!),fit: BoxFit.contain,): Image.asset(
                                 'assets/images/dummy_map.png',
                                 fit: BoxFit.cover,
-                              ),
+                              ),*/
                               Container(
                                 margin: EdgeInsets.only(left: 15),
                                 child: Image.asset(
@@ -103,57 +118,57 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        child: Text(
-                                          Utils.secToString(runningData!.duration!),
-                                          style: TextStyle(
-                                              color: Colur.txt_white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 24),
-                                        ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      child: Text(
+                                        Utils.secToString(runningData!.duration!),
+                                        style: TextStyle(
+                                            color: Colur.txt_white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 24),
                                       ),
-                                      Container(
-                                        child: Text(
-                                          Languages.of(context)!.txtTime.toUpperCase() +
-                                              " (${Languages.of(context)!.txtMin.toUpperCase()})",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colur.txt_white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14),
-                                        ),
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        Languages.of(context)!.txtTime.toUpperCase() +
+                                            " (${Languages.of(context)!.txtMin.toUpperCase()})",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                            color: Colur.txt_white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14),
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                                Container(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        child: Text(
-                                          (kmSelected)? runningData!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(runningData!.speed!).toStringAsFixed(2),
-                                          style: TextStyle(
-                                              color: Colur.txt_white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 24),
+                                Expanded(
+                                  child: Container(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          child: Text(
+                                            (kmSelected)? runningData!.speed!.toStringAsFixed(2):Utils.minPerKmToMinPerMile(runningData!.speed!).toStringAsFixed(2),
+                                            style: TextStyle(
+                                                color: Colur.txt_white,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 24),
+                                          ),
                                         ),
-                                      ),
-                                      Container(
-                                        child: Text(
-                                          (kmSelected)?Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtMile.toUpperCase()+")",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              color: Colur.txt_white,
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 14),
+                                        Container(
+                                          child: Text(
+                                            (kmSelected)?Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer+Languages.of(context)!.txtMile.toUpperCase()+")",
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                                color: Colur.txt_white,
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 14),
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                                 Expanded(

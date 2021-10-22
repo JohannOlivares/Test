@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -252,7 +253,11 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                                   BorderRadius.all(Radius.circular(15))),
                           child: Padding(
                             padding: const EdgeInsets.all(12.0),
-                            child: Icon(Icons.share,size: 20,),
+                            child: Icon(
+                              Icons.share,
+                              size: 20,
+                              color: Colur.txt_black,
+                            ),
                           ),
                         ),
                       ),
@@ -363,9 +368,10 @@ class _RunHistoryDetailScreenState extends State<RunHistoryDetailScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Container(
-                            child: Text(
+                            child: AutoSizeText(
                               Utils.secToString(
                                   widget.recentActivitiesData.duration!),
+                              maxLines: 1,
                               style: TextStyle(
                                   color: Colur.txt_white,
                                   fontWeight: FontWeight.w600,
