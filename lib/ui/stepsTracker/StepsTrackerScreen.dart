@@ -597,6 +597,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                                       BorderRadius.all(Radius.circular(10))),
                               child: TextFormField(
                                 maxLines: 1,
+                                maxLength: 7,
                                 controller: targetStepController,
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.number,
@@ -610,6 +611,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                                     fontWeight: FontWeight.w700),
                                 cursorColor: Colur.txt_white,
                                 decoration: InputDecoration(
+                                  counterText: " ",
                                   border: InputBorder.none,
                                 ),
                                 onEditingComplete: () {
@@ -690,10 +692,14 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                                       targetSteps =
                                           int.parse(targetStepController.text);
                                     });
-                                    Preference.shared.setInt(
-                                        Preference.TARGET_STEPS, targetSteps!);
-                                    FocusScope.of(context).unfocus();
-                                    Navigator.pop(context);
+                                    if (targetSteps! > 50) {
+                                      Preference.shared.setInt(
+                                          Preference.TARGET_STEPS, targetSteps!);
+                                      FocusScope.of(context).unfocus();
+                                      Navigator.pop(context);
+                                    } else {
+                                      //TODO
+                                    }
                                   },
                                   child: Center(
                                     child: Text(
@@ -717,6 +723,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
         );
       },
     ).whenComplete(() {
+      getStepsDataForCurrentWeek();
       FocusScope.of(context).unfocus();
     });
   }

@@ -511,5 +511,8 @@ class LanguageAr extends Languages {
 
   @override
   String get txtPleaseGivePermissionForActivity =>
-      "Please give us access to Detect You Activity For Steps";
+      "يرجى منحنا حق الوصول لاكتشاف نشاطك للخطوات";
+
+  @override
+  String get txtTargetStepsWarning => "من فضلك ، أدخل خطوات أكبر من 50.";
 }

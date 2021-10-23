@@ -515,4 +515,7 @@ class LanguageUr extends Languages {
   String get txtPleaseGivePermissionForActivity =>
       "Please give us access to Detect You Activity For Steps";
 
+  @override
+  String get txtTargetStepsWarning => "براہ کرم ، 50 سے زیادہ اقدامات درج کریں۔";
+
 }

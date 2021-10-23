@@ -511,4 +511,7 @@ class LanguageBn extends Languages {
   @override
   String get txtPleaseGivePermissionForActivity =>
       "অনুগ্রহ করে পদক্ষেপের জন্য আপনার অ্যাক্টিভিটি সনাক্ত করার জন্য আমাদের অ্যাক্সেস দিন";
+
+  @override
+  String get txtTargetStepsWarning => "অনুগ্রহ করে, 50 এর চেয়ে বড় পদক্ষেপগুলি প্রবেশ করান।";
 }

@@ -511,5 +511,8 @@ class LanguagePt extends Languages {
 
   @override
   String get txtPleaseGivePermissionForActivity =>
-      "Please give us access to Detect You Activity For Steps";
+      "Por favor, nos dê acesso para Detectar sua atividade por etapas";
+
+  @override
+  String get txtTargetStepsWarning => "Por favor, insira etapas maiores que 50.";
 }

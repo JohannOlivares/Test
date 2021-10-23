@@ -513,5 +513,7 @@ class LanguageEs extends Languages {
   String get txtPleaseGivePermissionForActivity =>
       "Por favor, danos acceso a la actividad Detectarte para los pasos";
 
+  @override
+  String get txtTargetStepsWarning => "Por favor, ingrese pasos mayores a 50.";
 
 }

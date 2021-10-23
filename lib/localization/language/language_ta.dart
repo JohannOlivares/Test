@@ -512,4 +512,7 @@ class LanguageTa extends Languages {
   @override
   String get txtPleaseGivePermissionForActivity =>
       "படிகளுக்கான உங்கள் செயல்பாட்டைக் கண்டறிவதற்கான அணுகலை எங்களுக்கு வழங்கவும்";
+
+  @override
+  String get txtTargetStepsWarning => "தயவுசெய்து, 50 க்கும் அதிகமான படிகளை உள்ளிடவும்.";
 }

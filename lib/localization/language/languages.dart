@@ -336,4 +336,6 @@ abstract class Languages {
   String get txtExitMessage;
 
   String get txtExit;
+
+  String get txtTargetStepsWarning;
 }

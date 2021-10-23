@@ -512,5 +512,8 @@ class LanguageRu extends Languages {
 
   @override
   String get txtPleaseGivePermissionForActivity =>
-      "Please give us access to Detect You Activity For Steps";
+      "Пожалуйста, дайте нам доступ к обнаружению вашей активности для шагов";
+
+  @override
+  String get txtTargetStepsWarning => "Пожалуйста, введите шаги больше 50.";
 }

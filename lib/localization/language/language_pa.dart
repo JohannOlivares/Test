@@ -512,4 +512,7 @@ class LanguagePa extends Languages {
   @override
   String get txtPleaseGivePermissionForActivity =>
       "ਕਿਰਪਾ ਕਰਕੇ ਸਾਨੂੰ ਕਦਮਾਂ ਲਈ ਤੁਹਾਡੀ ਗਤੀਵਿਧੀ ਦਾ ਪਤਾ ਲਗਾਉਣ ਦੀ ਪਹੁੰਚ ਦਿਓ";
+
+  @override
+  String get txtTargetStepsWarning => "ਕਿਰਪਾ ਕਰਕੇ, 50 ਤੋਂ ਵੱਡੇ ਕਦਮ ਦਾਖਲ ਕਰੋ.";
 }

@@ -512,4 +512,7 @@ class LanguageIt extends Languages {
   @override
   String get txtPleaseGivePermissionForActivity =>
       "Ti preghiamo di darci l'accesso a Rileva l'attività per i passaggi";
+
+  @override
+  String get txtTargetStepsWarning => "Per favore, inserisci i passaggi maggiori di 50.";
 }

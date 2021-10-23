@@ -512,4 +512,7 @@ class LanguageTr extends Languages {
   @override
   String get txtPleaseGivePermissionForActivity =>
       "Lütfen Adımlar İçin Sizi Tespit Etme Etkinliğine erişmemize izin verin";
+
+  @override
+  String get txtTargetStepsWarning => "Lütfen 50'den büyük adımlar girin.";
 }

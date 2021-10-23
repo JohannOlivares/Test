@@ -512,4 +512,7 @@ class LanguageKo extends Languages {
   @override
   String get txtPleaseGivePermissionForActivity =>
       "단계에 대한 활동 감지에 대한 액세스 권한을 부여하십시오.";
+
+  @override
+  String get txtTargetStepsWarning => "50보다 큰 단계를 입력하십시오.";
 }

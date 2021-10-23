@@ -511,5 +511,8 @@ class LanguageVi extends Languages {
 
   @override
   String get txtPleaseGivePermissionForActivity =>
-      "Please give us access to Detect You Activity For Steps";
+      "Vui lòng cấp cho chúng tôi quyền truy cập để phát hiện hoạt động của bạn cho các bước";
+
+  @override
+  String get txtTargetStepsWarning => "Vui lòng nhập các bước lớn hơn 50.";
 }

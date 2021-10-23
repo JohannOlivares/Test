@@ -512,4 +512,7 @@ class LanguageHi extends Languages {
   @override
   String get txtPleaseGivePermissionForActivity =>
       "Please give us access to Detect You Activity For Steps";
+
+  @override
+  String get txtTargetStepsWarning => "कृपया, 50 से अधिक चरण दर्ज करें।";
 }

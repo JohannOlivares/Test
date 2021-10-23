@@ -8,7 +8,7 @@ import 'package:run_tracker/localization/language/language_id.dart';
 import 'package:run_tracker/localization/language/language_it.dart';
 import 'package:run_tracker/localization/language/language_ja.dart';
 import 'package:run_tracker/localization/language/language_ko.dart';
-import 'package:run_tracker/localization/language/language_pn.dart';
+import 'package:run_tracker/localization/language/language_pa.dart';
 import 'package:run_tracker/localization/language/language_pt.dart';
 import 'package:run_tracker/localization/language/language_ru.dart';
 import 'package:run_tracker/localization/language/language_ta.dart';

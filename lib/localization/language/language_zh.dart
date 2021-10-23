@@ -512,4 +512,7 @@ String get txtExit => "出口";
 @override
 String get txtPleaseGivePermissionForActivity =>
     "請讓我們訪問檢測您的活動步驟";
+
+  @override
+  String get txtTargetStepsWarning => "请输入大于 50 的步数。";
 }

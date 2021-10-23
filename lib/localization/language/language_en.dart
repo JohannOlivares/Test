@@ -399,7 +399,7 @@ class LanguageEn extends Languages {
 
   @override
   String get txtRunningReminderMsg =>
-      "It's time for Running. Let's get started!";
+      "It's time for Running,Let's get started!";
 
   @override
   String get txtUnitSettings => "Unit Settings";
@@ -512,4 +512,7 @@ class LanguageEn extends Languages {
   @override
   String get txtPleaseGivePermissionForActivity =>
       "Please give us access to Detect You Activity For Steps";
+
+  @override
+  String get txtTargetStepsWarning => "Please, enter steps greater than 50.";
 }

@@ -512,4 +512,7 @@ class LanguageTe extends Languages {
   @override
   String get txtPleaseGivePermissionForActivity =>
       "దయచేసి దశల కోసం మీ కార్యాచరణను గుర్తించడానికి మాకు యాక్సెస్ ఇవ్వండి";
+
+  @override
+  String get txtTargetStepsWarning => "దయచేసి, 50 కంటే ఎక్కువ దశలను నమోదు చేయండి.";
 }

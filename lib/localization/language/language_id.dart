@@ -511,4 +511,7 @@ class LanguageId extends Languages {
   @override
   String get txtPleaseGivePermissionForActivity =>
       "Tolong beri kami akses ke Deteksi Aktivitas Anda Untuk Langkah";
+
+  @override
+  String get txtTargetStepsWarning => "Silakan, masukkan langkah-langkah yang lebih besar dari 50.";
 }
