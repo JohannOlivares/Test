@@ -172,13 +172,10 @@ class _HomeWizardScreenState extends State<HomeWizardScreen> {
 
     _permissionGranted = await _location.hasPermission();
     if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => UseLocationScreen()));
-        return;
-      }
+      Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => UseLocationScreen()));
+      return ;
     }
     Navigator.push(
         context,

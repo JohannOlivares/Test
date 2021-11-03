@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
 import 'package:run_tracker/custom/GradientButtonSmall.dart';
 import 'package:run_tracker/localization/language/languages.dart';
+import 'package:run_tracker/ui/home/HomeWizardScreen.dart';
 import 'package:run_tracker/ui/startRun/StartRunScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Utils.dart';
@@ -131,7 +132,10 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
         return showDialog(
             context: context,
             builder: (BuildContext context) =>
-                customOpenLocationSettingDialog(context));
+                customOpenLocationSettingDialog(context)).then((value) => Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => HomeWizardScreen()),
+            ModalRoute.withName("/homeWizardScreen")));
       }
     }
 
@@ -201,6 +205,10 @@ class _UseLocationScreenState extends State<UseLocationScreen> {
             InkWell(
               onTap: () async {
                 await Geolocator.openAppSettings();
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeWizardScreen()),
+                    ModalRoute.withName("/homeWizardScreen"));
               },
               child: Container(
                 margin: EdgeInsets.only(

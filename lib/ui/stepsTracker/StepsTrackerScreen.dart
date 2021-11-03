@@ -611,7 +611,7 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                                     fontWeight: FontWeight.w700),
                                 cursorColor: Colur.txt_white,
                                 decoration: InputDecoration(
-                                  counterText: " ",
+                                  counterText: "",
                                   border: InputBorder.none,
                                 ),
                                 onEditingComplete: () {
