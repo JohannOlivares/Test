@@ -1,6 +1,5 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -519,7 +518,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           ),
           Container(
             height: 200,
-            margin: const EdgeInsets.only(top: 30.0),
+            margin: const EdgeInsets.only(top: 30.0, ),
             width: double.infinity,
             child: BarChart(
               BarChartData(
@@ -552,24 +551,26 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                           ],
                         );
                       }),
-                  touchCallback: (barTouchResponse) {
+                  touchCallback: (FlTouchEvent event, barTouchResponse) {
                     setState(() {
-                      if (barTouchResponse.spot != null &&
-                          barTouchResponse.touchInput is! PointerUpEvent &&
-                          barTouchResponse.touchInput is! PointerExitEvent) {
-                        touchedIndexForWaterChart =
-                            barTouchResponse.spot!.touchedBarGroupIndex;
-                      } else {
+                      if (!event.isInterestedForInteractions ||
+                          barTouchResponse == null ||
+                          barTouchResponse.spot == null) {
                         touchedIndexForWaterChart = -1;
+                        return;
                       }
+                      touchedIndexForWaterChart = barTouchResponse.spot!.touchedBarGroupIndex;
                     });
                   },
+                ),
+                gridData: FlGridData(
+                  show: false,
                 ),
                 titlesData: FlTitlesData(
                   show: true,
                   bottomTitles: SideTitles(
                     showTitles: true,
-                    getTextStyles: (value) {
+                    getTextStyles: (context, value) {
                       if (allDays.isNotEmpty) {
                         if (allDays[value.toInt()] == currentDay) {
                           return _selectedTextStyle();
@@ -580,7 +581,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                         return _unSelectedTextStyle();
                       }
                     },
-                    margin: 10,
+                    margin: 20,
                     getTitles: (double value) {
                       if (allDays.isNotEmpty) {
                         if (allDays[value.toInt()] == currentDay) {
@@ -592,6 +593,12 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                         return "";
                       }
                     },
+                  ),
+                  topTitles:  SideTitles(
+                    showTitles: false
+                ),
+                  rightTitles: SideTitles(
+                    showTitles: false
                   ),
                   leftTitles: SideTitles(
                     showTitles: false,

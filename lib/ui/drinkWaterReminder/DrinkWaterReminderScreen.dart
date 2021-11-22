@@ -509,7 +509,7 @@ class _DrinkWaterReminderScreenState extends State<DrinkWaterReminderScreen>
           scheduledDate,
           const NotificationDetails(
             android: AndroidNotificationDetails('drink_water_reminder',
-                'Drink Water', 'This is reminder for drinking water on time',icon: 'ic_notification'),
+                'Drink Water', channelDescription: 'This is reminder for drinking water on time',icon: 'ic_notification'),
             iOS: IOSNotificationDetails(),
           ),
           androidAllowWhileIdle: true,

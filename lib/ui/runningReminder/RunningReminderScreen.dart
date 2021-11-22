@@ -362,7 +362,7 @@ class _RunningReminderState extends State<RunningReminder>
           android: AndroidNotificationDetails(
               'running_reminder_tracker',
               'Running Reminder',
-              'This is reminder for running',icon: 'ic_notification'),
+              channelDescription: 'This is reminder for running',icon: 'ic_notification'),
           iOS: IOSNotificationDetails()
         ),
         androidAllowWhileIdle: true,

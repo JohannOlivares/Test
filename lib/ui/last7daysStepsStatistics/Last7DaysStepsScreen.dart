@@ -1,5 +1,4 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/dbhelper/DataBaseHelper.dart';
@@ -169,23 +168,31 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
                         ],
                       );
                     }),
-                touchCallback: (barTouchResponse) {
+                touchCallback: (FlTouchEvent event, barTouchResponse) {
                   setState(() {
-                    if (barTouchResponse.spot != null &&
-                        barTouchResponse.touchInput is! PointerUpEvent &&
-                        barTouchResponse.touchInput is! PointerExitEvent) {
-                      touchedIndexForStepsChart =
-                          barTouchResponse.spot!.touchedBarGroupIndex;
-                    } else {
+                    if (!event.isInterestedForInteractions ||
+                        barTouchResponse == null ||
+                        barTouchResponse.spot == null) {
                       touchedIndexForStepsChart = -1;
+                      return;
                     }
+                    touchedIndexForStepsChart = barTouchResponse.spot!.touchedBarGroupIndex;
                   });
                 },
               ),
+              gridData: FlGridData(
+                show: false,
+              ),
               titlesData: FlTitlesData(
-                  show: true,
-                  bottomTitles: xAxisTitleData(),
-                  leftTitles: yAxisTitleData()
+                show: true,
+                bottomTitles: xAxisTitleData(),
+                leftTitles: yAxisTitleData(),
+                rightTitles: SideTitles(
+                showTitles: false
+                ),
+                topTitles:  SideTitles(
+                    showTitles: false
+                ),
               ),
               borderData: FlBorderData(
                   show: true,
@@ -211,7 +218,7 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
     return SideTitles(
       showTitles: true,
       margin: 20,
-      getTextStyles: (value) => _unSelectedTextStyle(),
+      getTextStyles: (value, context) => _unSelectedTextStyle(),
       getTitles:  (value) {
         switch(value.toInt()) {
           case 0:
@@ -238,7 +245,7 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
   yAxisTitleData() {
     return SideTitles(
         showTitles: true,
-        getTextStyles: (value) =>
+        getTextStyles: (value, context) =>
         const TextStyle(
           color: Colur.txt_grey,
           fontWeight: FontWeight.w500,

@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:run_tracker/custom/chart/CustomCircleSymbolRenderer.dart';
@@ -758,24 +757,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         );
                       }),
-                  touchCallback: (barTouchResponse) {
+                  touchCallback: (FlTouchEvent event, barTouchResponse) {
                     setState(() {
-                      if (barTouchResponse.spot != null &&
-                          barTouchResponse.touchInput is! PointerUpEvent &&
-                          barTouchResponse.touchInput is! PointerExitEvent) {
-                        touchedIndexForHartHealthChart =
-                            barTouchResponse.spot!.touchedBarGroupIndex;
-                      } else {
+                      if (!event.isInterestedForInteractions ||
+                          barTouchResponse == null ||
+                          barTouchResponse.spot == null) {
                         touchedIndexForHartHealthChart = -1;
+                        return;
                       }
+                      touchedIndexForHartHealthChart = barTouchResponse.spot!.touchedBarGroupIndex;
                     });
                   },
                 ),
+                gridData: FlGridData(
+                  show: false
+                ),
                 titlesData: FlTitlesData(
+                  topTitles: SideTitles(
+                      showTitles: false
+                  ),
                   show: true,
                   bottomTitles: SideTitles(
                     showTitles: true,
-                    getTextStyles: (value) {
+                    getTextStyles: (context, value) {
                       if (allDays.isNotEmpty) {
                         if (allDays[value.toInt()] == currentDay) {
                           return _selectedTextStyle();
@@ -800,14 +804,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       }
                     },
                   ),
+                  rightTitles: SideTitles(
+                      showTitles: false
+                  ),
                   leftTitles: SideTitles(
                     showTitles: true,
                     margin: 5,
                     interval: 100,
-                    getTextStyles: (value) => const TextStyle(
+                    getTextStyles: (value, context) => const TextStyle(
                         color: Colur.txt_grey,
                         fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                        fontSize: 13),
                   ),
                 ),
                 borderData: FlBorderData(
@@ -1105,24 +1112,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         );
                       }),
-                  touchCallback: (barTouchResponse) {
+                  touchCallback: (FlTouchEvent event, barTouchResponse) {
                     setState(() {
-                      if (barTouchResponse.spot != null &&
-                          barTouchResponse.touchInput is! PointerUpEvent &&
-                          barTouchResponse.touchInput is! PointerExitEvent) {
-                        touchedIndexForWaterChart =
-                            barTouchResponse.spot!.touchedBarGroupIndex;
-                      } else {
+                      if (!event.isInterestedForInteractions ||
+                          barTouchResponse == null ||
+                          barTouchResponse.spot == null) {
                         touchedIndexForWaterChart = -1;
+                        return;
                       }
+                      touchedIndexForWaterChart = barTouchResponse.spot!.touchedBarGroupIndex;
                     });
                   },
                 ),
+                gridData: FlGridData(
+                  show: false,
+                ),
                 titlesData: FlTitlesData(
                   show: true,
+                  topTitles: SideTitles(
+                    showTitles: false
+                  ),
                   bottomTitles: SideTitles(
                     showTitles: true,
-                    getTextStyles: (value) {
+                    getTextStyles: (context, value) {
                       if (allDays.isNotEmpty) {
                         if (allDays[value.toInt()] == currentDay) {
                           return _selectedTextStyle();
@@ -1145,6 +1157,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         return "";
                       }
                     },
+                  ),
+                  rightTitles: SideTitles(
+                      showTitles: false
                   ),
                   leftTitles: SideTitles(
                     showTitles: false,
