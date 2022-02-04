@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:intl/intl.dart';
+import 'package:run_tracker/utils/Constant.dart';
+import 'package:run_tracker/utils/Preference.dart';
 
 class Utils {
   static showToast(BuildContext context, String msg,
@@ -152,5 +156,17 @@ class Utils {
         return "";
     }
 
+  }
+
+  static nonPersonalizedAds()  {
+    if(Platform.isIOS) {
+      if (Preference.shared.getString(Preference.TRACK_STATUS) != Constant.trackingStatus) {
+        return true;
+      } else {
+        return false;
+      }
+    }else {
+      return false;
+    }
   }
 }

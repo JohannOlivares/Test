@@ -43,6 +43,7 @@ class Preference {
   static const String DATE = "DATE";
   static const String IS_PAUSE = "IS_PAUSE";
   static const String DURATION = "DURATION";
+  static const String TRACK_STATUS = "TRACK_STATUS";
 
   static final Preference _preference = Preference._internal();
 

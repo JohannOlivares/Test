@@ -1,5 +1,4 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -85,7 +84,9 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   _loadBanner() {
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
-      request: AdRequest(),
+      request: AdRequest(
+          nonPersonalizedAds: Utils.nonPersonalizedAds()
+      ),
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (_) {

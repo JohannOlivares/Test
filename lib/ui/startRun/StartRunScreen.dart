@@ -8,7 +8,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' hide PermissionStatus;
 import 'package:path_provider/path_provider.dart';
@@ -45,11 +44,11 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   GoogleMapController? _controller;
   Location _location = Location();
+
   // ignore: cancel_subscriptions
   StreamSubscription<LocationData>? _locationSubscription;
   LocationData? _currentPosition;
   LatLng _initialcameraposition = LatLng(0.5937, 0.9629);
-
 
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinatesList = [];
@@ -87,7 +86,7 @@ class _StartRunScreenState extends State<StartRunScreen>
     stopWatchTimer = StopWatchTimer(
         mode: StopWatchMode.countUp,
         onChangeRawSecond: (value) {
-          if(currentSpeed >=1) {
+          if (currentSpeed >= 1) {
             if (currentSpeed < 2.34) {
               totalLowIntenseTime += 1;
               Debug.printLog("Intensity ::::==> Low");
@@ -100,8 +99,7 @@ class _StartRunScreenState extends State<StartRunScreen>
             }
           }
         },
-        onChange: (value) {
-        });
+        onChange: (value) {});
 
     _getPreferences();
     _loadInterstitialAd();
@@ -111,13 +109,10 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   _getPreferences() {
     setState(() {
-      kmSelected =
-          Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
-      weight =(Preference.shared.getInt(Preference.WEIGHT)??50).toDouble();
-
+      kmSelected = Preference.shared.getBool(Preference.IS_KM_SELECTED) ?? true;
+      weight = (Preference.shared.getInt(Preference.WEIGHT) ?? 50).toDouble();
     });
   }
-
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
@@ -154,7 +149,7 @@ class _StartRunScreenState extends State<StartRunScreen>
     var fulheight = MediaQuery.of(context).size.height;
     var fullwidth = MediaQuery.of(context).size.width;
     return WillPopScope(
-      onWillPop: ()=> customDialog(),
+      onWillPop: () => customDialog(),
       child: Scaffold(
         backgroundColor: Colur.common_bg_dark,
         body: SafeArea(
@@ -250,14 +245,19 @@ class _StartRunScreenState extends State<StartRunScreen>
                     children: [
                       Container(
                         child: Text(
-                      (kmSelected)?totalDistance.toStringAsFixed(2):Utils.kmToMile(totalDistance).toStringAsFixed(2),
+                          (kmSelected)
+                              ? totalDistance.toStringAsFixed(2)
+                              : Utils.kmToMile(totalDistance)
+                                  .toStringAsFixed(2),
                           style: TextStyle(
                               fontSize: 32,
                               color: Colur.txt_white,
                               fontWeight: FontWeight.w400),
                         ),
                       ),
-                      _textContainer((kmSelected)?Languages.of(context)!.txtKM.toUpperCase():Languages.of(context)!.txtMile.toUpperCase()),
+                      _textContainer((kmSelected)
+                          ? Languages.of(context)!.txtKM.toUpperCase()
+                          : Languages.of(context)!.txtMile.toUpperCase()),
                     ],
                   ),
                 ),
@@ -267,14 +267,27 @@ class _StartRunScreenState extends State<StartRunScreen>
                       children: [
                         Container(
                           child: Text(
-                            (kmSelected)?pace.toStringAsFixed(2):Utils.minPerKmToMinPerMile(pace).toStringAsFixed(2),
+                            (kmSelected)
+                                ? pace.toStringAsFixed(2)
+                                : Utils.minPerKmToMinPerMile(pace)
+                                    .toStringAsFixed(2),
                             style: TextStyle(
                                 fontSize: 32,
                                 color: Colur.txt_white,
                                 fontWeight: FontWeight.w400),
                           ),
                         ),
-                        _textContainer((kmSelected)?Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtKM.toUpperCase()+")":Languages.of(context)!.txtPaceMinPer.toUpperCase()+Languages.of(context)!.txtMile.toUpperCase()+")"),
+                        _textContainer((kmSelected)
+                            ? Languages.of(context)!
+                                    .txtPaceMinPer
+                                    .toUpperCase() +
+                                Languages.of(context)!.txtKM.toUpperCase() +
+                                ")"
+                            : Languages.of(context)!
+                                    .txtPaceMinPer
+                                    .toUpperCase() +
+                                Languages.of(context)!.txtMile.toUpperCase() +
+                                ")"),
                       ],
                     ),
                   ),
@@ -365,7 +378,6 @@ class _StartRunScreenState extends State<StartRunScreen>
                         visible: !isBack,
                         child: InkWell(
                           onTap: () async {
-
                             moveCameraToUserLocation();
                           },
                           child: Container(
@@ -374,7 +386,8 @@ class _StartRunScreenState extends State<StartRunScreen>
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle, color: Colors.white),
                             child: Center(
-                                child: Image.asset('assets/icons/ic_location.png',
+                                child: Image.asset(
+                                    'assets/icons/ic_location.png',
                                     scale: 4.0,
                                     color: Colur.purple_gradient_color2)),
                           ),
@@ -407,8 +420,8 @@ class _StartRunScreenState extends State<StartRunScreen>
                                 });
                               } else {
                                 _locationSubscription!.pause();
-                                stopWatchTimer.onExecute.add(StopWatchExecute
-                                    .stop);
+                                stopWatchTimer.onExecute
+                                    .add(StopWatchExecute.stop);
                                 setState(() {
                                   startTrack = false;
                                 });
@@ -498,14 +511,15 @@ class _StartRunScreenState extends State<StartRunScreen>
                                       ),
                                     ),
                                     Container(
-                                        margin: EdgeInsets.only(left: fullWidth*0.015),
-                                        child: Icon(
-                                          startTrack
-                                              ? Icons.pause
-                                              : Icons.play_arrow_rounded,
-                                          color: Colur.white,
-                                          size: 30,
-                                        ),
+                                      margin: EdgeInsets.only(
+                                          left: fullWidth * 0.015),
+                                      child: Icon(
+                                        startTrack
+                                            ? Icons.pause
+                                            : Icons.play_arrow_rounded,
+                                        color: Colur.white,
+                                        size: 30,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -532,9 +546,10 @@ class _StartRunScreenState extends State<StartRunScreen>
                             ),
                           ),
                           onTap: () async {
-                            AnimationController controller = AnimationController(
-                                duration: const Duration(milliseconds: 400),
-                                vsync: this);
+                            AnimationController controller =
+                                AnimationController(
+                                    duration: const Duration(milliseconds: 400),
+                                    vsync: this);
 
                             showDialog(
                               barrierDismissible: false,
@@ -596,10 +611,13 @@ class _StartRunScreenState extends State<StartRunScreen>
       super.setState(fn);
     }
   }
+
   void _loadInterstitialAd() {
     InterstitialAd.load(
       adUnitId: AdHelper.interstitialAdUnitId,
-      request: AdRequest(),
+      request: AdRequest(
+          nonPersonalizedAds: Utils.nonPersonalizedAds()
+      ),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (ad) {
           this._interstitialAd = ad;
@@ -609,7 +627,8 @@ class _StartRunScreenState extends State<StartRunScreen>
               Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => WellDoneScreen(runningData: runningData)),
+                      builder: (context) =>
+                          WellDoneScreen(runningData: runningData)),
                   ModalRoute.withName("/homeWizardScreen"));
             },
           );
@@ -624,14 +643,11 @@ class _StartRunScreenState extends State<StartRunScreen>
     );
   }
 
-
-
   @override
   Future<void> onFinish({bool value = true}) async {
     if (_locationSubscription != null && _locationSubscription!.isPaused)
       _locationSubscription!.cancel();
     await _addEndMarker();
-
 
     Navigator.pop(context);
     runningData!.polyLine = jsonEncode(polylineCoordinatesList);
@@ -671,7 +687,6 @@ class _StartRunScreenState extends State<StartRunScreen>
       runningData!.imageFile = newFile;
       runningData!.image = newFile.path;
 
-
       if (_isInterstitialAdReady) {
         _interstitialAd?.show();
       } else {
@@ -681,7 +696,6 @@ class _StartRunScreenState extends State<StartRunScreen>
                 builder: (context) => WellDoneScreen(runningData: runningData)),
             ModalRoute.withName("/homeWizardScreen"));
       }
-
 
       return true;
     } catch (e) {
@@ -725,12 +739,13 @@ class _StartRunScreenState extends State<StartRunScreen>
     );
 
     geoLocator.Geolocator.getPositionStream(
-            desiredAccuracy: geoLocator.LocationAccuracy.medium)
-        .listen((position) {
+      locationSettings: geoLocator.LocationSettings(
+          accuracy: geoLocator.LocationAccuracy.medium),
+    ).listen((position) {
       if (polylineCoordinatesList.length >= 2) {
         var speedInMps = position.speed;
         var speedKmpm = speedInMps * 0.06;
-        currentSpeed = speedKmpm*60;
+        currentSpeed = speedKmpm * 60;
         pace = 1 / speedKmpm;
       }
     });
@@ -772,9 +787,9 @@ class _StartRunScreenState extends State<StartRunScreen>
           calorisvalue = _countCalories(weight);
 
           double conditionDistance;
-          if(polylineCoordinatesList.length <=2&& Platform.isIOS) {
-              conditionDistance = 0.03;
-          }else{
+          if (polylineCoordinatesList.length <= 2 && Platform.isIOS) {
+            conditionDistance = 0.03;
+          } else {
             conditionDistance = 0.01;
           }
 
@@ -786,13 +801,15 @@ class _StartRunScreenState extends State<StartRunScreen>
                   currentLocation.latitude,
                   currentLocation.longitude);
 
-
               polylineCoordinatesList.add(LatLng(
                   currentLocation.latitude!, currentLocation.longitude!));
               _addPolyLine();
               _controller?.moveCamera(
                 CameraUpdate.newCameraPosition(
-                  CameraPosition(target: LatLng(currentLocation.latitude!, currentLocation.longitude!), zoom: 20),
+                  CameraPosition(
+                      target: LatLng(currentLocation.latitude!,
+                          currentLocation.longitude!),
+                      zoom: 20),
                 ),
               );
             } else {
@@ -880,9 +897,9 @@ class _StartRunScreenState extends State<StartRunScreen>
           '/homeWizardScreen', (Route<dynamic> route) => false);
     }
     if (name == Constant.STR_SETTING) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => MapSettingScreen())).then((value){
-
+      Navigator.push(context,
+              MaterialPageRoute(builder: (context) => MapSettingScreen()))
+          .then((value) {
         _getPreferences();
       });
     }
@@ -890,8 +907,8 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   Future<void> moveCameraToUserLocation() async {
     try {
-      LatLng newCurrentlatLong =
-          LatLng(polylineCoordinatesList.last.latitude, polylineCoordinatesList.last.longitude);
+      LatLng newCurrentlatLong = LatLng(polylineCoordinatesList.last.latitude,
+          polylineCoordinatesList.last.longitude);
       _controller!.moveCamera(CameraUpdate.newLatLng(newCurrentlatLong));
     } on Exception catch (e) {
       Utils.showToast(context, "Can't Locate To your Location:$e");
@@ -901,41 +918,29 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   customDialog() async {
     _locationSubscription!.pause();
-    stopWatchTimer.onExecute.add(StopWatchExecute
-        .stop);
+    stopWatchTimer.onExecute.add(StopWatchExecute.stop);
     setState(() {
       startTrack = false;
     });
     if (polylineCoordinatesList.length >= 1) {
-      runningData!.eLat = polylineCoordinatesList
-          .last.latitude
-          .toString();
-      runningData!.eLong = polylineCoordinatesList
-          .last.longitude
-          .toString();
+      runningData!.eLat = polylineCoordinatesList.last.latitude.toString();
+      runningData!.eLong = polylineCoordinatesList.last.longitude.toString();
     } else {
       return showDiscardDialog();
     }
 
     await _animateToCenterofMap();
 
-    await calculationsForAllValues()
-        .then((value) async {
+    await calculationsForAllValues().then((value) async {
       final String result = (await Navigator.push(
           context,
           PausePopupScreen(
-              stopWatchTimer,
-              startTrack,
-              runningData,
-              _controller,
-              markers)))!;
+              stopWatchTimer, startTrack, runningData, _controller, markers)))!;
       setState(() {
-        if (_locationSubscription != null &&
-            _locationSubscription!.isPaused)
+        if (_locationSubscription != null && _locationSubscription!.isPaused)
           _locationSubscription!.resume();
         if (result == "false") {
-          stopWatchTimer.onExecute
-              .add(StopWatchExecute.reset);
+          stopWatchTimer.onExecute.add(StopWatchExecute.reset);
           isBack = true;
         }
         if (result == "true") {
@@ -946,11 +951,8 @@ class _StartRunScreenState extends State<StartRunScreen>
         }
       });
     });
-
-
   }
 }
-
 
 class PopUp extends StatefulWidget {
   final AnimationController? controller;
@@ -1052,9 +1054,7 @@ class PopUpState extends State<PopUp> {
                   Container(
                     margin: EdgeInsets.only(top: 135),
                     child: Text(
-                      Languages.of(context)!
-                          .txtLongPressToUnlock
-                          .toUpperCase(),
+                      Languages.of(context)!.txtLongPressToUnlock.toUpperCase(),
                       textAlign: ui.TextAlign.center,
                       style: TextStyle(
                           color: Colur.white,

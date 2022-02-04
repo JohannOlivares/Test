@@ -2,8 +2,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +17,7 @@ import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 import 'dart:ui' as ui;
 
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ShareScreen extends StatefulWidget {
   final RunningData? runningData;

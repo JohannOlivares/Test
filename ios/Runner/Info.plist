@@ -37,13 +37,15 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to location when in the background.</string>
+	<string>This app needs access to location to track the user's run route on a map.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>This app needs access to location to track the user's run route on a map.</string>
 	<key>NSMotionUsageDescription</key>
 	<string>This application tracks your steps</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This App needs to use Photos.</string>
+	<key>NSUserTrackingUsageDescription</key>
+    <string>This identifier will be used to deliver personalized ads to you.</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>processing</string>

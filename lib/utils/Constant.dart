@@ -44,4 +44,6 @@ class Constant {
     return "https://sites.google.com/view/runtracker-pp/home";
   }
 
+  static const String trackingStatus = "TrackingStatus.authorized";
+
 }

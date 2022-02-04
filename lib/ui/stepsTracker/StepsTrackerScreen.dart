@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'package:flutter/services.dart';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:pedometer/pedometer.dart';
 import 'package:run_tracker/ad_helper.dart';
@@ -87,7 +85,9 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
   _loadBanner() {
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
-      request: AdRequest(),
+      request: AdRequest(
+          nonPersonalizedAds: Utils.nonPersonalizedAds()
+      ),
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (_) {

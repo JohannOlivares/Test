@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:run_tracker/ad_helper.dart';
@@ -7,6 +5,7 @@ import 'package:run_tracker/localization/language/languages.dart';
 import 'package:run_tracker/ui/drinkWaterReminder/DrinkWaterReminderScreen.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Preference.dart';
+import 'package:run_tracker/utils/Utils.dart';
 
 import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
@@ -53,7 +52,9 @@ class _DrinkWaterSettingsScreenState extends State<DrinkWaterSettingsScreen>
   _loadBanner() {
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
-      request: AdRequest(),
+      request: AdRequest(
+          nonPersonalizedAds: Utils.nonPersonalizedAds()
+      ),
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (_) {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/custom/bottomsheetdialogs/RatingDialog.dart';
 import 'package:run_tracker/interfaces/TopBarClickListener.dart';

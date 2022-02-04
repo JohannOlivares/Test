@@ -1,3 +1,4 @@
+import 'package:app_tracking_transparency/app_tracking_transparency.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -54,6 +55,7 @@ String? selectedNotificationPayload;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preference().instance();
+  await initPlugin();
   await DataBaseHelper().initialize();
 
   const AndroidInitializationSettings initializationSettingsAndroid =
@@ -95,6 +97,20 @@ Future<void> main() async {
   _configureLocalTimeZone();
 
   runApp(MyApp());
+}
+
+Future<void> initPlugin() async {
+  try {
+    final TrackingStatus status =
+    await AppTrackingTransparency.trackingAuthorizationStatus;
+    if (status == TrackingStatus.notDetermined) {
+      var _authStatus = await AppTrackingTransparency.requestTrackingAuthorization();
+      Preference.shared.setString(Preference.TRACK_STATUS, _authStatus.toString());
+    }
+  } on PlatformException {}
+
+  final uuid = await AppTrackingTransparency.getAdvertisingIdentifier();
+  Debug.printLog("UUID:" + uuid);
 }
 
 Future<void> _configureLocalTimeZone() async {

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:run_tracker/ad_helper.dart';
@@ -44,7 +43,9 @@ class _RecentActivitiesScreenState extends State<RecentActivitiesScreen>
   _loadBanner() {
     _bannerAd = BannerAd(
       adUnitId: AdHelper.bannerAdUnitId,
-      request: AdRequest(),
+      request: AdRequest(
+          nonPersonalizedAds: Utils.nonPersonalizedAds()
+      ),
       size: AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (_) {
