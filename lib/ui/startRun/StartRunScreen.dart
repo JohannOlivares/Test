@@ -735,12 +735,12 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   getLoc() async {
     _location.changeSettings(
-      accuracy: LocationAccuracy.balanced,
+      accuracy: LocationAccuracy.navigation,
     );
 
     geoLocator.Geolocator.getPositionStream(
       locationSettings: geoLocator.LocationSettings(
-          accuracy: geoLocator.LocationAccuracy.medium),
+          accuracy: geoLocator.LocationAccuracy.bestForNavigation),
     ).listen((position) {
       if (polylineCoordinatesList.length >= 2) {
         var speedInMps = position.speed;
@@ -882,12 +882,13 @@ class _StartRunScreenState extends State<StartRunScreen>
   }
 
   double calculateDistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
+    /*var p = 0.017453292519943295;
     var c = cos;
     var a = 0.5 -
         c((lat2 - lat1) * p) / 2 +
         c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
+    return 12742 * asin(sqrt(a));*/
+    return (geoLocator.GeolocatorPlatform.instance.distanceBetween(lat1, lon1, lat2, lon2))/1000;
   }
 
   @override

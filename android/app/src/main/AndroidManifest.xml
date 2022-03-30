@@ -24,6 +24,7 @@
 
     <application
         android:icon="@mipmap/ic_launcher_foreground"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="Run Tracker"
         android:requestLegacyExternalStorage="true">
         <meta-data
