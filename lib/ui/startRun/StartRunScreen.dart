@@ -12,7 +12,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' hide PermissionStatus;
 import 'package:path_provider/path_provider.dart';
 import 'package:run_tracker/ad_helper.dart';
-import 'dart:math' show asin, cos, sqrt;
 import 'package:run_tracker/common/commonTopBar/CommonTopBar.dart';
 import 'package:run_tracker/dbhelper/datamodel/RunningData.dart';
 import 'package:run_tracker/interfaces/RunningStopListener.dart';
@@ -67,7 +66,7 @@ class _StartRunScreenState extends State<StartRunScreen>
   double? finaldistance;
   double? finalspeed;
 
-  double weight = 50;
+  double? weight;
 
   double currentSpeed = 0.0;
   int totalLowIntenseTime = 0;
@@ -298,7 +297,7 @@ class _StartRunScreenState extends State<StartRunScreen>
                     children: [
                       Container(
                         child: Text(
-                          double.parse(calorisvalue.toStringAsFixed(2))
+                          double.parse(calorisvalue.toStringAsFixed(1))
                               .toString(),
                           style: TextStyle(
                               fontSize: 32,
@@ -733,6 +732,8 @@ class _StartRunScreenState extends State<StartRunScreen>
     return;
   }
 
+  var dist = 0.0;
+
   getLoc() async {
     _location.changeSettings(
       accuracy: LocationAccuracy.navigation,
@@ -784,7 +785,14 @@ class _StartRunScreenState extends State<StartRunScreen>
               currentLocation.latitude,
               currentLocation.longitude);
 
-          calorisvalue = _countCalories(weight);
+          Debug.printLog("previous lat: ${polylineCoordinatesList.last.latitude},prev lng: ${polylineCoordinatesList.last.longitude},curr lat: ${currentLocation.latitude},curr lng: ${currentLocation.longitude}");
+
+          if (dist.toStringAsFixed(4) != lastDistance.toStringAsFixed(4)) {
+            Debug.printLog("dist: ${dist.toStringAsFixed(3)} ====> lastDistance: ${lastDistance.toStringAsFixed(3)}");
+            calorisvalue = _countCalories(weight!);
+          }
+
+          dist = lastDistance;
 
           double conditionDistance;
           if (polylineCoordinatesList.length <= 2 && Platform.isIOS) {
@@ -871,23 +879,57 @@ class _StartRunScreenState extends State<StartRunScreen>
     runningData!.highIntenseTime = totalHighIntenseTime;
   }
 
+  var time = 0;
+  double caloriesValue = 0;
   double _countCalories(double weight) {
     int hr = int.parse(timeValue!.split(":")[0]);
     int min = int.parse(timeValue!.split(":")[1]);
     int sec = int.parse(timeValue!.split(":")[2]);
     int sec2 = (hr * 3600) + (min * 60) + (sec);
-    double mETConstant = 2;
-    double caloriesValue = (sec2 * mETConstant * 3.5 * weight) / 6000;
+    Debug.printLog("met constant: "+getMETConstant().toString());
+    caloriesValue = caloriesValue + ((getMETConstant() * 3.5 * weight) / 200) * ((sec2 -time) * 0.06);
+    time = sec2;
     return caloriesValue;
   }
 
+  double getMETConstant() {
+    var runPace = Utils.minPerKmToMinPerMile(pace);
+    if(runPace >= 13) {
+      return 5;
+    } else if(runPace >= 12) {
+      return 8.3;
+    } else if(runPace >= 11.5) {
+      return 9;
+    } else if(runPace >= 10) {
+      return 8;
+    } else if(runPace >= 9) {
+      return 10.5;
+    } else if(runPace >= 8.5) {
+      return 11;
+    } else if(runPace >= 8) {
+      return 11.5;
+    } else if(runPace >= 7.5) {
+      return 11.8;
+    } else if(runPace >= 7) {
+      return 12.3;
+    } else if(runPace >= 6.5) {
+      return 12.8;
+    } else if(runPace >= 6) {
+      return 14.5;
+    } else if(runPace >= 5.5) {
+      return 16;
+    } else if(runPace >= 5) {
+      return 19;
+    } else if(runPace >= 4.6) {
+      return 19.8;
+    } else if(runPace >= 4.3){
+      return 23;
+    } else {
+      return 8;
+    }
+  }
+
   double calculateDistance(lat1, lon1, lat2, lon2) {
-    /*var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));*/
     return (geoLocator.GeolocatorPlatform.instance.distanceBetween(lat1, lon1, lat2, lon2))/1000;
   }
 
