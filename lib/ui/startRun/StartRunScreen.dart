@@ -747,7 +747,9 @@ class _StartRunScreenState extends State<StartRunScreen>
         var speedInMps = position.speed;
         var speedKmpm = speedInMps * 0.06;
         currentSpeed = speedKmpm * 60;
-        pace = 1 / speedKmpm;
+        setState(() {
+          pace = 1 / speedKmpm;
+        });
       }
     });
 
