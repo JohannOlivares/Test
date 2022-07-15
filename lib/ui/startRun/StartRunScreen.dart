@@ -889,7 +889,11 @@ class _StartRunScreenState extends State<StartRunScreen>
     int sec = int.parse(timeValue!.split(":")[2]);
     int sec2 = (hr * 3600) + (min * 60) + (sec);
     Debug.printLog("met constant: "+getMETConstant().toString());
-    caloriesValue = caloriesValue + ((getMETConstant() * 3.5 * weight) / 200) * ((sec2 -time) * 0.06);
+    if (pace != 0 || totalDistance != 0) {
+      caloriesValue = caloriesValue + ((getMETConstant() * 3.5 * weight) / 200) * ((sec2 - time) * 0.06);
+    } else {
+      caloriesValue = 0.0;
+    }
     time = sec2;
     return caloriesValue;
   }
