@@ -61,8 +61,8 @@ Future<void> main() async {
   const AndroidInitializationSettings initializationSettingsAndroid =
       AndroidInitializationSettings('app_icon');
 
-  final IOSInitializationSettings initializationSettingsIOS =
-      IOSInitializationSettings(
+  final DarwinInitializationSettings initializationSettingsIOS =
+  DarwinInitializationSettings(
     requestAlertPermission: true,
     requestBadgePermission: true,
     requestSoundPermission: true,
@@ -79,19 +79,19 @@ Future<void> main() async {
   );
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onSelectNotification: (String? payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: $payload');
+      onDidReceiveNotificationResponse: (NotificationResponse? notificationResponse) async {
+    if (notificationResponse!.payload != null) {
+      debugPrint('notification notificationResponse: ${notificationResponse.payload}');
     }
 
-    if(payload != null && payload != Constant.STR_RUNNING_REMINDER) {
+    if(notificationResponse.payload != null && notificationResponse.payload != Constant.STR_RUNNING_REMINDER) {
         Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> DrinkWaterLevelScreen())));
-    } else if(payload != null && payload == Constant.STR_RUNNING_REMINDER){
+    } else if(notificationResponse.payload != null && notificationResponse.payload == Constant.STR_RUNNING_REMINDER){
       Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> StartRunScreen())));
     }
 
-    selectedNotificationPayload = payload;
-    selectNotificationSubject.add(payload);
+    selectedNotificationPayload = notificationResponse.payload;
+    selectNotificationSubject.add(notificationResponse.payload);
   });
 
   _configureLocalTimeZone();

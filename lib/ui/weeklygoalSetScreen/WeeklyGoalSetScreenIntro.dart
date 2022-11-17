@@ -7,9 +7,6 @@ import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
 
-import '../../utils/Preference.dart';
-
-
 class WeeklyGoalSetScreen extends StatefulWidget {
   final String? gender;
   final int? height;

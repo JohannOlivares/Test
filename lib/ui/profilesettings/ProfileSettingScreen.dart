@@ -448,8 +448,8 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
                                             'body': '${_textFeedback.text}'
                                           }),
                                         );
-                                        launch(
-                                                emailLaunchUri.toString())
+                                        launchUrl(
+                                            Uri.parse(emailLaunchUri.toString()))
                                             .then((value) =>
                                                 Navigator.of(context).pop());
 
@@ -574,8 +574,8 @@ class _ProfileSettingScreenState extends State<ProfileSettingScreen>
 
   void launchURLPrivacyPolicy() async {
     var url = Constant.getPrivacyPolicyURL();
-    if (await canLaunch(url)) {
-      await launch(url);
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
     } else {
       throw 'Could not launch $url';
     }

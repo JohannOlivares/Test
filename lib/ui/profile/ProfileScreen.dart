@@ -124,7 +124,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _getChartDataForHeartHealth({bool isCurrent = false}) async {
     List<String> dates = [];
-    allDays.clear();
+    // allDays.clear();
+    allDays = [];
     for (int i = 0; i <= 6; i++) {
       var currentWeekDates = (isCurrent)
           ? getDate(DateTime.now()
@@ -162,7 +163,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _getChartDataForDrinkWater() async {
     List<String> dates = [];
-    allDays.clear();
+    // allDays.clear();
+    allDays = [];
     for (int i = 0; i <= 6; i++) {
       var currentWeekDates = getDate(DateTime.now()
           .subtract(Duration(days: currentDate.weekday - prefSelectedDay!))

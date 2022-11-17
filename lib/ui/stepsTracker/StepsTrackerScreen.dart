@@ -117,7 +117,8 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       }else {
         currentStepCount = 0;
       }
-      _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+      // _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+      _stopWatchTimer.onStartTimer();
       countStep();
     }
   }
@@ -433,10 +434,12 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
                   }else {
                     currentStepCount = 0;
                   }
-                  _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                  // _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                  _stopWatchTimer.onStartTimer();
                   countStep();
                 } else {
-                  _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                  // _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                  _stopWatchTimer.onStopTimer();
                   _stepCountStream!.cancel();
                 }
               });
@@ -868,7 +871,8 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
     if (result == Constant.STR_TURNOFF) {
       setState(() {
         if (isPause!) {
-          _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+          // _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+          _stopWatchTimer.onStopTimer();
           _stepCountStream!.cancel();
           isPause = false;
           Preference.shared.setBool(Preference.IS_PAUSE, isPause!);
@@ -907,9 +911,11 @@ class _StepsTrackerScreenState extends State<StepsTrackerScreen>
       Preference.shared.setDouble(Preference.OLD_CALORIES, calories!);
 
       oldTime = 0;
-      _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+      // _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+      _stopWatchTimer.onResetTimer();
     });
-    if(isPause!) _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+    // if(isPause!) _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+    if(isPause!) _stopWatchTimer.onStartTimer();
 
     var todayDate = getDate(DateTime.now()).toString();
     for (int i = 0; i < weekDates.length; i++) {

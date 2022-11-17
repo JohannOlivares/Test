@@ -22,7 +22,6 @@ import 'package:syncfusion_flutter_gauges/gauges.dart';
 
 import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
-import '../../localization/language/languages.dart';
 import '../../main.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -67,9 +66,9 @@ class _HomeScreenState extends State<HomeScreen>
     final NotificationAppLaunchDetails? notificationAppLaunchDetails =
         await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
 
-    if(notificationAppLaunchDetails != null)
+    if(notificationAppLaunchDetails != null && notificationAppLaunchDetails.notificationResponse != null)
     {
-      if(notificationAppLaunchDetails.payload != null && notificationAppLaunchDetails.payload != Constant.STR_RUNNING_REMINDER)
+      if(notificationAppLaunchDetails.notificationResponse!.payload != null && notificationAppLaunchDetails.notificationResponse!.payload != Constant.STR_RUNNING_REMINDER)
       {
         Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> DrinkWaterLevelScreen())));
       }

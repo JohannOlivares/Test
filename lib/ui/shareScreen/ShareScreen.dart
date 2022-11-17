@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -252,7 +251,7 @@ class _ShareScreenState extends State<ShareScreen> implements TopBarClickListene
       File imgFile = await File(savedDir.path + Platform.pathSeparator + DateTime.now().millisecondsSinceEpoch.toString()+'_ss.png').create(recursive: true);
       await imgFile.writeAsBytes(pngBytes);
       final RenderBox box = context.findRenderObject() as RenderBox;
-      Share.shareFiles([imgFile.path],
+      Share.shareXFiles([XFile(imgFile.path)],
           subject: Languages.of(context)!.appName,
           text: Languages.of(context)!.txtShareMapMsg,
           sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size

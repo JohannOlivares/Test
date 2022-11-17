@@ -15,7 +15,6 @@ import 'package:run_tracker/utils/Utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../custom/GradientButtonSmall.dart';
-import '../../localization/language/languages.dart';
 
 class WellDoneScreen extends StatefulWidget {
   final RunningData? runningData;
@@ -541,8 +540,8 @@ class _WellDoneScreenState extends State<WellDoneScreen>
                                                 'body': '${_textFeedback.text}'
                                               }),
                                             );
-                                            launch(
-                                                emailLaunchUri.toString())
+                                            launchUrl(
+                                                Uri.parse(emailLaunchUri.toString()))
                                                 .then((value) =>
                                                 Navigator.of(context).pop());
 

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show Directory, File, Platform;
-import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:geolocator/geolocator.dart' as geoLocator;
 import 'package:google_mobile_ads/google_mobile_ads.dart';
@@ -413,14 +412,14 @@ class _StartRunScreenState extends State<StartRunScreen>
                                       _locationSubscription!.resume();
                                     else
                                       getLoc();
-                                    stopWatchTimer.onExecute
-                                        .add(StopWatchExecute.start);
+                                    // stopWatchTimer.onExecute.add(StopWatchExecute.start);
+                                    stopWatchTimer.onStartTimer();
                                   });
                                 });
                               } else {
                                 _locationSubscription!.pause();
-                                stopWatchTimer.onExecute
-                                    .add(StopWatchExecute.stop);
+                                // stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+                                stopWatchTimer.onStopTimer();
                                 setState(() {
                                   startTrack = false;
                                 });
@@ -452,8 +451,8 @@ class _StartRunScreenState extends State<StartRunScreen>
                                         _locationSubscription!.isPaused)
                                       _locationSubscription!.resume();
                                     if (result == "false") {
-                                      stopWatchTimer.onExecute
-                                          .add(StopWatchExecute.reset);
+                                      // stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+                                      stopWatchTimer.onResetTimer();
                                       isBack = true;
                                     }
                                     if (result == "true") {
@@ -967,7 +966,8 @@ class _StartRunScreenState extends State<StartRunScreen>
 
   customDialog() async {
     _locationSubscription!.pause();
-    stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+    // stopWatchTimer.onExecute.add(StopWatchExecute.stop);
+    stopWatchTimer.onStopTimer();
     setState(() {
       startTrack = false;
     });
@@ -989,7 +989,8 @@ class _StartRunScreenState extends State<StartRunScreen>
         if (_locationSubscription != null && _locationSubscription!.isPaused)
           _locationSubscription!.resume();
         if (result == "false") {
-          stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+          // stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+          stopWatchTimer.onResetTimer();
           isBack = true;
         }
         if (result == "true") {

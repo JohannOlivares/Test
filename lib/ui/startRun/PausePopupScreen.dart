@@ -129,10 +129,9 @@ class PausePopupScreen extends ModalRoute<String> {
 
               InkWell(
                 onTap: () {
-                  stopWatchTimer!.onExecute.add(StopWatchExecute.start);
+                  // stopWatchTimer!.onExecute.add(StopWatchExecute.start);
+                  stopWatchTimer!.onStartTimer();
                   Navigator.pop(context,'true');
-
-
                 },
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,

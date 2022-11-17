@@ -9,7 +9,6 @@ import 'package:run_tracker/utils/Utils.dart';
 
 import '../../common/commonTopBar/CommonTopBar.dart';
 import '../../interfaces/TopBarClickListener.dart';
-import '../../localization/language/languages.dart';
 import '../../utils/Constant.dart';
 
 class DrinkWaterSettingsScreen extends StatefulWidget {
