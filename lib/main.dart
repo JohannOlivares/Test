@@ -62,7 +62,7 @@ Future<void> main() async {
       AndroidInitializationSettings('app_icon');
 
   final DarwinInitializationSettings initializationSettingsIOS =
-  DarwinInitializationSettings(
+      DarwinInitializationSettings(
     requestAlertPermission: true,
     requestBadgePermission: true,
     requestSoundPermission: true,
@@ -79,15 +79,23 @@ Future<void> main() async {
   );
 
   await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse? notificationResponse) async {
+      onDidReceiveNotificationResponse:
+          (NotificationResponse? notificationResponse) async {
     if (notificationResponse!.payload != null) {
-      debugPrint('notification notificationResponse: ${notificationResponse.payload}');
+      debugPrint(
+          'notification notificationResponse: ${notificationResponse.payload}');
     }
 
-    if(notificationResponse.payload != null && notificationResponse.payload != Constant.STR_RUNNING_REMINDER) {
-        Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> DrinkWaterLevelScreen())));
-    } else if(notificationResponse.payload != null && notificationResponse.payload == Constant.STR_RUNNING_REMINDER){
-      Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(MyApp.navigatorKey.currentState!.overlay!.context, MaterialPageRoute(builder: (context)=> StartRunScreen())));
+    if (notificationResponse.payload != null &&
+        notificationResponse.payload != Constant.STR_RUNNING_REMINDER) {
+      Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(
+          MyApp.navigatorKey.currentState!.overlay!.context,
+          MaterialPageRoute(builder: (context) => DrinkWaterLevelScreen())));
+    } else if (notificationResponse.payload != null &&
+        notificationResponse.payload == Constant.STR_RUNNING_REMINDER) {
+      Future.delayed(Duration(seconds: 1)).then((value) => Navigator.push(
+          MyApp.navigatorKey.currentState!.overlay!.context,
+          MaterialPageRoute(builder: (context) => StartRunScreen())));
     }
 
     selectedNotificationPayload = notificationResponse.payload;
@@ -102,10 +110,12 @@ Future<void> main() async {
 Future<void> initPlugin() async {
   try {
     final TrackingStatus status =
-    await AppTrackingTransparency.trackingAuthorizationStatus;
+        await AppTrackingTransparency.trackingAuthorizationStatus;
     if (status == TrackingStatus.notDetermined) {
-      var _authStatus = await AppTrackingTransparency.requestTrackingAuthorization();
-      Preference.shared.setString(Preference.TRACK_STATUS, _authStatus.toString());
+      var _authStatus =
+          await AppTrackingTransparency.requestTrackingAuthorization();
+      Preference.shared
+          .setString(Preference.TRACK_STATUS, _authStatus.toString());
     }
   } on PlatformException {}
 
@@ -118,12 +128,14 @@ Future<void> _configureLocalTimeZone() async {
   final String? timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
   tz.setLocalLocation(tz.getLocation(timeZoneName!));
 }
+
 Future<InitializationStatus> _initGoogleMobileAds() {
   return MobileAds.instance.initialize();
 }
 
 class MyApp extends StatefulWidget {
   static final navigatorKey = new GlobalKey<NavigatorState>();
+
   static void setLocale(BuildContext context, Locale newLocale) {
     var state = context.findAncestorStateOfType<_MyAppState>()!;
     state.setLocale(newLocale);
@@ -154,10 +166,11 @@ class _MyAppState extends State<MyApp> {
     _initGoogleMobileAds();
     isFirstTime();
     super.initState();
-
   }
-   isFirstTime() async {
-    isFirstTimeUser = Preference.shared.getBool(Preference.IS_USER_FIRSTTIME)??true;
+
+  isFirstTime() async {
+    isFirstTimeUser =
+        Preference.shared.getBool(Preference.IS_USER_FIRSTTIME) ?? true;
     Debug.printLog(isFirstTimeUser.toString());
   }
 
@@ -200,6 +213,26 @@ class _MyAppState extends State<MyApp> {
           Locale('ko', ''),
           Locale('pa', ''),
           Locale('it', ''),
+          Locale('sq', ''),
+          Locale('az', ''),
+          Locale('my', ''),
+          Locale('hr', ''),
+          Locale('cs', ''),
+          Locale('nl', ''),
+          Locale('el', ''),
+          Locale('gu', ''),
+          Locale('hu', ''),
+          Locale('kn', ''),
+          Locale('ml', ''),
+          Locale('mr', ''),
+          Locale('nb', ''),
+          Locale('or', ''),
+          Locale('fa', ''),
+          Locale('pl', ''),
+          Locale('ro', ''),
+          Locale('sv', ''),
+          Locale('th', ''),
+          Locale('uk', ''),
         ],
         localizationsDelegates: [
           AppLocalizationsDelegate(),
@@ -217,10 +250,8 @@ class _MyAppState extends State<MyApp> {
           return supportedLocales.first;
         },
         darkTheme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-            secondary: Colur.white,
-            brightness: Brightness.light
-          ),
+          colorScheme: ColorScheme.fromSwatch()
+              .copyWith(secondary: Colur.white, brightness: Brightness.light),
           appBarTheme: AppBarTheme(
             backgroundColor: Colur.transparent,
           ),

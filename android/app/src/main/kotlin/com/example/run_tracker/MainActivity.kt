@@ -5,7 +5,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.view.Window
 import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
@@ -29,8 +28,10 @@ class MainActivity: FlutterActivity() {
         if(ContextCompat.checkSelfPermission(this,
                         Manifest.permission.ACTIVITY_RECOGNITION) == PackageManager.PERMISSION_DENIED){
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                var permission = arrayListOf<String>()
-                permission.add(Manifest.permission.ACTIVITY_RECOGNITION)
+                val permission = arrayListOf<String>()
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                    permission.add(Manifest.permission.ACTIVITY_RECOGNITION)
+                }
                 requestPermissions(permission.toArray() as Array<out String>, 123)
             };
         }

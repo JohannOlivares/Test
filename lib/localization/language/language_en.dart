@@ -11,8 +11,7 @@ class LanguageEn extends Languages {
   String get txtWelcomeMapRunnner => "Hi, Welcome To\n";
 
   @override
-  String get txtBottomSheetDescription =>
-      "Before we get started, please\n let us know you better to help you set your\n personal fitness goal.";
+  String get txtBottomSheetDescription => "Before we get started, please\n let us know you better to help you set your\n personal fitness goal.";
 
   @override
   String get txtImKateYourCoach => "I’m kate, your personal fitness coach.";
@@ -39,8 +38,7 @@ class LanguageEn extends Languages {
   String get txtFemale => "Female";
 
   @override
-  String get txtGenderDescription =>
-      "Calories & Stride Length Calculation\n need it";
+  String get txtGenderDescription => "Calories & Stride Length Calculation\n need it";
 
   @override
   String get txtHeartHealth => "Heart Health";
@@ -78,13 +76,11 @@ class LanguageEn extends Languages {
   @override
   String get txtPaceOver900MinKm => "Pace over 9:00 min/km";
 
-
   @override
   String get txtWhatIsYourGender => "What’s your gender?";
 
   @override
-  String get txtYouCanCombineTheseTwoDescription =>
-      "You can combine these two kinds of\nexercise together.";
+  String get txtYouCanCombineTheseTwoDescription => "You can combine these two kinds of\nexercise together.";
 
   @override
   String get txtYourWeeklyGoalIsReady => "Your Weekly Goal is Ready";
@@ -102,12 +98,10 @@ class LanguageEn extends Languages {
   String get txtAllow => "Allow";
 
   @override
-  String get txtLocationDesc1 =>
-      "To see maps for automatically tracked activities, allow Run Tracker to use your location all of the time.";
+  String get txtLocationDesc1 => "To see maps for automatically tracked activities, allow Run Tracker to use your location all of the time.";
 
   @override
-  String get txtLocationDesc2 =>
-      "Run Tracker will use your location in the background to show walks, runs and bike rides on a map.";
+  String get txtLocationDesc2 => "Run Tracker will use your location in the background to show walks, runs and bike rides on a map.";
 
   @override
   String get txtGoFasterSmarter => "Go Faster & Smarter";
@@ -164,8 +158,7 @@ class LanguageEn extends Languages {
   String get txtPause => "Pause";
 
   @override
-  String get txtAreYouSatisfiedWithDescription =>
-      "Are you satisfied with the\n tracking results?";
+  String get txtAreYouSatisfiedWithDescription => "Are you satisfied with the\n tracking results?";
 
   @override
   String get txtDuration => "Duration";
@@ -288,8 +281,7 @@ class LanguageEn extends Languages {
   String get txtEditTargetSteps => "Edit Target Steps";
 
   @override
-  String get txtEditStepsTargetDesc =>
-      "Burned calories, walking distance & duration will be calculated accordingly.";
+  String get txtEditStepsTargetDesc => "Burned calories, walking distance & duration will be calculated accordingly.";
 
   @override
   String get txtCancel => "CANCEL";
@@ -325,8 +317,7 @@ class LanguageEn extends Languages {
   String get txtGotoSettings => "Go to Settings";
 
   @override
-  String get txtPleaseGivePermissionFromSettings =>
-      "Please give us access to your GPS Location";
+  String get txtPleaseGivePermissionFromSettings => "Please give us access to your GPS Location";
 
   @override
   String get txtWeNeedYourLocation => "We Need Your Location";
@@ -356,12 +347,10 @@ class LanguageEn extends Languages {
   String get txtAdd => "Add";
 
   @override
-  String get txtWarningForKg =>
-      "Please enter weight greater than 20 and less than 997";
+  String get txtWarningForKg => "Please enter weight greater than 20 and less than 997";
 
   @override
-  String get txtWarningForLbs =>
-      "Please enter lbs greater than 45 and less 2200";
+  String get txtWarningForLbs => "Please enter lbs greater than 45 and less 2200";
 
   @override
   String get txtDrinkWaterNotiMsg => "It's Time to drink water";
@@ -376,8 +365,7 @@ class LanguageEn extends Languages {
   String get txtSaveChanges => "Save changes?";
 
   @override
-  String get txtDeleteConfirmationMessage =>
-      "Are you sure do you want to delete this data?";
+  String get txtDeleteConfirmationMessage => "Are you sure do you want to delete this data?";
 
   @override
   String get txtDeleteHitory => "Delete History";
@@ -398,8 +386,7 @@ class LanguageEn extends Languages {
   String get txtRepeat => "Repeat";
 
   @override
-  String get txtRunningReminderMsg =>
-      "It's time for Running,Let's get started!";
+  String get txtRunningReminderMsg => "It's time for Running,Let's get started!";
 
   @override
   String get txtUnitSettings => "Unit Settings";
@@ -510,8 +497,7 @@ class LanguageEn extends Languages {
   String get txtExit => "Exit";
 
   @override
-  String get txtPleaseGivePermissionForActivity =>
-      "Please give us access to Detect You Activity For Steps";
+  String get txtPleaseGivePermissionForActivity => "Please give us access to Detect You Activity For Steps";
 
   @override
   String get txtTargetStepsWarning => "Please, enter steps greater than 50.";
