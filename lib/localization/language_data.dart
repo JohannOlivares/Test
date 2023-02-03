@@ -31,7 +31,7 @@ class LanguageData {
     ];*/
 
     return <LanguageData>[
-      LanguageData("🇦🇱", "Albanian (မြန်မာ)", 'sq', 'AL'),
+      LanguageData("🇦🇱", "Albanian (shqiptare)", 'sq', 'AL'),
       LanguageData("🇸🇦", "(عربى) Arabic", 'ar', 'SA'),
       LanguageData("🇦🇿", "Azerbaijani (Azərbaycan)", 'az', 'AF'),
       LanguageData("🇮🇳", "Bengali (বাংলা)", 'bn', 'IN'),
