@@ -1,5 +1,3 @@
-
-
 .idea
 .flutter-plugins
 .flutter-plugins-dependencies
@@ -9,3 +7,4 @@ run_tracker.iml
 test
 .dart_tool
 build
+.fvm
