@@ -173,7 +173,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
 
   _getChartDataForDrinkWater() async {
     List<String> dates = [];
-    allDays.clear();
+    allDays = [];
     for (int i = 0; i <= 6; i++) {
       var currentWeekDates = getDate(DateTime.now()
           .subtract(Duration(days: currentDate.weekday - prefSelectedDay!))
@@ -519,7 +519,9 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
           ),
           Container(
             height: 200,
-            margin: const EdgeInsets.only(top: 30.0, ),
+            margin: const EdgeInsets.only(
+              top: 30.0,
+            ),
             width: double.infinity,
             child: BarChart(
               BarChartData(
@@ -530,7 +532,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                         String weekDay;
                         if (allDays.isNotEmpty) {
                           weekDay = allDays[groupIndex.toInt()];
-                        }else{
+                        } else {
                           weekDay = "";
                         }
                         return BarTooltipItem(
@@ -542,7 +544,7 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: (rod.y.toInt() - 1).toString(),
+                              text: (rod.toY.toInt() - 1).toString(),
                               style: TextStyle(
                                 color: Colur.txt_white,
                                 fontSize: 15,
@@ -560,7 +562,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                         touchedIndexForWaterChart = -1;
                         return;
                       }
-                      touchedIndexForWaterChart = barTouchResponse.spot!.touchedBarGroupIndex;
+                      touchedIndexForWaterChart =
+                          barTouchResponse.spot!.touchedBarGroupIndex;
                     });
                   },
                 ),
@@ -569,41 +572,46 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
                 ),
                 titlesData: FlTitlesData(
                   show: true,
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    getTextStyles: (context, value) {
-                      if (allDays.isNotEmpty) {
-                        if (allDays[value.toInt()] == currentDay) {
-                          return _selectedTextStyle();
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        var style, text;
+                        if (allDays.isNotEmpty) {
+                          if (allDays[value.toInt()] == currentDay) {
+                            style =  _selectedTextStyle();
+                          } else {
+                            style =  _unSelectedTextStyle();
+                          }
                         } else {
-                          return _unSelectedTextStyle();
+                          style =  _unSelectedTextStyle();
                         }
-                      } else {
-                        return _unSelectedTextStyle();
-                      }
-                    },
-                    margin: 20,
-                    getTitles: (double value) {
-                      if (allDays.isNotEmpty) {
-                        if (allDays[value.toInt()] == currentDay) {
-                          return Languages.of(context)!.txtToday;
+                        if (allDays.isNotEmpty) {
+                          if (allDays[value.toInt()] == currentDay) {
+                            text = Languages.of(context)!.txtToday;
+                          } else {
+                            text = allDays[value.toInt()].substring(0, 3);
+                          }
                         } else {
-                          return allDays[value.toInt()].substring(0,3);
+                          text = "";
                         }
-                      } else {
-                        return "";
-                      }
-                    },
+
+                        return SideTitleWidget(
+                          axisSide: meta.axisSide,
+                          child: Text(text, style: style),
+                        );
+
+                      },
+                    ),
                   ),
-                  topTitles:  SideTitles(
-                    showTitles: false
-                ),
-                  rightTitles: SideTitles(
-                    showTitles: false
-                  ),
-                  leftTitles: SideTitles(
-                    showTitles: false,
-                  ),
+                  topTitles:
+                  AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  rightTitles:
+                  AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                  leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: false,
+                      )),
                 ),
                 borderData: FlBorderData(
                   show: false,
@@ -619,9 +627,14 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
             margin: const EdgeInsets.only(top: 20.0),
             child: Text(
               drinkWaterAverage != null
-                  ? Languages.of(context)!.txtWeeklyAverage + " : " +
-                      drinkWaterAverage!+" "+Languages.of(context)!.txtMl
-                  : Languages.of(context)!.txtWeeklyAverage + " :0 "+Languages.of(context)!.txtMl,
+                  ? Languages.of(context)!.txtWeeklyAverage +
+                  " : " +
+                  drinkWaterAverage! +
+                  " " +
+                  Languages.of(context)!.txtMl
+                  : Languages.of(context)!.txtWeeklyAverage +
+                  " :0 " +
+                  Languages.of(context)!.txtMl,
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -647,18 +660,18 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
   }
 
   BarChartGroupData makeDrinkWaterGroupData(
-    int x,
-    double y, {
-    bool isTouched = false,
-    Color barColor = Colur.graph_water,
-    double width = 40,
-  }) {
+      int x,
+      double y, {
+        bool isTouched = false,
+        Color barColor = Colur.graph_water,
+        double width = 40,
+      }) {
     return BarChartGroupData(
       x: x,
       barRods: [
         BarChartRodData(
-          y: isTouched ? y + 1 : y,
-          colors: isTouched ? [Colur.white] : [barColor],
+          toY: isTouched ? y + 1 : y,
+          gradient: LinearGradient(colors: isTouched ? [Colur.white,Colur.white,] : [barColor,barColor],),
           width: width,
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.zero,
@@ -667,8 +680,8 @@ class _DrinkWaterLevelScreenState extends State<DrinkWaterLevelScreen>
               topRight: Radius.circular(3.0)),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: maxLimitOfDrinkWater!.toDouble(),
-            colors: [Colur.rounded_rectangle_color],
+            toY: maxLimitOfDrinkWater!.toDouble(),
+            gradient: LinearGradient(colors: [Colur.rounded_rectangle_color,Colur.rounded_rectangle_color],),
           ),
         ),
       ],

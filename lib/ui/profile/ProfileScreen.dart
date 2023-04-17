@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:charts_flutter_new/flutter.dart' as charts;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -124,7 +124,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _getChartDataForHeartHealth({bool isCurrent = false}) async {
     List<String> dates = [];
-    // allDays.clear();
     allDays = [];
     for (int i = 0; i <= 6; i++) {
       var currentWeekDates = (isCurrent)
@@ -163,7 +162,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   _getChartDataForDrinkWater() async {
     List<String> dates = [];
-    // allDays.clear();
     allDays = [];
     for (int i = 0; i <= 6; i++) {
       var currentWeekDates = getDate(DateTime.now()
@@ -690,11 +688,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Text(
                   (!isPreviousWeek && isNextWeek)
                       ? formatStartDateOfPreviousWeek.toString() +
-                          " - " +
-                          formatEndDateOfPreviousWeek.toString()
+                      " - " +
+                      formatEndDateOfPreviousWeek.toString()
                       : formatStartDateOfCurrentWeek.toString() +
-                          " - " +
-                          formatEndDateOfCurrentWeek.toString(),
+                      " - " +
+                      formatEndDateOfCurrentWeek.toString(),
                   textAlign: TextAlign.center,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -749,7 +747,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: (rod.y.toInt() - 1).toString(),
+                              text: (rod.toY.toInt() - 1).toString(),
                               style: TextStyle(
                                 color: Colur.txt_white,
                                 fontSize: 15,
@@ -767,57 +765,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         touchedIndexForHartHealthChart = -1;
                         return;
                       }
-                      touchedIndexForHartHealthChart = barTouchResponse.spot!.touchedBarGroupIndex;
+                      touchedIndexForHartHealthChart =
+                          barTouchResponse.spot!.touchedBarGroupIndex;
                     });
                   },
                 ),
-                gridData: FlGridData(
-                  show: false
-                ),
+                gridData: FlGridData(show: false),
                 titlesData: FlTitlesData(
-                  topTitles: SideTitles(
-                      showTitles: false
-                  ),
-                  show: true,
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    getTextStyles: (context, value) {
-                      if (allDays.isNotEmpty) {
-                        if (allDays[value.toInt()] == currentDay) {
-                          return _selectedTextStyle();
-                        } else {
-                          return _unSelectedTextStyle();
-                        }
-                      } else {
-                        return _unSelectedTextStyle();
-                      }
-                    },
-                    margin: 10,
-                    getTitles: (double value) {
-                      if (allDays.isNotEmpty) {
-                        if (allDays[value.toInt()] == currentDay) {
-                          return Languages.
-                          of(context)!.txtToday;
-                        } else {
-                          return allDays[value.toInt()].substring(0, 3);
-                        }
-                      } else {
-                        return "";
-                      }
-                    },
-                  ),
-                  rightTitles: SideTitles(
-                      showTitles: false
-                  ),
-                  leftTitles: SideTitles(
-                    showTitles: true,
-                    margin: 5,
-                    interval: 100,
-                    getTextStyles: (value, context) => const TextStyle(
-                        color: Colur.txt_grey,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 13),
-                  ),
+                    topTitles: AxisTitles(
+                      sideTitles: SideTitles(showTitles: false),
+                    ),
+                    show: true,
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (value, meta) {
+                          var style, text;
+                          if (allDays.isNotEmpty) {
+                            if (allDays[value.toInt()] == currentDay) {
+                              style = _selectedTextStyle();
+                            } else {
+                              style = _unSelectedTextStyle();
+                            }
+                          } else {
+                            style = _unSelectedTextStyle();
+                          }
+                          if (allDays.isNotEmpty) {
+                            if (allDays[value.toInt()] == currentDay) {
+                              text = Languages.of(context)!.txtToday;
+                            } else {
+                              text = allDays[value.toInt()].substring(0, 3);
+                            }
+                          } else {
+                            text = "";
+                          }
+
+                          return SideTitleWidget(
+                            axisSide: meta.axisSide,
+                            child: Text(text, style: style),
+                          );
+                        },
+                      ),
+                    ),
+                    rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false),),
+                    leftTitles: AxisTitles(sideTitles: SideTitles(
+                      showTitles: true,
+                      // margin: 5,
+                      interval: 100,reservedSize: 30,
+                      getTitlesWidget: (value, meta) {
+                        return SideTitleWidget(child: Text(meta.formattedValue, style: TextStyle(
+                            color: Colur.txt_grey,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 13),), axisSide: meta.axisSide);
+                      },
+                    ),)
                 ),
                 borderData: FlBorderData(
                     show: true,
@@ -825,7 +826,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         top: BorderSide.none,
                         right: BorderSide.none,
                         bottom:
-                            BorderSide(width: 1, color: Colur.gray_border))),
+                        BorderSide(width: 1, color: Colur.gray_border))),
                 barGroups: showingHeartHealthGroups(),
               ),
               swapAnimationCurve: Curves.ease,
@@ -852,24 +853,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   BarChartGroupData makeHeartHealthGroupData(
-    int x,
-    double y, {
-    bool isTouched = false,
-    Color barColor = Colur.graph_health,
-    double width = 32,
-  }) {
+      int x,
+      double y, {
+        bool isTouched = false,
+        Color barColor = Colur.graph_health,
+        double width = 32,
+      }) {
     return BarChartGroupData(
       x: x,
       barRods: [
         BarChartRodData(
-          y: isTouched ? y + 1 : y,
-          colors: isTouched ? [Colur.white] : [barColor],
+          toY: isTouched ? y + 1 : y,
+          gradient: LinearGradient(colors: isTouched ? [Colur.white,Colur.white] : [barColor,barColor],),
           width: width,
           borderRadius: BorderRadius.all(Radius.zero),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: maxHeartHealth!.toDouble(),
-            colors: [Colur.common_bg_dark],
+            toY: maxHeartHealth!.toDouble(),
+            gradient: LinearGradient(colors: [Colur.common_bg_dark,Colur.common_bg_dark],),
           ),
         ),
       ],
@@ -1104,7 +1105,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: (rod.y.toInt() - 1).toString(),
+                              text: (rod.toY.toInt() - 1).toString(),
                               style: TextStyle(
                                 color: Colur.txt_white,
                                 fontSize: 15,
@@ -1122,7 +1123,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         touchedIndexForWaterChart = -1;
                         return;
                       }
-                      touchedIndexForWaterChart = barTouchResponse.spot!.touchedBarGroupIndex;
+                      touchedIndexForWaterChart =
+                          barTouchResponse.spot!.touchedBarGroupIndex;
                     });
                   },
                 ),
@@ -1131,40 +1133,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 titlesData: FlTitlesData(
                   show: true,
-                  topTitles: SideTitles(
-                    showTitles: false
+                  topTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
                   ),
-                  bottomTitles: SideTitles(
-                    showTitles: true,
-                    getTextStyles: (context, value) {
-                      if (allDays.isNotEmpty) {
-                        if (allDays[value.toInt()] == currentDay) {
-                          return _selectedTextStyle();
+                  bottomTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: true,
+                      getTitlesWidget: (value, meta) {
+                        var style, text;
+                        if (allDays.isNotEmpty) {
+                          if (allDays[value.toInt()] == currentDay) {
+                            style = _selectedTextStyle();
+                          } else {
+                            style = _unSelectedTextStyle();
+                          }
                         } else {
-                          return _unSelectedTextStyle();
+                          style = _unSelectedTextStyle();
                         }
-                      } else {
-                        return _unSelectedTextStyle();
-                      }
-                    },
-                    margin: 10,
-                    getTitles: (double value) {
-                      if (allDays.isNotEmpty) {
-                        if (allDays[value.toInt()] == currentDay) {
-                          return Languages.of(context)!.txtToday;
+                        if (allDays.isNotEmpty) {
+                          if (allDays[value.toInt()] == currentDay) {
+                            text = Languages.of(context)!.txtToday;
+                          } else {
+                            text = allDays[value.toInt()].substring(0, 3);
+                          }
                         } else {
-                          return allDays[value.toInt()].substring(0, 3);
+                          text = "";
                         }
-                      } else {
-                        return "";
-                      }
-                    },
+
+                        return SideTitleWidget(
+                          axisSide: meta.axisSide,
+                          child: Text(text, style: style),
+                        );
+                      },
+                    ),
                   ),
-                  rightTitles: SideTitles(
-                      showTitles: false
+                  rightTitles: AxisTitles(
+                    sideTitles: SideTitles(showTitles: false),
                   ),
-                  leftTitles: SideTitles(
-                    showTitles: false,
+                  leftTitles: AxisTitles(
+                    sideTitles: SideTitles(
+                      showTitles: false,
+                    ),
                   ),
                 ),
                 borderData: FlBorderData(
@@ -1182,9 +1191,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Text(
               drinkWaterAverage != null
                   ? Languages.of(context)!.txtWeeklyAverage +
-                      " : " +
-                      drinkWaterAverage!+" "+Languages.of(context)!.txtMl
-                  : Languages.of(context)!.txtWeeklyAverage + " :0 "+Languages.of(context)!.txtMl,
+                  " : " +
+                  drinkWaterAverage! +
+                  " " +
+                  Languages.of(context)!.txtMl
+                  : Languages.of(context)!.txtWeeklyAverage +
+                  " :0 " +
+                  Languages.of(context)!.txtMl,
               textAlign: TextAlign.center,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -1214,18 +1227,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   BarChartGroupData makeDrinkWaterGroupData(
-    int x,
-    double y, {
-    bool isTouched = false,
-    Color barColor = Colur.graph_water,
-    double width = 40,
-  }) {
+      int x,
+      double y, {
+        bool isTouched = false,
+        Color barColor = Colur.graph_water,
+        double width = 40,
+      }) {
     return BarChartGroupData(
       x: x,
       barRods: [
         BarChartRodData(
-          y: isTouched ? y + 1 : y,
-          colors: isTouched ? [Colur.white] : [barColor],
+          toY: isTouched ? y + 1 : y,
+          gradient: LinearGradient(colors: isTouched ? [Colur.white,Colur.white] : [barColor,barColor],),
           width: width,
           borderRadius: BorderRadius.only(
               bottomLeft: Radius.zero,
@@ -1234,8 +1247,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               topRight: Radius.circular(3.0)),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            y: maxLimitOfDrinkWater!.toDouble(),
-            colors: [Colur.common_bg_dark],
+            toY: maxLimitOfDrinkWater!.toDouble(),
+            gradient: LinearGradient(colors: [Colur.common_bg_dark,Colur.common_bg_dark],),
           ),
         ),
       ],

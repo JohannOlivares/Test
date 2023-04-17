@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:charts_flutter/flutter.dart';
+import 'package:charts_flutter_new/flutter.dart';
 
 class CustomCircleSymbolRenderer extends CircleSymbolRenderer {
   static String? value;

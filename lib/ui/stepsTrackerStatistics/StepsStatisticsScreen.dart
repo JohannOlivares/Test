@@ -9,6 +9,7 @@ import 'package:run_tracker/localization/locale_constant.dart';
 import 'package:run_tracker/utils/Color.dart';
 import 'package:run_tracker/utils/Constant.dart';
 import 'package:intl/intl.dart';
+import 'package:run_tracker/utils/Debug.dart';
 import 'package:run_tracker/utils/Preference.dart';
 import 'package:run_tracker/utils/Utils.dart';
 
@@ -252,7 +253,7 @@ class _StepsTrackerStatisticsScreenState extends State<StepsStatisticsScreen>
                           ),
                           children: <TextSpan>[
                             TextSpan(
-                              text: (rod.y.toInt() - 1).toString(),
+                              text: (rod.toY.toInt() - 1).toString(),
                               style: TextStyle(
                                 color: Colur.txt_white,
                                 fontSize: 15,
@@ -278,10 +279,10 @@ class _StepsTrackerStatisticsScreenState extends State<StepsStatisticsScreen>
                 gridData: FlGridData(show: false),
                 titlesData: FlTitlesData(
                   show: true,
-                  topTitles: SideTitles(showTitles: false),
-                  bottomTitles: xAxisTitleData(),
-                  leftTitles: yAxisTitleData(),
-                  rightTitles: SideTitles(showTitles: false),
+                  topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false),),
+                  bottomTitles: AxisTitles(sideTitles: xAxisTitleData(),),
+                  leftTitles: AxisTitles(sideTitles: yAxisTitleData(),),
+                  rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false),),
                 ),
                 borderData: FlBorderData(
                     show: true,
@@ -289,7 +290,7 @@ class _StepsTrackerStatisticsScreenState extends State<StepsStatisticsScreen>
                         left: BorderSide.none,
                         right: BorderSide.none,
                         bottom:
-                            BorderSide(width: 1, color: Colur.gray_border))),
+                        BorderSide(width: 1, color: Colur.gray_border))),
                 barGroups: showingStepsGroups()),
             swapAnimationCurve: Curves.ease,
             swapAnimationDuration: Duration(seconds: 0),
@@ -333,7 +334,7 @@ class _StepsTrackerStatisticsScreenState extends State<StepsStatisticsScreen>
                         ),
                         children: <TextSpan>[
                           TextSpan(
-                            text: (rod.y.toInt() - 1).toString(),
+                            text: (rod.toY.toInt() - 1).toString(),
                             style: TextStyle(
                               color: Colur.txt_white,
                               fontSize: 15,
@@ -359,10 +360,10 @@ class _StepsTrackerStatisticsScreenState extends State<StepsStatisticsScreen>
               gridData: FlGridData(show: false),
               titlesData: FlTitlesData(
                 show: true,
-                topTitles: SideTitles(showTitles: false),
-                bottomTitles: xAxisTitleData(),
-                leftTitles: yAxisTitleData(),
-                rightTitles: SideTitles(showTitles: false),
+                topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false),),
+                bottomTitles: AxisTitles(sideTitles: xAxisTitleData(),),
+                leftTitles: AxisTitles(sideTitles: yAxisTitleData(),),
+                rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false),),
               ),
               borderData: FlBorderData(
                   show: true,
@@ -382,112 +383,138 @@ class _StepsTrackerStatisticsScreenState extends State<StepsStatisticsScreen>
   xAxisTitleData() {
     return SideTitles(
       showTitles: true,
-      margin: 20,
-      getTextStyles: isMonthSelected
-          ? (context, value) => _unSelectedTextStyle()
-          : (context, value) {
-              if (allDays.isNotEmpty) {
-                if (allDays[value.toInt()] == currentDay) {
-                  return _selectedTextStyle();
-                } else {
-                  return _unSelectedTextStyle();
-                }
-              } else {
-                return _unSelectedTextStyle();
-              }
-            },
-      getTitles: isMonthSelected
-          ? (value) {
-              switch (value.toInt()) {
-                case 0:
-                  return '1';
-                case 1:
-                  return '2';
-                case 2:
-                  return '3';
-                case 3:
-                  return '4';
-                case 4:
-                  return '5';
-                case 5:
-                  return '6';
-                case 6:
-                  return '7';
-                case 7:
-                  return '8';
-                case 8:
-                  return '9';
-                case 9:
-                  return '10';
-                case 10:
-                  return '11';
-                case 11:
-                  return '12';
-                case 12:
-                  return '13';
-                case 13:
-                  return '14';
-                case 14:
-                  return '15';
-                case 15:
-                  return '16';
-                case 16:
-                  return '17';
-                case 17:
-                  return '18';
-                case 18:
-                  return '19';
-                case 19:
-                  return '20';
-                case 20:
-                  return '21';
-                case 21:
-                  return '22';
-                case 22:
-                  return '23';
-                case 23:
-                  return '24';
-                case 24:
-                  return '25';
-                case 25:
-                  return '26';
-                case 26:
-                  return '27';
-                case 27:
-                  return '28';
-                case 28:
-                  return '29';
-                case 29:
-                  return '30';
-                case 30:
-                  return '31';
-                default:
-                  return '';
-              }
+      getTitlesWidget: (value, meta) {
+        var style, text;
+        if(isMonthSelected) {
+          style = _unSelectedTextStyle();
+          switch (value.toInt()) {
+            case 0:
+              text =  '1';
+              break;
+            case 1:
+              text =  '2';
+              break;
+            case 2:
+              text =  '3';
+              break;
+            case 3:
+              text =  '4';
+              break;
+            case 4:
+              text =  '5';
+              break;
+            case 5:
+              text =  '6';
+              break;
+            case 6:
+              text =  '7';
+              break;
+            case 7:
+              text =  '8';
+              break;
+            case 8:
+              text =  '9';
+              break;
+            case 9:
+              text =  '10';
+              break;
+            case 10:
+              text =  '11';
+              break;
+            case 11:
+              text =  '12';
+              break;
+            case 12:
+              text =  '13';
+              break;
+            case 13:
+              text =  '14';
+              break;
+            case 14:
+              text =  '15';
+              break;
+            case 15:
+              text =  '16';
+              break;
+            case 16:
+              text =  '17';
+              break;
+            case 17:
+              text =  '18';
+              break;
+            case 18:
+              text =  '19';
+              break;
+            case 19:
+              text =  '20';
+              break;
+            case 20:
+              text =  '21';
+              break;
+            case 21:
+              text =  '22';
+              break;
+            case 22:
+              text =  '23';
+              break;
+            case 23:
+              text =  '24';
+              break;
+            case 24:
+              text =  '25';
+              break;
+            case 25:
+              text =  '26';
+              break;
+            case 26:
+              text =  '27';
+              break;
+            case 27:
+              text =  '28';
+              break;
+            case 28:
+              text =  '29';
+              break;
+            case 29:
+              text =  '30';
+              break;
+            case 30:
+              text =  '31';
+              break;
+            default:
+              text =  '';
+          }
+        } else {
+          if (allDays.isNotEmpty) {
+            Debug.printLog("value ===> $value");
+            if (allDays[value.toInt()] == currentDay) {
+              style = _selectedTextStyle();
+              text = Languages.of(context)!.txtToday;
+            } else {
+              style = _unSelectedTextStyle();
+              text = allDays[value.toInt()].substring(0, 3);
             }
-          : (double value) {
-              if (allDays.isNotEmpty) {
-                if (allDays[value.toInt()] == currentDay) {
-                  return Languages.of(context)!.txtToday;
-                } else {
-                  return allDays[value.toInt()].substring(0, 3);
-                }
-              } else {
-                return "";
-              }
-            },
+          } else {
+            style = _unSelectedTextStyle();
+            text = "";
+          }
+        }
+        return  SideTitleWidget(child: Text(text ?? "", style: style ?? _unSelectedTextStyle(),), axisSide: meta.axisSide);
+      },
     );
   }
 
   yAxisTitleData() {
     return SideTitles(
         showTitles: true,
-        getTextStyles: (value, context) => const TextStyle(
-              color: Colur.txt_grey,
-              fontWeight: FontWeight.w500,
-              fontSize: 12.4,
-            ),
-        margin: 15.0,
+        reservedSize: 30,
+        getTitlesWidget: (value, meta) {
+          return SideTitleWidget(child: Text(meta.formattedValue, style: TextStyle(
+            color: Colur.txt_grey,
+            fontWeight: FontWeight.w500,
+            fontSize: 12.4,
+          ),), axisSide: meta.axisSide);
+        },
         interval: 5000);
   }
 
@@ -585,23 +612,23 @@ class _StepsTrackerStatisticsScreenState extends State<StepsStatisticsScreen>
 
     if (isWeekSelected) {
       if (mapWeek.isNotEmpty) {
-        for (int i = 0; i <= mapWeek.length - 1; i++) {
+        for (int i = 0; i < mapWeek.length; i++) {
           list.add(makeBarChartGroupData(
               i, mapWeek.entries.toList()[i].value.toDouble()));
         }
       } else {
-        for (int i = 0; i <= 7; i++) {
+        for (int i = 0; i < 7; i++) {
           list.add(makeBarChartGroupData(i, 0));
         }
       }
     } else {
       if (mapMonth.isNotEmpty) {
-        for (int i = 0; i < mapMonth.length - 1; i++) {
+        for (int i = 0; i < mapMonth.length; i++) {
           list.add(makeBarChartGroupData(
               i, mapMonth.entries.toList()[i].value.toDouble()));
         }
       } else {
-        for (int i = 0; i <= daysInMonth!; i++) {
+        for (int i = 0; i < daysInMonth!; i++) {
           list.add(makeBarChartGroupData(i, 0));
         }
       }
@@ -612,14 +639,14 @@ class _StepsTrackerStatisticsScreenState extends State<StepsStatisticsScreen>
   makeBarChartGroupData(int index, double steps) {
     return BarChartGroupData(x: index, barRods: [
       BarChartRodData(
-        y: steps + 1,
-        colors: [Colur.green_gradient_color1, Colur.green_gradient_color2],
+        toY: steps + 1,
+        gradient: LinearGradient(colors: [Colur.green_gradient_color1, Colur.green_gradient_color2],),
         width: 45,
         borderRadius: BorderRadius.all(Radius.zero),
         backDrawRodData: BackgroundBarChartRodData(
           show: true,
-          y: 10000,
-          colors: [Colur.common_bg_dark],
+          toY: 10000,
+          gradient: LinearGradient(colors: [Colur.common_bg_dark,Colur.common_bg_dark],),
         ),
       ),
     ]);
@@ -664,7 +691,7 @@ class _StepsTrackerStatisticsScreenState extends State<StepsStatisticsScreen>
   }
 
   getChartDataOfStepsForWeek() async {
-    allDays.clear();
+    allDays = [];
     for (int i = 0; i <= 6; i++) {
       var currentWeekDates = getDate(DateTime.now()
           .subtract(Duration(days: currentDate.weekday - prefSelectedDay!))

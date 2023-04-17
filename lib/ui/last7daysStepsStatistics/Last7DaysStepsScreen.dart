@@ -158,7 +158,7 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
                         ),
                         children: <TextSpan>[
                           TextSpan(
-                            text: (rod.y.toInt() - 1).toString(),
+                            text: (rod.toY.toInt() - 1).toString(),
                             style: TextStyle(
                               color: Colur.txt_white,
                               fontSize: 15,
@@ -185,14 +185,14 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
               ),
               titlesData: FlTitlesData(
                 show: true,
-                bottomTitles: xAxisTitleData(),
-                leftTitles: yAxisTitleData(),
-                rightTitles: SideTitles(
-                showTitles: false
-                ),
-                topTitles:  SideTitles(
+                bottomTitles: AxisTitles(sideTitles: xAxisTitleData(),),
+                leftTitles: AxisTitles(sideTitles: yAxisTitleData(),),
+                rightTitles: AxisTitles(sideTitles: SideTitles(
                     showTitles: false
-                ),
+                ),),
+                topTitles:  AxisTitles(sideTitles: SideTitles(
+                    showTitles: false
+                ),),
               ),
               borderData: FlBorderData(
                   show: true,
@@ -217,41 +217,52 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
   xAxisTitleData() {
     return SideTitles(
       showTitles: true,
-      margin: 20,
-      getTextStyles: (value, context) => _unSelectedTextStyle(),
-      getTitles:  (value) {
+      getTitlesWidget: (value, meta) {
+        var text;
         switch(value.toInt()) {
           case 0:
-            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[0]));
+            text = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[0]));
+            break;
           case 1:
-            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[1]));
+            text = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[1]));
+            break;
           case 2:
-            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[2]));
+            text = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[2]));
+            break;
           case 3:
-            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[3]));
+            text = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[3]));
+            break;
           case 4:
-            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[4]));
+            text = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[4]));
+            break;
           case 5:
-            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[5]));
+            text = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[5]));
+            break;
           case 6:
-            return DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[6]));
+            text = DateFormat.MMMd(getLocale().languageCode).format(DateTime.parse(dates[6]));
+            break;
           default:
-            return '';
+            text = '';
         }
+
+        return SideTitleWidget(
+          axisSide: meta.axisSide,
+          child: Text(text, style: _unSelectedTextStyle()),
+        );
       },
     );
   }
 
   yAxisTitleData() {
     return SideTitles(
-        showTitles: true,
-        getTextStyles: (value, context) =>
-        const TextStyle(
-          color: Colur.txt_grey,
-          fontWeight: FontWeight.w500,
-          fontSize: 14,
-        ),
-        margin: 15.0,
+        showTitles: true,reservedSize: 35,
+        getTitlesWidget: (value, TitleMeta meta) {
+          return SideTitleWidget(child: Text(meta.formattedValue, style: TextStyle(
+            color: Colur.txt_grey,
+            fontWeight: FontWeight.w500,
+            fontSize: 14,
+          ),), axisSide: meta.axisSide);
+        },
         interval: 5000
     );
   }
@@ -310,15 +321,15 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
   List<BarChartGroupData> showingStepsGroups() {
     List<BarChartGroupData> list = [];
 
-      if (map!.isNotEmpty) {
-        for (int i = 0; i < map!.length; i++) {
-          list.add(makeBarChartGroupData(i, map!.entries.toList()[i].value.toDouble()));
-        }
-      } else {
-        for (int i = 0; i < 7; i++) {
-          list.add(makeBarChartGroupData(i, 0));
-        }
+    if (map!.isNotEmpty) {
+      for (int i = 0; i < map!.length; i++) {
+        list.add(makeBarChartGroupData(i, map!.entries.toList()[i].value.toDouble()));
       }
+    } else {
+      for (int i = 0; i < 7; i++) {
+        list.add(makeBarChartGroupData(i, 0));
+      }
+    }
     return list;
 
   }
@@ -328,14 +339,14 @@ class _Last7DaysStepsScreenState extends State<Last7DaysStepsScreen> implements 
         x: index,
         barRods: [
           BarChartRodData(
-            y: steps+1,
-            colors: [Colur.green_gradient_color1, Colur.green_gradient_color2],
+            toY: steps+1,
+            gradient: LinearGradient(colors: [Colur.green_gradient_color1, Colur.green_gradient_color2],),
             width: 45,
             borderRadius: BorderRadius.all(Radius.zero),
             backDrawRodData: BackgroundBarChartRodData(
-              show: true,
-              y: 10000,
-              colors: [Colur.common_bg_dark],
+                show: true,
+                toY: 10000,
+                gradient: LinearGradient(colors: [Colur.common_bg_dark,Colur.common_bg_dark],)
             ),
           ),
         ]
